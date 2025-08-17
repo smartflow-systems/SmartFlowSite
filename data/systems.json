@@ -55,20 +55,20 @@
   },
   {
     "id": "aibot",
-    "name": "AI Social Bot",
+    "name": "AI Social Bot Pro",
     "icon": "🤖",
-    "description": "Intelligent social media automation that engages customers, schedules content, and drives bookings.",
-    "tags": ["AI", "Social Media", "Automation"],
+    "description": "Advanced AI-powered social media automation with review management, smart upselling, and voice assistant capabilities.",
+    "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
     "demoUrl": "https://example.com/aibot-demo",
     "features": [
-      "Natural language processing",
-      "Automated content scheduling",
-      "Customer engagement tracking",
-      "Lead generation & qualification",
-      "Multi-platform support",
-      "Performance analytics"
+      "AI Review Response Manager with sentiment analysis",
+      "Smart Upsell Engine with dynamic pricing",
+      "Voice AI Assistant for phone bookings",
+      "Multi-platform content generation",
+      "Brand voice customization",
+      "Performance optimization & analytics"
     ],
-    "pricing": "Starting at £39/month - includes 3 social platforms",
+    "pricing": "Starting at £79/month - includes AI review management + voice assistant",
     "links": [
       {
         "label": "Live Demo",
@@ -158,6 +158,60 @@
       {
         "label": "Security Details",
         "url": "https://example.com/payment-security"
+      }
+    ]
+  },
+  {
+    "id": "queue-management",
+    "name": "Virtual Queue Pro",
+    "icon": "📱",
+    "description": "Smart queue management system with SMS updates, real-time predictions, and location-based notifications.",
+    "tags": ["Queue", "SMS", "Location", "Predictions"],
+    "demoUrl": "https://example.com/queue-demo",
+    "features": [
+      "Virtual 'wait in line' via SMS updates",
+      "Real-time wait time predictions",
+      "Location-based notifications when it's your turn",
+      "Queue analytics and optimization",
+      "Staff efficiency tracking",
+      "Customer satisfaction monitoring"
+    ],
+    "pricing": "Starting at £49/month - includes unlimited SMS notifications",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/queue-demo"
+      },
+      {
+        "label": "Queue Analytics",
+        "url": "https://docs.example.com/queue-analytics"
+      }
+    ]
+  },
+  {
+    "id": "ar-try-on",
+    "name": "AR Try-On Studio",
+    "icon": "🕶️",
+    "description": "Augmented reality integration for virtual hair color previews, style visualization, and service demonstrations.",
+    "tags": ["AR", "Virtual Try-On", "Visualization"],
+    "demoUrl": "https://example.com/ar-demo",
+    "features": [
+      "Virtual hair color/style previews for salons",
+      "Before/after AR visualization for services",
+      "Booking integration with realistic expectations",
+      "Social sharing of AR previews",
+      "Custom style recommendations",
+      "Mobile app integration"
+    ],
+    "pricing": "Starting at £99/month - includes AR SDK + mobile app",
+    "links": [
+      {
+        "label": "AR Demo",
+        "url": "https://example.com/ar-demo"
+      },
+      {
+        "label": "Integration Guide",
+        "url": "https://docs.example.com/ar-integration"
       }
     ]
   }

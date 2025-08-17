@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "<span class=\"gold\">Automation That Sells</span> — Built for Barbers, Salons & Service Brands",
-    "subtitle": "Booking, e-com, AI social bots & websites. Slick UI. Real results."
+    "title": "<span class=\"gold\">Next-Gen AI Automation</span> — Voice AI, AR Try-On, Smart Reviews & More",
+    "subtitle": "Advanced booking, AI assistants, virtual queues, AR visualization & intelligent upselling. The future is here."
   },
   "pricing": [
     {
@@ -10,9 +10,9 @@
       "description": "Perfect for small businesses getting started with automation",
       "features": [
         "1 system of your choice",
-        "Basic analytics & reporting",
+        "Basic AI review responses",
+        "Standard queue management",
         "Email support",
-        "Standard integrations",
         "Mobile app access"
       ],
       "cta": "Start Free Trial",
@@ -21,14 +21,14 @@
     {
       "name": "Pro",
       "price": "£79/mo",
-      "description": "Comprehensive solution for growing service businesses",
+      "description": "Advanced AI features for growing service businesses",
       "features": [
         "Up to 3 systems included",
-        "Advanced analytics & AI insights",
-        "Priority support & training",
-        "Custom integrations",
-        "White-label options",
-        "API access"
+        "AI Review Response Manager",
+        "Voice AI Assistant",
+        "Virtual Queue Pro with SMS",
+        "Smart Upsell Engine",
+        "Priority support & training"
       ],
       "cta": "Get Started",
       "featured": true
@@ -36,13 +36,14 @@
     {
       "name": "Premium",
       "price": "£149/mo",
-      "description": "Enterprise-grade solution with unlimited possibilities",
+      "description": "Complete AI automation suite with AR technology",
       "features": [
         "All systems included",
+        "AR Try-On Studio",
+        "Advanced AI analytics",
+        "Custom voice AI training",
         "Dedicated account manager",
         "24/7 phone support",
-        "Custom development",
-        "Advanced security features",
         "SLA guarantee"
       ],
       "cta": "Contact Sales",
