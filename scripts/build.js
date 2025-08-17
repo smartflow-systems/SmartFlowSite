@@ -82,7 +82,7 @@ ${extraHead}
 </header>
 ${body}
 <footer class="footer">
-  <div>© <span id="year"></span> SmartFlow Systems — Gareth Bowers</div>
+  <div>© <span id="year"></span> SmartFlow Systems</div>
   <div class="links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
 </footer>
 <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
