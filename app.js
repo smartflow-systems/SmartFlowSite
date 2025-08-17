@@ -94,13 +94,13 @@ class SmartFlowApp {
   handleHashChange() {
     const hash = window.location.hash.slice(1) || 'home';
     const section = document.getElementById(hash);
-    
+
     if (section) {
       // Update active navigation
       document.querySelectorAll('.nav nav a').forEach(link => {
         link.classList.toggle('active', link.getAttribute('href') === `#${hash}`);
       });
-      
+
       // Smooth scroll to section
       section.scrollIntoView({ behavior: 'smooth' });
     }
@@ -118,11 +118,11 @@ class SmartFlowApp {
     if (this.siteData.hero) {
       const titleElement = document.getElementById('heroTitle');
       const subtitleElement = document.getElementById('heroSubtitle');
-      
+
       if (titleElement && this.siteData.hero.title) {
         titleElement.innerHTML = this.siteData.hero.title;
       }
-      
+
       if (subtitleElement && this.siteData.hero.subtitle) {
         subtitleElement.textContent = this.siteData.hero.subtitle;
       }
@@ -144,7 +144,7 @@ class SmartFlowApp {
   createSystemCard(system, index) {
     const card = document.createElement('div');
     card.className = 'card';
-    
+
     const tagsHtml = system.tags ? 
       system.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
 
@@ -176,7 +176,7 @@ class SmartFlowApp {
     this.siteData.pricing.forEach(tier => {
       const card = document.createElement('div');
       card.className = `price-card ${tier.featured ? 'featured' : ''}`;
-      
+
       const featuresHtml = tier.features ? 
         tier.features.map(feature => `<li>${feature}</li>`).join('') : '';
 
@@ -199,7 +199,7 @@ class SmartFlowApp {
     if (!wrapper || !this.siteData.caseStudy) return;
 
     const caseStudy = this.siteData.caseStudy;
-    
+
     const metricsHtml = caseStudy.metrics ? 
       caseStudy.metrics.map(metric => `
         <div class="case-metric">
@@ -283,7 +283,7 @@ class SmartFlowApp {
 
   addRandomEvent() {
     const isExternalMode = document.getElementById('liveMode').checked;
-    
+
     let events;
     if (isExternalMode && this.liveData.events) {
       events = this.liveData.events;
@@ -304,7 +304,7 @@ class SmartFlowApp {
 
     const randomEvent = events[Math.floor(Math.random() * events.length)];
     const timestamp = new Date().toLocaleTimeString();
-    
+
     this.addEventToStream(`${randomEvent} - ${timestamp}`);
   }
 
@@ -314,10 +314,10 @@ class SmartFlowApp {
 
     const eventItem = document.createElement('li');
     eventItem.textContent = eventText;
-    
+
     // Add to top of list
     eventList.insertBefore(eventItem, eventList.firstChild);
-    
+
     // Keep only last 20 events
     while (eventList.children.length > 20) {
       eventList.removeChild(eventList.lastChild);
@@ -327,13 +327,13 @@ class SmartFlowApp {
   toggleEditMode() {
     this.editMode = !this.editMode;
     const editToggle = document.getElementById('editToggle');
-    
+
     editToggle.setAttribute('aria-pressed', this.editMode);
     document.body.classList.toggle('edit-mode', this.editMode);
-    
+
     // Store edit mode state
     localStorage.setItem('smartflow-edit-mode', this.editMode);
-    
+
     // Re-render systems grid to show/hide JSON snippets
     this.renderSystemsGrid();
   }
@@ -358,7 +358,7 @@ class SmartFlowApp {
         this.liveMetrics = { ...this.liveData.metrics };
         this.updateLiveMetrics();
       }
-      
+
       // Add initial events from external feed
       if (this.liveData.events) {
         this.liveData.events.slice(0, 5).forEach((event, index) => {
@@ -376,12 +376,12 @@ class SmartFlowApp {
     const modal = document.getElementById('demoModal');
     const titleEl = document.getElementById('demoTitle');
     const frame = document.getElementById('demoFrame');
-    
+
     titleEl.textContent = `${title} - Live Demo`;
     frame.src = demoUrl;
-    
+
     modal.showModal();
-    
+
     // Focus trap for accessibility
     this.trapFocus(modal);
   }
@@ -389,7 +389,7 @@ class SmartFlowApp {
   closeDemoModal() {
     const modal = document.getElementById('demoModal');
     const frame = document.getElementById('demoFrame');
-    
+
     modal.close();
     frame.src = ''; // Stop loading iframe
   }
@@ -401,9 +401,9 @@ class SmartFlowApp {
     const drawer = document.getElementById('detailsDrawer');
     const titleEl = document.getElementById('detailsTitle');
     const bodyEl = document.getElementById('detailsBody');
-    
+
     titleEl.textContent = system.name;
-    
+
     const featuresHtml = system.features ? 
       system.features.map(feature => `<li>${feature}</li>`).join('') : '';
 
@@ -425,9 +425,9 @@ class SmartFlowApp {
         <div class="actions">${linksHtml}</div>
       ` : ''}
     `;
-    
+
     drawer.showModal();
-    
+
     // Focus trap for accessibility
     this.trapFocus(drawer);
   }
@@ -441,10 +441,10 @@ class SmartFlowApp {
     const focusableElements = element.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-    
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-    
+
     element.addEventListener('keydown', (e) => {
       if (e.key === 'Tab') {
         if (e.shiftKey) {
@@ -460,32 +460,59 @@ class SmartFlowApp {
         }
       }
     });
-    
+
     // Focus first element
     firstElement?.focus();
   }
 
   handleContactSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    
-    // Log form data (in real app, would send to server)
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // Validate required fields
+    const name = data.name?.trim();
+    const email = data.email?.trim();
+    const message = data.message?.trim();
+
+    if (!name || !email || !message) {
+      const status = document.getElementById('contactStatus');
+      if (status) {
+        status.textContent = 'Please fill in all required fields.';
+        status.style.color = '#ff6b6b';
+      }
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      const status = document.getElementById('contactStatus');
+      if (status) {
+        status.textContent = 'Please enter a valid email address.';
+        status.style.color = '#ff6b6b';
+      }
+      return;
+    }
+
     console.log('Contact form submission:', data);
-    
-    // Show success message
+
+    // Simulate form submission
     const status = document.getElementById('contactStatus');
-    status.textContent = 'Message logged to console. Use the "Email Instead" button for direct contact.';
-    status.style.color = 'var(--gold)';
-    
-    // Copy to clipboard as fallback
-    const message = `Name: ${data.name}\nEmail: ${data.email}\nMessage: ${data.message}`;
-    navigator.clipboard?.writeText(message).then(() => {
-      status.textContent += ' (Copied to clipboard)';
-    });
-    
-    // Reset form
-    e.target.reset();
+    if (status) {
+      status.textContent = 'Message sent! We\'ll be in touch soon.';
+      status.style.color = 'var(--gold)';
+    }
+
+    // Reset form after a delay
+    setTimeout(() => {
+      form.reset();
+      if (status) {
+        status.textContent = '';
+      }
+    }, 3000);
   }
 
   scrollToContact() {
@@ -503,7 +530,7 @@ class SmartFlowApp {
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new SmartFlowApp();
-  
+
   // Load edit mode state from localStorage
   const savedEditMode = localStorage.getItem('smartflow-edit-mode');
   if (savedEditMode === 'true') {
