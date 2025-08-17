@@ -1,46 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- SmartFlo Systems meta & icons START -->
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon-180.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0B0B0B">
-<meta name="color-scheme" content="dark">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta property="og:title" content="SmartFlo Systems — AI Automation for Small Business">
-<meta property="og:description" content="Premium AI booking, ecommerce, and social automation. Smooth, street-smart, futuristic.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://smartflosystems.com/">
-<meta property="og:image" content="/assets/og/smartflo-og-hero-1200x630.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SmartFlo Systems — AI Automation for Small Business">
-<meta name="twitter:description" content="Premium AI booking, ecommerce, and social automation.">
-<meta name="twitter:image" content="/assets/og/smartflo-og-hero-1200x1200.png">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "SmartFlo Systems",
-  "url": "https://smartflosystems.com/",
-  "logo": "/assets/icons/android-chrome-512.png",
-  "sameAs": [
-    "https://www.instagram.com/smartflosystems",
-    "https://www.tiktok.com/@smartflosystems",
-    "https://twitter.com/smartflosystems",
-    "https://www.linkedin.com/company/smartflosystems"
-  ]
-}
-</script>
-<!-- SmartFlo Systems meta & icons END -->
-
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>SmartFlow Systems — Portfolio & Live Demos</title>
