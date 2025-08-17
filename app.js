@@ -41,6 +41,9 @@ class SmartFlowApp {
       // Load live data
       const liveResponse = await fetch('./data/live.json');
       this.liveData = await liveResponse.json();
+
+      // Load latest blog posts
+      await this.loadLatestPosts();
     } catch (error) {
       console.error('Error loading data:', error);
       // Set default data if loading fails
@@ -544,6 +547,32 @@ class SmartFlowApp {
 
   scrollToContact() {
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async loadLatestPosts() {
+    try {
+      // Fetch blog index HTML and extract post cards
+      const response = await fetch('/blog/index.html');
+      const html = await response.text();
+      
+      // Extract the grid content from the blog index
+      const match = html.match(/<div class="grid">([\s\S]*?)<\/div>/);
+      const latestBox = document.getElementById('latest-box');
+      
+      if (match && latestBox) {
+        // Take only the first 3 posts
+        const posts = match[1].split('</article>').slice(0, 3).join('</article>');
+        latestBox.innerHTML = posts || '<p>No posts yet.</p>';
+      } else if (latestBox) {
+        latestBox.innerHTML = '<p>No posts yet.</p>';
+      }
+    } catch (error) {
+      console.error('Error loading latest posts:', error);
+      const latestBox = document.getElementById('latest-box');
+      if (latestBox) {
+        latestBox.innerHTML = '<p>No posts yet.</p>';
+      }
+    }
   }
 
   setCurrentYear() {
