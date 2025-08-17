@@ -124,7 +124,7 @@ a {
   gap: 16px;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 8px 20px;
   background: rgba(11, 11, 11, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -139,7 +139,7 @@ a {
 }
 
 .brand-logo {
-  height: 48px;
+  height: 64px;
   width: auto;
   transition: all 0.2s ease;
 }
