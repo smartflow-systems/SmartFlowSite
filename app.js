@@ -516,27 +516,60 @@ class SmartFlowApp {
 
     titleEl.textContent = system.name;
 
-    const featuresHtml = system.features ? 
-      system.features.map(feature => `<li>${feature}</li>`).join('') : '';
+    // Clear previous content safely
+    bodyEl.textContent = '';
 
-    const linksHtml = system.links ? 
-      system.links.map(link => `<a href="${link.url}" class="btn-outline" target="_blank">${link.label}</a>`).join('') : '';
+    // Create description
+    const descPara = document.createElement('p');
+    descPara.className = 'muted';
+    descPara.textContent = system.description;
+    bodyEl.appendChild(descPara);
 
-    bodyEl.innerHTML = `
-      <p class="muted">${system.description}</p>
-      ${system.features ? `
-        <h4>Features</h4>
-        <ul class="price-features">${featuresHtml}</ul>
-      ` : ''}
-      ${system.pricing ? `
-        <h4>Pricing</h4>
-        <p>${system.pricing}</p>
-      ` : ''}
-      ${system.links ? `
-        <h4>Links</h4>
-        <div class="actions">${linksHtml}</div>
-      ` : ''}
-    `;
+    // Create features section if present
+    if (system.features && system.features.length > 0) {
+      const featuresTitle = document.createElement('h4');
+      featuresTitle.textContent = 'Features';
+      bodyEl.appendChild(featuresTitle);
+
+      const featuresList = document.createElement('ul');
+      featuresList.className = 'price-features';
+      system.features.forEach(feature => {
+        const listItem = document.createElement('li');
+        listItem.textContent = feature;
+        featuresList.appendChild(listItem);
+      });
+      bodyEl.appendChild(featuresList);
+    }
+
+    // Create pricing section if present
+    if (system.pricing) {
+      const pricingTitle = document.createElement('h4');
+      pricingTitle.textContent = 'Pricing';
+      bodyEl.appendChild(pricingTitle);
+
+      const pricingPara = document.createElement('p');
+      pricingPara.textContent = system.pricing;
+      bodyEl.appendChild(pricingPara);
+    }
+
+    // Create links section if present
+    if (system.links && system.links.length > 0) {
+      const linksTitle = document.createElement('h4');
+      linksTitle.textContent = 'Links';
+      bodyEl.appendChild(linksTitle);
+
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'actions';
+      system.links.forEach(link => {
+        const linkEl = document.createElement('a');
+        linkEl.href = link.url;
+        linkEl.className = 'btn-outline';
+        linkEl.target = '_blank';
+        linkEl.textContent = link.label;
+        actionsDiv.appendChild(linkEl);
+      });
+      bodyEl.appendChild(actionsDiv);
+    }
 
     drawer.showModal();
 
