@@ -34,6 +34,8 @@ def main():
         
         # Import and start the server
         print("Starting SmartFlow Portfolio for deployment...")
+        print("✓ All required files present")
+        print("✓ Flask server initializing...")
         from server import main as server_main
         server_main()
         
