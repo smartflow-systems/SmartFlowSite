@@ -1,0 +1,164 @@
+[
+  {
+    "id": "bookflow",
+    "name": "BookFlow Pro",
+    "icon": "📅",
+    "description": "Advanced booking system with calendar sync, automated reminders, and payment processing. Perfect for salons and service businesses.",
+    "tags": ["Booking", "Payments", "Calendar"],
+    "demoUrl": "https://example.com/bookflow-demo",
+    "features": [
+      "Real-time calendar management",
+      "Automated SMS & email reminders",
+      "Integrated payment processing",
+      "Staff scheduling & management",
+      "Customer profile system",
+      "Analytics & reporting"
+    ],
+    "pricing": "Starting at £29/month - includes up to 100 bookings",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/bookflow-demo"
+      },
+      {
+        "label": "Documentation",
+        "url": "https://docs.example.com/bookflow"
+      }
+    ]
+  },
+  {
+    "id": "smartcommerce",
+    "name": "SmartCommerce Suite",
+    "icon": "🛍️",
+    "description": "Complete e-commerce solution with inventory management, order tracking, and customer analytics.",
+    "tags": ["E-commerce", "Inventory", "Analytics"],
+    "demoUrl": "https://example.com/commerce-demo",
+    "features": [
+      "Product catalog management",
+      "Order processing & tracking",
+      "Inventory management",
+      "Customer analytics",
+      "Multi-channel selling",
+      "Payment gateway integration"
+    ],
+    "pricing": "Starting at £49/month - includes up to 500 products",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/commerce-demo"
+      },
+      {
+        "label": "Pricing Details",
+        "url": "https://example.com/commerce-pricing"
+      }
+    ]
+  },
+  {
+    "id": "aibot",
+    "name": "AI Social Bot",
+    "icon": "🤖",
+    "description": "Intelligent social media automation that engages customers, schedules content, and drives bookings.",
+    "tags": ["AI", "Social Media", "Automation"],
+    "demoUrl": "https://example.com/aibot-demo",
+    "features": [
+      "Natural language processing",
+      "Automated content scheduling",
+      "Customer engagement tracking",
+      "Lead generation & qualification",
+      "Multi-platform support",
+      "Performance analytics"
+    ],
+    "pricing": "Starting at £39/month - includes 3 social platforms",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/aibot-demo"
+      },
+      {
+        "label": "AI Features",
+        "url": "https://example.com/aibot-features"
+      }
+    ]
+  },
+  {
+    "id": "growthflow",
+    "name": "GrowthFlow Analytics",
+    "icon": "📊",
+    "description": "Comprehensive business intelligence platform with real-time metrics, forecasting, and growth optimization.",
+    "tags": ["Analytics", "Growth", "Business Intelligence"],
+    "demoUrl": "https://example.com/growth-demo",
+    "features": [
+      "Real-time dashboard",
+      "Predictive analytics",
+      "Customer lifetime value tracking",
+      "Revenue forecasting",
+      "A/B testing framework",
+      "Custom reporting"
+    ],
+    "pricing": "Starting at £59/month - includes unlimited reports",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/growth-demo"
+      },
+      {
+        "label": "Analytics Guide",
+        "url": "https://example.com/growth-guide"
+      }
+    ]
+  },
+  {
+    "id": "webbuilder",
+    "name": "WebBuilder Pro",
+    "icon": "🌐",
+    "description": "Drag-and-drop website builder optimized for service businesses with built-in SEO and conversion tools.",
+    "tags": ["Website", "SEO", "Conversion"],
+    "demoUrl": "https://example.com/webbuilder-demo",
+    "features": [
+      "Drag-and-drop editor",
+      "Mobile-responsive templates",
+      "SEO optimization tools",
+      "Conversion tracking",
+      "Form builder",
+      "Hosting included"
+    ],
+    "pricing": "Starting at £19/month - includes hosting & SSL",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/webbuilder-demo"
+      },
+      {
+        "label": "Templates",
+        "url": "https://example.com/webbuilder-templates"
+      }
+    ]
+  },
+  {
+    "id": "paymentflow",
+    "name": "PaymentFlow Gateway",
+    "icon": "💳",
+    "description": "Secure payment processing with fraud detection, subscription management, and detailed transaction analytics.",
+    "tags": ["Payments", "Security", "Subscriptions"],
+    "demoUrl": "https://example.com/payment-demo",
+    "features": [
+      "Multi-currency support",
+      "Fraud detection & prevention",
+      "Subscription billing",
+      "Transaction analytics",
+      "PCI compliance",
+      "API integration"
+    ],
+    "pricing": "2.9% + 30p per transaction - no monthly fees",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/payment-demo"
+      },
+      {
+        "label": "Security Details",
+        "url": "https://example.com/payment-security"
+      }
+    ]
+  }
+]

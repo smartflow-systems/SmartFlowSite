@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "title": "<span class=\"gold\">Automation That Sells</span> — Built for Barbers, Salons & Service Brands",
+    "subtitle": "Booking, e-com, AI social bots & websites. Slick UI. Real results."
+  },
+  "pricing": [
+    {
+      "name": "Starter",
+      "price": "£29/mo",
+      "description": "Perfect for small businesses getting started with automation",
+      "features": [
+        "1 system of your choice",
+        "Basic analytics & reporting",
+        "Email support",
+        "Standard integrations",
+        "Mobile app access"
+      ],
+      "cta": "Start Free Trial",
+      "featured": false
+    },
+    {
+      "name": "Pro",
+      "price": "£79/mo",
+      "description": "Comprehensive solution for growing service businesses",
+      "features": [
+        "Up to 3 systems included",
+        "Advanced analytics & AI insights",
+        "Priority support & training",
+        "Custom integrations",
+        "White-label options",
+        "API access"
+      ],
+      "cta": "Get Started",
+      "featured": true
+    },
+    {
+      "name": "Premium",
+      "price": "£149/mo",
+      "description": "Enterprise-grade solution with unlimited possibilities",
+      "features": [
+        "All systems included",
+        "Dedicated account manager",
+        "24/7 phone support",
+        "Custom development",
+        "Advanced security features",
+        "SLA guarantee"
+      ],
+      "cta": "Contact Sales",
+      "featured": false
+    }
+  ],
+  "caseStudy": {
+    "company": "Elite Barber Co.",
+    "quote": "SmartFlow transformed our business. Bookings increased 300%, customer retention improved dramatically, and we finally have time to focus on what we do best - cutting hair.",
+    "author": "Marcus Johnson",
+    "metrics": [
+      {
+        "label": "Booking Increase",
+        "value": "+300%"
+      },
+      {
+        "label": "Revenue Growth",
+        "value": "+£15k/mo"
+      },
+      {
+        "label": "Time Saved",
+        "value": "20hrs/week"
+      },
+      {
+        "label": "Customer Retention",
+        "value": "+85%"
+      }
+    ]
+  },
+  "social": {
+    "twitter": "https://twitter.com/smartflowsys",
+    "instagram": "https://instagram.com/smartflowsystems",
+    "youtube": "https://youtube.com/@smartflowsystems"
+  }
+}
