@@ -70,8 +70,10 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 **August 17, 2025 - Deployment Configuration Fix**
-- Created custom Python web server (`server.py`) to handle deployment health checks properly
-- Updated workflow configuration to use `python server.py` instead of basic HTTP server
-- Fixed deployment issues by ensuring the root endpoint (/) responds with 200 status code
-- Server now properly handles CORS headers and serves static files with correct responses
-- Deployment target remains cloudrun with proper web server configuration
+- Created main.py as primary entry point for deployment to ensure reliable server startup
+- Enhanced server.py with better deployment environment handling and port conflict resolution
+- Updated workflow configuration to use `python main.py` as the proper run command
+- Fixed deployment health check failures by ensuring root endpoint (/) responds with 200 status code
+- Server properly handles CORS headers and serves static files with correct responses
+- Confirmed index.html exists and is properly served for deployment health checks
+- Deployment target configured for cloudrun with optimized web server setup
