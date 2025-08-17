@@ -61,7 +61,17 @@ Preferred communication style: Simple, everyday language.
 - DOM manipulation APIs for dynamic content rendering
 
 **Development Tools:**
+- Custom Python web server (`server.py`) for proper deployment health checks
 - No build tools or preprocessing required
-- Direct deployment to Replit static hosting
+- Direct deployment to Replit cloud hosting with proper HTTP server
 - JSON validation for configuration files
 - Browser developer tools for debugging and performance monitoring
+
+## Recent Changes
+
+**August 17, 2025 - Deployment Configuration Fix**
+- Created custom Python web server (`server.py`) to handle deployment health checks properly
+- Updated workflow configuration to use `python server.py` instead of basic HTTP server
+- Fixed deployment issues by ensuring the root endpoint (/) responds with 200 status code
+- Server now properly handles CORS headers and serves static files with correct responses
+- Deployment target remains cloudrun with proper web server configuration
