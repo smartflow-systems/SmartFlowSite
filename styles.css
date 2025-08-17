@@ -139,10 +139,11 @@ a {
 }
 
 .brand-logo {
-  height: 80px;
+  height: 120px;
   width: auto;
   transition: all 0.2s ease;
   vertical-align: middle;
+  margin: -8px 0;
 }
 
 .brand-logo:hover {
