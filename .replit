@@ -16,31 +16,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "SmartFlow Portfolio Server"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "SmartFlow Portfolio Deploy"
+args = "SmartFlow Server"
 
 [[workflows.workflow]]
-name = "SmartFlow Portfolio Server"
+name = "SmartFlow Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main.py"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[workflows.workflow]]
-name = "SmartFlow Portfolio Deploy"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python deploy.py"
+args = "python run_server.py"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
