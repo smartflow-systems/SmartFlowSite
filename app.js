@@ -286,21 +286,47 @@ class SmartFlowApp {
 
     const caseStudy = this.siteData.caseStudy;
 
-    const metricsHtml = caseStudy.metrics ? 
-      caseStudy.metrics.map(metric => `
-        <div class="case-metric">
-          <span class="number">${metric.value}</span>
-          <small>${metric.label}</small>
-        </div>
-      `).join('') : '';
+    // Clear wrapper content
+    wrapper.textContent = '';
 
-    wrapper.innerHTML = `
-      <div class="case-metrics">${metricsHtml}</div>
-      <div class="case-quote">
-        <blockquote>"${caseStudy.quote}"</blockquote>
-        <cite>— ${caseStudy.author}, ${caseStudy.company}</cite>
-      </div>
-    `;
+    // Create metrics container
+    const metricsDiv = document.createElement('div');
+    metricsDiv.className = 'case-metrics';
+
+    if (caseStudy.metrics) {
+      caseStudy.metrics.forEach(metric => {
+        const metricDiv = document.createElement('div');
+        metricDiv.className = 'case-metric';
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'number';
+        numberSpan.textContent = metric.value;
+
+        const labelSmall = document.createElement('small');
+        labelSmall.textContent = metric.label;
+
+        metricDiv.appendChild(numberSpan);
+        metricDiv.appendChild(labelSmall);
+        metricsDiv.appendChild(metricDiv);
+      });
+    }
+
+    // Create quote container
+    const quoteDiv = document.createElement('div');
+    quoteDiv.className = 'case-quote';
+
+    const blockquote = document.createElement('blockquote');
+    blockquote.textContent = `"${caseStudy.quote}"`;
+
+    const cite = document.createElement('cite');
+    cite.textContent = `— ${caseStudy.author}, ${caseStudy.company}`;
+
+    quoteDiv.appendChild(blockquote);
+    quoteDiv.appendChild(cite);
+
+    // Append elements to wrapper
+    wrapper.appendChild(metricsDiv);
+    wrapper.appendChild(quoteDiv);
   }
 
   renderSocialLinks() {
