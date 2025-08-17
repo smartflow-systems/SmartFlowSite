@@ -35,8 +35,10 @@ def main():
         
         # Set deployment environment
         os.environ.setdefault('FLASK_ENV', 'production')
+        os.environ.setdefault('DEPLOYMENT_TIME', str(int(__import__('time').time())))
         port = os.environ.get('PORT', '5000')
         print(f"✓ Port configured: {port}")
+        print(f"✓ Environment: {os.environ.get('FLASK_ENV', 'development')}")
         
         # Import and start the server
         print("Starting SmartFlow Portfolio for deployment...")

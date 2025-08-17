@@ -5,3 +5,10 @@ ignorePorts = false
 [deployment.env]
 PORT = "5000"
 FLASK_ENV = "production"
+FLASK_APP = "server.py"
+
+[run]
+command = "python3 main.py"
+
+[nix.channel]
+channel = "stable-23.11"
