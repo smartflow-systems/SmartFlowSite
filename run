@@ -1,0 +1,3 @@
+#!/bin/bash
+# Replit deployment entry point
+exec python3 main.py

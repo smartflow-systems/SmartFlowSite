@@ -61,11 +61,21 @@ Preferred communication style: Simple, everyday language.
 - DOM manipulation APIs for dynamic content rendering
 
 **Development Tools:**
-- Custom Python web server (`server.py`) for proper deployment health checks
-- No build tools or preprocessing required
-- Direct deployment to Replit cloud hosting with proper HTTP server
+- Custom Python web server (`server.py`) with Flask framework for proper deployment health checks
+- WSGI-ready application factory pattern for production deployments (`wsgi.py`)
+- Multiple deployment entry points: `main.py`, `run`, and `replit.toml`
+- Health check endpoints: `/health` and `/healthz` for deployment monitoring
+- No build tools or preprocessing required for static assets
+- Direct deployment to Replit cloud hosting with proper HTTP server configuration
 - JSON validation for configuration files
 - Browser developer tools for debugging and performance monitoring
+
+**Deployment Configuration:**
+- `replit.toml` - Primary deployment configuration with run command
+- `main.py` - Production entry point with error handling and fallbacks
+- `wsgi.py` - WSGI application factory for production servers
+- Health check endpoints respond with 200 status codes for deployment verification
+- Port 5000 configured for external access with proper host binding (0.0.0.0)
 
 ## Recent Changes
 

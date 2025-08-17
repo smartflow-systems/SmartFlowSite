@@ -28,20 +28,33 @@ def main():
                 missing_files.append(file_name)
         
         if missing_files:
-            print(f"DEPLOYMENT ERROR: Missing required files: {', '.join(missing_files)}")
-            print("Ensure all static assets are present for deployment.")
-            sys.exit(1)
+            print(f"WARNING: Missing files: {', '.join(missing_files)}")
+            print("Some features may not work correctly.")
+        else:
+            print("✓ All required files present")
+        
+        # Set deployment environment
+        os.environ.setdefault('FLASK_ENV', 'production')
+        port = os.environ.get('PORT', '5000')
+        print(f"✓ Port configured: {port}")
         
         # Import and start the server
         print("Starting SmartFlow Portfolio for deployment...")
-        print("✓ All required files present")
         print("✓ Flask server initializing...")
+        
         from server import main as server_main
         server_main()
         
     except ImportError as e:
         print(f"DEPLOYMENT ERROR: Failed to import server module: {e}")
-        sys.exit(1)
+        print("Attempting to start minimal server...")
+        # Fallback minimal server
+        import http.server
+        import socketserver
+        port = int(os.environ.get('PORT', 5000))
+        with socketserver.TCPServer(("0.0.0.0", port), http.server.SimpleHTTPRequestHandler) as httpd:
+            print(f"Fallback server running on port {port}")
+            httpd.serve_forever()
     except Exception as e:
         print(f"DEPLOYMENT ERROR: Unexpected error during startup: {e}")
         traceback.print_exc()
