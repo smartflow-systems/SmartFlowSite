@@ -175,24 +175,59 @@ class SmartFlowApp {
     const card = document.createElement('div');
     card.className = 'card';
 
-    const tagsHtml = system.tags ? 
-      system.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+    // Safe DOM creation - no innerHTML
+    const cardIcon = document.createElement('div');
+    cardIcon.className = 'card-icon';
+    cardIcon.textContent = system.icon || '⚡';
 
-    card.innerHTML = `
-      <div class="card-icon">${system.icon || '⚡'}</div>
-      <h3 class="title">${system.name}</h3>
-      <div class="tags">${tagsHtml}</div>
-      <p class="desc">${system.description}</p>
-      <div class="footer">
-        <button class="btn-outline" onclick="app.openDemo('${system.demoUrl}', '${system.name}')">
-          Open Demo
-        </button>
-        <button class="btn-ghost" onclick="app.openDetails(${index})">
-          View Details
-        </button>
-      </div>
-      ${this.editMode ? `<div class="json-snippet">${JSON.stringify(system, null, 2)}</div>` : ''}
-    `;
+    const title = document.createElement('h3');
+    title.className = 'title';
+    title.textContent = system.name;
+
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'tags';
+    if (system.tags) {
+      system.tags.forEach(tagText => {
+        const tagSpan = document.createElement('span');
+        tagSpan.className = 'tag';
+        tagSpan.textContent = tagText;
+        tagsDiv.appendChild(tagSpan);
+      });
+    }
+
+    const desc = document.createElement('p');
+    desc.className = 'desc';
+    desc.textContent = system.description;
+
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+
+    const demoBtn = document.createElement('button');
+    demoBtn.className = 'btn-outline';
+    demoBtn.textContent = 'Open Demo';
+    demoBtn.addEventListener('click', () => this.openDemo(system.demoUrl, system.name));
+
+    const detailsBtn = document.createElement('button');
+    detailsBtn.className = 'btn-ghost';
+    detailsBtn.textContent = 'View Details';
+    detailsBtn.addEventListener('click', () => this.openDetails(index));
+
+    footer.appendChild(demoBtn);
+    footer.appendChild(detailsBtn);
+
+    card.appendChild(cardIcon);
+    card.appendChild(title);
+    card.appendChild(tagsDiv);
+    card.appendChild(desc);
+    card.appendChild(footer);
+
+    // Safe JSON display for edit mode
+    if (this.editMode) {
+      const jsonDiv = document.createElement('div');
+      jsonDiv.className = 'json-snippet';
+      jsonDiv.textContent = JSON.stringify(system, null, 2);
+      card.appendChild(jsonDiv);
+    }
 
     return card;
   }
@@ -207,18 +242,39 @@ class SmartFlowApp {
       const card = document.createElement('div');
       card.className = `price-card ${tier.featured ? 'featured' : ''}`;
 
-      const featuresHtml = tier.features ? 
-        tier.features.map(feature => `<li>${feature}</li>`).join('') : '';
+      // Safe DOM creation
+      const title = document.createElement('h3');
+      title.className = 'h3';
+      title.textContent = tier.name;
 
-      card.innerHTML = `
-        <h3 class="h3">${tier.name}</h3>
-        <div class="price">${tier.price}</div>
-        <p class="muted">${tier.description}</p>
-        <ul class="price-features">${featuresHtml}</ul>
-        <button class="btn" onclick="app.scrollToContact()">
-          ${tier.cta || 'Get Started'}
-        </button>
-      `;
+      const price = document.createElement('div');
+      price.className = 'price';
+      price.textContent = tier.price;
+
+      const description = document.createElement('p');
+      description.className = 'muted';
+      description.textContent = tier.description;
+
+      const featuresList = document.createElement('ul');
+      featuresList.className = 'price-features';
+      if (tier.features) {
+        tier.features.forEach(featureText => {
+          const li = document.createElement('li');
+          li.textContent = featureText;
+          featuresList.appendChild(li);
+        });
+      }
+
+      const button = document.createElement('button');
+      button.className = 'btn';
+      button.textContent = tier.cta || 'Get Started';
+      button.addEventListener('click', () => this.scrollToContact());
+
+      card.appendChild(title);
+      card.appendChild(price);
+      card.appendChild(description);
+      card.appendChild(featuresList);
+      card.appendChild(button);
 
       grid.appendChild(card);
     });
