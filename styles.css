@@ -134,6 +134,18 @@ a {
   font-weight: 800;
   letter-spacing: 0.2px;
   font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+  transition: all 0.2s ease;
+}
+
+.brand-logo:hover {
+  filter: brightness(1.1);
 }
 
 .nav nav {
