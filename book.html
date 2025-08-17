@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Book a Call — SmartFlow Systems</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Book a 30-minute strategy call to pick the right SmartFlow system and plan your setup.">
+<link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+<script defer>
+  document.addEventListener('DOMContentLoaded', async ()=>{
+    try{
+      const cfg = await (await fetch('site.config.json',{cache:'no-store'})).json();
+      const u = cfg.calendlyUrl || '';
+      const box = document.getElementById('calendly-box');
+      if(u && /calendly\.com/.test(u)){
+        box.innerHTML = `<iframe src="${u}" style="width:100%;height:780px;border:0;border-radius:12px;background:#0f0c0a"></iframe>`;
+      } else {
+        box.innerHTML = `<article class="card" style="padding:16px"><h3>Booking temporarily unavailable</h3><p>Please email <a href="mailto:garethbowers@hotmail.com">garethbowers@hotmail.com</a> with 2–3 times that suit you.</p></article>`;
+      }
+    }catch(e){}
+  });
+</script>
+</head><body>
+<header class="nav">
+  <a class="brand" href="#home">
+    <img src="assets/smartflow-logo.png" alt="SmartFlow Systems" class="brand-logo">
+  </a>
+  <nav><a href="index.html#systems">Systems</a><a href="#pricing">Pricing</a><a href="book.html">Book</a><a href="#contact">Contact</a></nav>
+</header>
+<main class="section container" style="max-width:1100px;margin:0 auto">
+  <h1 class="section-title">Book a Strategy Call</h1>
+  <p class="section-sub">We'll map your niche, pick a system, price it, and plan your launch.</p>
+  <div id="calendly-box"></div>
+</main>
+<footer class="footer"><div>© <span id="year"></span> SmartFlow Systems</div></footer>
+<script>const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();</script>
+</body></html>

@@ -1,0 +1,8 @@
+{
+  "siteUrl": "https://smartflowsite.example",
+  "siteName": "SmartFlow Systems",
+  "twitter": "@garethbowers",
+  "calendlyUrl": "https://calendly.com/your-handle/30min",
+  "leadWebhook": "https://script.google.com/macros/s/PASTE_YOUR_APPS_SCRIPT_ID/exec",
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf"
+}

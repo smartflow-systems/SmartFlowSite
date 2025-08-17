@@ -69,6 +69,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**August 17, 2025 - SmartFlow Site Upgrade with Bookings & Lead Capture**
+- ✅ **Booking system**: Added `book.html` with Calendly integration and email fallback
+- ✅ **Lead capture**: Created `leads.html` with Google Sheets webhook integration  
+- ✅ **Case study page**: Built `case-study.html` showcasing barbershop success story
+- ✅ **Site configuration**: Added `site.config.json` for easy editing of URLs and settings
+- ✅ **Lead magnet PDF**: Generated professional SmartFlow Launch Pack PDF
+- ✅ **SEO blog posts**: Created 3 new posts (barber deposits, salon Instagram, local SEO)
+- ✅ **Enhanced navigation**: Updated main nav with Book, Free Pack, Case Study links
+- ✅ **Structured data**: Added Organization schema markup to all pages
+- ✅ **Updated sitemap**: Added new pages to sitemap.xml for better SEO
+- ✅ **Comprehensive README**: Documented complete setup for bookings and lead capture
+
+## Recent Changes
+
 **August 17, 2025 - Advanced AI Features Integration**
 - ✅ **Next-generation AI systems**: Added 5 major new features to portfolio showcase
 - ✅ **AI Review Response Manager**: Automated Google/Yelp review responses with sentiment analysis
