@@ -120,12 +120,39 @@ class SmartFlowApp {
       const subtitleElement = document.getElementById('heroSubtitle');
 
       if (titleElement && this.siteData.hero.title) {
-        titleElement.innerHTML = this.siteData.hero.title;
+        // Safe DOM manipulation: parse known-safe content structure
+        this.renderSafeHeroTitle(titleElement, this.siteData.hero.title);
       }
 
       if (subtitleElement && this.siteData.hero.subtitle) {
         subtitleElement.textContent = this.siteData.hero.subtitle;
       }
+    }
+  }
+
+  renderSafeHeroTitle(element, titleContent) {
+    // Clear existing content
+    element.textContent = '';
+    
+    // Parse the expected format: '<span class="gold">text</span> — remaining text'
+    const match = titleContent.match(/^<span class="gold">([^<]+)<\/span>\s*(.*)$/);
+    
+    if (match) {
+      // Create gold span element safely
+      const goldSpan = document.createElement('span');
+      goldSpan.className = 'gold';
+      goldSpan.textContent = match[1];
+      
+      // Add gold span
+      element.appendChild(goldSpan);
+      
+      // Add remaining text if present
+      if (match[2]) {
+        element.appendChild(document.createTextNode(' ' + match[2]));
+      }
+    } else {
+      // Fallback: treat as plain text
+      element.textContent = titleContent;
     }
   }
 
