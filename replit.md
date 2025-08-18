@@ -160,3 +160,13 @@ Preferred communication style: Simple, everyday language.
 - ✅ **Static file serving**: Maintained all HTML pages, assets, and blog content with Flask static routing
 - ✅ **Gunicorn deployment**: Production server running with 2 workers and 60-second timeout configuration
 - ✅ **Workflow optimization**: Replaced complex legacy server with streamlined Flask production workflow
+
+**August 18, 2025 - Homepage Rebuild with Individual Project Pages & Social Tool**
+- ✅ **Individual project pages**: Created dedicated pages for AI Bot, Booking, E-commerce, and Websites
+- ✅ **Social caption tool**: Added /tools/social.html with interactive mock caption generator (no API required)
+- ✅ **Premium design**: Maintained black/brown + shiny gold theme across all new pages
+- ✅ **Project navigation**: Each project page includes proper navigation and CTA buttons
+- ✅ **Interactive demo**: AI Bot page links to social caption tool for live demonstration
+- ✅ **File organization**: Properly structured projects/ and tools/ directories with Flask routing
+- ✅ **Cross-linking**: All pages properly link to pricing, contact, and demonstration tools
+- ✅ **Responsive design**: All new pages follow established CSS framework and mobile-first approach

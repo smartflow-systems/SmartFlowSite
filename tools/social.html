@@ -1,40 +1,40 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><title>Social Tools — SmartFlow Systems</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" href="../assets/favicon.svg"><link rel="stylesheet" href="../styles.css">
-<style>.wrap{max-width:900px;margin:24px auto;padding:0 16px} textarea,input{width:100%;padding:10px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1}</style>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI Caption Tool — SmartFlow</title>
+<link rel="stylesheet" href="../styles.css"/>
+<style>
+  .tool-box{background:var(--panel);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:22px}
+  textarea{width:100%;padding:12px;border-radius:var(--radius);border:1px solid rgba(212,175,55,.2);background:#1a1815;color:var(--text);min-height:90px}
+  button{margin-top:12px}
+  .result{margin-top:16px;padding:12px;border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);background:#181614}
+</style>
 </head><body>
-<header class="nav"><div class="brand"><img class="logo" src="../assets/smartflow-logo.png" alt=""><span>SmartFlow Systems</span></div>
-<nav><a href="../index.html#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
-<main class="wrap">
-  <h1 class="section-title">Social Tools (AI)</h1>
-  <p class="section-sub">Paste your OpenAI API key (stored only in your browser) to generate captions, hooks & hashtags.</p>
-  <label>OpenAI API Key<input id="key" placeholder="sk-..."></label>
-  <label>Brief<textarea id="brief" rows="6" placeholder="Niche + offer + tone. Example: Barber shop August promo; tone: street-smart, friendly; CTA: book today."></textarea></label>
-  <button class="btn btn-primary" id="gen">Generate</button>
-  <article class="card" style="padding:16px;margin-top:16px">
-    <h3>Output</h3>
-    <pre id="out" style="white-space:pre-wrap"></pre>
-  </article>
-</main>
-<footer class="footer"><div>© <span id="year"></span> SmartFlow Systems</div></footer>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+
+<section class="section container">
+  <h1 class="section-title">AI Caption Tool (Demo)</h1>
+  <p>Type a product or topic and generate mock captions + hashtags to show how our AI bot works.</p>
+  <div class="tool-box">
+    <textarea id="topic" placeholder="e.g. Fresh fade Friday or New fitness class..."></textarea>
+    <button class="btn btn-primary" onclick="genCaption()">Generate</button>
+    <div id="output" class="result" style="display:none"></div>
+  </div>
+</section>
+
 <script>
-  const $ = (id)=>document.getElementById(id);
-  const system = "You are a marketing assistant. Write punchy Instagram/TikTok captions with 3 hooks, 2 captions (short/long), and 15 niche hashtags.";
-  $("gen").onclick = async ()=>{
-    const key = $("key").value.trim(), brief = $("brief").value.trim();
-    if(!key || !brief) return alert("API key and brief required.");
-    const body = { model:"gpt-4o-mini", messages:[{role:"system",content:system},{role:"user",content:brief}] };
-    try{
-      const r = await fetch("https://api.openai.com/v1/chat/completions",{
-        method:"POST",
-        headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+key },
-        body: JSON.stringify(body)
-      });
-      const j = await r.json();
-      $("out").textContent = j.choices?.[0]?.message?.content || JSON.stringify(j,null,2);
-    }catch(e){ $("out").textContent = String(e); }
-  };
-  document.getElementById('year').textContent = new Date().getFullYear();
+function genCaption(){
+  const topic=document.getElementById('topic').value.trim();
+  const out=document.getElementById('output');
+  if(!topic){out.style.display='block';out.innerHTML='⚠️ Please enter a topic.';return;}
+  const captions=[
+    `🔥 ${topic} done right. Who's booking next? #SmartFlow #${topic.replace(/\s+/g,'')}`,
+    `💈 ${topic}? We automate the captions so you don't have to. #AutoGrow #${topic.split(' ')[0]}`,
+    `🚀 ${topic} = more reach, more leads. #SellWhileYouSleep #SmartFlow`
+  ];
+  const pick=captions[Math.floor(Math.random()*captions.length)];
+  out.style.display='block';
+  out.innerHTML=`<strong>Generated Caption:</strong><br>${pick}`;
+}
 </script>
 </body></html>
