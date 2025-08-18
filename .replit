@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "zlib", "unzip"]
+packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "unzip", "zlib"]
 
 [workflows]
 runButton = "Project"
@@ -16,15 +16,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "SmartFlow Production"
+args = "SmartFlow Flask Production"
 
 [[workflows.workflow]]
-name = "SmartFlow Production"
+name = "SmartFlow Flask Production"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 main.py"
+args = "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
