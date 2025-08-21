@@ -1,35 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Pricing — SmartFlow Systems</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="SmartFlow Systems pricing plans for automation solutions.">
-<link rel="icon" href="/assets/favicon.svg">
-<link rel="stylesheet" href="/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pricing — SmartFlow Systems</title>
+  <meta name="description" content="Transparent pricing for AI bots, booking, ecommerce and high‑converting websites." />
+  <link rel="icon" href="static-logo.png" />
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header class="nav">
-  <div class="brand"><img class="logo" src="/assets/smartflow-logo.png" alt=""><span>SmartFlow Systems</span></div>
-  <nav>
-    <a href="/index.html#projects">Projects</a>
-    <a href="/pricing.html">Pricing</a>
-    <a href="/blog/index.html">Blog</a>
-    <a href="/updates.html">Updates</a>
-    <a href="/contact.html">Contact</a>
-  </nav>
-</header>
-<section class="section">
-  <h1 class="section-title">Pricing</h1>
-  <div class="container">
-    <p>Contact us for custom pricing based on your business needs.</p>
-    <a class="btn" href="/contact.html">Get Quote</a>
-  </div>
-</section>
-<footer class="footer">
-  <div>© <span id="year"></span> SmartFlow Systems — Gareth Bowers</div>
-  <div class="links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
-</footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+  <header class="site-header container">
+    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
+    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <h1>Simple, outcome‑first pricing</h1>
+      <p class="sub">Choose the plan that fits your business goals.</p>
+    </section>
+
+    <section class="section container">
+      <div id="pricing-cards" class="pricing-grid reveal" aria-live="polite"></div>
+      <p class="muted small center">Need a custom scope? <a href="book.html">Book a free call</a>.</p>
+    </section>
+
+    <section class="section container">
+      <h2 class="section-title">FAQs</h2>
+      <div class="faq">
+        <details><summary>How fast can we launch?</summary><p>Starter: ~3–5 days. Pro: ~7–10 days. Premium: ~2–3 weeks.</p></details>
+        <details><summary>What do you need from me?</summary><p>Logo/brand notes, product/services, and access to payment/booking tools.</p></details>
+        <details><summary>Is there a guarantee?</summary><p>We iterate until your system is deployed and working as scoped.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <small>© <span id="y"></span> SmartFlow Systems.</small>
+    <a class="link" href="index.html">Home</a>
+  </footer>
+
+  <script src="app.js" defer></script>
 </body>
 </html>

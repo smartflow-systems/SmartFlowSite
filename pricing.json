@@ -1,0 +1,44 @@
+{
+  "plans": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "subtitle": "Launch fast",
+      "price": "£499",
+      "period": "one‑time",
+      "features": [
+        "One‑page website (black+gold)",
+        "Basic SEO + speed pass",
+        "Booking or Lead form",
+        "1 revision round"
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "subtitle": "Grow with automation",
+      "price": "£1,499",
+      "period": "one‑time",
+      "popular": true,
+      "features": [
+        "AI DM Bot (1 channel) + flows",
+        "Smart Booking (+ deposits)",
+        "3‑page website + copy",
+        "2 revision rounds"
+      ]
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "subtitle": "Scale & sell",
+      "price": "£2,999",
+      "period": "one‑time",
+      "features": [
+        "Ecom funnel or full shop",
+        "AI DM Bot (2 channels)",
+        "Conversion site (5‑7 pages)",
+        "1 month optimization"
+      ]
+    }
+  ]
+}

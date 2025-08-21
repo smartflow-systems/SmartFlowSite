@@ -1,71 +1,91 @@
 from __future__ import annotations
-import os, time
+from flask import Flask, send_from_directory, jsonify, request, abort
 from pathlib import Path
-from flask import Flask, jsonify, send_from_directory, Response, request
+from datetime import timedelta
+import smtplib, json, os
+from email.message import EmailMessage
 
-BASE_DIR = Path(__file__).resolve().parent
-PUBLIC_DIRS = ["", "assets", "static", "blog", "attached_assets"]
-START_TIME = time.time()
-REQUEST_COUNT = 0
+BASE = Path(__file__).parent.resolve()
+app = Flask(__name__, static_url_path="", static_folder=str(BASE))
 
-def create_app() -> Flask:
-    app = Flask(__name__, static_folder=str(BASE_DIR), static_url_path="")
+def load_json(path: Path, fallback=None):
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return fallback
 
-    @app.before_request
-    def count_request():
-        global REQUEST_COUNT
-        REQUEST_COUNT += 1
+@app.after_request
+def add_caching(resp):
+    # Why: HTML fresh, assets cached
+    if resp.mimetype == "text/html":
+        resp.cache_control.no_cache = True
+    else:
+        resp.cache_control.public = True
+        resp.cache_control.max_age = int(timedelta(days=7).total_seconds())
+    resp.headers.setdefault("Access-Control-Allow-Origin", "*")
+    return resp
 
-    @app.get("/")
-    def root() -> Response:
-        index = BASE_DIR / "index.html"
-        if index.exists():
-            return send_from_directory(index.parent, index.name, mimetype="text/html")
-        return Response("OK", 200, mimetype="text/plain")
+@app.route("/")
+def index():
+    return send_from_directory(BASE, "index.html")
 
-    @app.get("/health")
-    def health():
-        uptime = round(time.time() - START_TIME, 3)
-        return jsonify({"status": "ok", "uptime_sec": uptime}), 200
+@app.get("/health")
+def health():
+    cfg = load_json(BASE / "site.config.json", {})
+    site_name = cfg.get("siteName", "SmartFlow Systems") if cfg else "SmartFlow Systems"
+    return jsonify({"ok": True, "site": site_name})
 
-    @app.get("/ready")
-    def ready():
-        return jsonify({"ready": True}), 200
+@app.route("/data/<path:fname>")
+def data_files(fname: str):
+    p = BASE / "data" / fname
+    if not p.exists():
+        abort(404)
+    return send_from_directory(p.parent, p.name)
 
-    @app.get("/metrics")
-    def metrics() -> Response:
-        uptime = round(time.time() - START_TIME, 3)
-        body = (
-            "# HELP smartflow_requests_total Total HTTP requests\n"
-            "# TYPE smartflow_requests_total counter\n"
-            f"smartflow_requests_total {REQUEST_COUNT}\n"
-            "# HELP smartflow_uptime_seconds Uptime in seconds\n"
-            "# TYPE smartflow_uptime_seconds gauge\n"
-            f"smartflow_uptime_seconds {uptime}\n"
-        )
-        return Response(body, mimetype="text/plain")
+@app.post("/lead")
+def lead():
+    """Receive lead as JSON, store to /data/leads.jsonl, optionally email."""
+    payload = request.get_json(silent=True) or {}
+    name = str(payload.get("name", "")).strip()
+    email = str(payload.get("email", "")).strip()
+    if not name or "@" not in email:  # minimal validation
+        return jsonify({"ok": False, "error": "invalid"}), 400
+    payload["ts"] = payload.get("ts") or __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
-    for folder in PUBLIC_DIRS:
-        folder_path = (BASE_DIR / folder).resolve()
-        def make_handler(folder_name: str, folder_path: Path):
-            def handler(path: str) -> Response:
-                target = (folder_path / path).resolve()
-                if folder_path in target.parents or target == folder_path:
-                    return send_from_directory(str(folder_path), path)
-                return jsonify({"error": "Not Found"}), 404
-            handler.__name__ = f"serve_{folder_name or 'root'}"
-            return handler
-        route_prefix = f"/{folder}" if folder else ""
-        app.add_url_rule(f"{route_prefix}/<path:path>", view_func=make_handler(folder or "root", folder_path))
+    # Store
+    out = BASE / "data" / "leads.jsonl"
+    out.parent.mkdir(exist_ok=True)
+    with out.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
-    @app.errorhandler(404)
-    def not_found(_err):
-        return jsonify({"error": "Not Found", "path": request.path}), 404
+    # Optional email
+    host = os.getenv("SMTP_HOST", "")
+    to_addr = os.getenv("SMTP_TO", "")
+    if host and to_addr:
+        try:
+            msg = EmailMessage()
+            msg["Subject"] = f"New Lead: {name} ({payload.get('plan') or 'undecided'})"
+            msg["From"] = os.getenv("SMTP_FROM", to_addr)
+            msg["To"] = to_addr
+            body = "\n".join([f"{k}: {payload.get(k,'')}" for k in ("name","email","business","plan","goal","page","ts")])
+            msg.set_content(body)
+            port = int(os.getenv("SMTP_PORT", "587"))
+            user = os.getenv("SMTP_USER", "")
+            pwd = os.getenv("SMTP_PASS", "")
+            with smtplib.SMTP(host, port, timeout=10) as s:
+                s.starttls()
+                if user and pwd: s.login(user, pwd)
+                s.send_message(msg)
+        except Exception:
+            pass  # Why: never block user on email issues
 
-    return app
+    return jsonify({"ok": True})
 
-app = create_app()
+@app.route("/<path:path>")
+def static_proxy(path: str):
+    return send_from_directory(BASE, path)
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "5000"))
-    app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", "8080"))
+    app.run(host="0.0.0.0", port=port, debug=False)

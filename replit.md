@@ -170,3 +170,14 @@ Preferred communication style: Simple, everyday language.
 - ✅ **File organization**: Properly structured projects/ and tools/ directories with Flask routing
 - ✅ **Cross-linking**: All pages properly link to pricing, contact, and demonstration tools
 - ✅ **Responsive design**: All new pages follow established CSS framework and mobile-first approach
+
+**August 21, 2025 - Lead Capture System & Data-Driven Pricing Implementation**
+- ✅ **Lead capture API**: Added POST /lead endpoint storing leads to data/leads.jsonl with optional SMTP email alerts
+- ✅ **Data-driven pricing**: Created pricing.json config file with dynamic pricing card generation
+- ✅ **Enhanced booking page**: Rebuilt book.html with lead form and Calendly integration
+- ✅ **Site configuration**: Added site.config.json for managing Calendly URLs, lead webhooks, and lead magnets
+- ✅ **Form validation**: Client-side validation with success/error state handling
+- ✅ **Multi-source content**: Enhanced app.js to load latest posts from multiple JSON sources
+- ✅ **Lead management**: JSON Lines format for easy lead processing and CRM integration
+- ✅ **Email notifications**: Optional SMTP integration for instant lead alerts to business email
+- ✅ **Success tracking**: Lead capture tested and confirmed working with data persistence
