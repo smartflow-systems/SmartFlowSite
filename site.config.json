@@ -3,5 +3,6 @@
   "siteName": "SmartFlow Systems",
   "calendlyUrl": "https://calendly.com/your-handle/30min",
   "leadWebhook": "",
-  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf"
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf",
+  "smartPartUrl": "https://your-smartpart.replit.app"
 }

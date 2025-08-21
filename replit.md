@@ -171,6 +171,18 @@ Preferred communication style: Simple, everyday language.
 - ✅ **Cross-linking**: All pages properly link to pricing, contact, and demonstration tools
 - ✅ **Responsive design**: All new pages follow established CSS framework and mobile-first approach
 
+**August 21, 2025 - Smart Part Lead Capture Mini-App Integration**
+- ✅ **Lead capture system**: Enhanced Flask app with `/lead` endpoint storing to `data/leads.jsonl`
+- ✅ **Smart Part promo block**: Added showcase card on homepage featuring mini-app capabilities
+- ✅ **Smart Part explainer page**: Created `/smart-part.html` with live status checking and documentation
+- ✅ **Dynamic configuration**: Added `smartPartUrl` to `site.config.json` for external mini-app linking
+- ✅ **Email notifications**: SMTP integration for lead alerts using environment variables
+- ✅ **Admin functionality**: Basic auth protected admin interface for lead management and CSV export
+- ✅ **Data-driven pricing**: Enhanced pricing page to load from `pricing.json` with dynamic card generation
+- ✅ **Form enhancement**: Improved lead capture forms with validation, success states, and error handling
+- ✅ **Cross-app integration**: Smart linking between main site and external Smart Part deployments
+- ✅ **Production deployment**: All features tested and working with Flask/Gunicorn configuration
+
 **August 21, 2025 - Lead Capture System & Data-Driven Pricing Implementation**
 - ✅ **Lead capture API**: Added POST /lead endpoint storing leads to data/leads.jsonl with optional SMTP email alerts
 - ✅ **Data-driven pricing**: Created pricing.json config file with dynamic pricing card generation

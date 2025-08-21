@@ -106,6 +106,13 @@ async function setupLeadForm() {
 
   const cfg = await getConfig();
   
+  // Smart Part links (live microapp)
+  const sp1 = document.getElementById('smart-part-live');
+  if (sp1 && cfg.smartPartUrl) sp1.href = cfg.smartPartUrl;
+
+  const sp2 = document.getElementById('smart-part-live-2');
+  if (sp2 && cfg.smartPartUrl) sp2.href = cfg.smartPartUrl;
+  
   // Setup Calendly button
   const calBtn = document.getElementById('cal-btn');
   if (calBtn && cfg.calendlyUrl) {
