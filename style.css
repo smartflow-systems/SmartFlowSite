@@ -3,6 +3,13 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg)}
+.nav-bar{background:var(--card);border-bottom:1px solid #1f1f1f;padding:0 20px}
+.nav-container{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:56px}
+.nav-brand{color:var(--gold);font-weight:700;text-decoration:none;font-size:1.2rem}
+.nav-links{display:flex;gap:1rem;align-items:center}
+.nav-link{color:var(--muted);text-decoration:none;padding:.5rem}
+.nav-link:hover{color:var(--fg)}
+.nav-cta{font-size:.9rem;padding:.6rem 1rem}
 .hero{padding:56px 20px;text-align:center;border-bottom:1px solid #1f1f1f}
 .logo{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(212,175,55,.2))}
 h1{font-size:2.2rem;margin:.5rem 0;color:var(--fg)}

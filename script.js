@@ -4,6 +4,11 @@ async function loadConfig(){
     const cfg = await res.json();
     document.getElementById("siteName").textContent = cfg.siteName || "SmartFlow Systems";
     document.getElementById("tagline").textContent = cfg.tagline || "";
+    
+    // Set the site URL link in navigation
+    const siteUrl = cfg.siteUrl || window.location.origin;
+    document.getElementById("siteUrl").href = siteUrl;
+    
     if (cfg.calendlyUrl) {
       const a = document.getElementById("bookLink");
       a.href = cfg.calendlyUrl;

@@ -8,6 +8,17 @@
   <meta name="description" content="SmartFlow Systems — AI bots, booking, and e‑commerce that make money while you sleep." />
 </head>
 <body>
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">SmartFlow</a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="admin.html" class="nav-link">Admin</a>
+        <a id="siteUrl" href="#" class="btn nav-cta" target="_blank">Visit Site</a>
+      </div>
+    </div>
+  </nav>
+
   <header class="hero">
     <img src="assets/logo.png" alt="SmartFlow Logo" class="logo" />
     <h1 id="siteName">SmartFlow Systems</h1>
@@ -20,11 +31,12 @@
 
   <main class="container">
     <section class="card">
-      <h2>What's inside</h2>
+      <h2>Your SmartFlow Site</h2>
       <ul>
+        <li><strong>🌐 Main Website:</strong> <a href="/" class="btn ghost" style="display:inline;padding:4px 8px;margin-left:8px;">View Your Site</a></li>
+        <li><strong>📊 Admin Dashboard:</strong> <a href="admin.html" class="btn ghost" style="display:inline;padding:4px 8px;margin-left:8px;">View Leads</a></li>
         <li>Config‑driven setup (<code>site.config.json</code>)</li>
-        <li>Lead capture API (<code>/api/lead</code> → saves to <code>data.csv</code>)</li>
-        <li>Admin preview (<a href="admin.html">/admin.html</a>)</li>
+        <li>Lead capture API saves to <code>data.csv</code></li>
       </ul>
     </section>
 
