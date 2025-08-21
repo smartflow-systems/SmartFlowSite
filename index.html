@@ -1,61 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmartFlow Systems</title>
-  <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="SmartFlow Systems — AI bots, booking, and e‑commerce that make money while you sleep." />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — Build. Automate. Sell.</title>
+  <meta name="description" content="AI Social Bots, Booking Systems, E-commerce shops and Premium Websites. All built and ready to sell."/>
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <nav class="nav-bar">
-    <div class="nav-container">
-      <a href="/" class="nav-brand">SmartFlow</a>
-      <div class="nav-links">
-        <a href="/" class="nav-link">Home</a>
-        <a href="admin.html" class="nav-link">Admin</a>
-        <a id="siteUrl" href="#" class="btn nav-cta" target="_blank">Visit Site</a>
-      </div>
-    </div>
-  </nav>
-
-  <header class="hero">
-    <img src="assets/logo.png" alt="SmartFlow Logo" class="logo" />
-    <h1 id="siteName">SmartFlow Systems</h1>
-    <p id="tagline" class="tagline">Smooth • Street‑Smart • Futuristic</p>
-    <div class="cta-row">
-      <a id="bookLink" class="btn" target="_blank" rel="noopener">Book a Demo</a>
-      <a id="leadMagnet" class="btn ghost" target="_blank" rel="noopener">Download Guide</a>
-    </div>
+  <!-- Nav -->
+  <header class="nav">
+    <a class="brand" href="/">SmartFlow Systems</a>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#latest">Latest</a>
+      <a href="#testimonials">Proof</a>
+      <a class="btn btn-gold" href="#pricing">Get Started</a>
+    </nav>
   </header>
 
-  <main class="container">
-    <section class="card">
-      <h2>Your SmartFlow Site</h2>
-      <ul>
-        <li><strong>🌐 Main Website:</strong> <a href="/" class="btn ghost" style="display:inline;padding:4px 8px;margin-left:8px;">View Your Site</a></li>
-        <li><strong>📊 Admin Dashboard:</strong> <a href="admin.html" class="btn ghost" style="display:inline;padding:4px 8px;margin-left:8px;">View Leads</a></li>
-        <li>Config‑driven setup (<code>site.config.json</code>)</li>
-        <li>Lead capture API saves to <code>data.csv</code></li>
-      </ul>
-    </section>
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="hero-inner">
+      <h1>Systems that sell while you sleep</h1>
+      <p>AI social bots, one-click booking, conversion-ready shops, and slick websites — all prebuilt, branded, and fast.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="#projects">See the Systems</a>
+        <a class="btn btn-ghost" href="#pricing">Pricing</a>
+      </div>
+    </div>
+  </section>
 
-    <section class="card">
-      <h2>Get in touch</h2>
-      <form id="leadForm">
-        <label>Name <input type="text" name="name" required /></label>
-        <label>Email <input type="email" name="email" required /></label>
-        <label>Message <textarea name="message" rows="3" placeholder="Tell us what you need…"></textarea></label>
-        <button type="submit" class="btn">Send</button>
-        <p id="leadStatus" class="status"></p>
-      </form>
-    </section>
-  </main>
+  <!-- Projects -->
+  <section id="projects" class="section container">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <!-- AI Social Bot -->
+      <article class="project-card">
+        <h3>AI Social Bot</h3>
+        <ul class="feature-list">
+          <li>Auto captions + niche hashtags</li>
+          <li>DM funnels & lead capture</li>
+          <li>Content calendar presets</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/ai-bot.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a>
+        </div>
+      </article>
+
+      <!-- Booking System -->
+      <article class="project-card">
+        <h3>Booking System</h3>
+        <ul class="feature-list">
+          <li>Stripe deposits & no-show protection</li>
+          <li>Google Calendar sync</li>
+          <li>Industry presets (barber/salon/fitness)</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/booking.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+        </div>
+      </article>
+
+      <!-- E-commerce Shops -->
+      <article class="project-card">
+        <h3>E-commerce Shops</h3>
+        <ul class="feature-list">
+          <li>One-page checkout</li>
+          <li>Upsells & abandoned cart emails</li>
+          <li>Speed-first static storefronts</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/ecom.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+        </div>
+      </article>
+
+      <!-- Websites -->
+      <article class="project-card">
+        <h3>Websites</h3>
+        <ul class="feature-list">
+          <li>Premium black/brown + gold</li>
+          <li>SEO-ready, lightning fast</li>
+          <li>Lead forms & analytics</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/websites.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Latest (auto from /data/posts.json) -->
+  <section id="latest" class="section container">
+    <h2 class="section-title">Latest from SmartFlow</h2>
+    <div id="latest-list" class="latest-grid" aria-live="polite"></div>
+    <div class="center">
+      <a class="btn btn-ghost" href="updates.html">See all updates</a>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section id="testimonials" class="section container">
+    <h2 class="section-title">Social Proof</h2>
+    <div class="testimonials">
+      <figure class="testimonial">
+        <blockquote>“We went from DMs to paid bookings in a day. The bot + booking combo just prints.”</blockquote>
+        <figcaption>— Jay, Barber Studio Owner</figcaption>
+      </figure>
+      <figure class="testimonial">
+        <blockquote>“Shop load time dropped under 1s and AOV went up 18% with the upsell preset.”</blockquote>
+        <figcaption>— Mo, Streetwear Brand</figcaption>
+      </figure>
+      <figure class="testimonial">
+        <blockquote>“He built our site, integrated Stripe, and the calendar sync is flawless.”</blockquote>
+        <figcaption>— Lina, Aesthetics Clinic</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section container">
+    <h2 class="section-title">Get Started</h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <p class="price">£199</p>
+        <ul>
+          <li>1 system setup</li>
+          <li>Brand colours & logo</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Join Waitlist</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Pro</h3>
+        <p class="price">£499</p>
+        <ul>
+          <li>2 systems + integrations</li>
+          <li>Stripe + Calendar</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Book Build</a>
+      </div>
+      <div class="price-card">
+        <h3>Premium</h3>
+        <p class="price">£999</p>
+        <ul>
+          <li>All systems + presets</li>
+          <li>Analytics + training</li>
+          <li>30-day optimisation</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Apply</a>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
-    <small>&copy; <span id="year"></span> SmartFlow Systems</small>
+    <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

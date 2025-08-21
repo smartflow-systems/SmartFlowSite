@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc></url>
-  <url><loc>/admin.html</loc></url>
+  <url><loc>https://smartflowsite.example/index.html</loc></url>
+  <url><loc>https://smartflowsite.example/pricing.html</loc></url>
+  <url><loc>https://smartflowsite.example/contact.html</loc></url>
+  <url><loc>https://smartflowsite.example/updates.html</loc></url>
+  <url><loc>https://smartflowsite.example/privacy.html</loc></url>
+  <url><loc>https://smartflowsite.example/terms.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/barber-deposits-stop-no-shows-without-scaring-good-clients.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/index.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/launch-ai-social-bot-v1.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/local-seo-for-trades-be-the-1-choice-in-your-area.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/major-ai-automation-update-5-new-features.html</loc></url>
+  <url><loc>https://smartflowsite.example/blog/salon-instagram-ideas-september-content-calendar-uk.html</loc></url>
 </urlset>
