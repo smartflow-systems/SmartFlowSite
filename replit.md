@@ -1,206 +1,88 @@
 # SmartFlow Systems Portfolio App
 
 ## Overview
-
-SmartFlow Systems is a single-page application (SPA) portfolio site showcasing automation systems for service businesses like barbers and salons. The app demonstrates booking systems, e-commerce solutions, AI bots, and other business automation tools through interactive demos and live simulated metrics. Built as a static site optimized for Replit hosting, it serves as both a marketing tool and demo platform for SmartFlow's business automation products.
+SmartFlow Systems is a single-page application (SPA) portfolio site showcasing automation systems for service businesses like barbers and salons. The app demonstrates booking systems, e-commerce solutions, AI bots, and other business automation tools through interactive demos and live simulated metrics. Built as a static site optimized for Replit hosting, it serves as both a marketing tool and demo platform for SmartFlow's business automation products, highlighting next-generation AI automation and offering solutions for lead capture, dynamic pricing, and comprehensive business automation.
 
 ## User Preferences
-
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
 **Frontend Architecture:**
-- Single-page application using vanilla HTML, CSS, and JavaScript with hash-based routing
-- Component-based architecture without frameworks, using ES6 classes for state management
-- Data-driven content system with JSON configuration files for easy updates
-- Modal-based demo system with lazy-loaded iframes for performance
-- Responsive design with mobile-first approach
+- Single-page application using vanilla HTML, CSS, and JavaScript with hash-based routing.
+- Component-based architecture without frameworks, using ES6 classes for state management.
+- Data-driven content system with JSON configuration files for easy updates.
+- Modal-based demo system with lazy-loaded iframes for performance.
+- Responsive design with a mobile-first approach.
+- Includes dedicated pages for individual projects (AI Bot, Booking, E-commerce, Websites) and a social caption tool.
 
 **State Management:**
-- Centralized application state managed through the `SmartFlowApp` class
-- Local storage for user preferences (edit mode toggle)
-- Event-driven architecture with queue system for live metrics simulation
-- Hash routing for navigation without page reloads
+- Centralized application state managed through the `SmartFlowApp` class.
+- Local storage for user preferences (edit mode toggle).
+- Event-driven architecture with a queue system for live metrics simulation.
+- Hash routing for navigation without page reloads.
 
 **Data Layer:**
-- JSON-based configuration system with three main data sources:
-  - `site.json` - Site content, hero text, pricing tiers, and global settings
-  - `systems.json` - Product/system definitions with features, pricing, and demo URLs
-  - `live.json` - Simulated live metrics and event stream data
-- No database required - all data stored as static JSON files
+- JSON-based configuration system with data sources like `site.json`, `systems.json`, and `live.json`.
+- `site.config.json` for managing URLs, webhooks, and lead magnets.
+- `pricing.json` for data-driven pricing card generation and structured plan data.
+- Lead capture data stored in `data/leads.jsonl` (JSON Lines) with backward compatibility for `data.csv`.
+- No traditional database required, all data stored as static JSON/CSV files.
+- Content managed through a mini CMS generating static pages from Markdown files (`/content/posts/`, `/content/updates/`).
 
 **UI/UX Design System:**
-- Dark theme with gold accents following brand guidelines
-- Utility-first CSS approach without frameworks
-- Accessibility-first design with semantic HTML and ARIA attributes
-- Smooth animations and transitions for professional feel
+- Dark theme with gold accents following brand guidelines.
+- Utility-first CSS approach without frameworks.
+- Accessibility-first design with semantic HTML and ARIA attributes.
+- Smooth animations and transitions for a professional feel.
+
+**Technical Implementations:**
+- Client-side form validation with success/error state handling.
+- Enhanced `app.js` to load latest posts from multiple JSON sources.
+- Server-side lead capture API (POST /lead) for storing leads and optional SMTP email alerts.
+- Admin dashboard (`admin.html`) with basic authentication to view and export lead data.
+- API endpoints for lead viewing (`/api/leads`) and configuration (`/api/config`).
+- Comprehensive SEO optimization including `robots.txt`, `sitemap.xml`, and structured data.
 
 **Performance Optimizations:**
-- Lazy loading for demo iframes to reduce initial load time
-- Image optimization with lazy loading attributes
-- Minimal external dependencies for fast loading
-- Efficient DOM manipulation with event delegation
+- Lazy loading for demo iframes and images.
+- Minimal external dependencies for fast loading.
+- Efficient DOM manipulation with event delegation.
+
+**System Design Choices:**
+- Clean Flask architecture for the backend with proper routing and health checks.
+- WSGI-ready application factory pattern for production deployments.
+- Multiple deployment entry points (`main.py`, `run`, `replit.toml`).
+- Health check endpoints (`/health`, `/healthz`, `/readiness`, `/status`) for deployment monitoring.
+- Production server configured with Gunicorn, using proper port binding and error handling.
+- `site.config.json` for externalizing key application settings.
+- Content workflow: Markdown → JSON → Static HTML pipeline with SEO optimization.
 
 ## External Dependencies
 
 **Third-Party Services:**
-- Demo systems hosted externally (referenced via iframe URLs in systems.json)
-- Social media platform integrations (placeholders for future implementation)
-- Email service integration (placeholder mailto links for contact form)
+- External demo systems referenced via iframe URLs.
+- Calendly integration for booking (`book.html`).
+- Google Sheets webhook integration for lead capture (historical, now primarily internal JSON/CSV).
+- Optional SMTP for email notifications.
 
 **Static Assets:**
-- SVG icons and graphics stored in `/assets/` directory
-- System fonts stack (SF Pro Display, Inter, Segoe UI) with fallbacks
-- No external CDNs or font loading for optimal performance
+- SVG icons and graphics stored in `/assets/` directory.
+- System fonts stack (SF Pro Display, Inter, Segoe UI) with fallbacks, no external CDNs.
+- Downloadable resources in `assets/` folder.
 
 **Browser APIs:**
-- Local Storage for user preferences persistence
-- Hash routing using `window.location.hash`
-- Fetch API for loading JSON configuration files
-- DOM manipulation APIs for dynamic content rendering
+- Local Storage for user preferences.
+- Hash routing using `window.location.hash`.
+- Fetch API for loading JSON configuration files.
+- DOM manipulation APIs for dynamic content rendering.
 
-**Development Tools:**
-- Custom Python web server (`server.py`) with Flask framework for proper deployment health checks
-- WSGI-ready application factory pattern for production deployments (`wsgi.py`)
-- Multiple deployment entry points: `main.py`, `run`, and `replit.toml`
-- Health check endpoints: `/health` and `/healthz` for deployment monitoring
-- No build tools or preprocessing required for static assets
-- Direct deployment to Replit cloud hosting with proper HTTP server configuration
-- JSON validation for configuration files
-- Browser developer tools for debugging and performance monitoring
-
-**Deployment Configuration:**
-- `replit.toml` - Primary deployment configuration with run command
-- `main.py` - Production entry point with error handling and fallbacks
-- `wsgi.py` - WSGI application factory for production servers
-- Health check endpoints respond with 200 status codes for deployment verification
-- Port 5000 configured for external access with proper host binding (0.0.0.0)
-
-## Recent Changes
-
-**August 17, 2025 - SmartFlow Site Upgrade with Bookings & Lead Capture**
-- ✅ **Booking system**: Added `book.html` with Calendly integration and email fallback
-- ✅ **Lead capture**: Created `leads.html` with Google Sheets webhook integration  
-- ✅ **Case study page**: Built `case-study.html` showcasing barbershop success story
-- ✅ **Site configuration**: Added `site.config.json` for easy editing of URLs and settings
-- ✅ **Lead magnet PDF**: Generated professional SmartFlow Launch Pack PDF
-- ✅ **SEO blog posts**: Created 3 new posts (barber deposits, salon Instagram, local SEO)
-- ✅ **Enhanced navigation**: Updated main nav with Book, Free Pack, Case Study links
-- ✅ **Structured data**: Added Organization schema markup to all pages
-- ✅ **Updated sitemap**: Added new pages to sitemap.xml for better SEO
-- ✅ **Comprehensive README**: Documented complete setup for bookings and lead capture
-
-## Recent Changes
-
-**August 17, 2025 - Advanced AI Features Integration**
-- ✅ **Next-generation AI systems**: Added 5 major new features to portfolio showcase
-- ✅ **AI Review Response Manager**: Automated Google/Yelp review responses with sentiment analysis
-- ✅ **Smart Upsell Engine**: AI-powered recommendations with dynamic pricing during booking
-- ✅ **Voice AI Assistant**: Phone booking system with natural voice processing capabilities
-- ✅ **Virtual Queue Pro**: SMS-based queue management with real-time predictions and location alerts
-- ✅ **AR Try-On Studio**: Augmented reality hair color/style previews for salon services
-- ✅ **Updated hero messaging**: Changed from basic automation to "Next-Gen AI Automation"
-- ✅ **Enhanced pricing tiers**: Updated plans to highlight AI features across Starter, Pro, Premium
-- ✅ **New blog content**: Created comprehensive feature announcement post
-- ✅ **Production Flask deployment**: Maintained deployment-ready configuration with premium branding
-
-**August 17, 2025 - Production-Ready Deployment Configuration**  
-- ✅ **Fixed deployment health check issues**: Enhanced server.py with production-ready HTTP handler
-- ✅ **Added dedicated health check endpoint**: `/health` returns JSON status (200) for deployment monitoring  
-- ✅ **Improved main.py entry point**: Added deployment validation and error handling
-- ✅ **Enhanced HTTP responses**: Root endpoint (/) properly serves index.html with 200 status
-- ✅ **Multiple deployment entry points**: Created `start.py`, `run.sh`, and `Dockerfile` for various platforms
-- ✅ **Port binding optimization**: Proper socket reuse and deployment PORT environment handling
-- ✅ **Static file validation**: Pre-flight checks ensure all required assets exist
-- ✅ **Production logging**: Cleaner log output suitable for deployment monitoring  
-- ✅ **Workflow configuration**: Updated to use `python3 main.py` with proper port binding
-- ✅ **Deployment verification**: All endpoints tested and returning correct HTTP status codes
-
-**August 17, 2025 - Deployment Health Check Fixes Applied**
-- ✅ **Fixed Replit deployment configuration**: Updated replit.toml with proper run command and environment variables
-- ✅ **Enhanced health check endpoints**: Added `/health`, `/healthz`, and `/readiness` endpoints returning 200 status codes
-- ✅ **Improved server fallback**: Added HTML fallback response for root endpoint when index.html cannot be served
-- ✅ **Production server optimizations**: Disabled debug mode, reloader, and improved logging for production deployment
-- ✅ **Workflow conflict resolution**: Removed duplicate workflows and configured single production workflow
-- ✅ **Package.json module type**: Added "type": "module" to resolve Node.js build warnings
-- ✅ **Deployment timestamp tracking**: Added deployment time tracking for health monitoring
-- ✅ **All endpoints verified**: Root (/), health, healthz, and readiness all returning 200 status codes
-
-**August 17, 2025 - Mini Content Management System Implementation**
-- ✅ **Node.js build system**: Created `scripts/build.js` with marked@12 for Markdown parsing
-- ✅ **Content structure**: Set up `/content/posts/` and `/content/updates/` directories
-- ✅ **Static page generation**: Blog index, individual posts, updates page, RSS feed, sitemap
-- ✅ **Front-matter parsing**: YAML front-matter support for title, date, tags, excerpt
-- ✅ **Admin interface**: No-backend `/admin.html` for drafting and exporting content
-- ✅ **Social tools**: `/tools/social.html` for AI-powered caption and hashtag generation
-- ✅ **GitHub Actions**: Daily rebuild workflow for automated content updates
-- ✅ **Latest posts integration**: Added "Latest from SmartFlow" section to homepage
-- ✅ **Navigation updates**: Added Blog and Updates links to header navigation
-- ✅ **Content workflow**: Markdown → JSON → Static HTML pipeline with SEO optimization
-
-**August 18, 2025 - Deployment Error Resolution**
-- ✅ **Fixed missing assets**: Created hero-bg.jpg background image and data/posts.json file
-- ✅ **Resolved 404 errors**: All previously failing asset requests now return 200 status codes
-- ✅ **Verified deployment readiness**: Root endpoint (/) returns 200 OK with proper HTML content
-- ✅ **Health check validation**: All health endpoints (/health, /healthz, /readiness) working correctly
-- ✅ **Flask server optimization**: Production configuration running stable on port 5000
-- ✅ **Asset serving**: Hero background, posts data, and all static assets loading successfully
-- ✅ **Workflow restart**: SmartFlow Production workflow running without errors
-- ✅ **Deployment verification**: All suggested fixes applied and tested successfully
-
-**August 18, 2025 - Flask App Transformation & Repository Cleanup**
-- ✅ **Clean Flask architecture**: Created production-ready app.py with proper routing and health checks
-- ✅ **Dependency management**: Installed Flask and Gunicorn via packager tool for optimal compatibility
-- ✅ **WSGI configuration**: Simplified wsgi.py to import Flask app directly for production deployment
-- ✅ **CI/CD pipeline**: Added complete GitHub Actions workflows for continuous integration and deployment
-- ✅ **Dependabot automation**: Configured weekly dependency updates for Flask, Gunicorn, and GitHub Actions
-- ✅ **Repository cleanup**: Removed redundant Node.js files, duplicate servers, and legacy deployment scripts
-- ✅ **Health endpoints**: Functional /health, /ready, and /metrics endpoints with proper JSON responses
-- ✅ **Static file serving**: Maintained all HTML pages, assets, and blog content with Flask static routing
-- ✅ **Gunicorn deployment**: Production server running with 2 workers and 60-second timeout configuration
-- ✅ **Workflow optimization**: Replaced complex legacy server with streamlined Flask production workflow
-
-**August 18, 2025 - Homepage Rebuild with Individual Project Pages & Social Tool**
-- ✅ **Individual project pages**: Created dedicated pages for AI Bot, Booking, E-commerce, and Websites
-- ✅ **Social caption tool**: Added /tools/social.html with interactive mock caption generator (no API required)
-- ✅ **Premium design**: Maintained black/brown + shiny gold theme across all new pages
-- ✅ **Project navigation**: Each project page includes proper navigation and CTA buttons
-- ✅ **Interactive demo**: AI Bot page links to social caption tool for live demonstration
-- ✅ **File organization**: Properly structured projects/ and tools/ directories with Flask routing
-- ✅ **Cross-linking**: All pages properly link to pricing, contact, and demonstration tools
-- ✅ **Responsive design**: All new pages follow established CSS framework and mobile-first approach
-
-**August 21, 2025 - Lead Capture System & Data-Driven Pricing Implementation**
-- ✅ **Lead capture API**: Added POST /lead endpoint storing leads to data/leads.jsonl with optional SMTP email alerts
-- ✅ **Data-driven pricing**: Created pricing.json config file with dynamic pricing card generation
-- ✅ **Enhanced booking page**: Rebuilt book.html with lead form and Calendly integration
-- ✅ **Site configuration**: Added site.config.json for managing Calendly URLs, lead webhooks, and lead magnets
-- ✅ **Form validation**: Client-side validation with success/error state handling
-- ✅ **Multi-source content**: Enhanced app.js to load latest posts from multiple JSON sources
-- ✅ **Lead management**: JSON Lines format for easy lead processing and CRM integration
-- ✅ **Email notifications**: Optional SMTP integration for instant lead alerts to business email
-- ✅ **Success tracking**: Lead capture tested and confirmed working with data persistence
-
-**August 21, 2025 - SmartFlow Starter Pack Implementation**
-- ✅ **Simplified Flask architecture**: Streamlined app.py with CSV-based lead storage for easier management
-- ✅ **CSV lead capture**: Added /api/lead endpoint saving to data.csv with timestamp, name, email, message fields
-- ✅ **Admin dashboard**: Created admin.html with lead viewer displaying data.csv contents via /api/leads endpoint
-- ✅ **Config-driven setup**: Enhanced site.config.json integration with /api/config endpoint for dynamic content
-- ✅ **Minimal UI**: Clean dark theme with gold accents, simple form validation and user feedback
-- ✅ **SEO optimization**: Added robots.txt and sitemap.xml for search engine indexing
-- ✅ **Asset structure**: Created assets/ folder for logos, images, and downloadable resources
-- ✅ **Lead verification**: CSV system tested and confirmed working with proper data persistence
-- ✅ **Admin functionality**: Lead viewing interface tested and displaying stored data correctly
-
-**August 21, 2025 - Production-Ready Enhancement Patch**
-- ✅ **Enhanced Flask architecture**: Upgraded to production app.py with advanced features and security
-- ✅ **Dual lead storage**: JSON Lines format for advanced leads + backward compatible CSV system
-- ✅ **Admin authentication**: Basic Auth protection for /admin/leads with environment variable credentials
-- ✅ **Enhanced lead capture**: Extended fields including business, plan, goal, page tracking with timestamps
-- ✅ **CSV export functionality**: /admin/leads.csv endpoint for downloading lead data
-- ✅ **SMTP email integration**: Optional email notifications for new leads with configurable SMTP settings
-- ✅ **Production deployment config**: Added replit.toml, Procfile, and enhanced .replit for deployment
-- ✅ **Status monitoring**: /status endpoint showing file existence and configuration status
-- ✅ **Pricing system**: Added pricing.json with structured plan data for future integration
-- ✅ **Professional authentication**: Secure admin panel with proper authorization headers
+**Development & Deployment Tools:**
+- Flask framework for the Python web server.
+- Gunicorn for production server deployment.
+- `replit.toml` for Replit-specific deployment configuration.
+- GitHub Actions for CI/CD pipeline and automated content updates.
+- Dependabot for automated dependency updates.
+- `marked@12` for Markdown parsing in the content build system.
+- `data/posts.json` and other content-related JSON files.
+- Browser developer tools for debugging.
