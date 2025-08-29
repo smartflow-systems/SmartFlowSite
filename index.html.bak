@@ -3,145 +3,196 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>SmartFlow Systems — Portfolio & Live Demos</title>
-  <meta name="description" content="SmartFlow Systems: booking, e-commerce, AI bots, and growth automations. See live demos with our slick UI and simulated live feeds.">
-  <meta name="theme-color" content="#0B0B0B"/>
-  <link rel="icon" href="assets/favicon.svg"/>
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="SmartFlow Systems — Portfolio"/>
-  <meta property="og:description" content="Promote & demo SmartFlow systems with live UI and feeds."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="assets/og-image.svg"/>
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="SmartFlow Systems — Portfolio"/>
-  <meta name="twitter:description" content="Promote & demo SmartFlow systems with live UI and feeds."/>
-  <meta name="twitter:image" content="assets/og-image.svg"/>
-
+  <title>SmartFlow Systems — Build. Automate. Sell.</title>
+  <meta name="description" content="AI Social Bots, Booking Systems, E-commerce shops and Premium Websites. All built and ready to sell."/>
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+<section class="parallax-hero">
+  <video src="assets/video/hero.mp4" autoplay muted playsinline loop></video>
+  <div class="veil"></div>
+  <div class="inner section">
+    <div style="text-align:center;max-width:840px;margin:0 auto">
+      <h1 class="sf-shine" style="font-size:clamp(38px,7vw,78px);line-height:1.04">SmartFlow Systems — Bookings, Bots <body> Shops that Sell Themselves</h1>
+      <p style="margin:18px auto 28px;max-width:680px;color:var(--sf-beige);opacity:.9">Faster than templated builders. Smarter than “just a website.” Your automation stack in one place.</p>
+      <div><a href="#pricing" class="btn">Start Free →</a> <a href="#projects" class="btn" style="background:var(--sf-brown);color:var(--sf-gold)">See Demos</a></div>
+    </div>
+  </div>
+</section>
+  <!-- Nav -->
   <header class="nav">
-    <a class="brand" href="#home">
-      <img src="assets/smartflow-logo.png" alt="SmartFlow Systems" class="brand-logo">
-    </a>
+    <a class="brand" href="/">SmartFlow Systems</a>
     <nav>
-      <a href="#systems">Systems</a>
-      <a href="#live">Live</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#case">Case Study</a>
-      <a href="#contact">Contact</a>
+      <a href="#projects">Projects</a>
+      <a href="#latest">Latest</a>
+      <a href="#testimonials">Proof</a>
+      <a class="btn btn-gold" href="#pricing">Get Started</a>
     </nav>
-    <button id="editToggle" class="btn-ghost" aria-pressed="false" title="Toggle edit mode">✎ Edit</button>
   </header>
 
-  <main id="app">
-    <!-- Hero -->
-    <section id="home" class="hero container">
-      <div class="hero-copy">
-        <h1 id="heroTitle"><span class="gold">Automation That Sells</span> — Built for Barbers, Salons & Service Brands</h1>
-        <p id="heroSubtitle" class="sub">Booking, e-com, AI social bots & websites. Slick UI. Real results.</p>
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="hero-inner">
+      <h1>Systems that sell while you sleep</h1>
+      <p>AI social bots, one-click booking, conversion-ready shops, and slick websites — all prebuilt, branded, and fast.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="#projects">See the Systems</a>
+        <a class="btn btn-ghost" href="#pricing">Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section container">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <!-- AI Social Bot -->
+      <article class="project-card">
+        <h3>AI Social Bot</h3>
+        <ul class="feature-list">
+          <li>Auto captions + niche hashtags</li>
+          <li>DM funnels & lead capture</li>
+          <li>Content calendar presets</li>
+        </ul>
         <div class="actions">
-          <a class="btn" href="#systems">See Systems</a>
-          <a class="btn-outline" href="#contact">Book a Demo</a>
+          <a class="btn btn-gold" href="projects/ai-bot.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a>
         </div>
-      </div>
-      <div class="hero-visual">
-        <img src="assets/hero-ui.svg" alt="SmartFlow UI preview" loading="lazy"/>
-      </div>
-    </section>
+      </article>
 
-    <!-- Systems -->
-    <section id="systems" class="container">
-      <h2 class="section-title">Systems</h2>
-      <p class="muted">Click "Open Demo" to load a live embed. Manage items in <code>/data/systems.json</code>.</p>
-      <div id="systemsGrid" class="grid"></div>
-    </section>
-
-    <!-- Live -->
-    <section id="live" class="container">
-      <h2 class="section-title">SmartFlow Live Board</h2>
-      <div class="live-controls">
-        <label class="switch">
-          <input id="liveMode" type="checkbox" />
-          <span class="slider"></span>
-          <span>External Feed</span>
-        </label>
-      </div>
-      <div class="live-panels">
-        <div class="kpis">
-          <div class="kpi"><span id="kpiSessions">0</span><small>Active Sessions</small></div>
-          <div class="kpi"><span id="kpiApi">0</span><small>API Calls (min)</small></div>
-          <div class="kpi"><span id="kpiBookings">0</span><small>Bookings Today</small></div>
-          <div class="kpi"><span id="kpiRevenue">£0</span><small>Revenue Today</small></div>
-        </div>
-        <div class="events">
-          <h3 class="h3">Event Stream</h3>
-          <ul id="eventList" class="events-list" aria-live="polite"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing" class="container">
-      <h2 class="section-title">Pricing</h2>
-      <div class="pricing-grid" id="pricingGrid"></div>
-    </section>
-
-    <!-- Case Study -->
-    <section id="case" class="container">
-      <h2 class="section-title">Case Study</h2>
-      <div id="caseWrap" class="case-wrap"></div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="container">
-      <h2 class="section-title">Contact</h2>
-      <form id="contactForm" class="form" novalidate>
-        <div class="row">
-          <label>Name<input name="name" required/></label>
-          <label>Email<input name="email" type="email" required/></label>
-        </div>
-        <label>Message<textarea name="message" rows="4" required></textarea></label>
+      <!-- Booking System -->
+      <article class="project-card">
+        <h3>Booking System</h3>
+        <ul class="feature-list">
+          <li>Stripe deposits & no-show protection</li>
+          <li>Google Calendar sync</li>
+          <li>Industry presets (barber/salon/fitness)</li>
+        </ul>
         <div class="actions">
-          <button class="btn" type="submit">Send</button>
-          <a class="btn-outline" href="mailto:garethbowers@hotmail.com?subject=SmartFlow Demo">Email Instead</a>
+          <a class="btn btn-gold" href="projects/booking.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
         </div>
-        <p id="contactStatus" class="muted" role="status"></p>
-      </form>
-    </section>
-  </main>
+      </article>
+
+      <!-- E-commerce Shops -->
+      <article class="project-card">
+        <h3>E-commerce Shops</h3>
+        <ul class="feature-list">
+          <li>One-page checkout</li>
+          <li>Upsells & abandoned cart emails</li>
+          <li>Speed-first static storefronts</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/ecom.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+        </div>
+      </article>
+
+      <!-- Websites -->
+      <article class="project-card">
+        <h3>Websites</h3>
+        <ul class="feature-list">
+          <li>Premium black/brown + gold</li>
+          <li>SEO-ready, lightning fast</li>
+          <li>Lead forms & analytics</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/websites.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+        </div>
+      </article>
+    </div>
+    
+    <!-- Smart Part promo (lead capture + admin mini-app) -->
+    <div class="smartpart reveal">
+      <div class="smartpart-card">
+        <div class="smartpart-badge">Smart Part</div>
+        <h3 class="smartpart-title">Lead Capture + Admin</h3>
+        <p class="smartpart-sub">Drop-in mini-app: JSONL leads, CSV export, basic auth, email notify.</p>
+        <ul class="smartpart-list">
+          <li>1-file deploy (Flask + Gunicorn)</li>
+          <li>/lead endpoint + Admin table & CSV</li>
+          <li>Works with Replit Deployments & Secrets</li>
+        </ul>
+        <div class="actions">
+          <a id="smart-part-live" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+          <a class="btn btn-ghost" href="smart-part.html">What is this?</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest (auto from /data/posts.json) -->
+  <section id="latest" class="section container">
+    <h2 class="section-title">Latest from SmartFlow</h2>
+    <div id="latest-list" class="latest-grid" aria-live="polite"></div>
+    <div class="center">
+      <a class="btn btn-ghost" href="updates.html">See all updates</a>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section id="testimonials" class="section container">
+    <h2 class="section-title">Social Proof</h2>
+    <div class="testimonials">
+      <figure class="testimonial">
+        <blockquote>“We went from DMs to paid bookings in a day. The bot + booking combo just prints.”</blockquote>
+        <figcaption>— Jay, Barber Studio Owner</figcaption>
+      </figure>
+      <figure class="testimonial">
+        <blockquote>“Shop load time dropped under 1s and AOV went up 18% with the upsell preset.”</blockquote>
+        <figcaption>— Mo, Streetwear Brand</figcaption>
+      </figure>
+      <figure class="testimonial">
+        <blockquote>“He built our site, integrated Stripe, and the calendar sync is flawless.”</blockquote>
+        <figcaption>— Lina, Aesthetics Clinic</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section container">
+    <h2 class="section-title">Get Started</h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <p class="price">£199</p>
+        <ul>
+          <li>1 system setup</li>
+          <li>Brand colours & logo</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Join Waitlist</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Pro</h3>
+        <p class="price">£499</p>
+        <ul>
+          <li>2 systems + integrations</li>
+          <li>Stripe + Calendar</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Book Build</a>
+      </div>
+      <div class="price-card">
+        <h3>Premium</h3>
+        <p class="price">£999</p>
+        <ul>
+          <li>All systems + presets</li>
+          <li>Analytics + training</li>
+          <li>30-day optimisation</li>
+        </ul>
+        <a class="btn btn-gold" href="https://forms.gle/">Apply</a>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
-    <div>© <span id="year"></span> SmartFlow Systems</div>
-    <div class="socials">
-      <a id="xLink" href="#" aria-label="Twitter / X">🐦</a>
-      <a id="igLink" href="#" aria-label="Instagram">📷</a>
-      <a id="ytLink" href="#" aria-label="YouTube">📺</a>
-    </div>
+    <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
   </footer>
-
-  <!-- Demo Modal -->
-  <dialog id="demoModal" class="modal" aria-label="Live Demo">
-    <div class="modal-head">
-      <h3 id="demoTitle" class="h3">Live Demo</h3>
-      <button id="demoClose" class="btn-ghost" aria-label="Close">✕</button>
-    </div>
-    <div class="modal-body">
-      <iframe id="demoFrame" title="System Demo" loading="lazy" referrerpolicy="no-referrer"></iframe>
-    </div>
-  </dialog>
-
-  <!-- Details Drawer -->
-  <dialog id="detailsDrawer" class="drawer" aria-label="System Details">
-    <div class="drawer-head">
-      <h3 id="detailsTitle" class="h3">System Details</h3>
-      <button id="detailsClose" class="btn-ghost" aria-label="Close">✕</button>
-    </div>
-    <div class="drawer-body" id="detailsBody"></div>
-  </dialog>
 
   <script src="app.js" defer></script>
 </body>
