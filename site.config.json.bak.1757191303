@@ -1,0 +1,13 @@
+{
+  "siteName":"SmartFlow Systems",
+  "calendlyUrl":"https://calendly.com/your-handle/30min",
+  "leadWebhook":"",
+  "leadMagnetUrl":"assets/lead-magnet-smartflow.pdf",
+  "smartPartUrl":"https://your-smartpart.replit.app",
+  "projects":[
+    {"name":"AI Social Bot","tagline":"Auto-engage & publish","repo":"boweazy/SFS-AIbofs-social-media","demo":"https://your-demo.ai-bot","cta":"Buy","ctaUrl":"#"},
+    {"name":"Booking System","tagline":"Stripe + Calendar","repo":"boweazy/SmartFlowBooking","demo":"https://your-demo.booking","cta":"Book Demo","ctaUrl":"#"},
+    {"name":"E-com Shops","tagline":"Pay, ship, grow","repo":"boweazy/SmartFlowEcom","demo":"https://your-demo.ecom","cta":"Buy","ctaUrl":"#"},
+    {"name":"Websites","tagline":"Premium pages","repo":"boweazy/SmartFlowSite-Templates","demo":"https://your-demo.sites","cta":"Book","ctaUrl":"#"}
+  ]
+}

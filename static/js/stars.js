@@ -114,10 +114,11 @@ class CircuitBoardAnimation {
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
                 size: 2 + Math.random() * 4,  // Larger stars
-                speed: 0.5 + Math.random() * 2,
+                speed: 0.1 + Math.random() * 0.3,  // Much slower movement
                 opacity: 0.3 + Math.random() * 0.7,
                 twinkle: Math.random() * Math.PI * 2,
-                direction: Math.random() * Math.PI * 2
+                direction: Math.random() * Math.PI * 2,
+                drift: Math.random() * 0.02  // Very subtle drift for natural movement
             });
         }
     }
@@ -169,15 +170,19 @@ class CircuitBoardAnimation {
     
     updateStars() {
         this.stars.forEach(star => {
-            star.x += Math.cos(star.direction) * star.speed;
-            star.y += Math.sin(star.direction) * star.speed;
-            star.twinkle += 0.1;
+            // Very slow autonomous movement
+            star.x += Math.cos(star.direction) * star.speed * 0.3;  // Even slower
+            star.y += Math.sin(star.direction) * star.speed * 0.3;
             
-            // Wrap around screen edges
-            if (star.x < 0) star.x = this.width;
-            if (star.x > this.width) star.x = 0;
-            if (star.y < 0) star.y = this.height;
-            if (star.y > this.height) star.y = 0;
+            // Add subtle drift for more natural movement
+            star.direction += (Math.random() - 0.5) * star.drift;
+            star.twinkle += 0.05;  // Slower twinkling too
+            
+            // Wrap around screen edges smoothly
+            if (star.x < -10) star.x = this.width + 10;
+            if (star.x > this.width + 10) star.x = -10;
+            if (star.y < -10) star.y = this.height + 10;
+            if (star.y > this.height + 10) star.y = -10;
         });
     }
     
