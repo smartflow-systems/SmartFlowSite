@@ -22,13 +22,13 @@ args = "SmartFlow Flask Production"
 name = "SmartFlow Flask Production"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 main.py"
+waitForPort = 5000
 
 [[ports]]
 localPort = 3000
@@ -39,13 +39,9 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 5001
-externalPort = 3000
-
-[[ports]]
 localPort = 5002
 externalPort = 3001
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["gunicorn", "-w", "2", "-t", "60", "-b", "0.0.0.0:5000", "app:app"]
+run = ["python3", "main.py"]
