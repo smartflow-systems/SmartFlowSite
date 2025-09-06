@@ -12,15 +12,15 @@ class CircuitBoardAnimation {
         this.crickets = [];
         this.animationId = null;
         
-        // Colors matching the SmartFlow theme
+        // Colors matching the SmartFlow theme - enhanced brightness
         this.colors = {
-            background: '#0b0b0b',
+            background: 'transparent',  // Let page background show through
             circuit: '#d4af37',
-            circuitDim: 'rgba(212, 175, 55, 0.2)',
-            pulse: '#d4af37',
-            pulseGlow: 'rgba(212, 175, 55, 0.8)',
+            circuitDim: 'rgba(212, 175, 55, 0.6)',  // More visible
+            pulse: '#ffdd00',  // Brighter gold
+            pulseGlow: 'rgba(255, 221, 0, 0.9)',   // Brighter glow
             node: '#d4af37',
-            star: '#d4af37',
+            star: '#ffdd00',   // Brighter gold
             cricket: '#e9e6df'
         };
         
@@ -73,15 +73,15 @@ class CircuitBoardAnimation {
         this.connections = [];
         this.pulses = [];
         
-        const nodeCount = Math.floor((this.width * this.height) / 15000);
-        const gridSpacing = 80;
+        const nodeCount = Math.floor((this.width * this.height) / 8000);  // More nodes
+        const gridSpacing = 60;  // Closer together
         
         // Generate nodes in a loose grid pattern
         for (let i = 0; i < nodeCount; i++) {
             this.nodes.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                radius: 2 + Math.random() * 3,
+                radius: 3 + Math.random() * 4,  // Larger nodes
                 pulse: Math.random() * Math.PI * 2,
                 energy: 0.5 + Math.random() * 0.5
             });
@@ -94,7 +94,7 @@ class CircuitBoardAnimation {
                 const dy = this.nodes[i].y - this.nodes[j].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 120 && Math.random() < 0.3) {
+                if (distance < 150 && Math.random() < 0.5) {  // More connections
                     this.connections.push({
                         start: i,
                         end: j,
@@ -107,13 +107,13 @@ class CircuitBoardAnimation {
     
     generateStars() {
         this.stars = [];
-        const starCount = 50;
+        const starCount = 120;  // More stars
         
         for (let i = 0; i < starCount; i++) {
             this.stars.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                size: 1 + Math.random() * 3,
+                size: 2 + Math.random() * 4,  // Larger stars
                 speed: 0.5 + Math.random() * 2,
                 opacity: 0.3 + Math.random() * 0.7,
                 twinkle: Math.random() * Math.PI * 2,
@@ -124,7 +124,7 @@ class CircuitBoardAnimation {
     
     generateCrickets() {
         this.crickets = [];
-        const cricketCount = 8;
+        const cricketCount = 15;  // More crickets
         
         for (let i = 0; i < cricketCount; i++) {
             this.crickets.push({
@@ -141,8 +141,8 @@ class CircuitBoardAnimation {
     }
     
     updatePulses() {
-        // Add new pulses randomly along connections
-        if (Math.random() < 0.05 && this.connections.length > 0) {
+        // Add new pulses randomly along connections - more frequent
+        if (Math.random() < 0.15 && this.connections.length > 0) {
             const connection = this.connections[Math.floor(Math.random() * this.connections.length)];
             const startNode = this.nodes[connection.start];
             const endNode = this.nodes[connection.end];
@@ -217,7 +217,7 @@ class CircuitBoardAnimation {
             this.ctx.moveTo(startNode.x, startNode.y);
             this.ctx.lineTo(endNode.x, endNode.y);
             this.ctx.strokeStyle = `rgba(212, 175, 55, ${connection.opacity})`;
-            this.ctx.lineWidth = 1;
+            this.ctx.lineWidth = 2;  // Thicker lines
             this.ctx.stroke();
         });
         
@@ -231,10 +231,16 @@ class CircuitBoardAnimation {
             this.ctx.fillStyle = this.colors.node;
             this.ctx.fill();
             
-            // Glow effect
+            // Enhanced glow effect
             this.ctx.beginPath();
-            this.ctx.arc(node.x, node.y, pulseSize + 2, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(212, 175, 55, ${node.energy * 0.3})`;
+            this.ctx.arc(node.x, node.y, pulseSize + 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(255, 221, 0, ${node.energy * 0.5})`;
+            this.ctx.fill();
+            
+            // Outer glow
+            this.ctx.beginPath();
+            this.ctx.arc(node.x, node.y, pulseSize + 8, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(255, 221, 0, ${node.energy * 0.2})`;
             this.ctx.fill();
         });
     }
@@ -311,8 +317,8 @@ class CircuitBoardAnimation {
     }
     
     render() {
-        // Clear canvas
-        this.ctx.fillStyle = this.colors.background;
+        // Clear canvas with fade effect for trails
+        this.ctx.fillStyle = 'rgba(11, 11, 11, 0.1)';  // Semi-transparent clear for trail effects
         this.ctx.fillRect(0, 0, this.width, this.height);
         
         // Draw all elements
