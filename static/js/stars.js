@@ -277,26 +277,44 @@ class CircuitBoardAnimation {
             this.ctx.fillStyle = `rgba(212, 175, 55, ${twinkleOpacity})`;
             this.ctx.fill();
             
-            // Star glow
-            const gradient = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 4);
-            gradient.addColorStop(0, `rgba(212, 175, 55, ${twinkleOpacity * 0.5})`);
-            gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
+            // Enhanced star glow with multiple layers
+            const gradient1 = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 6);
+            gradient1.addColorStop(0, `rgba(255, 221, 0, ${twinkleOpacity * 0.8})`);
+            gradient1.addColorStop(1, 'rgba(255, 221, 0, 0)');
             
             this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.size * 4, 0, Math.PI * 2);
-            this.ctx.fillStyle = gradient;
+            this.ctx.arc(star.x, star.y, star.size * 6, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient1;
+            this.ctx.fill();
+            
+            // Inner bright glow
+            const gradient2 = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 2);
+            gradient2.addColorStop(0, `rgba(255, 255, 255, ${twinkleOpacity * 0.6})`);
+            gradient2.addColorStop(1, 'rgba(255, 221, 0, 0)');
+            
+            this.ctx.beginPath();
+            this.ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
+            this.ctx.fillStyle = gradient2;
             this.ctx.fill();
         });
     }
     
     drawCrickets() {
         this.crickets.forEach(cricket => {
-            // Draw trail
+            // Draw enhanced trail
             cricket.trail.forEach((point, index) => {
-                const alpha = index / cricket.trail.length * 0.3;
+                const alpha = (index / cricket.trail.length) * 0.6;
+                const size = 1 + (index / cricket.trail.length) * 2;
+                
                 this.ctx.beginPath();
-                this.ctx.arc(point.x, point.y, 1, 0, Math.PI * 2);
+                this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
                 this.ctx.fillStyle = `rgba(233, 230, 223, ${alpha})`;
+                this.ctx.fill();
+                
+                // Trail glow
+                this.ctx.beginPath();
+                this.ctx.arc(point.x, point.y, size * 2, 0, Math.PI * 2);
+                this.ctx.fillStyle = `rgba(233, 230, 223, ${alpha * 0.3})`;
                 this.ctx.fill();
             });
             
@@ -356,6 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             window.circuitAnimation = new CircuitBoardAnimation();
             console.log('Circuit animation created successfully');
+            console.log('Generated nodes:', window.circuitAnimation.nodes.length);
+            console.log('Generated connections:', window.circuitAnimation.connections.length);
+            console.log('Generated stars:', window.circuitAnimation.stars.length);
         } catch (error) {
             console.error('Error creating circuit animation:', error);
         }
