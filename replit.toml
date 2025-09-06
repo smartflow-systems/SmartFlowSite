@@ -1,6 +1,0 @@
-[deployment]
-run = "python3 main.py"
-deploymentTarget = "cloudrun"
-
-[nix]
-channel = "stable-24_05"

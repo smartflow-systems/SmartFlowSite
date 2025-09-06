@@ -1,9 +1,0 @@
-.sf-shine{position:relative;display:inline-block;background:linear-gradient(90deg,#FFD700,#E6C200);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sf-shine:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.8) 25%,transparent 50%);transform:skewX(-20deg) translateX(-120%);animation:shine 3.6s ease-in-out infinite;mix-blend-mode:screen;pointer-events:none}
-@keyframes shine{to{transform:skewX(-20deg) translateX(120%)}}
-.parallax-hero{position:relative;min-height:80vh;overflow:hidden;border-bottom:1px solid #2a2121}
-.parallax-hero video,.parallax-hero .bg{position:absolute;inset:-8% -8%;width:116%;height:116%;object-fit:cover;filter:brightness(.35) saturate(1.2);transform:translateZ(0);will-change:transform}
-.parallax-hero .inner{position:relative;z-index:2;display:grid;place-items:center;min-height:80vh;padding:64px 20px}
-.parallax-hero .veil{position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 20%,rgba(255,215,0,.12),transparent 55%)}
-.magnet{transition:transform .12s ease,box-shadow .2s ease}
-.magnet:hover{transform:translate3d(var(--mx,0),var(--my,0),0) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,.45)}
