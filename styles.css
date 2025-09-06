@@ -19,8 +19,21 @@ img{max-width:100%;display:block}
 .section-title{font-size:1.9rem;margin:0 0 18px 0}
 .center{text-align:center}
 
-/* nav */
-.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 4vw;background:rgba(11,11,11,.8);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(212,175,55,.14)}
+/* nav - glassmorphism effect */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 4vw;
+  background:rgba(11,11,11,.75);
+  backdrop-filter:saturate(140%) blur(15px);
+  border-bottom:1px solid rgba(212,175,55,.25);
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+}
 .brand{font-weight:700;letter-spacing:.4px}
 .links a{margin-left:18px}
 
@@ -34,26 +47,113 @@ img{max-width:100%;display:block}
 .lead{opacity:.9;max-width:720px;margin:0 auto 18px}
 .badges{display:flex;gap:14px;justify-content:center;opacity:.8;font-size:.95rem}
 
-/* buttons */
-.btn{display:inline-block;border:1px solid var(--gold);padding:12px 18px;border-radius:999px;transition:.2s;box-shadow:var(--shadow)}
-.btn:hover{transform:translateY(-1px)}
-.btn-primary{background:var(--gold);color:#281f0b;font-weight:700}
-.btn-ghost{color:var(--gold);background:transparent}
+/* buttons - glassmorphism enhanced */
+.btn{
+  display:inline-block;
+  border:1px solid var(--gold);
+  padding:12px 20px;
+  border-radius:999px;
+  transition:all .3s ease;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);
+  position:relative;
+  overflow:hidden;
+}
+.btn::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+  transition:left 0.5s;
+}
+.btn:hover::before{
+  left:100%;
+}
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 25px rgba(212,175,55,.3);
+}
+.btn-primary{
+  background:var(--gold);
+  color:#281f0b;
+  font-weight:700;
+}
+.btn-ghost{
+  color:var(--gold);
+  background:rgba(212,175,55,.08);
+  border:1px solid rgba(212,175,55,.3);
+}
+.btn-ghost:hover{
+  background:rgba(212,175,55,.15);
+  border-color:rgba(212,175,55,.5);
+}
+.btn-gold{
+  background:linear-gradient(135deg, var(--gold), #ffdd00);
+  color:#1a1a1a;
+  font-weight:700;
+  border:none;
+  box-shadow:0 4px 15px rgba(212,175,55,.4);
+}
+.btn-gold:hover{
+  background:linear-gradient(135deg, #ffdd00, var(--gold));
+  box-shadow:0 8px 25px rgba(212,175,55,.6);
+}
 
-/* projects grid */
+/* projects grid - glassmorphism cards */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.project-card{background:var(--panel);border:1px solid rgba(212,175,55,.16);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.project-card{
+  background:rgba(20,17,15,.65);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(212,175,55,.25);
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.05);
+  transition:all 0.3s ease;
+}
+.project-card:hover{
+  background:rgba(20,17,15,.8);
+  border-color:rgba(212,175,55,.4);
+  transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.08);
+}
 .project-card h3{margin-top:0}
 .feature-list{margin:0 0 16px 18px}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
 
-/* latest */
-.latest-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.latest-card{background:var(--panel);border:1px solid rgba(212,175,55,.14);padding:16px;border-radius:var(--radius)}
+/* latest - glassmorphism cards */
+.latest-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.latest-card{
+  background:rgba(20,17,15,.65);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(212,175,55,.2);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 24px rgba(0,0,0,.25);
+  transition:all 0.3s ease;
+}
+.latest-card:hover{
+  background:rgba(20,17,15,.8);
+  border-color:rgba(212,175,55,.35);
+  transform:translateY(-1px);
+}
 .latest-card time{display:block;color:var(--muted);font-size:.9rem;margin-top:6px}
 
-/* testimonials */
-.testimonials{position:relative;background:var(--panel);border:1px solid rgba(212,175,55,.14);padding:22px;border-radius:var(--radius)}
+/* testimonials - glassmorphism */
+.testimonials{
+  position:relative;
+  background:rgba(20,17,15,.7);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(212,175,55,.25);
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:24px;
+  border-radius:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.05);
+}
 .t-item{display:none;margin:0;font-size:1.05rem}
 .t-item.active{display:block}
 .t-item cite{display:block;color:var(--muted);margin-top:8px}
@@ -85,9 +185,23 @@ body {
   z-index: 1;
 }
 
+/* Sparkles canvas */
+#sparkles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
 /* Performance optimization for mobile */
 @media (max-width: 768px) {
   #circuit-canvas {
+    display: none;
+  }
+  #sparkles-canvas {
     display: none;
   }
 }
@@ -99,14 +213,22 @@ body {
 /* Smart Part promo */
 .smartpart { margin-top: 8px; }
 .smartpart-card{
-  background: linear-gradient(180deg,var(--panel),#120f0d);
-  border:1px solid #1d1916;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 0 0 1px rgba(255,255,255,.02),0 10px 28px rgba(0,0,0,.36);
-  outline:1px solid rgba(212,175,55,.12);
+  background:rgba(20,17,15,.75);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(212,175,55,.3);
+  border-top:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 12px 48px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.08);
+  outline:1px solid rgba(212,175,55,.15);
+  transition:all 0.3s ease;
 }
-.smartpart-card:hover{ outline-color: rgba(212,175,55,.28); }
+.smartpart-card:hover{ 
+  outline-color: rgba(212,175,55,.4); 
+  background:rgba(20,17,15,.85);
+  transform:translateY(-3px);
+  box-shadow:0 16px 56px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.1);
+}
 .smartpart-badge{
   display:inline-block;
   font-size:.75rem;
