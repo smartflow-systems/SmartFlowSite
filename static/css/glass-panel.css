@@ -1,78 +1,197 @@
-/* Glassy Panels + Stars for SmartFlow */
+/* Glassy Panels + Stars for SmartFlow - Enhanced Visibility */
+
+/* Make the glass panel see-through with strong blur effect */
 .glass-panel {
-  backdrop-filter: blur(12px) saturate(180%);
-  background: rgba(15, 15, 15, 0.75) !important;
-  border: 1px solid rgba(255, 255, 255, 0.125);
+  /* Strong glass effect */
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  
+  /* Semi-transparent background for see-through effect */
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-image: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  ) !important;
+  
+  /* Bright visible border */
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 16px;
+  
+  /* Multiple shadows for depth */
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 0 0 1px rgba(212, 175, 55, 0.1);
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    0 0 120px rgba(212, 175, 55, 0.2),
+    inset 0 0 40px rgba(212, 175, 55, 0.05);
+  
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  transition: all 0.3s ease;
 }
 
+/* Hover effect for glass panels */
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 25px 70px rgba(0, 0, 0, 0.7),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    0 0 150px rgba(212, 175, 55, 0.3);
+}
+
+/* Shiny overlay effect */
 .glass-panel::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(212, 175, 55, 0.05) 0%, 
-    transparent 50%, 
-    rgba(212, 175, 55, 0.02) 100%);
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
   pointer-events: none;
   z-index: 1;
+  animation: shine 3s infinite;
 }
 
+@keyframes shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Ensure text is visible inside glass panels */
 .glass-panel > * {
   position: relative;
   z-index: 2;
+  color: var(--sf-gold, #d4af37) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Enhanced glow for buttons */
+.glass-panel h3 {
+  color: var(--sf-gold, #d4af37) !important;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.glass-panel p, .glass-panel li {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Enhanced glow for buttons inside glass panels */
 .glass-panel .btn-gold {
+  background: linear-gradient(135deg, #d4af37, #f4e4b1);
   box-shadow: 
-    0 0 20px rgba(212, 175, 55, 0.3),
-    0 4px 15px rgba(0, 0, 0, 0.2);
+    0 0 30px rgba(212, 175, 55, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .glass-panel .btn-gold:hover {
+  background: linear-gradient(135deg, #f4e4b1, #d4af37);
   box-shadow: 
-    0 0 30px rgba(212, 175, 55, 0.5),
-    0 6px 20px rgba(0, 0, 0, 0.3);
+    0 0 40px rgba(212, 175, 55, 0.7),
+    0 6px 25px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Star field background */
+/* ENHANCED STARFIELD - More visible stars */
 #starfield {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
 }
 
 .star {
   position: absolute;
-  background: #d4af37;
   border-radius: 50%;
   opacity: 0;
-  animation: twinkle 3s infinite ease-in-out;
+}
+
+/* Different star types for variety */
+.star {
+  background: #fff;
+  box-shadow: 
+    0 0 10px #d4af37,
+    0 0 20px #d4af37,
+    0 0 30px #fff;
+  animation: twinkle 4s infinite ease-in-out;
+}
+
+.star.bright {
+  background: #d4af37;
+  box-shadow: 
+    0 0 15px #d4af37,
+    0 0 30px #fff,
+    0 0 45px #d4af37;
+  animation: twinkle-bright 3s infinite ease-in-out;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
+  0%, 100% { 
+    opacity: 0.2; 
+    transform: scale(0.8); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.5); 
+  }
 }
 
-.star:nth-child(odd) {
+@keyframes twinkle-bright {
+  0%, 100% { 
+    opacity: 0.4; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(2); 
+  }
+}
+
+/* Stagger animations for natural effect */
+.star:nth-child(odd) { animation-delay: 0.5s; }
+.star:nth-child(even) { animation-delay: 1.5s; }
+.star:nth-child(3n) { animation-delay: 2s; }
+.star:nth-child(5n) { animation-delay: 2.5s; }
+.star:nth-child(7n) { animation-delay: 3s; }
+
+/* Floating animation for glass panels */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.glass-panel {
+  animation: float 6s ease-in-out infinite;
+}
+
+.glass-panel:nth-child(odd) {
   animation-delay: 1s;
 }
 
-.star:nth-child(3n) {
+.glass-panel:nth-child(even) {
   animation-delay: 2s;
+}
+
+/* Ensure everything layers correctly */
+body {
+  position: relative;
+}
+
+.section, .container {
+  position: relative;
+  z-index: 2;
 }
