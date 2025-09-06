@@ -1,26 +1,5 @@
 [
-  {
-    "id": "barber-deposits-stop-no-shows",
-    "title": "Barber Deposits: Stop No-Shows Without Scaring Good Clients",
-    "excerpt": "Learn how to implement smart deposit systems that reduce no-shows by 90% while keeping quality clients happy.",
-    "date": "2024-08-15",
-    "category": "Business",
-    "featured": true
-  },
-  {
-    "id": "ai-automation-update-5-features",
-    "title": "Major AI Automation Update: 5 New Features",
-    "excerpt": "Discover the latest automation features that will transform how you manage your business operations.",
-    "date": "2024-08-10", 
-    "category": "Technology",
-    "featured": true
-  },
-  {
-    "id": "local-seo-trades-number-one-choice",
-    "title": "Local SEO for Trades: Be the #1 Choice in Your Area",
-    "excerpt": "Step-by-step guide to dominating local search results and becoming the go-to business in your market.",
-    "date": "2024-08-05",
-    "category": "Marketing",
-    "featured": false
-  }
+  {"title":"v0.2 — API Boost + landing copy","date":"2025-08-28","url":"updates.html#v0-2"},
+  {"title":"v0.3 — Presets + Save Boosts","date":"2025-09-02","url":"updates.html#v0-3"},
+  {"title":"Roadmap — Calendar, Analytics, Pricing, Cases","date":"2025-09-05","url":"updates.html#roadmap"}
 ]
