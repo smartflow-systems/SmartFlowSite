@@ -35,19 +35,42 @@ async function loadLatest() {
     const top3 = items.slice(0,3);
 
     if (top3.length > 0) {
-      target.innerHTML = top3.map(p => `
-        <article class="latest-card">
-          <a href="${t(p.url || p.link || '#')}">
-            <h3>${t(p.title)}</h3>
-          </a>
-          <time datetime="${t(p.date)}">${new Date(p.date).toLocaleDateString()}</time>
-        </article>
-      `).join('');
+      // Clear existing content safely
+      target.textContent = '';
+      
+      // Create elements safely using DOM methods
+      top3.forEach(p => {
+        const article = document.createElement('article');
+        article.className = 'latest-card';
+        
+        const link = document.createElement('a');
+        link.href = t(p.url || p.link || '#');
+        
+        const title = document.createElement('h3');
+        title.textContent = p.title || '';
+        link.appendChild(title);
+        
+        const time = document.createElement('time');
+        time.setAttribute('datetime', p.date || '');
+        time.textContent = new Date(p.date).toLocaleDateString();
+        
+        article.appendChild(link);
+        article.appendChild(time);
+        target.appendChild(article);
+      });
     } else {
-      target.innerHTML = `<p class="muted">No posts yet.</p>`;
+      target.textContent = '';
+      const p = document.createElement('p');
+      p.className = 'muted';
+      p.textContent = 'No posts yet.';
+      target.appendChild(p);
     }
   } catch (e) {
-    target.innerHTML = `<p class="muted">No posts yet.</p>`;
+    target.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'muted';
+    p.textContent = 'No posts yet.';
+    target.appendChild(p);
     console.error('Latest load error', e);
   }
 }
