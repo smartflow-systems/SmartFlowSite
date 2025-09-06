@@ -299,7 +299,7 @@ class CircuitBoardAnimation {
             
             this.ctx.beginPath();
             this.ctx.arc(cricket.x, cricket.y, pulseSize, 0, Math.PI * 2);
-            this.ctx.fillStyle = cricket.cricket;
+            this.ctx.fillStyle = this.colors.cricket;
             this.ctx.fill();
             
             // Cricket glow
@@ -343,9 +343,18 @@ class CircuitBoardAnimation {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, screen width:', window.innerWidth);
     // Only initialize if we're not on a mobile device (performance consideration)
     if (window.innerWidth > 768) {
-        window.circuitAnimation = new CircuitBoardAnimation();
+        console.log('Initializing circuit board animation...');
+        try {
+            window.circuitAnimation = new CircuitBoardAnimation();
+            console.log('Circuit animation created successfully');
+        } catch (error) {
+            console.error('Error creating circuit animation:', error);
+        }
+    } else {
+        console.log('Skipping animation on mobile device');
     }
 });
 
