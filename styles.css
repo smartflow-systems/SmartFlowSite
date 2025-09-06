@@ -58,6 +58,40 @@ img{max-width:100%;display:block}
 .t-item.active{display:block}
 .t-item cite{display:block;color:var(--muted);margin-top:8px}
 
+/* Circuit Board Animation Canvas */
+#circuit-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Enhanced background for animation support */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ensure content stays above animation */
+.nav,
+.hero,
+.section,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Performance optimization for mobile */
+@media (max-width: 768px) {
+  #circuit-canvas {
+    display: none;
+  }
+}
+
 /* cta + footer */
 .cta{background:linear-gradient(180deg, rgba(212,175,55,.06), transparent 40%)}
 .footer{padding:32px 0;border-top:1px solid rgba(212,175,55,.14);text-align:center;color:var(--muted)}
