@@ -1,45 +1,111 @@
-/* Circuit Pattern Background with Dark Brown Theme */
+/* Golden Dark Brown Circuit Board with 3D Shiny Gold Text */
 
-/* See-through glass panels */
+/* COMPLETELY TRANSPARENT GLASS PANELS */
 .glass-panel {
-  backdrop-filter: blur(12px) saturate(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
-  background: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid rgba(139, 105, 71, 0.2);
-  border-radius: 12px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* No blur - completely transparent */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  
+  /* COMPLETELY TRANSPARENT - circuit board shows through */
+  background: transparent !important;
+  
+  /* No borders - just clean text containers */
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  
   position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
+  overflow: visible;
+  padding: 24px;
 }
 
 .glass-panel:hover {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(212, 175, 55, 0.3);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: transparent !important;
 }
 
+/* 3D SHINY GOLD TEXT EFFECTS */
 .glass-panel > * {
   position: relative;
   z-index: 2;
 }
 
 .glass-panel h3 {
-  color: var(--sf-gold, #d4af37) !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  /* 3D Golden Metal Text Effect */
+  color: #FFD700 !important;
+  background: linear-gradient(135deg, 
+    #FFD700 0%,
+    #FFA500 25%,
+    #FFD700 50%,
+    #B8860B 75%,
+    #FFD700 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  font-weight: 700;
+  font-size: 1.4em;
+  
+  /* Multiple shadow layers for 3D depth */
+  text-shadow: 
+    0 1px 0 #B8860B,
+    0 2px 0 #9A7209,
+    0 3px 0 #7D5E08,
+    0 4px 0 #604A06,
+    0 5px 0 #433505,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(255,215,0,.2),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);
+    
+  /* Shine animation */
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel h3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.6), 
+    transparent);
+  animation: textShine 3s ease-in-out infinite;
+}
+
+@keyframes textShine {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 .glass-panel p, .glass-panel li {
-  color: rgba(255, 255, 255, 0.9) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  /* Premium White Text with Golden Glow */
+  color: #FFFFFF !important;
+  
+  /* Layered text shadows for depth and glow */
+  text-shadow: 
+    0 0 5px rgba(255, 215, 0, 0.3),
+    0 0 10px rgba(255, 215, 0, 0.2),
+    0 0 15px rgba(255, 215, 0, 0.1),
+    0 1px 0 rgba(184, 134, 11, 0.8),
+    0 2px 0 rgba(125, 94, 8, 0.6),
+    0 3px 0 rgba(96, 74, 6, 0.4),
+    0 4px 0 rgba(67, 53, 5, 0.2),
+    1px 1px 3px rgba(0,0,0,0.8),
+    2px 2px 5px rgba(0,0,0,0.5);
+    
+  font-weight: 500;
+  font-size: 1.05em;
 }
 
-/* CIRCUIT PATTERN BACKGROUND */
-#starfield.circuit-pattern {
+/* GOLDEN DARK BROWN CIRCUIT BOARD BACKGROUND */
+#starfield.golden-circuit-board {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,207 +114,278 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  /* Dark brown gradient background */
-  background: linear-gradient(135deg,
-    rgba(20, 12, 8, 0.95) 0%,
-    rgba(30, 20, 15, 0.9) 25%,
-    rgba(25, 15, 10, 0.95) 50%,
-    rgba(20, 12, 8, 0.9) 75%,
-    rgba(15, 9, 6, 0.95) 100%
-  );
+  
+  /* Rich golden brown gradient background */
+  background: 
+    radial-gradient(ellipse at center, 
+      rgba(139, 105, 71, 0.4) 0%, 
+      rgba(101, 67, 33, 0.6) 30%,
+      rgba(83, 53, 24, 0.8) 60%,
+      rgba(67, 39, 16, 0.9) 80%,
+      rgba(45, 25, 10, 0.95) 100%),
+    linear-gradient(45deg, 
+      rgba(160, 120, 80, 0.1) 0%, 
+      rgba(120, 80, 40, 0.2) 50%, 
+      rgba(80, 50, 25, 0.3) 100%);
 }
 
-/* Circuit pattern overlay */
-#starfield.circuit-pattern::before {
+/* Circuit board grid overlay */
+#starfield.golden-circuit-board::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    repeating-linear-gradient(
-      90deg,
+  background-image: 
+    repeating-linear-gradient(90deg,
       transparent,
-      transparent 49px,
-      rgba(92, 64, 51, 0.05) 49px,
-      rgba(92, 64, 51, 0.05) 51px
+      transparent 59px,
+      rgba(212, 175, 55, 0.08) 59px,
+      rgba(212, 175, 55, 0.08) 61px
     ),
-    repeating-linear-gradient(
-      0deg,
+    repeating-linear-gradient(0deg,
       transparent,
-      transparent 49px,
-      rgba(92, 64, 51, 0.05) 49px,
-      rgba(92, 64, 51, 0.05) 51px
+      transparent 59px,
+      rgba(212, 175, 55, 0.08) 59px,
+      rgba(212, 175, 55, 0.08) 61px
     );
+  opacity: 0.7;
+}
+
+/* Circuit connection nodes */
+.circuit-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, 
+    rgba(212, 175, 55, 0.8) 0%, 
+    rgba(139, 105, 71, 0.6) 70%, 
+    rgba(101, 67, 33, 0.4) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 4px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 215, 0, 0.2);
+  z-index: 1;
+}
+
+/* Major junction nodes */
+.circuit-node.major-junction {
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, 
+    #FFD700 0%, 
+    #DAA520 50%, 
+    #B8860B 100%);
+  border: 2px solid #FFD700;
+  box-shadow: 
+    0 0 8px rgba(255, 215, 0, 0.6),
+    0 0 16px rgba(255, 215, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  animation: majorNodeGlow 3s ease-in-out infinite;
+}
+
+@keyframes majorNodeGlow {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6), 0 0 16px rgba(255, 215, 0, 0.3);
+  }
+  50% { 
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 24px rgba(255, 215, 0, 0.5);
+  }
+}
+
+/* Active component nodes */
+.circuit-node.active-component {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(45deg, 
+    #FFD700, 
+    #FFA500, 
+    #FF8C00, 
+    #DAA520);
+  border: 1px solid #FFD700;
+  border-radius: 20% 80% 20% 80%;
+  animation: componentPulse 2s ease-in-out infinite;
+}
+
+@keyframes componentPulse {
+  0%, 100% { opacity: 0.6; transform: rotate(0deg); }
+  50% { opacity: 1; transform: rotate(90deg); }
+}
+
+/* Node activation effect */
+.circuit-node.node-active {
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  box-shadow: 
+    0 0 20px #FFFFFF,
+    0 0 40px rgba(255, 215, 0, 0.8) !important;
+  transform: scale(1.5);
+  animation: none;
+}
+
+/* Circuit traces */
+.circuit-trace {
+  stroke: rgba(212, 175, 55, 0.25);
+  stroke-width: 1.5;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.2));
+}
+
+.circuit-trace.power-line {
+  stroke: rgba(255, 215, 0, 0.4);
+  stroke-width: 2.5;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.3));
+}
+
+.circuit-trace.main-power {
+  stroke: rgba(255, 165, 0, 0.5);
+  stroke-width: 3;
+  stroke-dasharray: 8 4;
+  animation: powerFlow 2s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 165, 0, 0.4));
+}
+
+@keyframes powerFlow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -12; }
+}
+
+.circuit-trace.diagonal {
+  stroke: rgba(184, 134, 11, 0.3);
+  stroke-width: 1;
   opacity: 0.5;
 }
 
-/* Animated traces */
-.animated-trace {
-  position: absolute;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(139, 105, 71, 0.3) 10%,
-    rgba(212, 175, 55, 0.2) 50%,
-    rgba(139, 105, 71, 0.3) 90%,
-    transparent 100%
-  );
-  transform-origin: left center;
-  animation: traceFlow 5s ease-out forwards;
-  pointer-events: none;
+/* Energized trace effect */
+.circuit-trace.trace-energized {
+  stroke: #FFFFFF !important;
+  stroke-width: 4 !important;
+  opacity: 1 !important;
+  filter: 
+    drop-shadow(0 0 8px #FFFFFF) 
+    drop-shadow(0 0 16px rgba(255, 215, 0, 0.8));
 }
 
-@keyframes traceFlow {
-  0% {
-    opacity: 0;
-    filter: brightness(1);
-  }
-  20% {
-    opacity: 0.6;
-    filter: brightness(1.5);
-  }
-  80% {
-    opacity: 0.3;
-    filter: brightness(1);
-  }
-  100% {
-    opacity: 0;
-    filter: brightness(0.5);
-  }
+/* Power surge effect */
+.circuit-trace.power-surge {
+  stroke: #FFD700 !important;
+  stroke-width: 5 !important;
+  opacity: 1 !important;
+  filter: 
+    drop-shadow(0 0 12px #FFD700) 
+    drop-shadow(0 0 24px rgba(255, 255, 255, 0.8));
+  animation: surgeFlicker 0.5s ease-out;
 }
 
-/* Gold pulse points */
-.gold-pulse {
+@keyframes surgeFlicker {
+  0%, 100% { stroke-width: 5; }
+  50% { stroke-width: 8; }
+}
+
+/* Data pulses */
+.data-pulse {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #d4af37;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, 
+    #FFFFFF 0%, 
+    #FFD700 50%, 
+    transparent 100%);
   border-radius: 50%;
   box-shadow: 
-    0 0 10px rgba(212, 175, 55, 0.6),
-    0 0 20px rgba(212, 175, 55, 0.3);
-  animation: goldPulse 2s ease-out forwards;
-  pointer-events: none;
+    0 0 10px #FFFFFF,
+    0 0 20px #FFD700,
+    0 0 30px rgba(255, 215, 0, 0.5);
+  z-index: 5;
+  mix-blend-mode: screen;
 }
 
-@keyframes goldPulse {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-/* Data flow lines */
-.data-flow {
+/* Power surge pulses */
+.power-surge-pulse {
   position: absolute;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(212, 175, 55, 0.1) 45%,
-    rgba(212, 175, 55, 0.3) 50%,
-    rgba(212, 175, 55, 0.1) 55%,
-    transparent 100%
-  );
-  pointer-events: none;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, 
+    #FFFFFF 0%, 
+    #FFD700 30%, 
+    #FFA500 60%, 
+    transparent 100%);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 20px #FFFFFF,
+    0 0 40px #FFD700,
+    0 0 60px rgba(255, 165, 0, 0.6);
+  z-index: 10;
+  mix-blend-mode: screen;
 }
 
-.data-flow.horizontal {
-  animation: flowHorizontal 3s ease-out forwards;
+/* Golden screen glow effect */
+.golden-screen-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 215, 0, 0.1) 0%, 
+    transparent 60%);
+  z-index: 15;
+  animation: goldenGlow 2s ease-out forwards;
+  mix-blend-mode: screen;
 }
 
-.data-flow.vertical {
-  background: linear-gradient(0deg,
-    transparent 0%,
-    rgba(212, 175, 55, 0.1) 45%,
-    rgba(212, 175, 55, 0.3) 50%,
-    rgba(212, 175, 55, 0.1) 55%,
-    transparent 100%
-  );
-  animation: flowVertical 3s ease-out forwards;
+@keyframes goldenGlow {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1); }
 }
 
-@keyframes flowHorizontal {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes flowVertical {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
-/* Button styling */
+/* Enhanced button styling */
 .glass-panel .btn-gold {
   background: linear-gradient(135deg, 
-    rgba(212, 175, 55, 0.9), 
-    rgba(139, 105, 71, 0.8));
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #fff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    #FFD700 0%, 
+    #FFA500 25%, 
+    #FFD700 50%, 
+    #DAA520 75%, 
+    #B8860B 100%);
+  border: 2px solid #FFD700;
+  color: #000000 !important;
+  font-weight: 700;
+  text-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.5),
+    0 -1px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.4),
     0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
 
 .glass-panel .btn-gold:hover {
   background: linear-gradient(135deg, 
-    rgba(212, 175, 55, 1), 
-    rgba(161, 122, 82, 0.9));
+    #FFFFFF 0%, 
+    #FFD700 25%, 
+    #FFA500 50%, 
+    #FFD700 75%, 
+    #DAA520 100%);
   box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.6),
     0 6px 20px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(212, 175, 55, 0.2);
-  transform: translateY(-1px);
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
 }
 
-.glass-panel .btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(139, 105, 71, 0.3);
-  color: rgba(212, 175, 55, 0.9) !important;
-}
-
-.glass-panel .btn-ghost:hover {
-  background: rgba(139, 105, 71, 0.1);
-  border-color: rgba(212, 175, 55, 0.5);
-}
-
-/* Body and layering */
+/* Body styling */
 body {
   position: relative;
-  background: #0a0604;
+  background: #2D1810; /* Dark golden brown fallback */
 }
 
 .section, .container {
@@ -264,16 +401,6 @@ body {
 .nav {
   position: relative;
   z-index: 10;
-  background: rgba(10, 6, 4, 0.8);
+  background: rgba(45, 24, 16, 0.9);
   backdrop-filter: blur(10px);
-}
-
-/* Price cards transparency */
-.price-card.glass-panel {
-  background: rgba(255, 255, 255, 0.02) !important;
-}
-
-.price-card.featured.glass-panel {
-  background: rgba(212, 175, 55, 0.03) !important;
-  border-color: rgba(212, 175, 55, 0.3);
 }
