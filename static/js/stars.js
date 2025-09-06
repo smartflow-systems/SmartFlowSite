@@ -1,93 +1,177 @@
-// Enhanced Stars.js - Highly visible animated starfield for SmartFlow
+// Digital Circuit Flow - Animated circuit patterns for SmartFlow
 document.addEventListener('DOMContentLoaded', function() {
-  // Create starfield container
-  const starfield = document.createElement('div');
-  starfield.id = 'starfield';
-  document.body.appendChild(starfield);
+  // Create circuit container
+  const circuitField = document.createElement('div');
+  circuitField.id = 'starfield';
+  circuitField.className = 'circuit-field';
+  document.body.appendChild(circuitField);
   
-  // Generate random stars with better visibility
-  function createStar(isBright = false) {
-    const star = document.createElement('div');
-    star.className = isBright ? 'star bright' : 'star';
+  // Circuit path patterns
+  const circuitPatterns = [
+    'M0,0 L20,0 L20,20 L40,20',
+    'M0,0 L30,0 L30,30 L60,30 L60,60',
+    'M0,0 L10,0 L10,10 L20,10 L20,20 L30,20',
+    'M0,0 L40,0 L40,40 L80,40',
+    'M0,0 L15,0 L15,15 L30,15 L30,30 L45,30'
+  ];
+  
+  // Create flowing circuit line
+  function createCircuitLine() {
+    const circuit = document.createElement('div');
+    circuit.className = 'circuit-line';
     
-    // Random position
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
+    // Random starting position
+    const startSide = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
     
-    // Bigger sizes for better visibility (2-8px for normal, 4-12px for bright)
-    const size = isBright ? 
-      Math.random() * 8 + 4 : 
-      Math.random() * 6 + 2;
-    star.style.width = size + 'px';
-    star.style.height = size + 'px';
+    switch(startSide) {
+      case 0: // from top
+        circuit.style.left = Math.random() * 100 + '%';
+        circuit.style.top = '-100px';
+        circuit.dataset.direction = 'down';
+        break;
+      case 1: // from right
+        circuit.style.right = '-100px';
+        circuit.style.top = Math.random() * 100 + '%';
+        circuit.dataset.direction = 'left';
+        break;
+      case 2: // from bottom
+        circuit.style.left = Math.random() * 100 + '%';
+        circuit.style.bottom = '-100px';
+        circuit.dataset.direction = 'up';
+        break;
+      case 3: // from left
+        circuit.style.left = '-100px';
+        circuit.style.top = Math.random() * 100 + '%';
+        circuit.dataset.direction = 'right';
+        break;
+    }
     
-    // Random animation duration for natural effect
-    star.style.animationDuration = (Math.random() * 4 + 2) + 's';
-    star.style.animationDelay = Math.random() * 3 + 's';
+    // Create circuit path SVG
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '100');
+    svg.setAttribute('height', '100');
+    svg.style.position = 'absolute';
     
-    return star;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', circuitPatterns[Math.floor(Math.random() * circuitPatterns.length)]);
+    path.setAttribute('stroke', '#d4af37');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('fill', 'none');
+    path.className = 'circuit-path';
+    
+    svg.appendChild(path);
+    circuit.appendChild(svg);
+    
+    // Add circuit nodes (dots)
+    const numNodes = 3 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < numNodes; i++) {
+      const node = document.createElement('div');
+      node.className = 'circuit-node';
+      node.style.left = Math.random() * 80 + 10 + 'px';
+      node.style.top = Math.random() * 80 + 10 + 'px';
+      circuit.appendChild(node);
+    }
+    
+    // Add data packet (flowing spark)
+    const dataPacket = document.createElement('div');
+    dataPacket.className = 'data-packet';
+    circuit.appendChild(dataPacket);
+    
+    return circuit;
   }
   
-  // Add 100 stars total for dense starfield
-  // 80 regular stars
-  for (let i = 0; i < 80; i++) {
-    starfield.appendChild(createStar(false));
+  // Create binary rain effect
+  function createBinaryRain() {
+    const binary = document.createElement('div');
+    binary.className = 'binary-rain';
+    binary.textContent = Math.random() > 0.5 ? '1' : '0';
+    binary.style.left = Math.random() * 100 + '%';
+    binary.style.animationDuration = (5 + Math.random() * 5) + 's';
+    binary.style.animationDelay = Math.random() * 2 + 's';
+    return binary;
   }
   
-  // 20 bright golden stars
-  for (let i = 0; i < 20; i++) {
-    starfield.appendChild(createStar(true));
-  }
-  
-  // Add floating particles effect
-  function createFloatingParticle() {
-    const particle = document.createElement('div');
-    particle.style.position = 'absolute';
-    particle.style.width = '2px';
-    particle.style.height = '2px';
-    particle.style.background = '#d4af37';
-    particle.style.borderRadius = '50%';
-    particle.style.opacity = '0.6';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.bottom = '-10px';
-    particle.style.pointerEvents = 'none';
+  // Create sparkling effect
+  function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'digital-sparkle';
+    sparkle.style.left = Math.random() * 100 + '%';
+    sparkle.style.top = Math.random() * 100 + '%';
     
-    // Animate upward
-    particle.style.animation = `floatUp ${10 + Math.random() * 10}s linear infinite`;
+    // Random sparkle pattern
+    const size = Math.random() * 4 + 2;
+    sparkle.style.width = size + 'px';
+    sparkle.style.height = size + 'px';
     
-    starfield.appendChild(particle);
+    circuitField.appendChild(sparkle);
     
     // Remove after animation
-    setTimeout(() => particle.remove(), 20000);
+    setTimeout(() => sparkle.remove(), 2000);
   }
   
-  // Create floating particles periodically
-  setInterval(createFloatingParticle, 2000);
-  
-  // Add CSS for floating animation if not exists
-  if (!document.querySelector('#star-animations')) {
-    const style = document.createElement('style');
-    style.id = 'star-animations';
-    style.textContent = `
-      @keyframes floatUp {
-        0% {
-          transform: translateY(0) translateX(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.6;
-        }
-        90% {
-          opacity: 0.6;
-        }
-        100% {
-          transform: translateY(-100vh) translateX(${Math.random() * 200 - 100}px);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
+  // Create hexagon grid pattern
+  function createHexGrid() {
+    const hex = document.createElement('div');
+    hex.className = 'hex-grid';
+    
+    // Create hexagon shape
+    const hexSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    hexSvg.setAttribute('width', '60');
+    hexSvg.setAttribute('height', '60');
+    
+    const hexPath = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    hexPath.setAttribute('points', '30,5 50,15 50,35 30,45 10,35 10,15');
+    hexPath.setAttribute('stroke', '#d4af37');
+    hexPath.setAttribute('stroke-width', '1');
+    hexPath.setAttribute('fill', 'none');
+    hexPath.style.opacity = '0.3';
+    
+    hexSvg.appendChild(hexPath);
+    hex.appendChild(hexSvg);
+    
+    hex.style.left = Math.random() * 100 + '%';
+    hex.style.top = Math.random() * 100 + '%';
+    
+    return hex;
   }
   
-  console.log('✨ Enhanced starfield initialized with 100 twinkling stars and floating particles');
+  // Initial creation
+  // Add flowing circuit lines
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => {
+      circuitField.appendChild(createCircuitLine());
+    }, i * 500);
+  }
+  
+  // Add binary rain
+  for (let i = 0; i < 30; i++) {
+    circuitField.appendChild(createBinaryRain());
+  }
+  
+  // Add hex grid
+  for (let i = 0; i < 15; i++) {
+    circuitField.appendChild(createHexGrid());
+  }
+  
+  // Continuously create new elements
+  setInterval(() => {
+    // Add new circuit line
+    const circuit = createCircuitLine();
+    circuitField.appendChild(circuit);
+    
+    // Remove old circuit after animation
+    setTimeout(() => circuit.remove(), 15000);
+  }, 2000);
+  
+  // Create sparkles periodically
+  setInterval(createSparkle, 300);
+  
+  // Add new binary rain periodically
+  setInterval(() => {
+    const binary = createBinaryRain();
+    circuitField.appendChild(binary);
+    setTimeout(() => binary.remove(), 10000);
+  }, 1000);
+  
+  console.log('⚡ Digital circuit flow initialized with flowing patterns and sparkles');
 });
