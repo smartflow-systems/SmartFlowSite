@@ -84,26 +84,76 @@ async function loadPricingCards() {
     const data = await res.json();
     const plans = data.plans || [];
 
-    target.innerHTML = plans.map(plan => `
-      <article class="pricing-card ${plan.popular ? 'popular' : ''}">
-        ${plan.popular ? '<div class="badge">Most Popular</div>' : ''}
-        <header class="plan-header">
-          <h3>${t(plan.name)}</h3>
-          <p class="subtitle">${t(plan.subtitle)}</p>
-          <div class="price">${t(plan.price)}<span class="period">/${t(plan.period)}</span></div>
-        </header>
-        <ul class="features">
-          ${(plan.features || []).map(f => `<li>${t(f)}</li>`).join('')}
-        </ul>
-        <footer class="plan-footer">
-          <a href="book.html?plan=${plan.id}" class="btn ${plan.popular ? 'btn-gold' : 'btn-ghost'} btn-full">
-            Choose ${t(plan.name)}
-          </a>
-        </footer>
-      </article>
-    `).join('');
+    // Clear existing content safely
+    target.textContent = '';
+    
+    // Create elements safely using DOM methods
+    plans.forEach(plan => {
+      const article = document.createElement('article');
+      article.className = `pricing-card ${plan.popular ? 'popular' : ''}`;
+      
+      // Add badge if popular
+      if (plan.popular) {
+        const badge = document.createElement('div');
+        badge.className = 'badge';
+        badge.textContent = 'Most Popular';
+        article.appendChild(badge);
+      }
+      
+      // Create header
+      const header = document.createElement('header');
+      header.className = 'plan-header';
+      
+      const h3 = document.createElement('h3');
+      h3.textContent = t(plan.name);
+      header.appendChild(h3);
+      
+      const subtitle = document.createElement('p');
+      subtitle.className = 'subtitle';
+      subtitle.textContent = t(plan.subtitle);
+      header.appendChild(subtitle);
+      
+      const priceDiv = document.createElement('div');
+      priceDiv.className = 'price';
+      priceDiv.textContent = t(plan.price);
+      
+      const periodSpan = document.createElement('span');
+      periodSpan.className = 'period';
+      periodSpan.textContent = `/${t(plan.period)}`;
+      priceDiv.appendChild(periodSpan);
+      header.appendChild(priceDiv);
+      
+      article.appendChild(header);
+      
+      // Create features list
+      const featuresList = document.createElement('ul');
+      featuresList.className = 'features';
+      (plan.features || []).forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = t(feature);
+        featuresList.appendChild(li);
+      });
+      article.appendChild(featuresList);
+      
+      // Create footer with safe link
+      const footer = document.createElement('footer');
+      footer.className = 'plan-footer';
+      
+      const link = document.createElement('a');
+      link.href = `book.html?plan=${encodeURIComponent(t(plan.id))}`;
+      link.className = `btn ${plan.popular ? 'btn-gold' : 'btn-ghost'} btn-full`;
+      link.textContent = `Choose ${t(plan.name)}`;
+      
+      footer.appendChild(link);
+      article.appendChild(footer);
+      target.appendChild(article);
+    });
   } catch (e) {
-    target.innerHTML = '<p class="muted">Pricing data unavailable.</p>';
+    target.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'muted';
+    p.textContent = 'Pricing data unavailable.';
+    target.appendChild(p);
     console.error('Pricing load error', e);
   }
 }
@@ -182,13 +232,31 @@ async function setupLeadForm() {
       });
 
       if (res.ok) {
-        form.innerHTML = `
-          <div class="success">
-            <h3>Thanks ${t(payload.name)}!</h3>
-            <p>We'll review your brief and reply within 1 business day.</p>
-            ${cfg.leadMagnetUrl ? `<p><a href="${cfg.leadMagnetUrl}" class="btn btn-ghost">Download our free pack</a></p>` : ''}
-          </div>
-        `;
+        // Clear form and create success message safely
+        form.textContent = '';
+        
+        const successDiv = document.createElement('div');
+        successDiv.className = 'success';
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = `Thanks ${t(payload.name)}!`;
+        successDiv.appendChild(h3);
+        
+        const p1 = document.createElement('p');
+        p1.textContent = 'We\'ll review your brief and reply within 1 business day.';
+        successDiv.appendChild(p1);
+        
+        if (cfg.leadMagnetUrl) {
+          const p2 = document.createElement('p');
+          const link = document.createElement('a');
+          link.href = cfg.leadMagnetUrl;
+          link.className = 'btn btn-ghost';
+          link.textContent = 'Download our free pack';
+          p2.appendChild(link);
+          successDiv.appendChild(p2);
+        }
+        
+        form.appendChild(successDiv);
       } else {
         throw new Error('Submission failed');
       }
