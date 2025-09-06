@@ -240,3 +240,43 @@ body {
 .smartpart-title{ margin:6px 0 6px; }
 .smartpart-sub{ color:var(--muted); margin:0 0 10px; }
 .smartpart-list{ margin:6px 0 14px 18px; }
+
+/* Pricing cards - glassmorphism */
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+  margin-top:32px;
+}
+.price-card {
+  background:rgba(20,17,15,.7);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(212,175,55,.25);
+  border-top:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 12px 48px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.06);
+  transition:all 0.3s ease;
+  text-align:center;
+}
+.price-card:hover{
+  background:rgba(20,17,15,.85);
+  border-color:rgba(212,175,55,.4);
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.08);
+}
+.price-card.featured{
+  border-color:rgba(212,175,55,.5);
+  background:rgba(212,175,55,.08);
+  transform:scale(1.05);
+}
+.price-card.featured:hover{
+  transform:scale(1.05) translateY(-4px);
+  border-color:rgba(212,175,55,.7);
+}
+.price{
+  font-size:2.5rem;
+  color:var(--gold);
+  font-weight:700;
+  margin:12px 0;
+}
