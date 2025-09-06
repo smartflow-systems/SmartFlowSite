@@ -1,57 +1,53 @@
-/* Glassy Panels + Digital Circuit Flow for SmartFlow */
+/* PIMPED OUT CIRCUIT BOARD - Full Coverage Electric Grid */
 
-/* Glass panel with tech theme */
+/* Glass panels remain but with enhanced tech theme */
 .glass-panel {
   backdrop-filter: blur(25px) saturate(200%);
   -webkit-backdrop-filter: blur(25px) saturate(200%);
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
   background-image: linear-gradient(
     135deg, 
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.1) 100%
+    rgba(212, 175, 55, 0.05) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(212, 175, 55, 0.02) 100%
   ) !important;
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  border-radius: 16px;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 0; /* Circuit board aesthetic */
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3),
-    0 0 120px rgba(212, 175, 55, 0.2),
-    inset 0 0 40px rgba(212, 175, 55, 0.05);
+    0 0 50px rgba(212, 175, 55, 0.3),
+    inset 0 0 30px rgba(212, 175, 55, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.7);
   position: relative;
   overflow: hidden;
   transform: translateZ(0);
   transition: all 0.3s ease;
+  clip-path: polygon(
+    0 10px, 10px 0,
+    calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 0 calc(100% - 10px)
+  );
 }
 
 .glass-panel:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(212, 175, 55, 0.6);
-  transform: translateY(-2px);
+  border-color: #fff;
   box-shadow: 
-    0 25px 70px rgba(0, 0, 0, 0.7),
-    inset 0 2px 4px rgba(255, 255, 255, 0.4),
-    0 0 150px rgba(212, 175, 55, 0.3);
+    0 0 100px rgba(212, 175, 55, 0.5),
+    inset 0 0 50px rgba(212, 175, 55, 0.2),
+    0 20px 80px rgba(0, 0, 0, 0.8);
 }
 
 .glass-panel > * {
   position: relative;
   z-index: 2;
-  color: var(--sf-gold, #d4af37) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  color: #d4af37 !important;
+  text-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.8),
+    0 0 20px rgba(212, 175, 55, 0.4);
 }
 
-.glass-panel h3 {
-  color: var(--sf-gold, #d4af37) !important;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-}
-
-.glass-panel p, .glass-panel li {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-/* DIGITAL CIRCUIT FLOW BACKGROUND */
-#starfield.circuit-field {
+/* MASSIVE CIRCUIT BOARD BACKGROUND */
+#starfield.circuit-board {
   position: fixed;
   top: 0;
   left: 0;
@@ -59,268 +55,321 @@
   height: 100%;
   pointer-events: none;
   z-index: 1;
-  overflow: hidden;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+  background: 
+    linear-gradient(90deg, rgba(212, 175, 55, 0.01) 1px, transparent 1px),
+    linear-gradient(rgba(212, 175, 55, 0.01) 1px, transparent 1px),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%);
+  background-size: 50px 50px, 50px 50px, cover;
 }
 
-/* Flowing circuit lines */
-.circuit-line {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  opacity: 0.6;
-  filter: drop-shadow(0 0 10px #d4af37);
-  animation: flowAcross 15s linear infinite;
-}
-
-.circuit-line[data-direction="right"] {
-  animation: flowRight 15s linear infinite;
-}
-
-.circuit-line[data-direction="left"] {
-  animation: flowLeft 15s linear infinite;
-}
-
-.circuit-line[data-direction="down"] {
-  animation: flowDown 15s linear infinite;
-}
-
-.circuit-line[data-direction="up"] {
-  animation: flowUp 15s linear infinite;
-}
-
-@keyframes flowRight {
-  0% { transform: translateX(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateX(calc(100vw + 200px)); opacity: 0; }
-}
-
-@keyframes flowLeft {
-  0% { transform: translateX(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateX(calc(-100vw - 200px)); opacity: 0; }
-}
-
-@keyframes flowDown {
-  0% { transform: translateY(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(calc(100vh + 200px)); opacity: 0; }
-}
-
-@keyframes flowUp {
-  0% { transform: translateY(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(calc(-100vh - 200px)); opacity: 0; }
-}
-
-/* Circuit path styling */
-.circuit-path {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: drawCircuit 3s linear infinite;
-}
-
-@keyframes drawCircuit {
-  0% { stroke-dashoffset: 100; }
-  100% { stroke-dashoffset: 0; }
-}
-
-/* Circuit nodes (connection points) */
-.circuit-node {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #d4af37;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 10px #d4af37,
-    0 0 20px #fff,
-    inset 0 0 3px #fff;
-  animation: nodePulse 2s ease-in-out infinite;
-}
-
-@keyframes nodePulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.5); opacity: 1; }
-}
-
-/* Data packets flowing through circuits */
-.data-packet {
+/* Circuit board grid nodes */
+.circuit-node-grid {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: #fff;
+  background: #1a1a1a;
+  border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 50%;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+/* Major junction nodes - bigger and brighter */
+.circuit-node-grid.major-node {
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #d4af37 0%, #8b6914 100%);
+  border: 2px solid #d4af37;
   box-shadow: 
-    0 0 10px #d4af37,
-    0 0 20px #fff,
-    0 0 30px #d4af37;
-  animation: dataFlow 3s linear infinite;
+    0 0 20px #d4af37,
+    inset 0 0 10px #fff;
+  animation: majorNodePulse 2s ease-in-out infinite;
 }
 
-@keyframes dataFlow {
-  0% {
-    left: 0;
-    top: 0;
-    opacity: 0;
+@keyframes majorNodePulse {
+  0%, 100% { 
+    transform: scale(1); 
+    box-shadow: 0 0 20px #d4af37, inset 0 0 10px #fff;
   }
-  10% {
-    opacity: 1;
-  }
-  50% {
-    left: 50px;
-    top: 50px;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    left: 100px;
-    top: 100px;
-    opacity: 0;
+  50% { 
+    transform: scale(1.3); 
+    box-shadow: 0 0 40px #d4af37, inset 0 0 20px #fff;
   }
 }
 
-/* Binary rain effect */
-.binary-rain {
-  position: absolute;
-  color: #d4af37;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  text-shadow: 0 0 5px #d4af37;
-  opacity: 0;
-  animation: binaryFall 10s linear infinite;
-  pointer-events: none;
+/* Active component nodes */
+.circuit-node-grid.active-node {
+  width: 6px;
+  height: 6px;
+  background: #d4af37;
+  border: 1px solid #fff;
+  animation: activeNodeBlink 1s ease-in-out infinite;
 }
 
-@keyframes binaryFall {
-  0% {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.3;
-  }
-  90% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-}
-
-/* Digital sparkles */
-.digital-sparkle {
-  position: absolute;
-  background: #fff;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: sparkleFlash 2s ease-out forwards;
-}
-
-@keyframes sparkleFlash {
-  0% {
-    transform: scale(0) rotate(0deg);
-    opacity: 1;
-    box-shadow: 
-      0 0 10px #d4af37,
-      0 0 20px #fff,
-      0 0 30px #d4af37,
-      0 0 40px #fff;
-  }
-  50% {
-    transform: scale(1.5) rotate(180deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(0) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* Hexagonal grid pattern */
-.hex-grid {
-  position: absolute;
-  opacity: 0.2;
-  animation: hexFloat 20s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes hexFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.1;
-  }
-  50% {
-    transform: translateY(-20px) rotate(60deg);
-    opacity: 0.3;
-  }
-}
-
-/* Glowing effect for circuit elements */
-.circuit-line::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.3), transparent);
-  filter: blur(10px);
-  animation: glow 2s ease-in-out infinite;
-}
-
-@keyframes glow {
-  0%, 100% { opacity: 0.5; }
+@keyframes activeNodeBlink {
+  0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
 }
 
-/* Enhanced button effects */
+/* Node flash when pulse arrives */
+.circuit-node-grid.node-flash {
+  background: #fff !important;
+  box-shadow: 
+    0 0 30px #fff,
+    0 0 60px #d4af37,
+    0 0 90px #fff !important;
+  transform: scale(2);
+}
+
+/* Node scanned effect */
+.circuit-node-grid.node-scanned {
+  background: #00ff00 !important;
+  box-shadow: 0 0 20px #00ff00 !important;
+  animation: scanPulse 1s ease-out;
+}
+
+@keyframes scanPulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Circuit traces (wires) */
+.circuit-trace {
+  stroke: rgba(212, 175, 55, 0.2);
+  stroke-width: 1;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.3));
+}
+
+/* Power traces - main lines */
+.circuit-trace.power-trace {
+  stroke: rgba(212, 175, 55, 0.4);
+  stroke-width: 2;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 5px #d4af37);
+}
+
+/* Major pathways - long connections */
+.circuit-trace.major-pathway {
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 3;
+  stroke-dasharray: 10 5;
+  animation: pathwayFlow 2s linear infinite;
+}
+
+@keyframes pathwayFlow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -15; }
+}
+
+/* Active trace when pulse travels */
+.circuit-trace.trace-active {
+  stroke: #fff !important;
+  stroke-width: 3 !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #d4af37);
+  animation: traceGlow 0.5s ease-out;
+}
+
+@keyframes traceGlow {
+  0% { stroke-width: 3; }
+  50% { stroke-width: 5; }
+  100% { stroke-width: 3; }
+}
+
+/* Power surge on traces */
+.circuit-trace.power-surge {
+  stroke: #ff0 !important;
+  stroke-width: 4 !important;
+  opacity: 1 !important;
+  filter: 
+    drop-shadow(0 0 20px #ff0) 
+    drop-shadow(0 0 40px #fff);
+  animation: surgePulse 0.5s ease-out;
+}
+
+@keyframes surgePulse {
+  0%, 100% { stroke-width: 4; }
+  50% { stroke-width: 8; }
+}
+
+/* Electric pulses traveling through network */
+.electric-pulse {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px #fff,
+    0 0 20px #d4af37,
+    0 0 30px #fff,
+    0 0 40px #d4af37;
+  z-index: 10;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Surge pulses - more intense */
+.surge-pulse {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #fff 0%, #ff0 50%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 30px #ff0,
+    0 0 60px #fff,
+    0 0 90px #ff0;
+  z-index: 15;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Screen flash effect during power surge */
+.screen-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 0, 0.3), transparent);
+  z-index: 20;
+  pointer-events: none;
+  animation: flashBurst 0.5s ease-out;
+}
+
+@keyframes flashBurst {
+  0% { 
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Scanning line effect */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    #00ff00 20%, 
+    #fff 50%, 
+    #00ff00 80%, 
+    transparent 100%);
+  box-shadow: 
+    0 0 20px #00ff00,
+    0 0 40px #fff;
+  z-index: 25;
+  animation: scanDown 4s linear;
+  pointer-events: none;
+}
+
+@keyframes scanDown {
+  0% { 
+    top: -10px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Enhanced button effects for circuit theme */
 .glass-panel .btn-gold {
-  background: linear-gradient(135deg, #d4af37, #f4e4b1);
+  background: linear-gradient(135deg, #d4af37, #8b6914);
+  border: 2px solid #d4af37;
   box-shadow: 
     0 0 30px rgba(212, 175, 55, 0.5),
-    0 4px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  clip-path: polygon(
+    10px 0, 100% 0,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    0 100%, 0 10px
+  );
 }
 
 .glass-panel .btn-gold::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #d4af37, #fff, #d4af37);
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.3s;
-  animation: circuitPulse 3s linear infinite;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 70%);
+  animation: btnScan 3s linear infinite;
 }
 
-@keyframes circuitPulse {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+@keyframes btnScan {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 
-.glass-panel .btn-gold:hover::before {
-  opacity: 0.5;
+.glass-panel .btn-gold:hover {
+  background: linear-gradient(135deg, #fff, #d4af37);
+  color: #000 !important;
+  box-shadow: 
+    0 0 50px #d4af37,
+    0 0 100px #fff,
+    inset 0 0 30px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  border-color: #fff;
+}
+
+/* Circuit diagnostic text effect */
+@keyframes dataStream {
+  0% { opacity: 0; transform: translateY(-10px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
 }
 
 /* Ensure proper layering */
 body {
   position: relative;
+  background: #000;
 }
 
 .section, .container {
   position: relative;
   z-index: 2;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .circuit-node-grid { 
+    width: 3px; 
+    height: 3px; 
+  }
+  .circuit-node-grid.major-node { 
+    width: 6px; 
+    height: 6px; 
+  }
+  .circuit-trace { 
+    stroke-width: 0.5; 
+  }
 }
