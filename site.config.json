@@ -1,8 +1,42 @@
 {
-  "siteUrl": "https://your-domain.com",
   "siteName": "SmartFlow Systems",
-  "calendlyUrl": "https://calendly.com/your-handle/30min",
-  "leadWebhook": "",
-  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf",
-  "smartPartUrl": "https://your-smartpart.replit.app"
+  "projects": [
+    {
+      "slug": "ai-social-bot",
+      "name": "AI Social Bot",
+      "tagline": "Auto-engage & publish",
+      "repo": "boweazy/SFS-AIbofs-social-media",
+      "demo": "https://your-demo.ai-bot",
+      "cta": "Buy",
+      "ctaUrl": "#"
+    },
+    {
+      "slug": "smartflow-booking",
+      "name": "Booking System",
+      "tagline": "Stripe + Google Calendar",
+      "repo": "boweazy/SmartFlowBooking",
+      "demo": "https://your-demo.booking",
+      "cta": "Book Demo",
+      "ctaUrl": "#"
+    },
+    {
+      "slug": "smartflow-ecom",
+      "name": "E-com Shops",
+      "tagline": "Pay, ship, grow",
+      "repo": "boweazy/SmartFlowEcom",
+      "demo": "https://your-demo.ecom",
+      "cta": "Buy",
+      "ctaUrl": "#"
+    },
+    {
+      "slug": "smartflow-sites",
+      "name": "Websites",
+      "tagline": "Fast, premium pages",
+      "repo": "boweazy/SmartFlowSite-Templates",
+      "demo": "https://your-demo.sites",
+      "cta": "Book",
+      "ctaUrl": "#"
+    }
+  ]
 }
+index.html

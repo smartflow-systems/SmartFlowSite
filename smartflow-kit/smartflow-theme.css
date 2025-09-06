@@ -1,0 +1,6 @@
+:root{--sf-black:#0D0D0D;--sf-brown:#3B2F2F;--sf-gold:#FFD700;--sf-gold-2:#E6C200;--sf-beige:#F5F5DC;--sf-white:#FFFFFF;--sf-gold-grad:linear-gradient(90deg,#FFD700 0%,#E6C200 100%)}
+.sf-bg{background:var(--sf-black);color:var(--sf-white)}
+.sf-btn{background:var(--sf-gold);color:var(--sf-black);border-radius:12px;padding:.7rem 1rem;font-weight:700}
+.sf-btn:hover{background:var(--sf-gold-2)}
+.sf-card{background:color-mix(in oklab,var(--sf-brown) 75%,transparent);border:1px solid #ffffff22;border-radius:16px;backdrop-filter:blur(8px);padding:1rem}
+.sf-gold-text{background:var(--sf-gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
