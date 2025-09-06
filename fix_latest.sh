@@ -1,22 +1,22 @@
 set -euo pipefail
 
-# 0) Undo accidental commit text in styles.css (restore from newest backup if found)
+# Restore styles.css if a commit message leaked into it
 if grep -q "feat: Latest from GitHub" styles.css 2>/dev/null; then
   latest=$(ls -t styles.css.bak.* 2>/dev/null | head -n1 || true)
   [ -n "${latest:-}" ] && cp "$latest" styles.css && echo "🔁 Restored styles.css from $latest"
 fi
 
-# 1) Backups
+# Backups
 for f in index.html styles.css app.js site.config.json; do
   [ -f "$f" ] && cp "$f" "$f.bak.$(date +%s)" || true
 done
 
-# 2) HTML inject (once)
+# HTML inject (once)
 if ! grep -q 'id="latest"' index.html 2>/dev/null; then
   awk '1; /<\/body>/{print "  <section id=\"latest\" class=\"wrap\"><h2 class=\"sf-shine\">Latest from GitHub</h2><div id=\"latest-feed\" class=\"latest-grid\" aria-live=\"polite\"><article class=\"latest-item skeleton\"></article><article class=\"latest-item skeleton\"></article><article class=\"latest-item skeleton\"></article></div></section>"}' index.html > index.html.tmp && mv index.html.tmp index.html
 fi
 
-# 3) CSS append (once)
+# CSS append (once)
 if ! grep -q '\.latest-grid' styles.css 2>/dev/null; then
 cat >> styles.css <<'CSS'
 .latest-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
@@ -32,7 +32,7 @@ cat >> styles.css <<'CSS'
 CSS
 fi
 
-# 4) JS append (once)
+# JS append (once)
 if ! grep -q 'renderLatest' app.js 2>/dev/null; then
 cat >> app.js <<'JS'
 async function loadCfg(){return (await fetch("site.config.json")).json()}
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded",()=>{typeof renderProjects==="funct
 JS
 fi
 
-# 5) Config create (if missing)
+# Config create (if missing)
 if [ ! -f site.config.json ]; then
 cat > site.config.json <<'JSON'
 {
@@ -57,5 +57,4 @@ cat > site.config.json <<'JSON'
 JSON
 fi
 
-echo "✅ Done. Next:"
-echo "git add . && git commit -m 'fix: latest-from-github strip (safe reapply)' && git push"
+echo "✅ Fix applied. Now commit & push."
