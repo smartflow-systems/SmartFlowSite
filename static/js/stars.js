@@ -1,255 +1,161 @@
-// Full Coverage Circuit Board Network - Intense pulsing grid for SmartFlow
+// Dark Brown Aesthetic with Subtle Gold Flashes for SmartFlow
 document.addEventListener('DOMContentLoaded', function() {
-  // Create main circuit board container
-  const circuitBoard = document.createElement('div');
-  circuitBoard.id = 'starfield';
-  circuitBoard.className = 'circuit-board';
-  document.body.appendChild(circuitBoard);
+  // Create background container
+  const darkField = document.createElement('div');
+  darkField.id = 'starfield';
+  darkField.className = 'dark-brown-field';
+  document.body.appendChild(darkField);
   
-  // Create full coverage SVG circuit board
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.style.position = 'absolute';
-  svg.style.width = '100%';
-  svg.style.height = '100%';
-  svg.style.top = '0';
-  svg.style.left = '0';
+  // Create gradient mesh background
+  const meshCanvas = document.createElement('canvas');
+  meshCanvas.className = 'gradient-mesh';
+  meshCanvas.width = window.innerWidth;
+  meshCanvas.height = window.innerHeight;
+  darkField.appendChild(meshCanvas);
   
-  // Create grid pattern for circuit board
-  const gridSize = 50; // Size of each grid cell
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-  const cols = Math.ceil(screenWidth / gridSize) + 2;
-  const rows = Math.ceil(screenHeight / gridSize) + 2;
+  const ctx = meshCanvas.getContext('2d');
   
-  // Store all connection points
-  const nodes = [];
-  const connections = [];
-  
-  // Create grid of connection nodes
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const x = col * gridSize;
-      const y = row * gridSize;
+  // Draw dark brown gradient mesh
+  function drawGradientMesh() {
+    const gradient = ctx.createRadialGradient(
+      meshCanvas.width / 2, meshCanvas.height / 2, 0,
+      meshCanvas.width / 2, meshCanvas.height / 2, meshCanvas.width / 2
+    );
+    
+    // Dark brown to black gradient
+    gradient.addColorStop(0, 'rgba(25, 15, 10, 0.95)');  // Very dark brown
+    gradient.addColorStop(0.3, 'rgba(30, 20, 15, 0.9)'); // Dark brown
+    gradient.addColorStop(0.6, 'rgba(20, 12, 8, 0.9)');  // Darker brown
+    gradient.addColorStop(1, 'rgba(5, 3, 2, 0.95)');     // Almost black brown
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, meshCanvas.width, meshCanvas.height);
+    
+    // Add subtle texture
+    for (let i = 0; i < 100; i++) {
+      const x = Math.random() * meshCanvas.width;
+      const y = Math.random() * meshCanvas.height;
+      const radius = Math.random() * 200 + 50;
       
-      // Create node
-      const node = document.createElement('div');
-      node.className = 'circuit-node-grid';
-      node.style.left = x + 'px';
-      node.style.top = y + 'px';
-      node.dataset.row = row;
-      node.dataset.col = col;
+      const spotGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+      spotGradient.addColorStop(0, 'rgba(40, 25, 18, 0.03)');
+      spotGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
       
-      // Random node types for variety
-      const nodeType = Math.random();
-      if (nodeType < 0.1) {
-        node.classList.add('major-node'); // Major junction
-      } else if (nodeType < 0.3) {
-        node.classList.add('active-node'); // Active component
-      }
-      
-      circuitBoard.appendChild(node);
-      nodes.push({element: node, x: x, y: y, row: row, col: col});
+      ctx.fillStyle = spotGradient;
+      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
     }
   }
   
-  // Create circuit traces (wires) connecting nodes
-  function createCircuitTrace(startNode, endNode) {
-    const trace = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    trace.setAttribute('x1', startNode.x);
-    trace.setAttribute('y1', startNode.y);
-    trace.setAttribute('x2', endNode.x);
-    trace.setAttribute('y2', endNode.y);
-    trace.className = 'circuit-trace';
+  drawGradientMesh();
+  
+  // Create subtle floating particles
+  function createFloatingParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'brown-particle';
     
-    // Random trace intensity
-    if (Math.random() < 0.3) {
-      trace.classList.add('power-trace'); // Main power lines
-    }
+    // Position
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
     
-    svg.appendChild(trace);
-    connections.push({trace: trace, start: startNode, end: endNode});
-    return trace;
+    // Size variation
+    const size = Math.random() * 3 + 1;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // Animation duration
+    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    
+    darkField.appendChild(particle);
   }
   
-  // Connect nodes in grid pattern with some randomization
-  nodes.forEach((node, index) => {
-    // Connect to right neighbor
-    if ((index + 1) % cols !== 0 && Math.random() < 0.7) {
-      const rightNode = nodes[index + 1];
-      if (rightNode) createCircuitTrace(node, rightNode);
-    }
-    
-    // Connect to bottom neighbor
-    if (index + cols < nodes.length && Math.random() < 0.7) {
-      const bottomNode = nodes[index + cols];
-      if (bottomNode) createCircuitTrace(node, bottomNode);
-    }
-    
-    // Diagonal connections for complexity
-    if (Math.random() < 0.2 && index + cols + 1 < nodes.length) {
-      const diagNode = nodes[index + cols + 1];
-      if (diagNode) createCircuitTrace(node, diagNode);
-    }
-    
-    // Long-range connections for major pathways
-    if (Math.random() < 0.05) {
-      const farIndex = Math.min(index + cols * 3 + Math.floor(Math.random() * 5), nodes.length - 1);
-      const farNode = nodes[farIndex];
-      if (farNode) {
-        const trace = createCircuitTrace(node, farNode);
-        trace.classList.add('major-pathway');
-      }
-    }
-  });
-  
-  circuitBoard.appendChild(svg);
-  
-  // Create electric pulses that travel through the network
-  function createElectricPulse() {
-    if (connections.length === 0) return;
-    
-    // Pick a random connection
-    const connection = connections[Math.floor(Math.random() * connections.length)];
-    
-    const pulse = document.createElement('div');
-    pulse.className = 'electric-pulse';
-    pulse.style.left = connection.start.x + 'px';
-    pulse.style.top = connection.start.y + 'px';
-    
-    // Calculate angle for pulse direction
-    const dx = connection.end.x - connection.start.x;
-    const dy = connection.end.y - connection.start.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const duration = distance / 200; // Speed of pulse
-    
-    // Animate pulse along the wire
-    pulse.style.transition = `all ${duration}s linear`;
-    circuitBoard.appendChild(pulse);
-    
-    // Start animation
-    setTimeout(() => {
-      pulse.style.left = connection.end.x + 'px';
-      pulse.style.top = connection.end.y + 'px';
-      
-      // Flash the destination node
-      connection.end.element.classList.add('node-flash');
-      setTimeout(() => {
-        connection.end.element.classList.remove('node-flash');
-      }, 300);
-    }, 50);
-    
-    // Remove pulse after animation
-    setTimeout(() => pulse.remove(), duration * 1000 + 100);
-    
-    // Light up the trace
-    connection.trace.classList.add('trace-active');
-    setTimeout(() => {
-      connection.trace.classList.remove('trace-active');
-    }, duration * 1000);
-  }
-  
-  // Create data burst effect (multiple pulses)
-  function createDataBurst() {
-    const burstCount = 5 + Math.floor(Math.random() * 10);
-    for (let i = 0; i < burstCount; i++) {
-      setTimeout(createElectricPulse, i * 100);
-    }
-  }
-  
-  // Create major power surge effect
-  function createPowerSurge() {
-    // Select multiple connected paths
-    const surgeCount = Math.min(20, connections.length);
-    const indices = new Set();
-    
-    while (indices.size < surgeCount) {
-      indices.add(Math.floor(Math.random() * connections.length));
-    }
-    
-    indices.forEach(index => {
-      const connection = connections[index];
-      connection.trace.classList.add('power-surge');
-      
-      // Create intense pulse
-      const surgePulse = document.createElement('div');
-      surgePulse.className = 'surge-pulse';
-      surgePulse.style.left = connection.start.x + 'px';
-      surgePulse.style.top = connection.start.y + 'px';
-      circuitBoard.appendChild(surgePulse);
-      
-      // Animate surge
-      const dx = connection.end.x - connection.start.x;
-      const dy = connection.end.y - connection.start.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const duration = distance / 400; // Faster for surge
-      
-      surgePulse.style.transition = `all ${duration}s ease-out`;
-      setTimeout(() => {
-        surgePulse.style.left = connection.end.x + 'px';
-        surgePulse.style.top = connection.end.y + 'px';
-        surgePulse.style.transform = 'scale(2)';
-        surgePulse.style.opacity = '0';
-      }, 50);
-      
-      // Cleanup
-      setTimeout(() => {
-        connection.trace.classList.remove('power-surge');
-        surgePulse.remove();
-      }, duration * 1000 + 500);
-    });
-    
-    // Screen flash effect
+  // Create subtle gold flashes (rare and elegant)
+  function createGoldFlash() {
     const flash = document.createElement('div');
-    flash.className = 'screen-flash';
-    circuitBoard.appendChild(flash);
-    setTimeout(() => flash.remove(), 500);
+    flash.className = 'gold-flash';
+    
+    // Random position
+    flash.style.left = Math.random() * 100 + '%';
+    flash.style.top = Math.random() * 100 + '%';
+    
+    darkField.appendChild(flash);
+    
+    // Remove after animation
+    setTimeout(() => flash.remove(), 3000);
   }
   
-  // Create scanning line effect
-  function createScanLine() {
-    const scanLine = document.createElement('div');
-    scanLine.className = 'scan-line';
-    circuitBoard.appendChild(scanLine);
+  // Create soft ambient glow spots
+  function createAmbientGlow() {
+    const glow = document.createElement('div');
+    glow.className = 'ambient-glow';
     
-    // Trigger node reactions as scan passes
-    setTimeout(() => {
-      nodes.forEach((node, index) => {
-        setTimeout(() => {
-          node.element.classList.add('node-scanned');
-          setTimeout(() => {
-            node.element.classList.remove('node-scanned');
-          }, 1000);
-        }, index * 2);
-      });
-    }, 100);
+    // Random position with bias towards edges
+    const edge = Math.floor(Math.random() * 4);
+    switch(edge) {
+      case 0: // top
+        glow.style.left = Math.random() * 100 + '%';
+        glow.style.top = '-20%';
+        break;
+      case 1: // right
+        glow.style.right = '-20%';
+        glow.style.top = Math.random() * 100 + '%';
+        break;
+      case 2: // bottom
+        glow.style.left = Math.random() * 100 + '%';
+        glow.style.bottom = '-20%';
+        break;
+      case 3: // left
+        glow.style.left = '-20%';
+        glow.style.top = Math.random() * 100 + '%';
+        break;
+    }
     
-    setTimeout(() => scanLine.remove(), 4000);
+    darkField.appendChild(glow);
+    
+    // Remove after animation
+    setTimeout(() => glow.remove(), 20000);
   }
   
-  // Start continuous animations
-  // Regular pulses
-  setInterval(createElectricPulse, 100);
+  // Create subtle shimmer effect
+  function createShimmer() {
+    const shimmer = document.createElement('div');
+    shimmer.className = 'brown-shimmer';
+    
+    // Create a line of shimmering light
+    shimmer.style.left = Math.random() * 100 + '%';
+    shimmer.style.top = Math.random() * 100 + '%';
+    shimmer.style.transform = `rotate(${Math.random() * 360}deg)`;
+    
+    darkField.appendChild(shimmer);
+    
+    // Remove after animation
+    setTimeout(() => shimmer.remove(), 4000);
+  }
   
-  // Data bursts
-  setInterval(createDataBurst, 3000);
+  // Initial particle creation
+  for (let i = 0; i < 50; i++) {
+    createFloatingParticle();
+  }
   
-  // Power surges
-  setInterval(createPowerSurge, 5000);
+  // Continuous subtle animations
+  // Rare gold flashes (subtle and elegant)
+  setInterval(createGoldFlash, 8000);
   
-  // Scanning effect
-  setInterval(createScanLine, 8000);
+  // Ambient glows
+  setInterval(createAmbientGlow, 5000);
   
-  // Initial burst on load
-  setTimeout(createPowerSurge, 500);
+  // Occasional shimmers
+  setInterval(createShimmer, 6000);
   
-  // Responsive - rebuild on resize
-  let resizeTimeout;
+  // Add new floating particles occasionally
+  setInterval(createFloatingParticle, 3000);
+  
+  // Handle window resize
   window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      location.reload(); // Simple rebuild
-    }, 1000);
+    meshCanvas.width = window.innerWidth;
+    meshCanvas.height = window.innerHeight;
+    drawGradientMesh();
   });
   
-  console.log('⚡ FULL CIRCUIT BOARD ACTIVATED - Intense grid network with ' + connections.length + ' connections');
+  console.log('✨ Dark brown aesthetic with subtle gold accents initialized');
 });

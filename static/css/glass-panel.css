@@ -1,357 +1,236 @@
-/* PIMPED OUT CIRCUIT BOARD - Full Coverage Electric Grid */
+/* Dark Brown Aesthetic with See-Through Glass Panels */
 
-/* Glass panels remain but with enhanced tech theme */
+/* See-through glass panels with visible text */
 .glass-panel {
-  backdrop-filter: blur(25px) saturate(200%);
-  -webkit-backdrop-filter: blur(25px) saturate(200%);
-  background: rgba(0, 0, 0, 0.4) !important;
-  background-image: linear-gradient(
-    135deg, 
-    rgba(212, 175, 55, 0.05) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(212, 175, 55, 0.02) 100%
-  ) !important;
-  border: 2px solid rgba(212, 175, 55, 0.6);
-  border-radius: 0; /* Circuit board aesthetic */
+  /* Strong glass effect for visibility */
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  
+  /* Very transparent for see-through effect */
+  background: rgba(255, 255, 255, 0.03) !important;
+  
+  /* Subtle brown-tinted border */
+  border: 1px solid rgba(139, 105, 71, 0.2);
+  border-radius: 12px;
+  
+  /* Soft shadows */
   box-shadow: 
-    0 0 50px rgba(212, 175, 55, 0.3),
-    inset 0 0 30px rgba(212, 175, 55, 0.1),
-    0 20px 60px rgba(0, 0, 0, 0.7);
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(212, 175, 55, 0.05);
+  
   position: relative;
   overflow: hidden;
-  transform: translateZ(0);
   transition: all 0.3s ease;
-  clip-path: polygon(
-    0 10px, 10px 0,
-    calc(100% - 10px) 0, 100% 10px,
-    100% calc(100% - 10px), calc(100% - 10px) 100%,
-    10px 100%, 0 calc(100% - 10px)
-  );
 }
 
 .glass-panel:hover {
-  border-color: #fff;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(212, 175, 55, 0.3);
   box-shadow: 
-    0 0 100px rgba(212, 175, 55, 0.5),
-    inset 0 0 50px rgba(212, 175, 55, 0.2),
-    0 20px 80px rgba(0, 0, 0, 0.8);
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 20px rgba(212, 175, 55, 0.1);
 }
 
+/* Ensure text is clearly visible */
 .glass-panel > * {
   position: relative;
   z-index: 2;
-  color: #d4af37 !important;
-  text-shadow: 
-    0 0 10px rgba(212, 175, 55, 0.8),
-    0 0 20px rgba(212, 175, 55, 0.4);
 }
 
-/* MASSIVE CIRCUIT BOARD BACKGROUND */
-#starfield.circuit-board {
+.glass-panel h3 {
+  color: var(--sf-gold, #d4af37) !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.glass-panel p, .glass-panel li {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* DARK BROWN BACKGROUND FIELD */
+#starfield.dark-brown-field {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
-  background: 
-    linear-gradient(90deg, rgba(212, 175, 55, 0.01) 1px, transparent 1px),
-    linear-gradient(rgba(212, 175, 55, 0.01) 1px, transparent 1px),
-    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%);
-  background-size: 50px 50px, 50px 50px, cover;
+  z-index: 0;
+  overflow: hidden;
+  background: #0a0604; /* Fallback very dark brown */
 }
 
-/* Circuit board grid nodes */
-.circuit-node-grid {
+/* Gradient mesh canvas */
+.gradient-mesh {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 50%;
-  z-index: 2;
-  transition: all 0.2s ease;
-}
-
-/* Major junction nodes - bigger and brighter */
-.circuit-node-grid.major-node {
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, #d4af37 0%, #8b6914 100%);
-  border: 2px solid #d4af37;
-  box-shadow: 
-    0 0 20px #d4af37,
-    inset 0 0 10px #fff;
-  animation: majorNodePulse 2s ease-in-out infinite;
-}
-
-@keyframes majorNodePulse {
-  0%, 100% { 
-    transform: scale(1); 
-    box-shadow: 0 0 20px #d4af37, inset 0 0 10px #fff;
-  }
-  50% { 
-    transform: scale(1.3); 
-    box-shadow: 0 0 40px #d4af37, inset 0 0 20px #fff;
-  }
-}
-
-/* Active component nodes */
-.circuit-node-grid.active-node {
-  width: 6px;
-  height: 6px;
-  background: #d4af37;
-  border: 1px solid #fff;
-  animation: activeNodeBlink 1s ease-in-out infinite;
-}
-
-@keyframes activeNodeBlink {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-/* Node flash when pulse arrives */
-.circuit-node-grid.node-flash {
-  background: #fff !important;
-  box-shadow: 
-    0 0 30px #fff,
-    0 0 60px #d4af37,
-    0 0 90px #fff !important;
-  transform: scale(2);
-}
-
-/* Node scanned effect */
-.circuit-node-grid.node-scanned {
-  background: #00ff00 !important;
-  box-shadow: 0 0 20px #00ff00 !important;
-  animation: scanPulse 1s ease-out;
-}
-
-@keyframes scanPulse {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(3); opacity: 0; }
-}
-
-/* Circuit traces (wires) */
-.circuit-trace {
-  stroke: rgba(212, 175, 55, 0.2);
-  stroke-width: 1;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.3));
-}
-
-/* Power traces - main lines */
-.circuit-trace.power-trace {
-  stroke: rgba(212, 175, 55, 0.4);
-  stroke-width: 2;
-  opacity: 0.8;
-  filter: drop-shadow(0 0 5px #d4af37);
-}
-
-/* Major pathways - long connections */
-.circuit-trace.major-pathway {
-  stroke: rgba(255, 255, 255, 0.3);
-  stroke-width: 3;
-  stroke-dasharray: 10 5;
-  animation: pathwayFlow 2s linear infinite;
-}
-
-@keyframes pathwayFlow {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -15; }
-}
-
-/* Active trace when pulse travels */
-.circuit-trace.trace-active {
-  stroke: #fff !important;
-  stroke-width: 3 !important;
-  opacity: 1 !important;
-  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #d4af37);
-  animation: traceGlow 0.5s ease-out;
-}
-
-@keyframes traceGlow {
-  0% { stroke-width: 3; }
-  50% { stroke-width: 5; }
-  100% { stroke-width: 3; }
-}
-
-/* Power surge on traces */
-.circuit-trace.power-surge {
-  stroke: #ff0 !important;
-  stroke-width: 4 !important;
-  opacity: 1 !important;
-  filter: 
-    drop-shadow(0 0 20px #ff0) 
-    drop-shadow(0 0 40px #fff);
-  animation: surgePulse 0.5s ease-out;
-}
-
-@keyframes surgePulse {
-  0%, 100% { stroke-width: 4; }
-  50% { stroke-width: 8; }
-}
-
-/* Electric pulses traveling through network */
-.electric-pulse {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 10px #fff,
-    0 0 20px #d4af37,
-    0 0 30px #fff,
-    0 0 40px #d4af37;
-  z-index: 10;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-/* Surge pulses - more intense */
-.surge-pulse {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: radial-gradient(circle, #fff 0%, #ff0 50%, transparent 70%);
-  border-radius: 50%;
-  box-shadow: 
-    0 0 30px #ff0,
-    0 0 60px #fff,
-    0 0 90px #ff0;
-  z-index: 15;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-/* Screen flash effect during power surge */
-.screen-flash {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(255, 255, 0, 0.3), transparent);
-  z-index: 20;
-  pointer-events: none;
-  animation: flashBurst 0.5s ease-out;
+  opacity: 0.9;
 }
 
-@keyframes flashBurst {
-  0% { 
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100% { 
-    opacity: 0;
-    transform: scale(1);
-  }
-}
-
-/* Scanning line effect */
-.scan-line {
+/* Floating brown particles */
+.brown-particle {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    #00ff00 20%, 
-    #fff 50%, 
-    #00ff00 80%, 
-    transparent 100%);
-  box-shadow: 
-    0 0 20px #00ff00,
-    0 0 40px #fff;
-  z-index: 25;
-  animation: scanDown 4s linear;
+  background: rgba(92, 64, 51, 0.3);
+  border-radius: 50%;
   pointer-events: none;
+  animation: floatGentle 20s ease-in-out infinite;
 }
 
-@keyframes scanDown {
-  0% { 
-    top: -10px;
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
     opacity: 0;
   }
   10% {
-    opacity: 1;
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px) translateX(20px);
+    opacity: 0.2;
   }
   90% {
-    opacity: 1;
+    opacity: 0.3;
   }
-  100% { 
-    top: 100%;
+}
+
+/* Subtle gold flashes - rare and elegant */
+.gold-flash {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  animation: subtleGoldFlash 3s ease-out forwards;
+}
+
+.gold-flash::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #d4af37;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 20px rgba(212, 175, 55, 0.6),
+    0 0 40px rgba(212, 175, 55, 0.3);
+}
+
+@keyframes subtleGoldFlash {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(3);
     opacity: 0;
   }
 }
 
-/* Enhanced button effects for circuit theme */
-.glass-panel .btn-gold {
-  background: linear-gradient(135deg, #d4af37, #8b6914);
-  border: 2px solid #d4af37;
-  box-shadow: 
-    0 0 30px rgba(212, 175, 55, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: 2px;
-  clip-path: polygon(
-    10px 0, 100% 0,
-    100% calc(100% - 10px), calc(100% - 10px) 100%,
-    0 100%, 0 10px
-  );
-}
-
-.glass-panel .btn-gold::before {
-  content: '';
+/* Ambient glow spots */
+.ambient-glow {
   position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background: linear-gradient(45deg, 
-    transparent 30%, 
-    rgba(255, 255, 255, 0.3) 50%, 
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, 
+    rgba(92, 64, 51, 0.1) 0%, 
     transparent 70%);
-  animation: btnScan 3s linear infinite;
+  pointer-events: none;
+  animation: ambientPulse 20s ease-in-out infinite;
 }
 
-@keyframes btnScan {
-  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+@keyframes ambientPulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.2);
+  }
+}
+
+/* Brown shimmer effect */
+.brown-shimmer {
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    rgba(139, 105, 71, 0.2) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: shimmerPass 4s ease-out forwards;
+}
+
+@keyframes shimmerPass {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateX(100px);
+  }
+}
+
+/* Button styling to match aesthetic */
+.glass-panel .btn-gold {
+  background: linear-gradient(135deg, 
+    rgba(212, 175, 55, 0.9), 
+    rgba(139, 105, 71, 0.8));
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 .glass-panel .btn-gold:hover {
-  background: linear-gradient(135deg, #fff, #d4af37);
-  color: #000 !important;
+  background: linear-gradient(135deg, 
+    rgba(212, 175, 55, 1), 
+    rgba(161, 122, 82, 0.9));
   box-shadow: 
-    0 0 50px #d4af37,
-    0 0 100px #fff,
-    inset 0 0 30px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
-  border-color: #fff;
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
-/* Circuit diagnostic text effect */
-@keyframes dataStream {
-  0% { opacity: 0; transform: translateY(-10px); }
-  50% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(10px); }
+.glass-panel .btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(139, 105, 71, 0.3);
+  color: rgba(212, 175, 55, 0.9) !important;
+}
+
+.glass-panel .btn-ghost:hover {
+  background: rgba(139, 105, 71, 0.1);
+  border-color: rgba(212, 175, 55, 0.5);
 }
 
 /* Ensure proper layering */
 body {
   position: relative;
-  background: #000;
+  background: #0a0604; /* Very dark brown */
 }
 
 .section, .container {
@@ -359,17 +238,26 @@ body {
   z-index: 2;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .circuit-node-grid { 
-    width: 3px; 
-    height: 3px; 
-  }
-  .circuit-node-grid.major-node { 
-    width: 6px; 
-    height: 6px; 
-  }
-  .circuit-trace { 
-    stroke-width: 0.5; 
-  }
+/* Hero section adjustments for visibility */
+.hero {
+  position: relative;
+  z-index: 2;
+}
+
+.nav {
+  position: relative;
+  z-index: 10;
+  background: rgba(10, 6, 4, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+/* Price cards get extra transparency */
+.price-card.glass-panel {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Featured card slight highlight */
+.price-card.featured.glass-panel {
+  background: rgba(212, 175, 55, 0.03) !important;
+  border-color: rgba(212, 175, 55, 0.3);
 }
