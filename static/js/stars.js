@@ -1,161 +1,182 @@
-// Dark Brown Aesthetic with Subtle Gold Flashes for SmartFlow
+// Sophisticated Circuit Pattern Background - Dark Brown with Gold Traces
 document.addEventListener('DOMContentLoaded', function() {
-  // Create background container
-  const darkField = document.createElement('div');
-  darkField.id = 'starfield';
-  darkField.className = 'dark-brown-field';
-  document.body.appendChild(darkField);
+  // Create main circuit pattern container
+  const circuitPattern = document.createElement('div');
+  circuitPattern.id = 'starfield';
+  circuitPattern.className = 'circuit-pattern';
+  document.body.appendChild(circuitPattern);
   
-  // Create gradient mesh background
-  const meshCanvas = document.createElement('canvas');
-  meshCanvas.className = 'gradient-mesh';
-  meshCanvas.width = window.innerWidth;
-  meshCanvas.height = window.innerHeight;
-  darkField.appendChild(meshCanvas);
+  // Create SVG for circuit traces
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.style.position = 'absolute';
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  svg.style.top = '0';
+  svg.style.left = '0';
   
-  const ctx = meshCanvas.getContext('2d');
+  // Define circuit pattern
+  const patternSize = 100;
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
   
-  // Draw dark brown gradient mesh
-  function drawGradientMesh() {
-    const gradient = ctx.createRadialGradient(
-      meshCanvas.width / 2, meshCanvas.height / 2, 0,
-      meshCanvas.width / 2, meshCanvas.height / 2, meshCanvas.width / 2
-    );
+  // Create repeating circuit pattern
+  function createCircuitPattern() {
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     
-    // Dark brown to black gradient
-    gradient.addColorStop(0, 'rgba(25, 15, 10, 0.95)');  // Very dark brown
-    gradient.addColorStop(0.3, 'rgba(30, 20, 15, 0.9)'); // Dark brown
-    gradient.addColorStop(0.6, 'rgba(20, 12, 8, 0.9)');  // Darker brown
-    gradient.addColorStop(1, 'rgba(5, 3, 2, 0.95)');     // Almost black brown
+    // Create pattern element
+    const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+    pattern.setAttribute('id', 'circuitPattern');
+    pattern.setAttribute('x', '0');
+    pattern.setAttribute('y', '0');
+    pattern.setAttribute('width', patternSize);
+    pattern.setAttribute('height', patternSize);
+    pattern.setAttribute('patternUnits', 'userSpaceOnUse');
     
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, meshCanvas.width, meshCanvas.height);
+    // Draw circuit traces in pattern
+    const traces = [
+      'M10,10 L40,10 L40,30 L60,30',
+      'M60,30 L60,60 L80,60',
+      'M10,10 L10,40 L30,40',
+      'M30,40 L30,70 L50,70 L50,90',
+      'M40,10 L40,20 L70,20 L70,50',
+      'M80,60 L80,80 L90,80',
+      'M50,70 L80,70',
+      'M70,50 L90,50',
+      'M20,80 L20,90 L40,90',
+      'M0,50 L10,50 L10,70',
+      'M90,20 L100,20',
+      'M90,80 L100,80',
+      'M0,0 L10,0 L10,10',
+      'M90,90 L100,90 L100,100'
+    ];
     
-    // Add subtle texture
-    for (let i = 0; i < 100; i++) {
-      const x = Math.random() * meshCanvas.width;
-      const y = Math.random() * meshCanvas.height;
-      const radius = Math.random() * 200 + 50;
-      
-      const spotGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      spotGradient.addColorStop(0, 'rgba(40, 25, 18, 0.03)');
-      spotGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      
-      ctx.fillStyle = spotGradient;
-      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+    traces.forEach(d => {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'rgba(92, 64, 51, 0.15)'); // Dark brown traces
+      path.setAttribute('stroke-width', '0.5');
+      path.setAttribute('fill', 'none');
+      pattern.appendChild(path);
+    });
+    
+    // Add connection nodes
+    const nodes = [
+      [10, 10], [40, 10], [40, 30], [60, 30],
+      [60, 60], [80, 60], [30, 40], [50, 70],
+      [70, 20], [70, 50], [80, 80], [20, 80],
+      [40, 90], [10, 50], [90, 20], [90, 80]
+    ];
+    
+    nodes.forEach(([x, y]) => {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', x);
+      circle.setAttribute('cy', y);
+      circle.setAttribute('r', '1.5');
+      circle.setAttribute('fill', 'rgba(92, 64, 51, 0.2)');
+      circle.setAttribute('stroke', 'rgba(139, 105, 71, 0.3)');
+      circle.setAttribute('stroke-width', '0.5');
+      pattern.appendChild(circle);
+    });
+    
+    defs.appendChild(pattern);
+    svg.appendChild(defs);
+    
+    // Create background rect with pattern
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('width', '100%');
+    rect.setAttribute('height', '100%');
+    rect.setAttribute('fill', 'url(#circuitPattern)');
+    rect.setAttribute('opacity', '0.7');
+    svg.appendChild(rect);
+  }
+  
+  createCircuitPattern();
+  circuitPattern.appendChild(svg);
+  
+  // Add subtle animated traces
+  function createAnimatedTrace() {
+    const trace = document.createElement('div');
+    trace.className = 'animated-trace';
+    
+    // Random path across screen
+    const startX = Math.random() * 100;
+    const startY = Math.random() * 100;
+    const endX = Math.random() * 100;
+    const endY = Math.random() * 100;
+    
+    trace.style.left = startX + '%';
+    trace.style.top = startY + '%';
+    
+    // Create path line
+    const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+    const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+    
+    trace.style.width = length + '%';
+    trace.style.transform = `rotate(${angle}deg)`;
+    
+    circuitPattern.appendChild(trace);
+    
+    // Remove after animation
+    setTimeout(() => trace.remove(), 5000);
+  }
+  
+  // Add subtle gold pulse points
+  function createGoldPulse() {
+    const pulse = document.createElement('div');
+    pulse.className = 'gold-pulse';
+    
+    // Position at circuit intersections
+    const gridX = Math.floor(Math.random() * (screenWidth / patternSize)) * patternSize;
+    const gridY = Math.floor(Math.random() * (screenHeight / patternSize)) * patternSize;
+    
+    // Add some randomness within grid
+    pulse.style.left = (gridX + Math.random() * 50 - 25) + 'px';
+    pulse.style.top = (gridY + Math.random() * 50 - 25) + 'px';
+    
+    circuitPattern.appendChild(pulse);
+    
+    // Remove after animation
+    setTimeout(() => pulse.remove(), 2000);
+  }
+  
+  // Create data flow effect
+  function createDataFlow() {
+    const flow = document.createElement('div');
+    flow.className = 'data-flow';
+    
+    // Horizontal or vertical
+    const isHorizontal = Math.random() > 0.5;
+    
+    if (isHorizontal) {
+      flow.style.left = '-5%';
+      flow.style.top = Math.floor(Math.random() * 10) * 10 + '%';
+      flow.style.width = '110%';
+      flow.style.height = '1px';
+      flow.classList.add('horizontal');
+    } else {
+      flow.style.top = '-5%';
+      flow.style.left = Math.floor(Math.random() * 10) * 10 + '%';
+      flow.style.height = '110%';
+      flow.style.width = '1px';
+      flow.classList.add('vertical');
     }
-  }
-  
-  drawGradientMesh();
-  
-  // Create subtle floating particles
-  function createFloatingParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'brown-particle';
     
-    // Position
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.top = Math.random() * 100 + '%';
-    
-    // Size variation
-    const size = Math.random() * 3 + 1;
-    particle.style.width = size + 'px';
-    particle.style.height = size + 'px';
-    
-    // Animation duration
-    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-    particle.style.animationDelay = Math.random() * 5 + 's';
-    
-    darkField.appendChild(particle);
-  }
-  
-  // Create subtle gold flashes (rare and elegant)
-  function createGoldFlash() {
-    const flash = document.createElement('div');
-    flash.className = 'gold-flash';
-    
-    // Random position
-    flash.style.left = Math.random() * 100 + '%';
-    flash.style.top = Math.random() * 100 + '%';
-    
-    darkField.appendChild(flash);
+    circuitPattern.appendChild(flow);
     
     // Remove after animation
-    setTimeout(() => flash.remove(), 3000);
+    setTimeout(() => flow.remove(), 3000);
   }
   
-  // Create soft ambient glow spots
-  function createAmbientGlow() {
-    const glow = document.createElement('div');
-    glow.className = 'ambient-glow';
-    
-    // Random position with bias towards edges
-    const edge = Math.floor(Math.random() * 4);
-    switch(edge) {
-      case 0: // top
-        glow.style.left = Math.random() * 100 + '%';
-        glow.style.top = '-20%';
-        break;
-      case 1: // right
-        glow.style.right = '-20%';
-        glow.style.top = Math.random() * 100 + '%';
-        break;
-      case 2: // bottom
-        glow.style.left = Math.random() * 100 + '%';
-        glow.style.bottom = '-20%';
-        break;
-      case 3: // left
-        glow.style.left = '-20%';
-        glow.style.top = Math.random() * 100 + '%';
-        break;
-    }
-    
-    darkField.appendChild(glow);
-    
-    // Remove after animation
-    setTimeout(() => glow.remove(), 20000);
-  }
+  // Start subtle animations
+  setInterval(createAnimatedTrace, 4000);
+  setInterval(createGoldPulse, 3000);
+  setInterval(createDataFlow, 5000);
   
-  // Create subtle shimmer effect
-  function createShimmer() {
-    const shimmer = document.createElement('div');
-    shimmer.className = 'brown-shimmer';
-    
-    // Create a line of shimmering light
-    shimmer.style.left = Math.random() * 100 + '%';
-    shimmer.style.top = Math.random() * 100 + '%';
-    shimmer.style.transform = `rotate(${Math.random() * 360}deg)`;
-    
-    darkField.appendChild(shimmer);
-    
-    // Remove after animation
-    setTimeout(() => shimmer.remove(), 4000);
-  }
+  // Initial effects
+  setTimeout(() => {
+    createGoldPulse();
+    createDataFlow();
+  }, 500);
   
-  // Initial particle creation
-  for (let i = 0; i < 50; i++) {
-    createFloatingParticle();
-  }
-  
-  // Continuous subtle animations
-  // Rare gold flashes (subtle and elegant)
-  setInterval(createGoldFlash, 8000);
-  
-  // Ambient glows
-  setInterval(createAmbientGlow, 5000);
-  
-  // Occasional shimmers
-  setInterval(createShimmer, 6000);
-  
-  // Add new floating particles occasionally
-  setInterval(createFloatingParticle, 3000);
-  
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    meshCanvas.width = window.innerWidth;
-    meshCanvas.height = window.innerHeight;
-    drawGradientMesh();
-  });
-  
-  console.log('✨ Dark brown aesthetic with subtle gold accents initialized');
+  console.log('🔌 Circuit pattern background initialized');
 });

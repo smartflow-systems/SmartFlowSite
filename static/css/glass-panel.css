@@ -1,24 +1,15 @@
-/* Dark Brown Aesthetic with See-Through Glass Panels */
+/* Circuit Pattern Background with Dark Brown Theme */
 
-/* See-through glass panels with visible text */
+/* See-through glass panels */
 .glass-panel {
-  /* Strong glass effect for visibility */
   backdrop-filter: blur(12px) saturate(120%);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
-  
-  /* Very transparent for see-through effect */
   background: rgba(255, 255, 255, 0.03) !important;
-  
-  /* Subtle brown-tinted border */
   border: 1px solid rgba(139, 105, 71, 0.2);
   border-radius: 12px;
-  
-  /* Soft shadows */
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 0 0 1px rgba(212, 175, 55, 0.05);
-  
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -29,11 +20,9 @@
   border-color: rgba(212, 175, 55, 0.3);
   box-shadow: 
     0 12px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 0 20px rgba(212, 175, 55, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-/* Ensure text is clearly visible */
 .glass-panel > * {
   position: relative;
   z-index: 2;
@@ -49,8 +38,8 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* DARK BROWN BACKGROUND FIELD */
-#starfield.dark-brown-field {
+/* CIRCUIT PATTERN BACKGROUND */
+#starfield.circuit-pattern {
   position: fixed;
   top: 0;
   left: 0;
@@ -59,139 +48,169 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  background: #0a0604; /* Fallback very dark brown */
+  /* Dark brown gradient background */
+  background: linear-gradient(135deg,
+    rgba(20, 12, 8, 0.95) 0%,
+    rgba(30, 20, 15, 0.9) 25%,
+    rgba(25, 15, 10, 0.95) 50%,
+    rgba(20, 12, 8, 0.9) 75%,
+    rgba(15, 9, 6, 0.95) 100%
+  );
 }
 
-/* Gradient mesh canvas */
-.gradient-mesh {
+/* Circuit pattern overlay */
+#starfield.circuit-pattern::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.9;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 49px,
+      rgba(92, 64, 51, 0.05) 49px,
+      rgba(92, 64, 51, 0.05) 51px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 49px,
+      rgba(92, 64, 51, 0.05) 49px,
+      rgba(92, 64, 51, 0.05) 51px
+    );
+  opacity: 0.5;
 }
 
-/* Floating brown particles */
-.brown-particle {
+/* Animated traces */
+.animated-trace {
   position: absolute;
-  background: rgba(92, 64, 51, 0.3);
-  border-radius: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(139, 105, 71, 0.3) 10%,
+    rgba(212, 175, 55, 0.2) 50%,
+    rgba(139, 105, 71, 0.3) 90%,
+    transparent 100%
+  );
+  transform-origin: left center;
+  animation: traceFlow 5s ease-out forwards;
   pointer-events: none;
-  animation: floatGentle 20s ease-in-out infinite;
 }
 
-@keyframes floatGentle {
-  0%, 100% {
-    transform: translateY(0) translateX(0);
+@keyframes traceFlow {
+  0% {
     opacity: 0;
+    filter: brightness(1);
   }
-  10% {
+  20% {
+    opacity: 0.6;
+    filter: brightness(1.5);
+  }
+  80% {
     opacity: 0.3;
+    filter: brightness(1);
   }
-  50% {
-    transform: translateY(-30px) translateX(20px);
-    opacity: 0.2;
-  }
-  90% {
-    opacity: 0.3;
+  100% {
+    opacity: 0;
+    filter: brightness(0.5);
   }
 }
 
-/* Subtle gold flashes - rare and elegant */
-.gold-flash {
+/* Gold pulse points */
+.gold-pulse {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  pointer-events: none;
-  animation: subtleGoldFlash 3s ease-out forwards;
-}
-
-.gold-flash::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
   width: 4px;
   height: 4px;
   background: #d4af37;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
   box-shadow: 
-    0 0 20px rgba(212, 175, 55, 0.6),
-    0 0 40px rgba(212, 175, 55, 0.3);
+    0 0 10px rgba(212, 175, 55, 0.6),
+    0 0 20px rgba(212, 175, 55, 0.3);
+  animation: goldPulse 2s ease-out forwards;
+  pointer-events: none;
 }
 
-@keyframes subtleGoldFlash {
+@keyframes goldPulse {
   0% {
     transform: scale(0);
     opacity: 0;
   }
   50% {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.8;
   }
   100% {
-    transform: scale(3);
+    transform: scale(2);
     opacity: 0;
   }
 }
 
-/* Ambient glow spots */
-.ambient-glow {
+/* Data flow lines */
+.data-flow {
   position: absolute;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, 
-    rgba(92, 64, 51, 0.1) 0%, 
-    transparent 70%);
-  pointer-events: none;
-  animation: ambientPulse 20s ease-in-out infinite;
-}
-
-@keyframes ambientPulse {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.3;
-    transform: scale(1.2);
-  }
-}
-
-/* Brown shimmer effect */
-.brown-shimmer {
-  position: absolute;
-  width: 2px;
-  height: 100px;
-  background: linear-gradient(
-    0deg,
+  background: linear-gradient(90deg,
     transparent 0%,
-    rgba(139, 105, 71, 0.2) 50%,
+    rgba(212, 175, 55, 0.1) 45%,
+    rgba(212, 175, 55, 0.3) 50%,
+    rgba(212, 175, 55, 0.1) 55%,
     transparent 100%
   );
   pointer-events: none;
-  animation: shimmerPass 4s ease-out forwards;
 }
 
-@keyframes shimmerPass {
+.data-flow.horizontal {
+  animation: flowHorizontal 3s ease-out forwards;
+}
+
+.data-flow.vertical {
+  background: linear-gradient(0deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.1) 45%,
+    rgba(212, 175, 55, 0.3) 50%,
+    rgba(212, 175, 55, 0.1) 55%,
+    transparent 100%
+  );
+  animation: flowVertical 3s ease-out forwards;
+}
+
+@keyframes flowHorizontal {
   0% {
+    transform: translateX(-100%);
     opacity: 0;
-    filter: blur(0);
   }
-  50% {
+  20% {
     opacity: 0.5;
-    filter: blur(1px);
+  }
+  80% {
+    opacity: 0.5;
   }
   100% {
+    transform: translateX(100%);
     opacity: 0;
-    filter: blur(2px);
-    transform: translateX(100px);
   }
 }
 
-/* Button styling to match aesthetic */
+@keyframes flowVertical {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Button styling */
 .glass-panel .btn-gold {
   background: linear-gradient(135deg, 
     rgba(212, 175, 55, 0.9), 
@@ -211,8 +230,7 @@
     rgba(161, 122, 82, 0.9));
   box-shadow: 
     0 6px 20px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(212, 175, 55, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 30px rgba(212, 175, 55, 0.2);
   transform: translateY(-1px);
 }
 
@@ -227,10 +245,10 @@
   border-color: rgba(212, 175, 55, 0.5);
 }
 
-/* Ensure proper layering */
+/* Body and layering */
 body {
   position: relative;
-  background: #0a0604; /* Very dark brown */
+  background: #0a0604;
 }
 
 .section, .container {
@@ -238,7 +256,6 @@ body {
   z-index: 2;
 }
 
-/* Hero section adjustments for visibility */
 .hero {
   position: relative;
   z-index: 2;
@@ -251,12 +268,11 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* Price cards get extra transparency */
+/* Price cards transparency */
 .price-card.glass-panel {
   background: rgba(255, 255, 255, 0.02) !important;
 }
 
-/* Featured card slight highlight */
 .price-card.featured.glass-panel {
   background: rgba(212, 175, 55, 0.03) !important;
   border-color: rgba(212, 175, 55, 0.3);
