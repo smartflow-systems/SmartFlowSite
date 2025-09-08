@@ -46,28 +46,7 @@ class SparkleSystem {
     
     setupEventListeners() {
         window.addEventListener('resize', () => this.resize());
-        
-        // Track mouse for extra sparkles
-        document.addEventListener('mousemove', (e) => {
-            this.mouseX = e.clientX;
-            this.mouseY = e.clientY;
-            
-            // Add extra sparkles on mouse movement
-            if (Math.random() < 0.3) {
-                this.addSparkle(this.mouseX, this.mouseY, true);
-            }
-        });
-        
-        // Add sparkles on clicks
-        document.addEventListener('click', (e) => {
-            for (let i = 0; i < 8; i++) {
-                this.addSparkle(
-                    e.clientX + (Math.random() - 0.5) * 50,
-                    e.clientY + (Math.random() - 0.5) * 50,
-                    true
-                );
-            }
-        });
+        // Removed mouse tracking for more meditative experience
     }
     
     resize() {
@@ -76,8 +55,8 @@ class SparkleSystem {
     }
     
     generateSparkles() {
-        // Generate random sparkles across the screen
-        const sparkleCount = 25;
+        // Generate fewer, more meditative sparkles across the screen
+        const sparkleCount = 15;
         
         for (let i = 0; i < sparkleCount; i++) {
             this.addSparkle(
@@ -92,29 +71,29 @@ class SparkleSystem {
         const sparkle = {
             x: x,
             y: y,
-            size: isInteractive ? 3 + Math.random() * 4 : 1 + Math.random() * 3,
-            opacity: isInteractive ? 0.9 : 0.3 + Math.random() * 0.6,
+            size: 1 + Math.random() * 2, // Smaller, gentler sparkles
+            opacity: 0.2 + Math.random() * 0.4, // More subtle opacity
             color: this.colors[Math.floor(Math.random() * this.colors.length)],
-            life: isInteractive ? 1.5 : 2 + Math.random() * 3,
-            maxLife: isInteractive ? 1.5 : 2 + Math.random() * 3,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
+            life: 8 + Math.random() * 12, // Longer life for peaceful feeling
+            maxLife: 8 + Math.random() * 12,
+            vx: (Math.random() - 0.5) * 0.3, // Much slower movement
+            vy: (Math.random() - 0.5) * 0.3,
             twinkle: Math.random() * Math.PI * 2,
-            twinkleSpeed: 0.1 + Math.random() * 0.2,
-            pulseSpeed: 0.05 + Math.random() * 0.1
+            twinkleSpeed: 0.02 + Math.random() * 0.03, // Slower twinkling
+            pulseSpeed: 0.01 + Math.random() * 0.02 // Gentler pulsing
         };
         
         this.sparkles.push(sparkle);
         
-        // Limit total sparkles for performance
-        if (this.sparkles.length > 100) {
+        // Limit total sparkles for peaceful experience
+        if (this.sparkles.length > 40) {
             this.sparkles.shift();
         }
     }
     
     updateSparkles() {
-        // Randomly add new ambient sparkles
-        if (Math.random() < 0.02) {
+        // Very rarely add new peaceful sparkles
+        if (Math.random() < 0.008) {
             this.addSparkle(
                 Math.random() * window.innerWidth,
                 Math.random() * window.innerHeight,
@@ -122,19 +101,19 @@ class SparkleSystem {
             );
         }
         
-        // Update existing sparkles
+        // Update existing sparkles with gentle movement
         this.sparkles = this.sparkles.filter(sparkle => {
-            sparkle.x += sparkle.vx;
-            sparkle.y += sparkle.vy;
-            sparkle.life -= 0.016;
+            // Very slow, meditative movement
+            sparkle.x += sparkle.vx * 0.5;
+            sparkle.y += sparkle.vy * 0.5;
+            sparkle.life -= 0.005; // Much slower fade
             sparkle.twinkle += sparkle.twinkleSpeed;
             
-            // Gentle gravity
-            sparkle.vy += 0.01;
+            // No gravity - just peaceful floating
             
-            // Fade out as life decreases
+            // Gentle fade based on sine wave for meditative twinkling
             sparkle.opacity = (sparkle.life / sparkle.maxLife) * 
-                             (0.3 + 0.7 * Math.sin(sparkle.twinkle));
+                             (0.2 + 0.3 * Math.sin(sparkle.twinkle));
             
             return sparkle.life > 0;
         });
