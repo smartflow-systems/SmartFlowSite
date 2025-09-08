@@ -1,12 +1,18 @@
 {
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
     "autoprefixer": "^10.4.21",
+    "express": "^5.1.0",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.13"
+    "tailwindcss": "^4.1.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   },
   "scripts": {
     "deploy:pages": "bash scripts/smartflow-github-vercel.sh pages",
-    "deploy:vercel": "bash scripts/smartflow-github-vercel.sh vercel"
+    "deploy:vercel": "bash scripts/smartflow-github-vercel.sh vercel",
+    "start": "ts-node server/index.ts"
   }
 }
