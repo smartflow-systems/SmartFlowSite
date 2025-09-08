@@ -159,13 +159,31 @@ async function setupLeadForm() {
       });
 
       if (res.ok) {
-        form.innerHTML = `
-          <div class="success">
-            <h3>Thanks ${t(payload.name)}!</h3>
-            <p>We'll review your brief and reply within 1 business day.</p>
-            ${cfg.leadMagnetUrl ? `<p><a href="${cfg.leadMagnetUrl}" class="btn btn-ghost">Download our free pack</a></p>` : ''}
-          </div>
-        `;
+        // Safe DOM manipulation instead of innerHTML with user data
+        const successDiv = document.createElement('div');
+        successDiv.className = 'success';
+        
+        const heading = document.createElement('h3');
+        heading.textContent = `Thanks ${payload.name}!`; // textContent auto-escapes
+        
+        const message = document.createElement('p');
+        message.textContent = "We'll review your brief and reply within 1 business day.";
+        
+        successDiv.appendChild(heading);
+        successDiv.appendChild(message);
+        
+        if (cfg.leadMagnetUrl) {
+          const linkPara = document.createElement('p');
+          const link = document.createElement('a');
+          link.href = cfg.leadMagnetUrl;
+          link.className = 'btn btn-ghost';
+          link.textContent = 'Download our free pack';
+          linkPara.appendChild(link);
+          successDiv.appendChild(linkPara);
+        }
+        
+        form.innerHTML = ''; // Clear form
+        form.appendChild(successDiv);
       } else {
         throw new Error('Submission failed');
       }
@@ -196,5 +214,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   rotateTestimonials();
 });async function loadCfg(){return (await fetch("site.config.json")).json()}
 function timeAgo(d){const s=Math.floor((Date.now()-d.getTime())/1e3),t=[[31536e3,"y"],[2592e3,"mo"],[604800,"w"],[86400,"d"],[3600,"h"],[60,"m"]];for(const[sec,l]of t){const v=Math.floor(s/sec);if(v>=1)return`${v}${l} ago`}return`${s}s ago`}
-async function renderLatest(){const w=document.querySelector("#latest-feed");if(!w)return;const{projects}=await loadCfg(),k="sf_latest_v1",ttl=9e5;try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.when<ttl){w.innerHTML=c.html;return}}catch(e){}const cs=[];for(const p of projects){if(!p.repo)continue;try{const r=await fetch(\`https://api.github.com/repos/\${p.repo}/commits?per_page=3\`,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)continue;const data=await r.json();for(const c of data){cs.push({repo:p.repo.split("/")[1],msg:(c.commit?.message||"Update").split("\n")[0],url:c.html_url,when:new Date(c.commit?.author?.date||c.commit?.committer?.date||Date.now())})}}catch(e){}}cs.sort((a,b)=>b.when-a.when);const top=cs.slice(0,3);if(!top.length){w.innerHTML="<p class=\\"latest-item\\">No recent updates yet.</p>";return}w.innerHTML=top.map(c=>\`<article class="latest-item"><h3>\${c.msg}</h3><div class="latest-meta"><span class="latest-repo">\${c.repo}</span><span>⏱ \${timeAgo(c.when)}</span></div><div class="latest-actions"><a class="link" href="\${c.url}" target="_blank" rel="noopener">View commit →</a></div></article>\`).join("");try{localStorage.setItem(k,JSON.stringify({when:Date.now(),html:w.innerHTML}))}catch(e){}}
+async function renderLatest(){const w=document.querySelector("#latest-feed");if(!w)return;const{projects}=await loadCfg(),k="sf_latest_v1",ttl=9e5;try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.when<ttl){w.innerHTML=c.html;return}}catch(e){}const cs=[];for(const p of projects){if(!p.repo)continue;try{const r=await fetch(`https://api.github.com/repos/${p.repo}/commits?per_page=3`,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)continue;const data=await r.json();for(const c of data){cs.push({repo:p.repo.split("/")[1],msg:(c.commit?.message||"Update").split("\n")[0],url:c.html_url,when:new Date(c.commit?.author?.date||c.commit?.committer?.date||Date.now())})}}catch(e){}}cs.sort((a,b)=>b.when-a.when);const top=cs.slice(0,3);if(!top.length){w.innerHTML="<p class=\"latest-item\">No recent updates yet.</p>";return}w.innerHTML=top.map(c=>`<article class="latest-item"><h3>${c.msg}</h3><div class="latest-meta"><span class="latest-repo">${c.repo}</span><span>⏱ ${timeAgo(c.when)}</span></div><div class="latest-actions"><a class="link" href="${c.url}" target="_blank" rel="noopener">View commit →</a></div></article>`).join("");try{localStorage.setItem(k,JSON.stringify({when:Date.now(),html:w.innerHTML}))}catch(e){}}
 document.addEventListener("DOMContentLoaded",()=>{typeof renderProjects==="function"&&renderProjects();renderLatest()})
