@@ -13,6 +13,6 @@
   "scripts": {
     "deploy:pages": "bash scripts/smartflow-github-vercel.sh pages",
     "deploy:vercel": "bash scripts/smartflow-github-vercel.sh vercel",
-    "start": "ts-node server/index.ts"
+    "start": "node server.js"
   }
 }
