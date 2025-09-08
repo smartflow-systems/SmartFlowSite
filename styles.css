@@ -308,44 +308,45 @@ body {
   }
 }
 
-/* Copy SmartPart card styling exactly for selected state */
+/* Make cards clearly selected like SmartPart with strong visual effect */
 .project-card.selected,
 .latest-card.selected,
 .price-card.selected {
-  background: linear-gradient(145deg, rgba(20,17,15,.8), rgba(11,11,11,.6)) !important;
-  backdrop-filter: saturate(180%) blur(18px) brightness(1.05) !important;
-  border: 1px solid rgba(212,175,55,.6) !important;
-  border-top: 1px solid rgba(255,255,255,.3) !important;
-  border-left: 1px solid rgba(255,255,255,.15) !important;
-  padding: 20px !important;
-  border-radius: 20px !important;
+  background: linear-gradient(135deg, rgba(255,221,0,.15), rgba(212,175,55,.2), rgba(20,17,15,.9)) !important;
+  border: 2px solid rgba(212,175,55,.9) !important;
+  border-top: 2px solid rgba(255,221,0,.8) !important;
   box-shadow:
-    0 12px 48px rgba(0,0,0,.4) !important,
-    inset 0 1px 0 rgba(255,255,255,.2) !important,
-    inset 0 -1px 0 rgba(0,0,0,.12) !important,
-    0 0 0 1px rgba(212,175,55,.25) !important;
-  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+    0 0 50px rgba(212,175,55,.8) !important,
+    0 0 25px rgba(255,221,0,.6) !important,
+    0 20px 60px rgba(0,0,0,.5) !important,
+    inset 0 1px 0 rgba(255,255,255,.4) !important,
+    inset 0 -1px 0 rgba(0,0,0,.2) !important !important;
+  transform: translateY(-4px) scale(1.02) !important;
   position: relative !important;
-  overflow: hidden !important;
-  outline: 2px solid rgba(212,175,55,.6) !important;
-  outline-offset: 1px !important;
+  z-index: 5 !important;
 }
 
-/* Add the before pseudo-element for golden border like SmartPart */
-.project-card.selected::before,
-.latest-card.selected::before,
-.price-card.selected::before {
+/* Strong golden glow outline */
+.project-card.selected::after,
+.latest-card.selected::after,
+.price-card.selected::after {
   content: '' !important;
   position: absolute !important;
-  top: -2px !important;
-  left: -2px !important;
-  right: -2px !important;
-  bottom: -2px !important;
-  background: linear-gradient(45deg, rgba(212,175,55,.8), rgba(255,221,0,.6), rgba(212,175,55,.8)) !important;
-  border-radius: 22px !important;
+  top: -4px !important;
+  left: -4px !important;
+  right: -4px !important;
+  bottom: -4px !important;
+  background: linear-gradient(45deg, 
+    rgba(212,175,55,1) 0%, 
+    rgba(255,221,0,.8) 25%, 
+    rgba(212,175,55,1) 50%, 
+    rgba(255,221,0,.8) 75%, 
+    rgba(212,175,55,1) 100%) !important;
+  border-radius: 28px !important;
   z-index: -1 !important;
   opacity: 1 !important;
   pointer-events: none !important;
+  filter: blur(2px) !important;
 }
 
 /* cta + footer */

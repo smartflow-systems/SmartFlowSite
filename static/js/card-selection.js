@@ -62,15 +62,38 @@ class SFCardSelection {
     // Setup click event listeners for all selectable cards
     setupEventListeners() {
         document.addEventListener('click', (e) => {
-            const card = e.target.closest('.project-card, .latest-card, .price-card, .sf-glass');
-            if (!card) return;
+            console.log('Click detected on:', e.target);
+            
+            const card = e.target.closest('.project-card, .latest-card, .price-card, .sf-glass, article');
+            if (!card) {
+                console.log('No card found for click');
+                return;
+            }
             
             // Don't interfere with buttons or links
-            if (e.target.closest('button, a, input, select, textarea')) return;
+            if (e.target.closest('button, a, input, select, textarea')) {
+                console.log('Click was on button/link, ignoring');
+                return;
+            }
             
             console.log('Card clicked:', card.textContent.slice(0, 50));
             this.toggleCard(card);
         });
+        
+        // Also add direct click handlers to cards
+        setTimeout(() => {
+            const cards = document.querySelectorAll('.project-card, .latest-card, .price-card');
+            cards.forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('button, a')) return;
+                    e.stopPropagation();
+                    console.log('Direct card click:', card.textContent.slice(0, 30));
+                    this.toggleCard(card);
+                });
+            });
+            console.log(`Added direct click handlers to ${cards.length} cards`);
+        }, 1000);
     }
     
     // Toggle selection state of a card

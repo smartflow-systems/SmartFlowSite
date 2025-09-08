@@ -160,20 +160,43 @@ cat > "$THEME_CANON" <<'CSS'
 .project-card.selected,
 .latest-card.selected,
 .price-card.selected {
-  background:linear-gradient(145deg, rgba(212,175,55,.2), rgba(20,17,15,.95), rgba(11,11,11,.8));
-  border:2px solid rgba(212,175,55,.9) !important;
-  border-top-color:rgba(255,221,0,.8) !important;
+  background: linear-gradient(135deg, rgba(255,221,0,.15), rgba(212,175,55,.2), rgba(20,17,15,.9)) !important;
+  border: 2px solid rgba(212,175,55,.9) !important;
+  border-top: 2px solid rgba(255,221,0,.8) !important;
   box-shadow:
-    0 0 60px rgba(212,175,55,.8),
-    0 0 30px rgba(255,221,0,.6),
-    0 0 15px rgba(212,175,55,.9),
-    0 16px 64px rgba(0,0,0,.4),
-    inset 0 1px 0 rgba(255,255,255,.4),
-    inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 1px rgba(212,175,55,.3);
-  transform: translateY(-2px);
-  position: relative;
-  z-index: 2;
+    0 0 50px rgba(212,175,55,.8) !important,
+    0 0 25px rgba(255,221,0,.6) !important,
+    0 20px 60px rgba(0,0,0,.5) !important,
+    inset 0 1px 0 rgba(255,255,255,.4) !important,
+    inset 0 -1px 0 rgba(0,0,0,.2) !important;
+  transform: translateY(-4px) scale(1.02) !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Strong golden glow outline */
+.sf-glass.selected::after,
+.sf-card.selected::after,
+.project-card.selected::after,
+.latest-card.selected::after,
+.price-card.selected::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -4px !important;
+  left: -4px !important;
+  right: -4px !important;
+  bottom: -4px !important;
+  background: linear-gradient(45deg, 
+    rgba(212,175,55,1) 0%, 
+    rgba(255,221,0,.8) 25%, 
+    rgba(212,175,55,1) 50%, 
+    rgba(255,221,0,.8) 75%, 
+    rgba(212,175,55,1) 100%) !important;
+  border-radius: 28px !important;
+  z-index: -1 !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  filter: blur(2px) !important;
 }
 
 /* Enhanced buttons with glass effects */
