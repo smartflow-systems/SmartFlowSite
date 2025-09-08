@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# SmartFlow Systems — Premium Visual Effects Bootstrap
-# Installs complete SmartFlow theme with flowing stars, sparkles, and ultra-realistic glassmorphism
+# SFS (SmartFlow Systems) — Premium Visual Effects Bootstrap
+# Installs complete SFS theme with flowing stars, sparkles, and golden card hover effects
 # Safe by default; refuses to run on dirty git unless --force.
 set -euo pipefail
 
@@ -40,17 +40,17 @@ else
 fi
 echo "🧭 Using source dir: $SRC"
 
-# 2) Make folders including effects directory
-mkdir -p "$ROOT/smartflow-kit/brand/logos"
+# 2) Make folders including effects directory  
+mkdir -p "$ROOT/sfs-kit/brand/logos"
 mkdir -p "$SRC/components"
 mkdir -p "$SRC/effects"
 mkdir -p "$ROOT/public/assets/brand" 2>/dev/null || true
 mkdir -p "$ROOT/static/js" 2>/dev/null || true
 
 # 3) Write premium theme CSS (canonical) with ultra-realistic glassmorphism
-THEME_CANON="$ROOT/smartflow-kit/smartflow-premium-theme.css"
+THEME_CANON="$ROOT/sfs-kit/sfs-premium-theme.css"
 cat > "$THEME_CANON" <<'CSS'
-/* SmartFlow Premium Theme - Ultra-Realistic Glassmorphism & Visual Effects */
+/* SFS Premium Theme - Golden Card Hover Effects & Visual Effects */
 :root{
   --sf-black:#0b0b0b;
   --sf-brown:#3B2F2F;
@@ -100,14 +100,38 @@ cat > "$THEME_CANON" <<'CSS'
 
 .sf-glass:hover{
   background:linear-gradient(145deg, rgba(20,17,15,.9), rgba(11,11,11,.75));
-  border-color:rgba(212,175,55,.5);
-  border-top-color:rgba(255,255,255,.3);
+  border-color:rgba(212,175,55,.8);
+  border-top-color:rgba(255,221,0,.4);
   transform:translateY(-4px);
   box-shadow:
+    0 0 40px rgba(212,175,55,.7),
+    0 0 20px rgba(255,221,0,.5),
     0 24px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.25),
     inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 1px rgba(212,175,55,.2);
+    0 0 0 2px rgba(212,175,55,.4);
+  animation: sf-golden-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes sf-golden-pulse {
+  0% {
+    box-shadow:
+      0 0 40px rgba(212,175,55,.7),
+      0 0 20px rgba(255,221,0,.5),
+      0 24px 80px rgba(0,0,0,.5),
+      inset 0 1px 0 rgba(255,255,255,.25),
+      inset 0 -1px 0 rgba(0,0,0,.15),
+      0 0 0 2px rgba(212,175,55,.4);
+  }
+  100% {
+    box-shadow:
+      0 0 60px rgba(212,175,55,.9),
+      0 0 30px rgba(255,221,0,.7),
+      0 24px 80px rgba(0,0,0,.5),
+      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 -1px 0 rgba(0,0,0,.15),
+      0 0 0 2px rgba(212,175,55,.6);
+  }
 }
 
 /* Highlighted/PRO card effect */
@@ -235,7 +259,7 @@ cat > "$THEME_CANON" <<'CSS'
 CSS
 
 # mirror into src for simple @import
-cp "$THEME_CANON" "$SRC/smartflow-premium-theme.css"
+cp "$THEME_CANON" "$SRC/sfs-premium-theme.css"
 
 # 4) Create flowing stars animation system
 STARS_JS="$SRC/effects/flowing-stars.js"
@@ -820,30 +844,30 @@ for f in "$SRC/index.css" "$SRC/styles.css"; do
 done
 if [[ -z "$IDX" ]]; then IDX="$SRC/index.css"; echo "/* SmartFlow Premium */" > "$IDX"; fi
 cp "$IDX" "$IDX.bak"
-if ! grep -q 'smartflow-premium-theme.css' "$IDX"; then
-  printf '@import "./smartflow-premium-theme.css";\n' >> "$IDX"
+if ! grep -q 'sfs-premium-theme.css' "$IDX"; then
+  printf '@import "./sfs-premium-theme.css";\n' >> "$IDX"
 fi
 
 # 10) Create HTML template with effects
-HTML_TEMPLATE="$ROOT/smartflow-template.html"
+HTML_TEMPLATE="$ROOT/sfs-template.html"
 cat > "$HTML_TEMPLATE" <<'HTML'
 <!DOCTYPE html>
 <html lang="en" class="sf-bg">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartFlow Premium Template</title>
-  <link rel="stylesheet" href="src/smartflow-premium-theme.css">
+  <title>SFS Premium Template</title>
+  <link rel="stylesheet" href="src/sfs-premium-theme.css">
 </head>
 <body class="sf-bg">
   <div class="sf-container sf-section">
-    <h1 class="sf-shine sf-text-center">SmartFlow Premium Effects</h1>
+    <h1 class="sf-shine sf-text-center">SFS Premium Effects</h1>
     
     <div class="sf-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
       <div class="sf-glass">
         <h3 class="sf-shine">Standard Glass Card</h3>
-        <p class="sf-text-muted">This card shows flowing stars behind it and responds to sparkles.</p>
-        <button class="sf-btn sf-mt-4">Try Button</button>
+        <p class="sf-text-muted">Hover over this card to see the golden shine effect!</p>
+        <button class="sf-btn sf-mt-4">Open Live Mini-App</button>
       </div>
       
       <div class="sf-glass sf-glass-highlighted">
@@ -854,8 +878,8 @@ cat > "$HTML_TEMPLATE" <<'HTML'
       
       <div class="sf-glass">
         <h3 class="sf-shine">Interactive Card</h3>
-        <p class="sf-text-muted">Move your mouse around and click to see sparkle effects!</p>
-        <button class="sf-btn-ghost sf-mt-4">Ghost Button</button>
+        <p class="sf-text-muted">All SFS cards now have the same golden glow on hover!</p>
+        <button class="sf-btn-ghost sf-mt-4">What is this?</button>
       </div>
     </div>
   </div>
@@ -869,20 +893,20 @@ HTML
 
 # 11) Git add all new files
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  git add smartflow-kit "$SRC/smartflow-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
+  git add sfs-kit "$SRC/sfs-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
   echo "✅ Staged changes. Review: git diff --staged"
 fi
 
-echo "🎉 SmartFlow Premium bootstrap complete!"
+echo "🎉 SFS Premium bootstrap complete!"
 echo ""
 echo "📁 Files created:"
-echo " - smartflow-kit/smartflow-premium-theme.css (canonical premium theme)"
-echo " - $(realpath --relative-to="$ROOT" "$SRC")/smartflow-premium-theme.css"
+echo " - sfs-kit/sfs-premium-theme.css (canonical premium theme)"
+echo " - $(realpath --relative-to="$ROOT" "$SRC")/sfs-premium-theme.css"
 echo " - $(realpath --relative-to="$ROOT" "$COMP_TSX") (enhanced with highlight functionality)"
 echo " - $(realpath --relative-to="$ROOT" "$STARS_JS") (flowing stars animation)"
 echo " - $(realpath --relative-to="$ROOT" "$SPARKLES_JS") (interactive sparkles)"
 echo " - $(realpath --relative-to="$ROOT" "$INIT_JS") (initialization script)"
-echo " - smartflow-template.html (demo template)"
+echo " - sfs-template.html (demo template)"
 echo " - public/assets/brand/sfs-logo-*.svg (premium logos)"
 echo ""
 echo "✨ Premium Features Included:"
@@ -896,9 +920,9 @@ echo " - Enhanced buttons with shimmer animations"
 echo ""
 echo "🚀 Next Steps:"
 echo " 1) Use enhanced <GlassCard highlighted={true} toggleable={true}>content</GlassCard>"
-echo " 2) Open smartflow-template.html to see effects in action"
+echo " 2) Open sfs-template.html to see effects in action"
 echo " 3) Import: import GlassCard from './components/GlassCard'"
-echo " 4) Commit: git commit -m 'feat: premium SmartFlow visual effects system'"
-echo " 5) Move mouse around and click to see sparkles!"
+echo " 4) Commit: git commit -m 'feat: premium SFS golden hover effects system'"
+echo " 5) Hover over any card to see the golden shine effect!"
 echo ""
-echo "🎨 Your other SMS projects now get the same premium treatment!"
+echo "🎨 Your other SFS projects now get the same premium treatment!"
