@@ -90,9 +90,9 @@ class SFCardSelection {
             console.log('Card selected:', cardId);
             console.log('Classes after select:', cardElement.className);
             
-            // Force style update for debugging
-            cardElement.style.border = '3px solid rgba(212,175,55,1)';
-            cardElement.style.boxShadow = '0 0 60px rgba(212,175,55,1)';
+            // Force golden border effect immediately
+            cardElement.style.outline = '2px solid rgba(212,175,55,.6)';
+            cardElement.style.outlineOffset = '1px';
         }
         
         this.saveSelections();
