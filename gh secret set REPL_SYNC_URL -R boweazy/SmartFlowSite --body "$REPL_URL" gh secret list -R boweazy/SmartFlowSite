@@ -1,0 +1,21 @@
+[ -s server/index.ts ] || cat > server/index.ts <<'TS'
+import express from "express";
+import { exec } from "child_process";
+
+const app = express();
+app.use(express.json());
+
+app.post("/gh-sync", (req, res) => {
+  const ok = req.get("authorization") === `Bearer ${process.env.SYNC_TOKEN}`;
+  if (!ok) return res.status(401).json({ ok:false });
+
+  const ref = (req.body?.ref as string) || "main";
+  exec(`bash scripts/sync.sh ${ref}`, (err, out, errout) =>
+    err ? res.status(500).json({ ok:false, err: String(errout||err) })
+        : res.json({ ok:true, ref })
+  );
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`SmartFlow /gh-sync on ${PORT}`));
+TS
