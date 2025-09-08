@@ -916,7 +916,7 @@ HTML
 
 # 11) Git add all new files
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  git add sfs-kit "$SRC/sfs-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
+  git add sfs-kit "$SRC/sfs-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$CARD_SELECT_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
   echo "✅ Staged changes. Review: git diff --staged"
 fi
 
@@ -928,6 +928,7 @@ echo " - $(realpath --relative-to="$ROOT" "$SRC")/sfs-premium-theme.css"
 echo " - $(realpath --relative-to="$ROOT" "$COMP_TSX") (enhanced with highlight functionality)"
 echo " - $(realpath --relative-to="$ROOT" "$STARS_JS") (flowing stars animation)"
 echo " - $(realpath --relative-to="$ROOT" "$SPARKLES_JS") (interactive sparkles)"
+echo " - $(realpath --relative-to="$ROOT" "$CARD_SELECT_JS") (card selection with persistence)"
 echo " - $(realpath --relative-to="$ROOT" "$INIT_JS") (initialization script)"
 echo " - sfs-template.html (demo template)"
 echo " - public/assets/brand/sfs-logo-*.svg (premium logos)"
@@ -938,6 +939,8 @@ echo " - Slow-moving stars flowing behind glass cards"
 echo " - Interactive sparkles throughout the interface"
 echo " - Circuit board animation with data pulses"
 echo " - Toggleable card highlighting (PRO effect)"
+echo " - Click-to-select cards with localStorage persistence"
+echo " - Prominent golden glow selection like SmartPart card"
 echo " - Performance optimizations for mobile"
 echo " - Enhanced buttons with shimmer animations"
 echo ""
