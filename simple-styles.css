@@ -130,8 +130,28 @@ body {
 .card:hover {
   transform: translateY(-5px);
   border-color: #D4AF37;
-  box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+  box-shadow: 
+    0 0 40px rgba(212, 175, 55, 0.7),
+    0 0 20px rgba(255, 221, 0, 0.5),
+    0 12px 32px rgba(212, 175, 55, 0.2);
   background: rgba(45, 31, 26, 0.8);
+  animation: sf-card-golden-pulse 2s ease-in-out infinite alternate;
+}
+
+/* Golden pulse animation for simple cards */
+@keyframes sf-card-golden-pulse {
+  0% {
+    box-shadow: 
+      0 0 40px rgba(212, 175, 55, 0.7),
+      0 0 20px rgba(255, 221, 0, 0.5),
+      0 12px 32px rgba(212, 175, 55, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 60px rgba(212, 175, 55, 0.9),
+      0 0 30px rgba(255, 221, 0, 0.7),
+      0 12px 32px rgba(212, 175, 55, 0.3);
+  }
 }
 
 .testimonial {
@@ -197,7 +217,11 @@ body {
 .plan:hover {
   transform: translateY(-5px);
   border-color: #D4AF37;
-  box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+  box-shadow: 
+    0 0 40px rgba(212, 175, 55, 0.7),
+    0 0 20px rgba(255, 221, 0, 0.5),
+    0 12px 32px rgba(212, 175, 55, 0.2);
+  animation: sf-card-golden-pulse 2s ease-in-out infinite alternate;
 }
 
 .plan.featured:hover {
