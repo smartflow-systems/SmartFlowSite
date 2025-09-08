@@ -1,0 +1,16 @@
+name: Replit Sync
+on: { push: { branches: [main] } }
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Call Replit webhook
+        env:
+          SYNC_TOKEN: ${{ secrets.SYNC_TOKEN }}
+          REPL_SYNC_URL: ${{ secrets.REPL_SYNC_URL }}
+        run: |
+          curl -sSf -X POST "$REPL_SYNC_URL" \
+            -H "Authorization: Bearer $SYNC_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"ref":"main"}'
