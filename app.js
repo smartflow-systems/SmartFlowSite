@@ -34,20 +34,41 @@ async function loadLatest() {
     items.sort((a,b)=> new Date(b.date) - new Date(a.date));
     const top3 = items.slice(0,3);
 
+    // Clear existing content safely
+    target.textContent = '';
+    
     if (top3.length > 0) {
-      target.innerHTML = top3.map(p => `
-        <article class="latest-card">
-          <a href="${t(p.url || p.link || '#')}">
-            <h3>${t(p.title)}</h3>
-          </a>
-          <time datetime="${t(p.date)}">${new Date(p.date).toLocaleDateString()}</time>
-        </article>
-      `).join('');
+      top3.forEach(p => {
+        const article = document.createElement('article');
+        article.className = 'latest-card';
+        
+        const link = document.createElement('a');
+        link.href = p.url || p.link || '#';
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = p.title || '';
+        link.appendChild(h3);
+        
+        const time = document.createElement('time');
+        time.dateTime = p.date || '';
+        time.textContent = new Date(p.date).toLocaleDateString();
+        
+        article.appendChild(link);
+        article.appendChild(time);
+        target.appendChild(article);
+      });
     } else {
-      target.innerHTML = `<p class="muted">No posts yet.</p>`;
+      const p = document.createElement('p');
+      p.className = 'muted';
+      p.textContent = 'No posts yet.';
+      target.appendChild(p);
     }
   } catch (e) {
-    target.innerHTML = `<p class="muted">No posts yet.</p>`;
+    target.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'muted';
+    p.textContent = 'No posts yet.';
+    target.appendChild(p);
     console.error('Latest load error', e);
   }
 }
@@ -61,26 +82,76 @@ async function loadPricingCards() {
     const data = await res.json();
     const plans = data.plans || [];
 
-    target.innerHTML = plans.map(plan => `
-      <article class="pricing-card ${plan.popular ? 'popular' : ''}">
-        ${plan.popular ? '<div class="badge">Most Popular</div>' : ''}
-        <header class="plan-header">
-          <h3>${t(plan.name)}</h3>
-          <p class="subtitle">${t(plan.subtitle)}</p>
-          <div class="price">${t(plan.price)}<span class="period">/${t(plan.period)}</span></div>
-        </header>
-        <ul class="features">
-          ${(plan.features || []).map(f => `<li>${t(f)}</li>`).join('')}
-        </ul>
-        <footer class="plan-footer">
-          <a href="book.html?plan=${plan.id}" class="btn ${plan.popular ? 'btn-gold' : 'btn-ghost'} btn-full">
-            Choose ${t(plan.name)}
-          </a>
-        </footer>
-      </article>
-    `).join('');
+    // Clear existing content safely
+    target.textContent = '';
+    
+    // Create pricing cards using safe DOM methods
+    plans.forEach(plan => {
+      const article = document.createElement('article');
+      article.className = `pricing-card ${plan.popular ? 'popular' : ''}`;
+      
+      // Add popular badge if needed
+      if (plan.popular) {
+        const badge = document.createElement('div');
+        badge.className = 'badge';
+        badge.textContent = 'Most Popular';
+        article.appendChild(badge);
+      }
+      
+      // Create header section
+      const header = document.createElement('header');
+      header.className = 'plan-header';
+      
+      const h3 = document.createElement('h3');
+      h3.textContent = plan.name || '';
+      header.appendChild(h3);
+      
+      const subtitle = document.createElement('p');
+      subtitle.className = 'subtitle';
+      subtitle.textContent = plan.subtitle || '';
+      header.appendChild(subtitle);
+      
+      const priceDiv = document.createElement('div');
+      priceDiv.className = 'price';
+      priceDiv.textContent = plan.price || '';
+      
+      const period = document.createElement('span');
+      period.className = 'period';
+      period.textContent = `/${plan.period || ''}`;
+      priceDiv.appendChild(period);
+      header.appendChild(priceDiv);
+      
+      article.appendChild(header);
+      
+      // Create features list
+      const featuresList = document.createElement('ul');
+      featuresList.className = 'features';
+      (plan.features || []).forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        featuresList.appendChild(li);
+      });
+      article.appendChild(featuresList);
+      
+      // Create footer section
+      const footer = document.createElement('footer');
+      footer.className = 'plan-footer';
+      
+      const link = document.createElement('a');
+      link.href = `book.html?plan=${encodeURIComponent(plan.id || '')}`;
+      link.className = `btn ${plan.popular ? 'btn-gold' : 'btn-ghost'} btn-full`;
+      link.textContent = `Choose ${plan.name || ''}`;
+      footer.appendChild(link);
+      
+      article.appendChild(footer);
+      target.appendChild(article);
+    });
   } catch (e) {
-    target.innerHTML = '<p class="muted">Pricing data unavailable.</p>';
+    target.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'muted';
+    p.textContent = 'Pricing data unavailable.';
+    target.appendChild(p);
     console.error('Pricing load error', e);
   }
 }
@@ -214,5 +285,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   rotateTestimonials();
 });async function loadCfg(){return (await fetch("site.config.json")).json()}
 function timeAgo(d){const s=Math.floor((Date.now()-d.getTime())/1e3),t=[[31536e3,"y"],[2592e3,"mo"],[604800,"w"],[86400,"d"],[3600,"h"],[60,"m"]];for(const[sec,l]of t){const v=Math.floor(s/sec);if(v>=1)return`${v}${l} ago`}return`${s}s ago`}
-async function renderLatest(){const w=document.querySelector("#latest-feed");if(!w)return;const{projects}=await loadCfg(),k="sf_latest_v1",ttl=9e5;try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.when<ttl){w.innerHTML=c.html;return}}catch(e){}const cs=[];for(const p of projects){if(!p.repo)continue;try{const r=await fetch(`https://api.github.com/repos/${p.repo}/commits?per_page=3`,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)continue;const data=await r.json();for(const c of data){cs.push({repo:p.repo.split("/")[1],msg:(c.commit?.message||"Update").split("\n")[0],url:c.html_url,when:new Date(c.commit?.author?.date||c.commit?.committer?.date||Date.now())})}}catch(e){}}cs.sort((a,b)=>b.when-a.when);const top=cs.slice(0,3);if(!top.length){w.innerHTML="<p class=\"latest-item\">No recent updates yet.</p>";return}w.innerHTML=top.map(c=>`<article class="latest-item"><h3>${c.msg}</h3><div class="latest-meta"><span class="latest-repo">${c.repo}</span><span>⏱ ${timeAgo(c.when)}</span></div><div class="latest-actions"><a class="link" href="${c.url}" target="_blank" rel="noopener">View commit →</a></div></article>`).join("");try{localStorage.setItem(k,JSON.stringify({when:Date.now(),html:w.innerHTML}))}catch(e){}}
+async function renderLatest(){const w=document.querySelector("#latest-feed");if(!w)return;const{projects}=await loadCfg(),k="sf_latest_v1",ttl=9e5;try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.when<ttl){w.textContent='';const temp=document.createElement('div');temp.innerHTML=c.html;while(temp.firstChild)w.appendChild(temp.firstChild);return}}catch(e){}const cs=[];for(const p of projects){if(!p.repo)continue;try{const r=await fetch(`https://api.github.com/repos/${p.repo}/commits?per_page=3`,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)continue;const data=await r.json();for(const c of data){cs.push({repo:p.repo.split("/")[1],msg:(c.commit?.message||"Update").split("\n")[0],url:c.html_url,when:new Date(c.commit?.author?.date||c.commit?.committer?.date||Date.now())})}}catch(e){}}cs.sort((a,b)=>b.when-a.when);const top=cs.slice(0,3);w.textContent='';if(!top.length){const p=document.createElement('p');p.className='latest-item';p.textContent='No recent updates yet.';w.appendChild(p);return}top.forEach(c=>{const article=document.createElement('article');article.className='latest-item';const h3=document.createElement('h3');h3.textContent=c.msg;const meta=document.createElement('div');meta.className='latest-meta';const repo=document.createElement('span');repo.className='latest-repo';repo.textContent=c.repo;const time=document.createElement('span');time.textContent=`⏱ ${timeAgo(c.when)}`;meta.appendChild(repo);meta.appendChild(time);const actions=document.createElement('div');actions.className='latest-actions';const link=document.createElement('a');link.className='link';link.href=c.url;link.target='_blank';link.rel='noopener';link.textContent='View commit →';actions.appendChild(link);article.appendChild(h3);article.appendChild(meta);article.appendChild(actions);w.appendChild(article)});try{localStorage.setItem(k,JSON.stringify({when:Date.now(),html:w.innerHTML}))}catch(e){}}
 document.addEventListener("DOMContentLoaded",()=>{typeof renderProjects==="function"&&renderProjects();renderLatest()})
