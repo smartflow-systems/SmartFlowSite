@@ -82,11 +82,17 @@ class SFCardSelection {
             this.selectedCards.delete(cardId);
             cardElement.classList.remove('selected');
             console.log('Card deselected:', cardId);
+            console.log('Classes after deselect:', cardElement.className);
         } else {
             // Select
             this.selectedCards.add(cardId);
             cardElement.classList.add('selected');
             console.log('Card selected:', cardId);
+            console.log('Classes after select:', cardElement.className);
+            
+            // Force style update for debugging
+            cardElement.style.border = '3px solid rgba(212,175,55,1)';
+            cardElement.style.boxShadow = '0 0 60px rgba(212,175,55,1)';
         }
         
         this.saveSelections();
