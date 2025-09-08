@@ -110,9 +110,9 @@ img{max-width:100%;display:block}
 /* projects grid - glassmorphism cards */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .project-card{
-  background:linear-gradient(145deg, rgba(20,17,15,.7), rgba(11,11,11,.5));
+  background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.75), rgba(11,11,11,.6));
   backdrop-filter:saturate(180%) blur(18px) brightness(1.05);
-  border:1px solid rgba(212,175,55,.3);
+  border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.2);
   border-left:1px solid rgba(255,255,255,.1);
   padding:20px;
@@ -121,7 +121,7 @@ img{max-width:100%;display:block}
     0 12px 48px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.15),
     inset 0 -1px 0 rgba(0,0,0,.1),
-    0 0 0 1px rgba(212,175,55,.1);
+    0 0 0 1px rgba(212,175,55,.2);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   position:relative;
   overflow:hidden;
@@ -141,17 +141,17 @@ img{max-width:100%;display:block}
   opacity:1;
 }
 .project-card:hover{
-  background:linear-gradient(145deg, rgba(20,17,15,.85), rgba(11,11,11,.7));
-  border-color:rgba(212,175,55,.8);
-  border-top-color:rgba(255,221,0,.4);
+  background:linear-gradient(145deg, rgba(212,175,55,.12), rgba(20,17,15,.9), rgba(11,11,11,.75));
+  border-color:rgba(212,175,55,.6);
+  border-top-color:rgba(255,221,0,.3);
   transform:translateY(-4px);
   box-shadow:
-    0 0 40px rgba(212,175,55,.7),
-    0 0 20px rgba(255,221,0,.5),
+    0 0 30px rgba(212,175,55,.4),
+    0 0 15px rgba(255,221,0,.3),
     0 20px 60px rgba(0,0,0,.45),
     inset 0 1px 0 rgba(255,255,255,.25),
     inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 2px rgba(212,175,55,.4);
+    0 0 0 2px rgba(212,175,55,.3);
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 .project-card h3{margin-top:0}
@@ -161,9 +161,9 @@ img{max-width:100%;display:block}
 /* latest - glassmorphism cards */
 .latest-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .latest-card{
-  background:linear-gradient(140deg, rgba(20,17,15,.7), rgba(11,11,11,.55));
+  background:linear-gradient(140deg, rgba(212,175,55,.06), rgba(20,17,15,.7), rgba(11,11,11,.6));
   backdrop-filter:saturate(170%) blur(16px) brightness(1.03);
-  border:1px solid rgba(212,175,55,.28);
+  border:1px solid rgba(212,175,55,.35);
   border-top:1px solid rgba(255,255,255,.18);
   border-left:1px solid rgba(255,255,255,.1);
   padding:20px;
@@ -171,7 +171,8 @@ img{max-width:100%;display:block}
   box-shadow:
     0 8px 32px rgba(0,0,0,.3),
     inset 0 1px 0 rgba(255,255,255,.12),
-    inset 0 -1px 0 rgba(0,0,0,.08);
+    inset 0 -1px 0 rgba(0,0,0,.08),
+    0 0 0 1px rgba(212,175,55,.15);
   transition:all 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
   position:relative;
   overflow:hidden;
@@ -190,17 +191,17 @@ img{max-width:100%;display:block}
   left:100%;
 }
 .latest-card:hover{
-  background:linear-gradient(140deg, rgba(20,17,15,.82), rgba(11,11,11,.7));
-  border-color:rgba(212,175,55,.7);
-  border-top-color:rgba(255,221,0,.35);
+  background:linear-gradient(140deg, rgba(212,175,55,.1), rgba(20,17,15,.85), rgba(11,11,11,.75));
+  border-color:rgba(212,175,55,.5);
+  border-top-color:rgba(255,221,0,.25);
   transform:translateY(-3px);
   box-shadow:
-    0 0 30px rgba(212,175,55,.6),
-    0 0 15px rgba(255,221,0,.4),
+    0 0 20px rgba(212,175,55,.4),
+    0 0 10px rgba(255,221,0,.3),
     0 12px 40px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -1px 0 rgba(0,0,0,.12),
-    0 0 0 1px rgba(212,175,55,.3);
+    0 0 0 1px rgba(212,175,55,.25);
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 .latest-card time{display:block;color:var(--muted);font-size:.9rem;margin-top:6px}
@@ -285,25 +286,25 @@ body {
   }
 }
 
-/* Golden pulse animation for card hover effects */
+/* Golden pulse animation for card hover effects - softer glow */
 @keyframes sf-golden-pulse {
   0% {
     box-shadow:
-      0 0 40px rgba(212,175,55,.7),
-      0 0 20px rgba(255,221,0,.5),
+      0 0 25px rgba(212,175,55,.4),
+      0 0 12px rgba(255,221,0,.3),
       0 20px 60px rgba(0,0,0,.45),
       inset 0 1px 0 rgba(255,255,255,.25),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.4);
+      0 0 0 2px rgba(212,175,55,.3);
   }
   100% {
     box-shadow:
-      0 0 60px rgba(212,175,55,.9),
-      0 0 30px rgba(255,221,0,.7),
+      0 0 35px rgba(212,175,55,.6),
+      0 0 18px rgba(255,221,0,.4),
       0 20px 60px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 1px 0 rgba(255,255,255,.3),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.6);
+      0 0 0 2px rgba(212,175,55,.4);
   }
 }
 
@@ -381,9 +382,9 @@ body {
   margin-top:32px;
 }
 .price-card {
-  background:linear-gradient(150deg, rgba(20,17,15,.75), rgba(11,11,11,.6));
+  background:linear-gradient(150deg, rgba(212,175,55,.08), rgba(20,17,15,.8), rgba(11,11,11,.65));
   backdrop-filter:saturate(185%) blur(20px) brightness(1.06);
-  border:1px solid rgba(212,175,55,.35);
+  border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.22);
   border-left:1px solid rgba(255,255,255,.12);
   border-radius:24px;
@@ -392,7 +393,7 @@ body {
     0 16px 64px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -1px 0 rgba(0,0,0,.12),
-    0 0 0 1px rgba(212,175,55,.12);
+    0 0 0 1px rgba(212,175,55,.2);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   text-align:center;
   position:relative;
@@ -410,17 +411,17 @@ body {
   pointer-events:none;
 }
 .price-card:hover{
-  background:linear-gradient(150deg, rgba(20,17,15,.9), rgba(11,11,11,.75));
-  border-color:rgba(212,175,55,.8);
-  border-top-color:rgba(255,221,0,.4);
+  background:linear-gradient(150deg, rgba(212,175,55,.12), rgba(20,17,15,.95), rgba(11,11,11,.8));
+  border-color:rgba(212,175,55,.6);
+  border-top-color:rgba(255,221,0,.3);
   transform:translateY(-5px);
   box-shadow:
-    0 0 40px rgba(212,175,55,.7),
-    0 0 20px rgba(255,221,0,.5),
+    0 0 25px rgba(212,175,55,.4),
+    0 0 12px rgba(255,221,0,.3),
     0 24px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.25),
     inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 2px rgba(212,175,55,.4);
+    0 0 0 2px rgba(212,175,55,.3);
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 .price-card.featured{

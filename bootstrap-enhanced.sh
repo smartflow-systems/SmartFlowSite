@@ -67,12 +67,12 @@ cat > "$THEME_CANON" <<'CSS'
 .sf-bg{background:var(--sf-black);color:var(--sf-white)}
 .sf-text-muted{color:var(--sf-muted)}
 
-/* Ultra-Realistic Glassmorphism Cards */
+/* Ultra-Realistic Glassmorphism Cards with Golden Tint */
 .sf-glass{
   position:relative;
-  background:linear-gradient(145deg, rgba(20,17,15,.75), rgba(11,11,11,.6));
+  background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.8), rgba(11,11,11,.65));
   backdrop-filter:saturate(180%) blur(20px) brightness(1.06);
-  border:1px solid rgba(212,175,55,.35);
+  border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.22);
   border-left:1px solid rgba(255,255,255,.12);
   border-radius:20px;
@@ -81,7 +81,7 @@ cat > "$THEME_CANON" <<'CSS'
     0 16px 64px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -1px 0 rgba(0,0,0,.12),
-    0 0 0 1px rgba(212,175,55,.12);
+    0 0 0 1px rgba(212,175,55,.2);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   overflow:hidden;
 }
@@ -99,38 +99,38 @@ cat > "$THEME_CANON" <<'CSS'
 }
 
 .sf-glass:hover{
-  background:linear-gradient(145deg, rgba(20,17,15,.9), rgba(11,11,11,.75));
-  border-color:rgba(212,175,55,.8);
-  border-top-color:rgba(255,221,0,.4);
+  background:linear-gradient(145deg, rgba(212,175,55,.12), rgba(20,17,15,.95), rgba(11,11,11,.8));
+  border-color:rgba(212,175,55,.6);
+  border-top-color:rgba(255,221,0,.3);
   transform:translateY(-4px);
   box-shadow:
-    0 0 40px rgba(212,175,55,.7),
-    0 0 20px rgba(255,221,0,.5),
+    0 0 25px rgba(212,175,55,.4),
+    0 0 12px rgba(255,221,0,.3),
     0 24px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.25),
     inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 2px rgba(212,175,55,.4);
+    0 0 0 2px rgba(212,175,55,.3);
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes sf-golden-pulse {
   0% {
     box-shadow:
-      0 0 40px rgba(212,175,55,.7),
-      0 0 20px rgba(255,221,0,.5),
+      0 0 25px rgba(212,175,55,.4),
+      0 0 12px rgba(255,221,0,.3),
       0 24px 80px rgba(0,0,0,.5),
       inset 0 1px 0 rgba(255,255,255,.25),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.4);
+      0 0 0 2px rgba(212,175,55,.3);
   }
   100% {
     box-shadow:
-      0 0 60px rgba(212,175,55,.9),
-      0 0 30px rgba(255,221,0,.7),
+      0 0 35px rgba(212,175,55,.6),
+      0 0 18px rgba(255,221,0,.4),
       0 24px 80px rgba(0,0,0,.5),
-      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 1px 0 rgba(255,255,255,.3),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.6);
+      0 0 0 2px rgba(212,175,55,.4);
   }
 }
 
