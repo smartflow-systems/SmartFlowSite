@@ -154,6 +154,22 @@ cat > "$THEME_CANON" <<'CSS'
     inset 0 1px 0 rgba(255,255,255,.35);
 }
 
+/* Selected state for all cards - golden glow like SmartPart */
+.sf-glass.selected,
+.sf-card.selected {
+  background:linear-gradient(145deg, rgba(212,175,55,.15), rgba(20,17,15,.95), rgba(11,11,11,.8));
+  border-color:rgba(212,175,55,.8);
+  border-top-color:rgba(255,221,0,.5);
+  box-shadow:
+    0 0 40px rgba(212,175,55,.6),
+    0 0 20px rgba(255,221,0,.4),
+    0 16px 64px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.3),
+    inset 0 -1px 0 rgba(0,0,0,.15),
+    0 0 0 3px rgba(212,175,55,.6);
+  transform: translateY(-2px);
+}
+
 /* Enhanced buttons with glass effects */
 .sf-btn{
   display:inline-block;
@@ -886,6 +902,7 @@ cat > "$HTML_TEMPLATE" <<'HTML'
 
   <script src="src/effects/flowing-stars.js"></script>
   <script src="src/effects/sparkles.js"></script>
+  <script src="src/effects/card-selection.js"></script>
   <script src="src/smartflow-init.js"></script>
 </body>
 </html>
