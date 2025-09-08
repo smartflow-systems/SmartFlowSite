@@ -68,6 +68,7 @@ class SFCardSelection {
             // Don't interfere with buttons or links
             if (e.target.closest('button, a, input, select, textarea')) return;
             
+            console.log('Card clicked:', card.textContent.slice(0, 50));
             this.toggleCard(card);
         });
     }
@@ -80,10 +81,12 @@ class SFCardSelection {
             // Deselect
             this.selectedCards.delete(cardId);
             cardElement.classList.remove('selected');
+            console.log('Card deselected:', cardId);
         } else {
             // Select
             this.selectedCards.add(cardId);
             cardElement.classList.add('selected');
+            console.log('Card selected:', cardId);
         }
         
         this.saveSelections();
