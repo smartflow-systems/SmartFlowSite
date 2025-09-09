@@ -1,5 +1,5 @@
 name: SFS CI
-on: { push: { branches:[main] }, workflow_dispatch: {} }
+on: { push: { branches:[main] }, workflow_dispatch:{} }
 jobs:
   use:
     uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
@@ -11,3 +11,4 @@ jobs:
     secrets:
       SFS_PAT: ${{ secrets.SFS_PAT }}
       REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
+      SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
