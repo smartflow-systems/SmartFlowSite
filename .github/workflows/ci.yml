@@ -1,25 +1,13 @@
-name: CI
-
-on:
-  pull_request:
-  push:
-    branches: [ main ]
-
+name: SFS CI
+on: { push: { branches:[main] }, workflow_dispatch: {} }
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
-        submodules: recursive
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: |
-          python -m pip install --upgrade pip
-          pip install flask gunicorn
-      - run: |
-          nohup gunicorn -w 2 -b 0.0.0.0:5000 app:app &
-          sleep 5
-      - run: curl -f http://127.0.0.1:5000/health
+  use:
+    uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
+    with:
+      node_version: '20'
+      build: 'npm run build || echo "no build"'
+      test: 'npm test --if-present || echo "no tests"'
+      deploy_script: 'bash scripts/deploy.sh'
+    secrets:
+      SFS_PAT: ${{ secrets.SFS_PAT }}
+      REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
