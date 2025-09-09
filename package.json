@@ -1,18 +1,20 @@
 {
+  "name": "sfs-webhook",
+  "private": true,
+  "version": "0.0.1",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^5.1.0" },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.1",
     "autoprefixer": "^10.4.21",
-    "express": "^5.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
-  },
-  "scripts": {
-    "deploy:pages": "bash scripts/smartflow-github-vercel.sh pages",
-    "deploy:vercel": "bash scripts/smartflow-github-vercel.sh vercel",
-    "start": "node server.js"
   }
 }
