@@ -1,11 +1,27 @@
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const app = express(); const PORT = process.env.PORT || 3000;
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.get("/", (_r, res) => res.redirect("/landing"));
-app.get("/health", (_r, res) => res.send("ok"));
-app.listen(PORT, () => console.log(`SmartFlow static on :${PORT}`));
+{
+  "name": "smartflow-store-api",
+  "version": "0.1.0",
+  "description": "Smartflow Store MVP API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "migrate": "prisma migrate dev --name init",
+    "studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^16.5.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.16.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
