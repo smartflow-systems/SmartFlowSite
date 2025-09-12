@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "unzip", "zlib", "gh", "nano"]
+packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "unzip", "zlib", "gh", "nano", "opensshTest"]
 
 [workflows]
 runButton = "Project"
@@ -48,3 +48,12 @@ externalPort = 3001
 
 [deployment]
 deploymentTarget = "cloudrun"
+
+[rules]
+
+[rules.formatter]
+
+[rules.formatter.fileExtensions]
+
+[rules.formatter.fileExtensions.".json"]
+id = "module:nodejs-20/languageServer:typescript-language-server"

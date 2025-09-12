@@ -1,0 +1,33 @@
+// server.js
+const express = require("express");
+const crypto = require("crypto");
+const app = express();
+
+// keep raw body for HMAC verify
+app.use(express.json({ verify:(req,res,buf)=>{ req.rawBody = buf } }));
+
+app.get("/health", (_req,res)=>res.send("ok"));
+
+function verifySig(req, secret){
+  const sig = req.get("x-hub-signature-256") || "";
+  if (!sig || !secret) return false;
+  const h = "sha256=" + crypto.createHmac("sha256", secret)
+    .update(req.rawBody || Buffer.alloc(0)).digest("hex");
+  try { return crypto.timingSafeEqual(Buffer.from(h), Buffer.from(sig)); } catch { return false; }
+}
+
+app.post("/gh-sync", (req,res)=>{
+  const viaActions = (req.get("authorization")||"") === `Bearer ${process.env.REPLIT_TOKEN}`;
+  const viaWebhook = verifySig(req, process.env.SYNC_TOKEN);
+
+  if (!viaActions && !viaWebhook) return res.status(401).send("nope");
+
+  const repo = req.body?.repository?.full_name || req.body?.repo || "unknown";
+  const sha  = req.body?.after || req.body?.sha || "ping";
+  const ev   = req.get("x-github-event") || "manual";
+  console.log("[SFS] Deploy", {repo, sha, ev});
+  return res.json({ status:"ok" });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>console.log("SFS webhook on:"+PORT));

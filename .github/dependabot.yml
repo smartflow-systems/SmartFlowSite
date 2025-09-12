@@ -1,17 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: "weekly"
-    allow:
-      - dependency-type: "direct"
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "deps"
-      include: "scope"
-
-  - package-ecosystem: "github-actions"
+      interval: weekly
+  - package-ecosystem: pip
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: weekly

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PATH="$HOME/bin:$PATH"
 set -euo pipefail
 branch="${1:-main}"
 echo "🔄 Pulling $branch..."
