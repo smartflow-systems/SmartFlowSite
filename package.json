@@ -8,7 +8,9 @@
     "build": "echo 'no build step' && exit 0",
     "test": "echo 'no tests' && exit 0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "express-rate-limit": "^8.1.0"
+  },
   "devDependencies": {},
   "engines": {
     "node": ">=18"
