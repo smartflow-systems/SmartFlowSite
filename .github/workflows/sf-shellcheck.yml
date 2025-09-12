@@ -1,4 +1,6 @@
 name: SmartFlow Tools Lint
+permissions:
+  contents: read
 on:
   push:
     paths:
