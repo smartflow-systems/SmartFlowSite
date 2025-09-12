@@ -8,8 +8,6 @@
     "build": "echo 'no build step' && exit 0",
     "test": "echo 'no tests' && exit 0"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "engines": {
     "node": ">=18"
   }
