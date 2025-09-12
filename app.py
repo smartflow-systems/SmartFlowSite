@@ -38,8 +38,9 @@ def health():
 
 @app.route("/data/<path:fname>")
 def data_files(fname: str):
-    p = BASE / "data" / fname
-    if not p.exists():
+    data_base = (BASE / "data").resolve()
+    p = (data_base / fname).resolve()
+    if not str(p).startswith(str(data_base) + os.sep) or not p.exists():
         abort(404)
     return send_from_directory(p.parent, p.name)
 
