@@ -1,1 +1,20 @@
-.github/workflows/ci.yml
+name: SFS CI + Deploy
+on:
+  push:
+    branches: [ main, dev ]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  deploy:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder deploy
+        run: |
+          echo "Deploy step goes here (e.g., upload to hosting, run SSH, etc.)."
+          echo "CI finished OK on $GITHUB_REF"
