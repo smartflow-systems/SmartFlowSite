@@ -23,14 +23,25 @@
 </section>
 
 <script>
+// Utility to escape HTML in user-provided strings
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function genCaption(){
   const topic=document.getElementById('topic').value.trim();
   const out=document.getElementById('output');
   if(!topic){out.style.display='block';out.innerHTML='⚠️ Please enter a topic.';return;}
+  const safeTopic = escapeHTML(topic);
   const captions=[
-    `🔥 ${topic} done right. Who's booking next? #SmartFlow #${topic.replace(/\s+/g,'')}`,
-    `💈 ${topic}? We automate the captions so you don't have to. #AutoGrow #${topic.split(' ')[0]}`,
-    `🚀 ${topic} = more reach, more leads. #SellWhileYouSleep #SmartFlow`
+    `🔥 ${safeTopic} done right. Who's booking next? #SmartFlow #${safeTopic.replace(/\s+/g,'')}`,
+    `💈 ${safeTopic}? We automate the captions so you don't have to. #AutoGrow #${safeTopic.split(' ')[0]}`,
+    `🚀 ${safeTopic} = more reach, more leads. #SellWhileYouSleep #SmartFlow`
   ];
   const pick=captions[Math.floor(Math.random()*captions.length)];
   out.style.display='block';
