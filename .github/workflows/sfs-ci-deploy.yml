@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SFS_BUILD_CMD: "npm run build"
-  SFS_BUILD_DIR: "dist"
+  SFS_BUILD_CMD: "echo ok"
+  SFS_BUILD_DIR: "public"
 
 jobs:
   ci:
