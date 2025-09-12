@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-say(){ printf "\033[1;36m==> %s\033[0m\n" "$*"; }
 
-URL="${1:-}"      # pass your live pages URL after first deploy (e.g. https://smartflow-systems.github.io/SmartFlowSite/)
-CNAME_VAL="${2:-}"# optional custom domain (e.g. smartflow.site)
+URL="${1:-}"         # live Pages URL (optional)
+CNAME_VAL="${2:-}"   # custom domain (optional)
 
 mkdir -p public
 
-# 404 page (helps SPA / broken links)
+# 404 page
 cat > public/404.html <<'EOF'
 <!doctype html><meta charset="utf-8">
 <title>Page not found</title>
@@ -17,30 +16,18 @@ EOF
 
 # Optional CNAME
 if [[ -n "$CNAME_VAL" ]]; then
-  echo "$CNAME_VAL" > public/CNAME
-  say "CNAME set to $CNAME_VAL"
+  printf "%s\n" "$CNAME_VAL" > public/CNAME
+  echo "CNAME set to: $CNAME_VAL"
 fi
 
-# Update README with Live link (if URL provided)
+# Optional README link
 if [[ -n "$URL" ]]; then
-  START="<!-- BADGES:START -->"; END="<!-- BADGES:END -->"
-  tmp="$(mktemp)"
-  awk -v start="$START" -v end="$END" -v url="$URL" '
-    BEGIN{inblk=0; printed=0}
-    {
-      if ($0 ~ start){ print; inblk=1; next }
-      if ($0 ~ end){
-        if (!printed){ print "[**Live site**]("url")"; printed=1 }
-        print; inblk=0; next
-      }
-      print
-    }
-    END{ if (!printed) print "\n[**Live site**]("url")\n" }
-  ' README.md 2>/dev/null > "$tmp" || echo -e "[**Live site**]($URL)\n" > "$tmp"
-  mv "$tmp" README.md
-  say "README updated with live link."
+  {
+    echo
+    echo "[**Live site**]($URL)"
+  } >> README.md
+  echo "Added live link to README.md"
 fi
 
 git add public/404.html public/CNAME 2>/dev/null || true
 git add README.md 2>/dev/null || true
-./tools/sf save "docs: add 404 page${CNAME_VAL:+, CNAME} and README live link"
