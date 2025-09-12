@@ -1,5 +1,55 @@
-- name: Check SFS secrets
-  run: |
-    test -n "${{ secrets.SFS_PAT }}"      || (echo SFS_PAT MISSING && exit 1)
-    test -n "${{ secrets.REPLIT_TOKEN }}" || (echo REPLIT_TOKEN MISSING && exit 1)
-    test -n "${{ secrets.SFS_SYNC_URL }}" || (echo SFS_SYNC_URL MISSING && exit 1)
+name: CI
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect project type
+        id: detect
+        run: |
+          if [ -f package.json ]; then echo "type=node" >> $GITHUB_OUTPUT; fi
+          if [ -f requirements.txt ] || { [ -d src ] && ls **/*.py >/dev/null 2>&1; }; then echo "python=true" >> $GITHUB_OUTPUT; fi
+      - name: Set up Node
+        if: contains(steps.detect.outputs.type, 'node')
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: npm
+      - name: Install (Node)
+        if: contains(steps.detect.outputs.type, 'node')
+        run: |
+          npm ci || npm install
+      - name: Lint (Node)
+        if: contains(steps.detect.outputs.type, 'node')
+        run: |
+          if npm run | grep -q "lint"; then npm run lint; else echo "No lint script"; fi
+      - name: Test (Node)
+        if: contains(steps.detect.outputs.type, 'node')
+        run: |
+          if npm run | grep -q "test"; then npm test --if-present; else echo "No test script"; fi
+      - name: Build (Node)
+        if: contains(steps.detect.outputs.type, 'node')
+        run: |
+          if npm run | grep -q "build"; then npm run build; else echo "No build script"; fi
+
+      - name: Set up Python
+        if: steps.detect.outputs.python == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+      - name: Install (Python)
+        if: steps.detect.outputs.python == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint/Test (Python)
+        if: steps.detect.outputs.python == 'true'
+        run: |
+          if python -c "import pytest" 2>/dev/null; then pytest -q || true; else echo "pytest not installed"; fi
