@@ -3,14 +3,51 @@ on:
   push:
     branches: [ main, dev ]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  SFS_BUILD_CMD: "npm run build"
+  SFS_BUILD_DIR: "dist"
+
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
     secrets: inherit
-  deploy:
-    needs: ci
+
+  build_pages:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Placeholder deploy
-        run: echo "Add deploy steps here"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci || npm install
+      - name: Build
+        run: $SFS_BUILD_CMD
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.SFS_BUILD_DIR }}
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [ci, build_pages]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
