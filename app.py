@@ -45,7 +45,9 @@ def data_files(fname: str):
     except Exception:
         abort(404)
     # Ensure the requested file is within the data directory
-    if not str(p).startswith(str(data_root)):
+    try:
+        p.relative_to(data_root)
+    except ValueError:
         abort(403)
     if not p.exists():
         abort(404)
