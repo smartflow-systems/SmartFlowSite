@@ -2,7 +2,7 @@ modules = ["nodejs-20"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["gh","nano","unzip"]
+packages = ["gh", "nano", "unzip", "mailutils"]
 
 [workflows]
 run = "npm run dev"
