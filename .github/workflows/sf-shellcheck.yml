@@ -32,5 +32,4 @@ jobs:
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No shell scripts to check."
           else
-            shellcheck -S style "${files[@]}"
-          fi
+            shellcheck -S style "${files[@]
