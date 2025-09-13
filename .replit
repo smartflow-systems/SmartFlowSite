@@ -1,59 +1,32 @@
-modules = ["nodejs-20", "python-3.11", "python3"]
-[agent]
-expertMode = true
+set -euo pipefail
+cp -v .replit .replit.bak.$(date +%s)
+
+cat > .replit <<'REPLIT'
+modules = ["nodejs-20"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "unzip", "zlib", "gh", "nano", "opensshTest", "haskellPackages.ShellCheck"]
+packages = ["gh","nano","unzip"]
 
+# 👉 Run ONLY Next.js (binds to Replit's port via our wrapper)
 [workflows]
-runButton = "Project"
+run = "npm run dev"
 
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "SmartFlow Flask Production"
-
-[[workflows.workflow]]
-name = "SmartFlow Flask Production"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
+# Expose Next dev (internal 3000) on the public URL
 [[ports]]
 localPort = 3000
-externalPort = 3002
-
-[[ports]]
-localPort = 5000
 externalPort = 80
+REPLIT
 
-[[ports]]
-localPort = 5001
-externalPort = 3000
+# optional: keep wrapper we created earlier
+mkdir -p scripts
+cat > scripts/dev.sh <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+PORT_VAL="${PORT:-3000}"
+exec npx next dev -H 0.0.0.0 -p "$PORT_VAL"
+SH
+chmod +x scripts/dev.sh
 
-[[ports]]
-localPort = 5002
-externalPort = 3001
-
-[deployment]
-deploymentTarget = "cloudrun"
-
-[rules]
-
-[rules.formatter]
-
-[rules.formatter.fileExtensions]
-
-[rules.formatter.fileExtensions.".json"]
-id = "module:nodejs-20/languageServer:typescript-language-server"
+# Ensure package.json uses wrapper
+node -e 'const fs=require("fs");const p=JSON.parse(fs.readFileSync("package.json","utf8"));p.scripts=p.scripts||{};p.scripts.dev="bash scripts/dev.sh";fs.writeFileSync("package.json",JSON.stringify(p,null,2));console.log("scripts.dev set -> bash scripts/dev.sh")'
