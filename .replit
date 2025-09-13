@@ -1,2 +1,11 @@
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["gh","nano","unzip"]
+
+[workflows]
+run = "npm run dev"
+
 [agent]
 expertMode = true
