@@ -7,10 +7,14 @@ on:
     paths:
       - "tools/**"
       - ".github/workflows/sf-shellcheck.yml"
+    paths-ignore:
+      - "tools/archive/**"
   pull_request:
     paths:
       - "tools/**"
       - ".github/workflows/sf-shellcheck.yml"
+    paths-ignore:
+      - "tools/archive/**"
 
 jobs:
   shellcheck:
@@ -23,9 +27,9 @@ jobs:
           sudo apt-get install -y shellcheck || true
       - name: Lint shell scripts in tools/
         run: |
-          shopt -s nullglob
-          files=(tools/*.sh tools/*.bash tools/*.zsh tools/*/*.sh)
-          if [ ${#files[@]} -eq 0 ]; then
+          set -euo pipefail
+          mapfile -t files < <(find tools -type f \( -name '*.sh' -o -name '*.bash' -o -name '*.zsh' \) ! -path 'tools/archive/*')
+          if [ "${#files[@]}" -eq 0 ]; then
             echo "No shell scripts to check."
           else
             shellcheck -S style "${files[@]}"
