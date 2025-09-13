@@ -1,7 +1,11 @@
 name: SFS CI
+permissions:
+  contents: read
+
 on:
   workflow_call:
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,6 +15,9 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      - run: npm ci || npm install
-      - run: npm run build
-      - run: npm test
+      - name: Install deps
+        run: npm ci || npm install
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test

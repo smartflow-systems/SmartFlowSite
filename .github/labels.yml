@@ -23,6 +23,22 @@
   color: 6f42c1
   description: Pull requests that update GitHub Actions code
 
+- name: ci
+  color: 0e8a16
+  description: CI/CD related
+
+- name: test
+  color: 5319e7
+  description: Tests or QA
+
+- name: security
+  color: ededed
+  description: Security-related
+
+- name: urgent
+  color: ff0000
+  description: Needs priority attention
+
 - name: good first issue
   color: 7057ff
   description: Good for newcomers
@@ -46,4 +62,3 @@
 - name: wontfix
   color: ffffff
   description: This will not be worked on
-

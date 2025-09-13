@@ -1,11 +1,17 @@
 name: SFS Diagnose
-on: { workflow_dispatch: {} }
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Repo=$GITHUB_REPOSITORY ref=$GITHUB_REF_NAME"
-      - run: |
+      - name: Print repo/ref
+        run: echo "Repo=$GITHUB_REPOSITORY ref=$GITHUB_REF_NAME"
+      - name: Check required secrets
+        run: |
           test -n "${{ secrets.SFS_PAT }}" && echo SFS_PAT=OK || echo SFS_PAT=MISSING
           test -n "${{ secrets.REPLIT_TOKEN }}" && echo REPLIT_TOKEN=OK || echo REPLIT_TOKEN=MISSING
           test -n "${{ secrets.SFS_SYNC_URL }}" && echo SFS_SYNC_URL=OK || echo SFS_SYNC_URL=MISSING
