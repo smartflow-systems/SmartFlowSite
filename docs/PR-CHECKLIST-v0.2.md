@@ -1,5 +1,0 @@
-- [ ] /api/boost returns ok:true, version:"v0.2", boosts[3]
-- [ ] CORS:* enabled; OPTIONS works
-- [ ] /boost page loads; Copy JSON works
-- [ ] Brand colors match SFS (black/brown/gold)
-- [ ] No secrets required; safe public endpoint
