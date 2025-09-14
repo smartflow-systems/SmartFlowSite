@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 : "${THRESHOLD_MB:=25}"
-: "${LFS:=0}" # 1 = add non-destructive LFS patterns
-echo "🔎 Files >= ${THRESHOLD_MB}MB"
-find . -type f -size +"${THRESHOLD_MB}"M -not -path "./.git/*" -printf "%p\t%k KB\n" | sort -k2 -nr \
-  | tee reports/large_files.txt || true
-if [ "${LFS}" = "1" ]; then
-  { echo "*.png filter=lfs diff=lfs merge=lfs -text"
-    echo "*.jpg filter=lfs diff=lfs merge=lfs -text"
-    echo "*.zip filter=lfs diff=lfs merge=lfs -text"
-    echo "*.mp4 filter=lfs diff=lfs merge=lfs -text"; } >> .gitattributes
-  git add .gitattributes && git commit -m "chore: suggest Git LFS patterns" || true
-  echo "Note: enable LFS in repo settings and run 'git lfs install' locally."
+: "${INCLUDE_NODE_MODULES:=0}"  # set to 1 to include node_modules in scan (off by default)
+
+# Build an exclusion set
+EXCLUDES='-not -path "./.git/*" -a -not -path "./.sfs-backups/*" -a -not -path "./reports/*" -a -not -path "./build/*" -a -not -path "./dist/*" -a -not -path "./.next/*" -a -not -path "./.vercel/*"'
+if [ "${INCLUDE_NODE_MODULES}" != "1" ]; then
+  EXCLUDES="${EXCLUDES} -a -not -path \"./node_modules/*\""
 fi
+
+# shellcheck disable=SC2086
+eval "find . -type f -size +${THRESHOLD_MB}M ${EXCLUDES} -printf '%p\t%k KB\n' | sort -k2 -nr" > reports/large_files.txt || true
+
+[ -s reports/large_files.txt ] && echo "⚠ large files detected (reports/large_files.txt)" || echo "• no large files (threshold ${THRESHOLD_MB}MB)"

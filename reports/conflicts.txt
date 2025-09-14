@@ -23,7 +23,7 @@
 ./.config/npm/node_global/lib/node_modules/vercel/node_modules/typescript/lib/typingsInstaller.js:10625:    var mergeConflictMarkerLength = "<<<<<<<".length;
 ./.config/npm/node_global/lib/node_modules/vercel/node_modules/typescript/lib/typingsInstaller.js:10657:            // of the next ======= or >>>>>>> marker.
 ./scripts/sfs-health.sh:8:grep -R -n --exclude-dir .git -E '<<<<<<<|>>>>>>>' . > reports/conflicts.txt 2>/dev/null || true
-./scripts/sfs-resolve-conflicts.sh:24:pat = re.compile(r"<<<<<<<[^\n]*\n(.*?)\n=======\n(.*?)\n>>>>>>>[^\n]*\n?", re.S)
+./scripts/sfs-resolve-conflicts.sh:20:pat=re.compile(r"<<<<<<<[^\n]*\n(.*?)\n=======\n(.*?)\n>>>>>>>[^\n]*\n?", re.S)
 ./node_modules/typescript/lib/_tsc.js:8457:var mergeConflictMarkerLength = "<<<<<<<".length;
 ./node_modules/typescript/lib/typescript.js:11869:var mergeConflictMarkerLength = "<<<<<<<".length;
 ./.sfs-backups/20250914-024942/scripts/sfs-health.sh:17:if grep -R -n --exclude-dir .git -E '<<<<<<<|>>>>>>>' . >/tmp/sfs_conflicts.txt 2>/dev/null; then
