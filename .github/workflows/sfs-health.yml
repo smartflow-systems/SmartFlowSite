@@ -1,0 +1,16 @@
+name: SFS Health
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run health audit
+        run: bash scripts/sfs-health.sh || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sfs-health-reports
+          path: reports/**
