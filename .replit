@@ -1,6 +1,5 @@
-run = "npm run dev"
+run = "PORT=3000 npm run start"
 modules = ["nodejs-20"]
 
-[[ports]]
-localPort = 3000
-externalPort = 80
+[agent]
+expertMode = true

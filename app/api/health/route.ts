@@ -1,2 +1,0 @@
-export const dynamic = 'force-static';
-export async function GET(){ return Response.json({ ok:true, service:"SmartFlowSite", via:"app-router", ts:Date.now() }); }
