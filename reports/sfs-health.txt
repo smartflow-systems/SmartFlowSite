@@ -1,4 +1,4 @@
-FAIL=1
+FAIL=0
 workflows:
 .github/workflows/ci.yml
 .github/workflows/deploy.yml
@@ -9,5 +9,3 @@ workflows:
 .github/workflows/sfs-health.yml
 .github/workflows/sf-shellcheck.yml
 .github/workflows/sfs-rules-ci.yml
-conflicts: reports/conflicts.txt
-large_files: reports/large_files.txt
