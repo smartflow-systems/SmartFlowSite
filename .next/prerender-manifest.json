@@ -1,6 +1,30 @@
 {
   "version": 4,
   "routes": {
+    "/": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/api/health": {
       "initialHeaders": {
         "content-type": "application/json",
@@ -53,37 +77,13 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
-    },
-    "/": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/",
-      "dataRoute": "/index.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "8e392e22c5f0e9e089172784054c5243",
-    "previewModeSigningKey": "aea3fa8e96b4ca87413b0a0702b1b35d2cad9c56bdf8f79f46ea457bd758eda5",
-    "previewModeEncryptionKey": "65c7ba9501c7fc3067a15f72a4c67f964f5977848e7e20010732fb856e9280ac"
+    "previewModeId": "91bb2b8c02a519991d681c7a3c08c2a2",
+    "previewModeSigningKey": "5f8c1f65becb7a3cc0067d01a508e323fe9e1b35392866b86af69f916c04e711",
+    "previewModeEncryptionKey": "80e7f09488a88ddbbe752908ee5ff5952fc088756049c8447ec44f58e5bb00a1"
   }
 }

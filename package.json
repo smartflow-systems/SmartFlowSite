@@ -5,17 +5,18 @@
   "scripts": {
     "sfs:diag": "bash scripts/sfs-diagnose.sh",
     "sfs:smoke": "node src/sfs-smoke.js",
-    "build": "next build",
+    "build": "tsc -v >/dev/null 2>&1 && tsc --noEmit || true; next build",
     "start": "next start -p ${PORT:-3000}",
-    "dev": "next dev -p ${PORT:-3000}"
+    "dev": "next dev -p ${PORT:-3000}",
+    "lint": "next lint || true"
   },
   "devDependencies": {
-    "@types/node": "24.5.0",
-    "@types/react": "19.1.13",
+    "@types/node": "^24.5.0",
+    "@types/react": "^19.1.13",
     "next": "^15.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "typescript": "5.9.2"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "express": "^5.1.0",
