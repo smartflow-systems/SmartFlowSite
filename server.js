@@ -9,6 +9,8 @@ const routes = {
     else ok(res, JSON.stringify({ ok:true, route:"gh-sync", method:"GET" }), "application/json");
   },
 };
-http.createServer((req, res) => (routes[req.url] || routes["/"])(req, res)).listen(PORT, () => {
-  console.log(`EMERGENCY ONLINE on :${PORT}`);
-});
+// Emergency server disabled - Next.js handles all traffic
+console.log(`EMERGENCY SERVER DISABLED - Next.js running on port 5000`);
+// http.createServer((req, res) => (routes[req.url] || routes["/"])(req, res)).listen(PORT, () => {
+//   console.log(`EMERGENCY ONLINE on :${PORT}`);
+// });
