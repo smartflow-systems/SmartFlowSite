@@ -3,7 +3,7 @@
 
 type AppRoutes = "/"
 type AppRouteHandlerRoutes = "/api/gh-sync" | "/api/health"
-type PageRoutes = "/"
+type PageRoutes = never
 type LayoutRoutes = "/"
 type RedirectRoutes = never
 type RewriteRoutes = "/health"
