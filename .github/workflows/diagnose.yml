@@ -1,0 +1,27 @@
+name: Actions Diagnose
+on:
+  push:
+    branches: [dev, main]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print context
+        run: |
+          echo "Repo       = $GITHUB_REPOSITORY"
+          echo "Ref        = $GITHUB_REF_NAME"
+          echo "Event      = $GITHUB_EVENT_NAME"
+          echo "Commit     = $GITHUB_SHA"
+          echo "Actor      = $GITHUB_ACTOR"
+      - name: Show workflow files present
+        run: |
+          printf "\n-- Workflows --\n"
+          ls -1 .github/workflows || true
+      - name: Show shell scripts that shellcheck would lint
+        run: |
+          printf "\n-- Candidate shell scripts (excluding tools/archive) --\n"
+          find tools -type f \( -name '*.sh' -o -name '*.bash' -o -name '*.zsh' \) ! -path 'tools/archive/*' -print 2>/dev/null || echo "No tools/ dir or no scripts."

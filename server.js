@@ -1,27 +1,16 @@
-{
-  "name": "smartflow-store-api",
-  "version": "0.1.0",
-  "description": "Smartflow Store MVP API",
-  "main": "server.js",
-  "type": "module",
-  "scripts": {
-    "dev": "node server.js",
-    "migrate": "prisma migrate dev --name init",
-    "studio": "prisma studio"
+import http from "node:http";
+const PORT = process.env.PORT || 3000;
+const ok = (res, body, type="text/plain") => { res.writeHead(200, {"content-type": type}); res.end(body); };
+const routes = {
+  "/":            (_req, res) => ok(res, "SmartFlowSite ✓ (emergency online)"),
+  "/api/health":  (_req, res) => ok(res, JSON.stringify({ ok:true, service:"SmartFlowSite", via:"emergency", ts:Date.now() }), "application/json"),
+  "/api/gh-sync": (req, res) => {
+    if (req.method === "POST") { let d=""; req.on("data",c=>d+=c); req.on("end",()=> ok(res, JSON.stringify({ ok:true, route:"gh-sync", method:"POST", body:d?JSON.parse(d):{} }), "application/json")); }
+    else ok(res, JSON.stringify({ ok:true, route:"gh-sync", method:"GET" }), "application/json");
   },
-  "dependencies": {
-    "@prisma/client": "^5.16.1",
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2",
-    "stripe": "^16.5.0"
-  },
-  "devDependencies": {
-    "prisma": "^5.16.1"
-  },
-  "engines": {
-    "node": ">=18"
-  }
-}
+};
+// Emergency server disabled - Next.js handles all traffic
+console.log(`EMERGENCY SERVER DISABLED - Next.js running on port 5000`);
+// http.createServer((req, res) => (routes[req.url] || routes["/"])(req, res)).listen(PORT, () => {
+//   console.log(`EMERGENCY ONLINE on :${PORT}`);
+// });

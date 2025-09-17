@@ -1,0 +1,9 @@
+.github/workflows/ci.yml
+.github/workflows/deploy.yml
+.github/workflows/diagnose.yml
+.github/workflows/labels-sync.yml
+.github/workflows/sfs-ci-deploy.yml
+.github/workflows/sfs-diagnose.yml
+.github/workflows/sfs-health.yml
+.github/workflows/sf-shellcheck.yml
+.github/workflows/sfs-rules-ci.yml
