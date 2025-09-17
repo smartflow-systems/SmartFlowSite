@@ -1,0 +1,88 @@
+set -euo pipefail
+
+echo "▶ Finalise SmartFlowSite as Express + Vite"
+ts=$(date -u +%Y%m%d-%H%M%S)
+
+# 0) Preconditions
+test -f server/index.ts || { echo "❌ server/index.ts missing (not SmartFlowSite)"; exit 1; }
+
+# 1) Ensure minimal /health (idempotent)
+grep -q 'app.get("/health")' server/index.ts || cat >> server/index.ts <<'TS'
+
+/* ---- SmartFlow minimal health ---- */
+app.get("/health", (_req,res)=>res
+  .type("application/json")
+  .send(JSON.stringify({ ok:true, service:"SmartFlowSite", via:"express" })));
+/* ---- end ---- */
+TS
+
+# 2) Package scripts -> Node/Express (backup then patch)
+cp package.json "package.json.bak.$ts"
+node - <<'NODE'
+const fs=require('fs'); const P='package.json';
+const j=JSON.parse(fs.readFileSync(P,'utf8'));
+j.type = j.type || "module";
+j.engines = { node: ">=20" };
+j.scripts = Object.assign({}, j.scripts, {
+  dev: "NODE_ENV=development tsx server/index.ts",
+  build: "npm --prefix client run build",
+  start: "NODE_ENV=production tsx server/index.ts",
+  preview: j.scripts?.preview || "npm --prefix client run preview"
+});
+fs.writeFileSync(P, JSON.stringify(j,null,2));
+console.log("Scripts set:", j.scripts);
+NODE
+
+# 3) CI smoke (OVERWRITE)
+mkdir -p .github/workflows
+cat > .github/workflows/front-smoke.yml <<'YAML'
+name: Frontend Smoke (Express+Vite)
+on:
+  push:
+    paths: [ "client/**", "server/**", "package.json", ".github/workflows/front-smoke.yml" ]
+  workflow_dispatch:
+    inputs:
+      SMOKE_URL:
+        description: "Optional deployed URL to curl /health"
+        required: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: npm ci
+      - run: npm --prefix client ci || true
+      - run: npm --prefix client run build
+      - run: test -f client/dist/index.html
+      - name: Optional external health
+        if: ${{ inputs.SMOKE_URL != '' }}
+        run: curl -fsS "${{ inputs.SMOKE_URL }}/health"
+YAML
+
+# 4) Local smoke helper (OVERWRITE)
+mkdir -p scripts
+cat > scripts/smoke-local.sh <<'BASH'
+#!/usr/bin/env bash
+set -euo pipefail
+PORT=${PORT:-5000}
+echo "Health:"; curl -fsS "http://localhost:$PORT/health"; echo
+echo "Root HEAD:"; curl -sI "http://localhost:$PORT/" | head -n1
+if [ -n "${DEV_PROXY_TARGET:-}" ]; then
+  echo "Status via proxy:"; curl -fsS "http://localhost:$PORT/status" | head -n1 || true
+else
+  echo "Set DEV_PROXY_TARGET to test /status proxy."
+fi
+BASH
+chmod +x scripts/smoke-local.sh
+
+# 5) Ensure deps present (safe re-run)
+npm i express >/dev/null 2>&1 || true
+npm i -D tsx http-proxy-middleware @types/express >/dev/null 2>&1 || true
+
+# 6) Build SPA + nudge server
+npm --prefix client run build --silent || echo "ℹ Vite build optional in dev"
+touch server/index.ts
+
+echo "✅ Done. Backups: package.json.bak.$ts"

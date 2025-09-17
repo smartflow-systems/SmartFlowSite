@@ -32,3 +32,9 @@ app.listen(PORT, '0.0.0.0', () => console.log(`SmartFlowSite Express server runn
 /* ---- SmartFlow minimal health ---- */
 app.get("/health", (_req,res)=>res.type("application/json").send(JSON.stringify({ok:true, service:"SmartFlowSite"})));
 /* ---- end ---- */
+
+/* ---- SmartFlow minimal health ---- */
+app.get("/health", (_req,res)=>res
+  .type("application/json")
+  .send(JSON.stringify({ ok:true, service:"SmartFlowSite", via:"express" })));
+/* ---- end ---- */
