@@ -1,0 +1,22 @@
+name: Frontend Smoke
+on:
+  push:
+    paths: [ "client/**", "server/**", ".github/workflows/front-smoke.yml" ]
+  workflow_dispatch:
+    inputs:
+      SMOKE_URL:
+        description: "Optional deployed URL to curl /health"
+        required: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: npm ci
+      - run: npm --prefix client ci || true
+      - run: npm --prefix client run build
+      - run: test -f client/dist/index.html
+      - if: ${{ inputs.SMOKE_URL != '' }}
+        run: curl -fsS "${{ inputs.SMOKE_URL }}/health"
