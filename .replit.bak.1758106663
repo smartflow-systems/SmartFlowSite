@@ -1,4 +1,4 @@
-run = "PORT=${PORT:-5000} node server.js"
+run = "PORT=${PORT:-3000} node server.js"
 modules = ["nodejs-20"]
 
 [agent]
