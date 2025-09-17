@@ -44,8 +44,12 @@ def data_files(fname: str):
         p = (data_root / fname).resolve()
     except Exception:
         abort(404)
-    # Ensure the requested file is within the data directory
-    if not str(p).startswith(str(data_root)):
+    # Ensure the requested file is within the data directory using robust containment
+    try:
+        common = os.path.commonpath([str(data_root), str(p)])
+    except ValueError:
+        abort(403)
+    if common != str(data_root):
         abort(403)
     if not p.exists():
         abort(404)
