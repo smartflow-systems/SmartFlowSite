@@ -1,10 +1,10 @@
 run = "python3 main.py"
 
 [workflows]
-runButton = "SmartFlow Production"
+runButton = "Flask Server"
 
 [[workflows.workflow]]
-name = "SmartFlow Production"
+name = "Flask Server"
 author = 36680818
 mode = "sequential"
 
