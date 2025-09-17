@@ -1,0 +1,38 @@
+from flask import Flask, request, jsonify
+import os
+app = Flask(__name__)
+from app.api.test_route import router as test_route
+
+@app.get("/health")
+def health():
+    return "ok"
+
+@app.post("/gh-sync")
+def gh_sync():
+    if request.headers.get("Authorization","") != f"Bearer {os.environ.get('REPLIT_TOKEN','')}":
+        return ("nope", 401)
+    data = request.get_json(silent=True) or {}
+    print("[SFS] Deploy", data)
+    return jsonify(status="ok")
+
+# Overwrite .replit config to use Python Flask app
+with open('.replit', 'w') as f:
+    f.write("run = \"python3 main.py\"\n")
+
+# Optional: Add replit.nix for correct Python env (if not already present)
+with open('replit.nix', 'w') as f:
+    f.write("{ pkgs }: {\n  deps = [ pkgs.python3 pkgs.python3Packages.pip ];\n}\n")
+
+print("✅ .replit configured to run Flask")
+app.register_blueprint(test_route)
+
+@app.get("/status")
+def status():
+    from pathlib import Path
+    import subprocess
+    version = (Path("VERSION").read_text().strip() if Path("VERSION").exists() else "dev")
+    try:
+        commit = subprocess.check_output(["git","rev-parse","--short","HEAD"]).decode().strip()
+    except Exception:
+        commit = "n/a"
+    return jsonify(status="ok", version=version, commit=commit)
