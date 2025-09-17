@@ -1,5 +1,5 @@
 run = "PORT=${PORT:-3000} node server.js"
-modules = ["nodejs-20"]
+modules = ["nodejs-20", "python-3.11"]
 
 [agent]
 expertMode = true

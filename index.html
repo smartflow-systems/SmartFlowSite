@@ -114,6 +114,19 @@
     </div>
   </section>
 
+  <!-- Status Panel (dev/admin only) -->
+  <div id="status-panel" class="status-panel" style="display: none;">
+    <div class="status-content">
+      <div class="status-header">
+        <span class="status-title">System Status</span>
+        <button class="status-toggle" onclick="toggleStatusPanel()">×</button>
+      </div>
+      <div id="status-data" class="status-data">
+        <div class="status-loading">Checking backend...</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Latest (auto from /data/posts.json) -->
   <section id="latest" class="section container">
     <h2 class="section-title">Latest from SmartFlow</h2>

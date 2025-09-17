@@ -18,5 +18,41 @@ jobs:
       - run: npm --prefix client ci || true
       - run: npm --prefix client run build
       - run: test -f client/dist/index.html
-      - if: ${{ inputs.SMOKE_URL != '' }}
-        run: curl -fsS "${{ inputs.SMOKE_URL }}/health"
+
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ inputs.SMOKE_URL != '' }}
+    steps:
+      - name: Test deployed root endpoint
+        run: |
+          echo "Testing root endpoint..."
+          curl -fsS "${{ inputs.SMOKE_URL }}/" -o /dev/null
+          echo "✅ Root endpoint accessible"
+          
+      - name: Install dependencies for testing
+        run: sudo apt-get update && sudo apt-get install -y jq
+        
+      - name: Test deployed health endpoint
+        run: |
+          echo "Testing health endpoint..."
+          response=$(curl -fsS "${{ inputs.SMOKE_URL }}/health")
+          echo "Health response: $response"
+          if echo "$response" | jq -e '.ok == true' > /dev/null; then
+            echo "✅ Health endpoint returning ok:true"
+          else
+            echo "❌ Health endpoint not returning ok:true"
+            exit 1
+          fi
+          
+      - name: Test status endpoint (optional)
+        continue-on-error: true
+        run: |
+          echo "Testing status endpoint..."
+          response=$(curl -fsS "${{ inputs.SMOKE_URL }}/status" || echo '{"error":"unavailable"}')
+          echo "Status response: $response"
+          if echo "$response" | jq -e '.ok' > /dev/null 2>&1; then
+            echo "✅ Status endpoint available"
+          else
+            echo "⚠️  Status endpoint not available (expected if no backend)"
+          fi

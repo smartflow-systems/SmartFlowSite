@@ -4,6 +4,7 @@
   "leadWebhook":"",
   "leadMagnetUrl":"assets/lead-magnet-smartflow.pdf",
   "smartPartUrl":"https://your-smartpart.replit.app",
+  "showStatusPanel":false,
   "projects":[
     {"name":"AI Social Bot","tagline":"Auto-engage & publish","repo":"boweazy/SFS-AIbofs-social-media","demo":"https://your-demo.ai-bot","cta":"Buy","ctaUrl":"#"},
     {"name":"Booking System","tagline":"Stripe + Calendar","repo":"boweazy/SmartFlowBooking","demo":"https://your-demo.booking","cta":"Book Demo","ctaUrl":"#"},
