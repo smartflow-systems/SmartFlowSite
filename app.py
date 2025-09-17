@@ -38,7 +38,19 @@ def health():
 
 @app.route("/data/<path:fname>")
 def data_files(fname: str):
-    p = BASE / "data" / fname
+    data_root = BASE / "data"
+    # Normalize and resolve the final path
+    try:
+        p = (data_root / fname).resolve()
+    except Exception:
+        abort(404)
+    # Ensure the requested file is within the data directory using robust containment
+    try:
+        common = os.path.commonpath([str(data_root), str(p)])
+    except ValueError:
+        abort(403)
+    if common != str(data_root):
+        abort(403)
     if not p.exists():
         abort(404)
     return send_from_directory(p.parent, p.name)
