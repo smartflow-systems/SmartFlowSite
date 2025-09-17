@@ -1,5 +1,3 @@
-[![SFS Ping](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ping.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ping.yml)
-
 [![Deploy](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/deploy.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/deploy.yml)
 
 <!-- BADGES:START -->
