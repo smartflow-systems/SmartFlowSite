@@ -1,1 +1,13 @@
 run = "python3 main.py"
+
+[workflows]
+runButton = "SmartFlow Production"
+
+[[workflows.workflow]]
+name = "SmartFlow Production"
+author = 36680818
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 main.py"
