@@ -5,29 +5,25 @@
   "scripts": {
     "sfs:diag": "bash scripts/sfs-diagnose.sh",
     "sfs:smoke": "node src/sfs-smoke.js",
-    "build": "npm --prefix client run build",
-    "start": "NODE_ENV=production tsx server/index.ts",
-    "dev": "NODE_ENV=development tsx server/index.ts",
-    "lint": "next lint || true",
-    "preview": "npm --prefix client run preview"
+    "build": "tsc -v >/dev/null 2>&1 && tsc --noEmit || true; next build",
+    "start": "next start -p ${PORT:-3000}",
+    "dev": "next dev -p ${PORT:-3000}",
+    "lint": "next lint || true"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
     "@types/node": "^24.5.0",
     "@types/react": "^19.1.13",
-    "http-proxy-middleware": "^3.0.5",
     "next": "^15.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@types/express": "^5.0.3",
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
+    "http-proxy-middleware": "^3.0.5",
+    "tsx": "^4.20.5",
     "vite": "^7.1.5"
-  },
-  "engines": {
-    "node": ">=20"
   }
 }

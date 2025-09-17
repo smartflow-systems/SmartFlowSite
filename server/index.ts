@@ -29,3 +29,6 @@ app.post('/gh-sync', (req, res) => {
 
 const PORT = Number(process.env.PORT)||5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`SmartFlowSite Express server running on ${PORT}`));
+/* ---- SmartFlow minimal health ---- */
+app.get("/health", (_req,res)=>res.type("application/json").send(JSON.stringify({ok:true, service:"SmartFlowSite"})));
+/* ---- end ---- */

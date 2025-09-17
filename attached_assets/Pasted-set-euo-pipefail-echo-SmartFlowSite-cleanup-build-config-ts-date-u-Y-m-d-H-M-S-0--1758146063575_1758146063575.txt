@@ -1,0 +1,57 @@
+set -euo pipefail
+
+echo "▶ SmartFlowSite cleanup + build config"
+ts=$(date -u +%Y%m%d-%H%M%S)
+
+# 0) Preconditions
+test -f server/index.ts || { echo "❌ Not SmartFlowSite (server/index.ts missing)"; exit 1; }
+
+# 1) Quarantine Next.js artefacts (safe, idempotent)
+mkdir -p _archive/next
+for p in next.config.* src/app pages public/next.svg; do
+  [ -e "$p" ] && { mkdir -p "_archive/next/$(dirname "$p")"; git mv -f "$p" "_archive/next/$p" 2>/dev/null || mv -f "$p" "_archive/next/$p"; }
+done
+
+# 2) Ensure Express health route exists (append once)
+grep -q 'app.get("/health")' server/index.ts || cat >> server/index.ts <<'TS'
+
+/* ---- SmartFlow minimal health ---- */
+app.get("/health", (_req,res)=>res.type("application/json").send(JSON.stringify({ok:true, service:"SmartFlowSite"})));
+/* ---- end ---- */
+TS
+
+# 3) Package.json: backup then normalise scripts & deps (tsx/express/proxy)
+cp package.json "package.json.bak.$ts"
+node - <<'NODE'
+const fs=require('fs'); const P='package.json';
+const j=JSON.parse(fs.readFileSync(P,'utf8'));
+j.scripts=j.scripts||{};
+j.scripts.dev = "NODE_ENV=development tsx server/index.ts";
+j.scripts.build = "npm --prefix client run build";
+j.scripts.start = "NODE_ENV=production tsx server/index.ts";
+j.scripts.preview = j.scripts.preview || "npm --prefix client run preview";
+j.engines = j.engines || { node: ">=20" };
+j.type = j.type || "module";
+fs.writeFileSync(P, JSON.stringify(j,null,2));
+console.log("Scripts:", j.scripts);
+NODE
+
+# 4) Ensure dependencies for runtime/dev
+npm i express >/dev/null 2>&1 || true
+npm i -D tsx http-proxy-middleware @types/express >/dev/null 2>&1 || true
+
+# 5) Build SPA (ok to fail in early dev), then nudge server
+npm --prefix client run build --silent || echo "ℹ Vite build skipped/failed (non-blocking for dev)"
+touch server/index.ts
+
+# 6) Quick smoke
+PORT=${PORT:-5000}
+echo "▶ /health:" && (curl -fsS "http://localhost:$PORT/health" || true)
+echo "▶ / HEAD:"  && (curl -I  "http://localhost:$PORT/" | head -n1 || true)
+if [ -n "${DEV_PROXY_TARGET:-}" ]; then
+  echo "▶ /status via proxy:" && (curl -fsS "http://localhost:$PORT/status" | head || true)
+else
+  echo "ℹ Set DEV_PROXY_TARGET in Replit Secrets to test /status and /data via proxy."
+fi
+
+echo "✅ Done. Backups: package.json.bak.$ts"
