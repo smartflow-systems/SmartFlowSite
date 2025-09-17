@@ -1,4 +1,6 @@
+attachDevProxy(app);
 import express from 'express';
+import { attachDevProxy } from "./dev-proxy";
 import { execFile } from 'child_process';
 import rateLimit from 'express-rate-limit';
 const app = express(); app.use(express.json());

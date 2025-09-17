@@ -1,0 +1,58 @@
+set -euo pipefail
+
+# --- Logging
+mkdir -p scripts
+exec > >(tee -a scripts/rep-run-frontend.log) 2>&1
+echo "▶ SmartFlowSite: start $(date -u +%FT%TZ)"
+ts=$(date -u +%Y%m%d-%H%M%S)
+
+# --- Sanity
+test -f server/index.ts || { echo "❌ Not in SmartFlowSite (server/index.ts missing)"; exit 1; }
+
+# 1) (OVERWRITE) Dev proxy to Flask for /api, /status, /data
+cat > server/dev-proxy.ts <<'TS'
+import type { Express } from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
+export function attachDevProxy(app: Express) {
+  const target = process.env.DEV_PROXY_TARGET; // e.g. https://your-flask.repl.co
+  if (!target) return;
+  const common = { target, changeOrigin: true };
+  app.use("/api",    createProxyMiddleware(common));
+  app.use("/status", createProxyMiddleware(common));
+  app.use("/data",   createProxyMiddleware(common));
+}
+TS
+
+# 2) Ensure import + call exist, with order: (dev proxy) BEFORE static
+f="server/index.ts"
+cp "$f" "server/index.ts.bak.$ts"
+
+# Import once
+grep -q 'attachDevProxy' "$f" || \
+awk 'NR==1&&/^import /{print;print "import { attachDevProxy } from \"./dev-proxy\";";next}1' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+
+# Call once
+grep -q 'attachDevProxy(app);' "$f" || sed -i '1i attachDevProxy(app);' "$f"
+
+# If proxy call is after attachStatic(app); move it above
+if awk '/attachStatic\(app\);/{s=NR} /attachDevProxy\(app\);/{p=NR} END{exit !(s && p && p<s)}' "$f"; then
+  awk 'BEGIN{p=0;s=0} /attachDevProxy\(app\);/{p=NR} /attachStatic\(app\);/{s=NR} {a[NR]=$0}
+       END{for(i=1;i<=NR;i++){ if(i!=p)print a[i]; if(i==s)print a[p]; }}' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+fi
+
+# 3) Build SPA + nudge dev server
+npm --prefix client run build --silent || echo "ℹ Vite build skipped/failed; continue for dev check"
+touch server/index.ts
+
+# 4) Quick local smoke
+PORT=${PORT:-5000}
+echo "▶ /health:" && (curl -fsS "http://localhost:$PORT/health" || true)
+echo "▶ / HEAD:"  && (curl -I  "http://localhost:$PORT/" | head -n1 || true)
+
+if [ -n "${DEV_PROXY_TARGET:-}" ]; then
+  echo "▶ /status via proxy:" && (curl -fsS "http://localhost:$PORT/status" | head || true)
+else
+  echo "ℹ Set DEV_PROXY_TARGET in Replit Secrets to test /status and /data via proxy."
+fi
+
+echo "✅ Done. Backup: server/index.ts.bak.$ts  • Log: scripts/rep-run-frontend.log"
