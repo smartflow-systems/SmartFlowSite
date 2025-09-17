@@ -1,0 +1,51 @@
+name: Frontend CI (Express + Vite)
+on:
+  push:
+    paths: [ "client/**", "server/**", "package.json", ".github/workflows/front-ci.yml" ]
+  pull_request:
+    paths: [ "client/**", "server/**", "package.json", ".github/workflows/front-ci.yml" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: "npm" }
+
+      - name: Install deps (root + client)
+        run: |
+          npm ci
+          npm --prefix client ci || true
+
+      - name: Build Vite client
+        run: |
+          npm --prefix client run build
+          test -f client/dist/index.html
+
+      - name: Start Express (background)
+        env:
+          PORT: 5000
+          NODE_ENV: production
+        run: |
+          npx tsx server/index.ts & echo $! > server.pid
+          for i in {1..60}; do curl -fsS http://localhost:5000/health && break; sleep 1; done
+
+      - name: Curl tests
+        run: |
+          curl -fsS http://localhost:5000/health | grep '"ok":' >/dev/null
+          status=$(curl -sI http://localhost:5000/ | awk 'NR==1{print $2}')
+          [ "$status" = "200" ]
+
+      - name: Upload dist artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dist
+          path: client/dist
+
+      - name: Stop server
+        if: always()
+        run: |
+          [ -f server.pid ] && kill $(cat server.pid) || true
