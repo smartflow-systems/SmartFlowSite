@@ -38,15 +38,7 @@ def health():
 
 @app.route("/data/<path:fname>")
 def data_files(fname: str):
-    data_root = BASE / "data"
-    # Normalize and resolve the final path
-    try:
-        p = (data_root / fname).resolve()
-    except Exception:
-        abort(404)
-    # Ensure the requested file is within the data directory
-    if not str(p).startswith(str(data_root)):
-        abort(403)
+    p = BASE / "data" / fname
     if not p.exists():
         abort(404)
     return send_from_directory(p.parent, p.name)
