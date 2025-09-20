@@ -1,17 +1,31 @@
 {
-  "name": "smartflowsite-landing smartflow-store-api",
+  "name": "smartflow-store-api",
   "version": "0.1.0",
+  "description": "Smartflow Store MVP API",
+  "main": "server.js",
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "echo 'no lint configured'",
-    "build": "echo 'no build step' && exit 0",
-    "test": "echo 'no tests' && exit 0"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'build complete' && exit 0",
+    "test": "echo 'no tests configured' && exit 0",
+    "migrate": "prisma migrate dev --name init",
+    "studio": "prisma studio"
   },
   "dependencies": {
-    "express-rate-limit": "^8.1.0"
+    "@prisma/client": "^5.16.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^16.5.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prisma": "^5.16.1"
+  },
   "engines": {
     "node": ">=18"
   }
