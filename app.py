@@ -36,13 +36,6 @@ def health():
     site_name = cfg.get("siteName", "SmartFlow Systems") if cfg else "SmartFlow Systems"
     return jsonify({"ok": True, "site": site_name})
 
-@app.route("/data/<path:fname>")
-def data_files(fname: str):
-    p = BASE / "data" / fname
-    if not p.exists():
-        abort(404)
-    return send_from_directory(p.parent, p.name)
-
 @app.post("/lead")
 def lead():
     """Receive lead as JSON, store to /data/leads.jsonl, optionally email."""
@@ -82,9 +75,28 @@ def lead():
 
     return jsonify({"ok": True})
 
-@app.route("/<path:path>")
-def static_proxy(path: str):
-    return send_from_directory(BASE, path)
+@app.route("/data/<path:fname>")
+def data_files(fname: str):
+    # Serve only from BASE/data. Block traversal with / or \.
+    data_root = (BASE / "data").resolve()
+    # Normalize backslashes to forward slashes first (Windows-safe)
+    norm = fname.replace("\\", "/")
+
+    # Disallow any parent traversal segments before resolving
+    if ".." in norm.split("/"):
+        abort(403)
+
+    try:
+        # Build a real filesystem path from the normalized pieces
+        p = (data_root / Path(*norm.split("/"))).resolve(strict=False)
+    except Exception:
+        abort(404)
+
+    # Must still live under data_root and be a regular file
+    if p == data_root or data_root not in p.parents or not p.is_file():
+        abort(403)
+
+    return send_from_directory(p.parent, p.name)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8080"))
