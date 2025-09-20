@@ -253,7 +253,7 @@ async function setupLeadForm() {
           successDiv.appendChild(linkPara);
         }
         
-        form.// XSS FIX: removed innerHTML = ''; // Clear form
+        form.textContent = ''; // Clear form safely
         form.appendChild(successDiv);
       } else {
         throw new Error('Submission failed');
