@@ -48,6 +48,7 @@ externalPort = 3001
 
 [deployment]
 deploymentTarget = "cloudrun"
+run = ["sh", "-c", "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"]
 
 [rules]
 
