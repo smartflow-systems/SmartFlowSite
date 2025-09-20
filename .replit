@@ -7,7 +7,7 @@ channel = "stable-25_05"
 packages = ["freetype", "gh", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "nano", "openjpeg", "opensshTest", "tcl", "tk", "unzip", "zlib"]
 
 [workflows]
-runButton = "SmartFlow Flask Production"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
