@@ -1,3 +1,15 @@
+<p align="center">
+<!-- BADGES:START -->
+[![SFS CI + Deploy](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/codeql.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/github/v/release/smartflow-systems/SmartFlowSite?display_name=tag&sort=semver)](https://github.com/smartflow-systems/SmartFlowSite/releases)
+[![SmartFlow Tools Lint](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sf-shellcheck.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sf-shellcheck.yml)
+[![Sync Labels](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/labels-sync.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/labels-sync.yml)
+<!-- BADGES:END -->
+</p>
+
+# SmartFlowSite — SmartFlow Systems
+
 #!/usr/bin/env bash
 set -euo pipefail
 
