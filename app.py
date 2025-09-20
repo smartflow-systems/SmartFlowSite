@@ -36,13 +36,6 @@ def health():
     site_name = cfg.get("siteName", "SmartFlow Systems") if cfg else "SmartFlow Systems"
     return jsonify({"ok": True, "site": site_name})
 
-@app.route("/data/<path:fname>")
-def data_files(fname: str):
-    p = BASE / "data" / fname
-    if not p.exists():
-        abort(404)
-    return send_from_directory(p.parent, p.name)
-
 @app.post("/lead")
 def lead():
     """Receive lead as JSON, store to /data/leads.jsonl, optionally email."""
@@ -68,23 +61,57 @@ def lead():
             msg["Subject"] = f"New Lead: {name} ({payload.get('plan') or 'undecided'})"
             msg["From"] = os.getenv("SMTP_FROM", to_addr)
             msg["To"] = to_addr
-            body = "\n".join([f"{k}: {payload.get(k,'')}" for k in ("name","email","business","plan","goal","page","ts")])
+            body = "\n".join(
+                f"{k}: {payload.get(k, '')}"
+                for k in ("name", "email", "business", "plan", "goal", "page", "ts")
+            )
             msg.set_content(body)
             port = int(os.getenv("SMTP_PORT", "587"))
             user = os.getenv("SMTP_USER", "")
             pwd = os.getenv("SMTP_PASS", "")
             with smtplib.SMTP(host, port, timeout=10) as s:
                 s.starttls()
-                if user and pwd: s.login(user, pwd)
+                if user and pwd:
+                    s.login(user, pwd)
                 s.send_message(msg)
         except Exception:
-            pass  # Why: never block user on email issues
+            # Why: never block user on email issues
+            pass
 
     return jsonify({"ok": True})
 
-@app.route("/<path:path>")
-def static_proxy(path: str):
-    return send_from_directory(BASE, path)
+@app.route("/data/<path:fname>")
+def data_files(fname: str):
+    """
+    Serve only files under BASE/data.
+    Blocks traversal and directories. Returns:
+      - 403 for traversal/outside data folder
+      - 404 for non-existent path or non-file
+    """
+    data_root = (BASE / "data").resolve()
+
+    # Normalize slashes (Windows-safe)
+    norm = fname.replace("\\", "/")
+
+    # Disallow any parent traversal segment before resolving
+    if ".." in norm.split("/"):
+        abort(403)
+
+    try:
+        # Build canonical absolute path without requiring existence up-front
+        p = (data_root / Path(*norm.split("/"))).resolve(strict=False)
+    except Exception:
+        abort(404)
+
+    # Must be inside data_root and not the root itself
+    if p == data_root or data_root not in p.parents:
+        abort(403)
+
+    # Must be a regular file (existing)
+    if not p.is_file():
+        abort(404)
+
+    return send_from_directory(p.parent, p.name)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8080"))

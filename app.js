@@ -287,3 +287,48 @@ document.addEventListener('DOMContentLoaded', async () => {
 function timeAgo(d){const s=Math.floor((Date.now()-d.getTime())/1e3),t=[[31536e3,"y"],[2592e3,"mo"],[604800,"w"],[86400,"d"],[3600,"h"],[60,"m"]];for(const[sec,l]of t){const v=Math.floor(s/sec);if(v>=1)return`${v}${l} ago`}return`${s}s ago`}
 async function renderLatest(){const w=document.querySelector("#latest-feed");if(!w)return;const{projects}=await loadCfg(),k="sf_latest_v1",ttl=9e5;try{const c=JSON.parse(localStorage.getItem(k)||"null");if(c&&Date.now()-c.when<ttl){w.textContent='';const temp=document.createElement('div');temp.innerHTML=c.html;while(temp.firstChild)w.appendChild(temp.firstChild);return}}catch(e){}const cs=[];for(const p of projects){if(!p.repo)continue;try{const r=await fetch(`https://api.github.com/repos/${p.repo}/commits?per_page=3`,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)continue;const data=await r.json();for(const c of data){cs.push({repo:p.repo.split("/")[1],msg:(c.commit?.message||"Update").split("\n")[0],url:c.html_url,when:new Date(c.commit?.author?.date||c.commit?.committer?.date||Date.now())})}}catch(e){}}cs.sort((a,b)=>b.when-a.when);const top=cs.slice(0,3);w.textContent='';if(!top.length){const p=document.createElement('p');p.className='latest-item';p.textContent='No recent updates yet.';w.appendChild(p);return}top.forEach(c=>{const article=document.createElement('article');article.className='latest-item';const h3=document.createElement('h3');h3.textContent=c.msg;const meta=document.createElement('div');meta.className='latest-meta';const repo=document.createElement('span');repo.className='latest-repo';repo.textContent=c.repo;const time=document.createElement('span');time.textContent=`⏱ ${timeAgo(c.when)}`;meta.appendChild(repo);meta.appendChild(time);const actions=document.createElement('div');actions.className='latest-actions';const link=document.createElement('a');link.className='link';link.href=c.url;link.target='_blank';link.rel='noopener';link.textContent='View commit →';actions.appendChild(link);article.appendChild(h3);article.appendChild(meta);article.appendChild(actions);w.appendChild(article)});try{localStorage.setItem(k,JSON.stringify({when:Date.now(),html:w.innerHTML}))}catch(e){}}
 document.addEventListener("DOMContentLoaded",()=>{typeof renderProjects==="function"&&renderProjects();renderLatest()})
+
+(function () {
+  // Safe latest-posts renderer (no innerHTML / XSS)
+  async function renderLatestPosts() {
+    const el =
+      document.getElementById("latest-posts") ||
+      document.querySelector("#latest-posts,[data-latest-posts]");
+    if (!el) return;
+
+    try {
+      const res = await fetch("/data/posts.json", { cache: "no-store" });
+      const posts = await res.json();
+
+      const frag = document.createDocumentFragment();
+      (posts || []).slice(0, 3).forEach((p = {}) => {
+        const a = document.createElement("a");
+        a.className = "card";
+        try { a.href = new URL(p.url || "#", location.origin); }
+        catch { a.href = "#"; }
+        a.target = "_blank";
+        a.rel = "noopener";
+
+        const h4 = document.createElement("h4");
+        h4.textContent = p.title || "";
+
+        const small = document.createElement("small");
+        small.className = "muted";
+        small.textContent = p.date || "";
+
+        const para = document.createElement("p");
+        para.textContent = p.snippet || "";
+
+        a.append(h4, small, para);
+        frag.appendChild(a);
+      });
+
+      el.replaceChildren(frag);
+    } catch (e) {
+      console.error("latest posts load failed", e);
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", renderLatestPosts);
+})();
+

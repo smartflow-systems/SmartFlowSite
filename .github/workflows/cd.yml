@@ -2,9 +2,11 @@
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
   push:
-    branches: [ main, "users/**" ]
+    branches:
+      - "main"
+      - "users/**"
   workflow_dispatch:
 
 permissions:
@@ -40,18 +42,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node (if package.json exists)
         if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: "npm"
-      - name: npm ci (or install)
+          node-version: 22
+      - name: npm ci
         if: ${{ hashFiles('package.json') != '' }}
-        run: npm ci || npm install
+        run: npm ci
       - name: npm run build
-        if: ${{ hashFiles('package.json') != '' }}
+        if: ${{ hashFiles('package.json') != '' && hashFiles('package-lock.json') != '' }}
         run: npm run build
-      - name: Skip (no package.json)
+      - name: Skip
         if: ${{ hashFiles('package.json') == '' }}
         run: echo "No package.json; skipping build_pages."
 
@@ -60,21 +62,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: ls -la
+      - name: List
+        run: ls -la
 
   ci_build:
     name: ci / build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "CI / build OK"
+      - name: Marker
+        run: echo "CI / build OK"
 
   sfs-diagnose:
     name: sfs-diagnose
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - name: Diagnose
+        run: |
           du -sh . || true
           git status
 
