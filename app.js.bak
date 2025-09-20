@@ -230,7 +230,7 @@ async function setupLeadForm() {
       });
 
       if (res.ok) {
-        // Safe DOM manipulation instead of // XSS FIX: removed innerHTML with user data
+        // Safe DOM manipulation instead of innerHTML with user data
         const successDiv = document.createElement('div');
         successDiv.className = 'success';
         
@@ -253,7 +253,7 @@ async function setupLeadForm() {
           successDiv.appendChild(linkPara);
         }
         
-        form.// XSS FIX: removed innerHTML = ''; // Clear form
+        form.innerHTML = ''; // Clear form
         form.appendChild(successDiv);
       } else {
         throw new Error('Submission failed');
