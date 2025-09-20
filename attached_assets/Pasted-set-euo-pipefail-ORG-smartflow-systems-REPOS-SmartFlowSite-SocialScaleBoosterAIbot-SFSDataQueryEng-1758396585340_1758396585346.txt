@@ -1,0 +1,49 @@
+set -euo pipefail
+ORG=smartflow-systems
+REPOS=(SmartFlowSite SocialScaleBoosterAIbot SFSDataQueryEngine SFSAPDemoCRM)
+TS=$(date -u +%Y%m%dT%H%M%SZ); BR="ops/ci-boost-$TS"
+
+mk_ci(){ mkdir -p .github/workflows; cat > .github/workflows/ci.yml <<'YML'
+name: SFS CI + Deploy
+on:{push:{branches:[main]},pull_request:{branches:[main]}}
+jobs:{reuse:{uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main, secrets: inherit}}
+YML
+}
+mk_qL(){ mkdir -p .github/workflows; cat > .github/workflows/codeql.yml <<'YML'
+name: CodeQL
+on:{push:{branches:[main]},pull_request:{branches:[main]},schedule:[{cron:'23 1 * * 4'}]}
+permissions:{contents:read,security-events:write}
+jobs:{analyze:{runs-on:ubuntu-latest,strategy:{fail-fast:false,matrix:{language:['javascript','python']}},
+steps:[{uses:actions/checkout@v4},{uses:github/codeql-action/init@v3,with:{languages:${{ matrix.language }}} ,{uses:github/codeql-action/analyze@v3}]}}
+YML
+}
+mk_badges(){ R="$1"; cat <<EOF
+<p align="center">
+<!-- BADGES:START -->
+[![SFS CI + Deploy](https://github.com/$ORG/$R/actions/workflows/ci.yml/badge.svg)](https://github.com/$ORG/$R/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/$ORG/$R/actions/workflows/codeql.yml/badge.svg)](https://github.com/$ORG/$R/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/github/v/release/$ORG/$R?display_name=tag&sort=semver)](https://github.com/$ORG/$R/releases)
+$( [ "$R" = SmartFlowSite ] && echo "[![SmartFlow Tools Lint](https://github.com/$ORG/SmartFlowSite/actions/workflows/sf-shellcheck.yml/badge.svg)](https://github.com/$ORG/SmartFlowSite/actions/workflows/sf-shellcheck.yml)
+[![Sync Labels](https://github.com/$ORG/SmartFlowSite/actions/workflows/labels-sync.yml/badge.svg)](https://github.com/$ORG/SmartFlowSite/actions/workflows/labels-sync.yml)" )
+<!-- BADGES:END -->
+</p>
+EOF
+}
+
+for R in "${REPOS[@]}"; do
+  [ -d "$R" ] || git clone "https://github.com/$ORG/$R.git"
+  pushd "$R" >/dev/null
+  git checkout -b "$BR" || git checkout "$BR"
+  mk_ci; mk_qL
+  B="$(mk_badges "$R")"
+  if grep -q "<!-- BADGES:START -->" README.md 2>/dev/null; then
+    perl -0777 -pe 's/<!-- BADGES:START -->.*?<!-- BADGES:END -->/'"$(printf '%s' "$B" | sed 's/[&/\]/\\&/g')"'/s' -i README.md
+  else
+    printf '%s\n\n%s\n' "$B" "$(cat README.md 2>/dev/null)" > README.md
+  fi
+  git add .github/workflows/ci.yml .github/workflows/codeql.yml README.md
+  git commit -m "ci: standard CI via reusable; add CodeQL; refresh badges ($TS)" || true
+  git push -u origin "$BR"
+  echo "PR → https://github.com/$ORG/$R/compare/main...$BR?expand=1"
+  popd >/dev/null
+done
