@@ -4,5 +4,61 @@
   <body style="font-family: system-ui; padding: 2rem">
     <h1>SmartFlowSite is live 🚀</h1>
     <p>This is a demo deploy via GitHub Pages.</p>
+<!-- SF NAV START -->
+<nav class="sf-nav">
+  <a href="/" class="sf-brand">SmartFlow</a>
+  <button class="sf-nav-toggle" aria-label="Toggle menu">☰</button>
+  <ul class="sf-nav-links"><li><a href="#projects">Projects</a></li><li><a href="#latest">Latest</a></li><li><a href="#testimonials">Love</a></li><li><a href="#pricing">Pricing</a></li></ul>
+</nav>
+<!-- SF NAV END -->
+
+<!-- SF REVEAL JS START -->
+<script>(()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const R=new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting&&(e.target.classList.add('sf-reveal-in'),R.unobserve(e.target));}),{threshold:.12});
+document.querySelectorAll('.sf-card,.sf-section h2,.sf-hero-wrap').forEach(n=>{n.classList.add('sf-reveal');R.observe(n);});
+document.querySelector('.sf-nav-toggle')?.addEventListener('click',()=>{document.querySelector('.sf-nav')?.classList.toggle('open');});})();</script>
+<!-- SF REVEAL JS END -->
+
+<!-- SF LATEST START -->
+<section id="latest" class="sf-section"><h2 class="sf-h2">Latest from SmartFlow</h2>
+<div class="sf-grid" id="sf-latest"></div><noscript><p>Enable JavaScript to see posts.</p></noscript></section>
+<script>fetch("/data/posts.json",{cache:"no-store"}).then(r=>r.json()).then(ps=>{const w=document.getElementById("sf-latest");if(!w||!Array.isArray(ps))return;ps.slice(0,3).forEach(p=>{const a=document.createElement("a");a.href=p.url||"#";a.className="sf-card sf-card-glass";a.innerHTML=`<strong>${p.title||""}</strong><div>${p.date||""}</div>`;w.appendChild(a);});}).catch(()=>{});</script>
+<!-- SF LATEST END -->
+
+<!-- SF TESTIMONIALS START -->
+<section id="testimonials" class="sf-section"><h2 class="sf-h2">Loved by Builders</h2>
+<div class="sf-grid">
+ <blockquote class="sf-card sf-card-glass">“Setup took an hour—bookings up next day.” — Aimee</blockquote>
+ <blockquote class="sf-card sf-card-glass">“AI bot replies feel human.” — Leon</blockquote>
+ <blockquote class="sf-card sf-card-glass">“Glass theme looks premium.” — Cara</blockquote>
+</div></section>
+<!-- SF TESTIMONIALS END -->
+
+<!-- SF CASE STUDY START -->
+<section id="case" class="sf-section"><h2 class="sf-h2">Case Study: Barber +32%</h2>
+<div class="sf-card sf-card-glass"><p>How a local shop lifted bookings in 14 days using SmartFlow.</p>
+<a class="btn btn-primary" href="/case/barber">Read Mini Case</a></div></section>
+<!-- SF CASE STUDY END -->
+
+<!-- SF PRICING START -->
+<section id="pricing" class="sf-section"><h2 class="sf-h2">Pricing</h2>
+<div class="sf-grid">
+ <article class="sf-card sf-card-glass"><h3>Starter</h3><div>£19/mo</div></article>
+ <article id="tier-pro" class="sf-card sf-card-glass"><h3>Pro <span style="font-size:.7em;background:var(--sf-gold);color:var(--sf-black);padding:4px 8px;border-radius:10px">Most Popular</span></h3><div>£49/mo</div></article>
+ <article class="sf-card sf-card-glass"><h3>Premium</h3><div>£99/mo</div></article>
+</div></section>
+<!-- SF PRICING END -->
+
+<!-- SF FOOTER START -->
+<footer class="sf-section"><h2 class="sf-h2">Join the Waitlist</h2>
+<form onsubmit="var e=this;if(e.honey.value)return false;location.href='mailto:hello@smartflow-systems.com?subject=Waitlist&body='+encodeURIComponent(e.name.value+' | '+e.email.value+' | '+e.note.value);return false;">
+<input class="sf-card sf-card-glass" name="name" placeholder="Name" required>
+<input class="sf-card sf-card-glass" type="email" name="email" placeholder="Email" required>
+<input class="sf-card sf-card-glass" name="note" placeholder="What do you need?">
+<input type="text" name="honey" style="display:none">
+<button class="btn btn-primary" type="submit">Request Invite</button></form>
+<p>© SmartFlow Systems</p></footer>
+<!-- SF FOOTER END -->
+
   </body>
 </html>
