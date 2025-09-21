@@ -1,0 +1,6 @@
+<!-- SF REVEAL JS START -->
+<script>(()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const R=new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting&&(e.target.classList.add('sf-reveal-in'),R.unobserve(e.target));}),{threshold:.12});
+document.querySelectorAll('.sf-card,.sf-section h2,.sf-hero-wrap').forEach(n=>{n.classList.add('sf-reveal');R.observe(n);});
+document.querySelector('.sf-nav-toggle')?.addEventListener('click',()=>{document.querySelector('.sf-nav')?.classList.toggle('open');});})();</script>
+<!-- SF REVEAL JS END -->

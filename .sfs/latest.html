@@ -1,0 +1,5 @@
+<!-- SF LATEST START -->
+<section id="latest" class="sf-section"><h2 class="sf-h2">Latest from SmartFlow</h2>
+<div class="sf-grid" id="sf-latest"></div><noscript><p>Enable JavaScript to see posts.</p></noscript></section>
+<script>fetch("/data/posts.json",{cache:"no-store"}).then(r=>r.json()).then(ps=>{const w=document.getElementById("sf-latest");if(!w||!Array.isArray(ps))return;ps.slice(0,3).forEach(p=>{const a=document.createElement("a");a.href=p.url||"#";a.className="sf-card sf-card-glass";a.innerHTML=`<strong>${p.title||""}</strong><div>${p.date||""}</div>`;w.appendChild(a);});}).catch(()=>{});</script>
+<!-- SF LATEST END -->
