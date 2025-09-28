@@ -1,0 +1,51 @@
+# Apply-All
+set -euo pipefail
+
+# Config
+ORG="smartflow-systems"
+CONTROL_REPO="SmartFlowSite"
+REPOS=("SocialScaleBooster" "SocialScaleBoosterAIbot" "SFSDataQueryEngine" "SFSAPDemoCRM")
+BRANCH="ci/reuse-smartflowsite"
+WF_PATH=".github/workflows/reuse-sfs-ci.yml"
+WF_CONTENT='name: Reuse SmartFlowSite CI
+on: { push: { branches: ["main"] }, pull_request: {} }
+jobs:
+  deploy:
+    uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
+    secrets: inherit
+'
+
+# Preflight: secrets (names only; values must be in Org Secrets)
+echo "Check Org Secrets exist (names): SFS_PAT, REPLIT_TOKEN, SFS_SYNC_URL" 1>&2
+
+for REPO in "${REPOS[@]}"; do
+  gh repo view "$ORG/$REPO" >/dev/null
+
+  git clone "https://github.com/$ORG/$REPO.git"
+  cd "$REPO"
+  git switch -c "$BRANCH"
+
+  mkdir -p .github/workflows
+  if [[ -f "$WF_PATH" ]]; then
+    echo "WARN: $REPO/$WF_PATH exists; skipping to avoid overwrite." 1>&2
+  else
+    printf "%s\n" "$WF_CONTENT" > "$WF_PATH"   # (NEW)
+    git add "$WF_PATH"
+    git commit -m "CI: reuse SmartFlowSite deploy workflow"
+    git push -u origin "$BRANCH"
+    gh pr create --fill --title "CI: reuse SmartFlowSite deploy workflow" --body "Adopts org reusable CI; needs secrets present."
+  fi
+
+  # v0.2 tracking issue
+  gh issue create --title "Ship v0.2" --body "- /api/boost\n- CORS\n- Copy button\n- Counter\n- Landing copy\n- Public link" || true
+  cd ..
+done
+
+# VERIFY
+for REPO in "${REPOS[@]}"; do
+  gh pr view "$ORG/$REPO" --web || true
+  gh workflow list -R "$ORG/$REPO" || true
+done
+
+# UNDO (manual): to rollback a repo
+echo "To UNDO: gh pr close -R <repo> <#>; git push origin --delete $BRANCH" 1>&2
