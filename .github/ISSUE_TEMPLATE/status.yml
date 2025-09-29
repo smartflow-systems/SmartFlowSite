@@ -5,8 +5,7 @@ labels: ["status"]
 body:
   - type: markdown
     attributes:
-      value: |
-        Fill the 5 parts. Keep it short.
+      value: "Fill the 5 parts. Keep it short."
   - type: textarea
     id: changes
     attributes: {label: "1) Changes in Replit/GitHub", placeholder: "List files or 'none'."}
