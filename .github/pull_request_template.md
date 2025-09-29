@@ -1,12 +1,12 @@
 ## Why
-Short reason in one line.
+One line.
 
 ## What changed
 - Feature bullets
 - Files touched
 
 ## How to verify
-Shell/Browser steps to prove it works.
+Shell/Browser steps.
 
 ## Risk & rollback
 - Risk notes
