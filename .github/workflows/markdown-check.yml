@@ -11,10 +11,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          files_md=$(git ls-files '*.md' || true)
-          files_yml=$(git ls-files '*.yml' '*.yaml' || true)
           echo "Checking tabs/trailing spaces…"
-          [ -z "$files_md$files_yml" ] && exit 0
+          files_md=$(git ls-files '*.md' | grep -Ev '^\.sfs-backups/' || true)
+          files_yml=$(git ls-files '*.yml' '*.yaml' | grep -Ev '^\.sfs-backups/' || true)
+          [ -z "${files_md}${files_yml}" ] && exit 0
           if [ -n "$files_md" ]; then
             ! grep -RIn $'\t' -- $files_md || { echo "Tabs found in MD"; exit 1; }
             ! grep -RIn ' $'  -- $files_md || { echo "Trailing spaces in MD"; exit 1; }
