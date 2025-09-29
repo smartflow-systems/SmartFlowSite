@@ -1,23 +1,50 @@
-<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=stylesheet href=./smartflow-theme.css><title>SmartFlow Systems</title>
-<header class=hero><div class=container>
-  <div class=muted>v0.2 • API Boost + Landing</div>
-  <h1 class=h1>Bookings that start in the DMs — not just a link.</h1>
-  <p class=muted>AI concierge that replies, qualifies, and books.</p>
-  <a class=btn href=#pricing>Get Started</a>
-  <div style=margin-top:8px><button id=copyBtn class=btn>Copy Boost API URL</button> <span class=muted>Copied: <b id=copyCnt>0</b></span></div>
-</div></header>
-<main class=container>
-<section><h2>Projects</h2><div class="grid g4">
-  <div class=card><b>AI DM Bot</b><ul><li>IG/WA replies</li><li>Auto-book</li><li>Leads</li></ul></div>
-  <div class=card><b>Smart Booking</b><ul><li>Stripe</li><li>Reminders</li><li>No skim</li></ul></div>
-  <div class=card><b>E-com Shops</b><ul><li>1-page checkout</li><li>Bundles</li></ul></div>
-  <div class=card><b>Websites</b><ul><li>Fast</li><li>SEO</li><li>Brand</li></ul></div>
-</div></section>
-<section><h2>Latest</h2><div id=latest class="grid g4"></div></section>
-<section><h2>Social Proof</h2><div id=proof class="grid g4"></div></section>
-<section id=pricing><h2>Pricing</h2><div class="grid g4">
-  <div class=card><b>Starter</b><div>£0</div></div>
-  <div class=card><b>Pro</b><div>£29</div></div>
-  <div class=card><b>Premium</b><div>£79</div></div>
-  <div class=card><b>Waitlist</b><div>Free</div></div>
-</div></section></main><script src=./app.js></script>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SmartFlow Systems — Ship fast. Look premium.</title>
+<style>
+:root{--sf-black:#0D0D0D;--sf-brown:#3B2F2F;--sf-gold:#FFD700;--sf-gold-2:#E6C200;--sf-beige:#F5F5DC;--sf-white:#FFF}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(60% 120% at 50% -10%,#1a1a1a,var(--sf-black));color:var(--sf-beige);font:16px/1.55 system-ui}
+a{color:#000;text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:56px 20px}
+.hero h1{font-size:42px;margin:0 0 8px;color:var(--sf-gold);letter-spacing:.2px}
+.btn{display:inline-block;background:var(--sf-gold);padding:14px 22px;border-radius:12px;font-weight:800}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,215,0,.25);padding:16px;border-radius:16px}
+.card h3{margin:0 0 6px;color:var(--sf-white)}.muted{opacity:.85;font-size:14px}
+h2{color:var(--sf-gold);margin-top:36px}
+.price .card{border-width:2px}.price .card:nth-child(2){box-shadow:0 0 24px rgba(255,215,0,.1)}
+footer{margin-top:36px;opacity:.7;font-size:13px}
+</style></head><body>
+<div class="wrap">
+  <section class="hero">
+    <h1>Bookings, Bots & Shops — in minutes.</h1>
+    <p class="muted">Premium sites + AI automations for barbers, salons, gyms.</p>
+    <a class="btn" href="#pricing">Get started</a>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="grid">
+      <div class="card"><h3>AI Bot</h3><p class="muted">Captions & hashtags in 5s.</p><a class="btn" href="https://github.com/boweazy/SocialScaleBoosterAIbot" target="_blank">Try demo</a></div>
+      <div class="card"><h3>Booking</h3><p class="muted">Stripe + Google Calendar.</p><a class="btn" href="#">Preview</a></div>
+      <div class="card"><h3>E-com Shops</h3><p class="muted">Sell kits fast.</p><a class="btn" href="#">Case study</a></div>
+      <div class="card"><h3>Websites</h3><p class="muted">Glassy, gold, responsive.</p><a class="btn" href="#">Book build</a></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Latest</h2>
+    <p class="muted">Auto-pulls 3 posts next (v0.2 roadmap).</p>
+  </section>
+
+  <section id="pricing" class="price">
+    <h2>Pricing</h2>
+    <div class="grid">
+      <div class="card"><h3>Starter</h3><p class="muted">£29/mo · essentials</p></div>
+      <div class="card"><h3>Pro</h3><p class="muted">£79/mo · AI + analytics</p></div>
+      <div class="card"><h3>Premium</h3><p class="muted">£297/mo · done-for-you</p></div>
+    </div>
+  </section>
+
+  <footer>© SmartFlow Systems</footer>
+</div>
+</body></html>
