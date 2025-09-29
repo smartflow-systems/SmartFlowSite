@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        exclude: ^\.sfs-backups/
+      - id: end-of-file-fixer
+        exclude: ^\.sfs-backups/
+      - id: mixed-line-ending
+        exclude: ^\.sfs-backups/
+      - id: check-yaml
+        exclude: ^\.sfs-backups/
+      - id: check-json
+        exclude: ^\.sfs-backups/
+      - id: check-added-large-files
+        exclude: ^\.sfs-backups/
+      - id: detect-private-key
+        exclude: ^\.sfs-backups/
