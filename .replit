@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 modules = ["nodejs-20", "python-3.11", "python3"]
 [agent]
 expertMode = true
@@ -58,3 +59,12 @@ run = ["sh", "-c", "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"]
 
 [rules.formatter.fileExtensions.".json"]
 id = "module:nodejs-20/languageServer:typescript-language-server"
+=======
+run = "python3 server.py"
+
+[env]
+PYTHONUNBUFFERED = "1"
+
+[languages.python]
+enabled = true
+>>>>>>> Stashed changes
