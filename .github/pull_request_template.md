@@ -1,24 +1,13 @@
-## Summary
-<!-- What & why -->
+## Why
+One line.
 
-## Changes
-- [ ] List key changes (files, features)
+## What changed
+- Feature bullets
+- Files touched
 
-## Screens / Logs
-<!-- Optional: images or brief logs -->
+## How to verify
+Shell/Browser steps.
 
-## CI & Guardrails
-- [ ] Commit is **Verified** (SSH sig)
-- [ ] All required checks are **green**
-- [ ] No `.bak`, temp, or large binaries added
-- [ ] No secrets/keys in code, logs, or env
-- [ ] Follows **Conventional Commits** in title
-- [ ] Matches repo **CODEOWNERS** (if set)
-
-## Risk / Impact
-- Risk level: ☐ Low ☐ Medium ☐ High  
-- Affected areas: …
-
-## Rollback Plan
-- [ ] Revert commit OR redeploy previous tag  
-- [ ] Notes / commands:
+## Risk & rollback
+- Risk notes
+- `git revert <commit>` if needed
