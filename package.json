@@ -6,7 +6,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.mjs",
     "dev": "node server.js",
     "build": "echo 'build complete' && exit 0",
     "test": "echo 'no tests configured' && exit 0",
