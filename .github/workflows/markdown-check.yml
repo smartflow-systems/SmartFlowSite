@@ -3,8 +3,6 @@ on:
   pull_request:
     paths: ["**/*.md","**/*.yml","**/*.yaml"]
     paths-ignore: [".sfs-backups/**"]
-  pull_request:
-    paths: ["**/*.md","**/*.yml","**/*.yaml"]
 jobs:
   lint:
     runs-on: ubuntu-latest
