@@ -1,1 +1,5 @@
-[{"title":"v0.2 homepage shipped","date":"2025-09-29","url":"./index.html"}]
+[
+  {"title":"v0.2 — API Boost + Landing Copy","date":"2025-09-28","url":"/changelogs/v0.2.html","summary":"Boost endpoint, copy refresh, health route."},
+  {"title":"Preset Library Draft","date":"2025-09-26","url":"https://github.com/smartflow-systems/SmartFlowSite/pull/42","summary":"First 10 presets + save design."},
+  {"title":"CI + Health Sync","date":"2025-09-24","url":"https://github.com/smartflow-systems/SmartFlowSite/actions","summary":"Reusable CI + /health across services."}
+]

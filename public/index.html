@@ -5,13 +5,11 @@
 :root{--sf-black:#0D0D0D;--sf-brown:#3B2F2F;--sf-gold:#FFD700;--sf-gold-2:#E6C200;--sf-beige:#F5F5DC;--sf-white:#FFF}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(60% 120% at 50% -10%,#1a1a1a,var(--sf-black));color:var(--sf-beige);font:16px/1.55 system-ui}
 a{color:#000;text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:56px 20px}
-.hero h1{font-size:42px;margin:0 0 8px;color:var(--sf-gold);letter-spacing:.2px}
-.btn{display:inline-block;background:var(--sf-gold);padding:14px 22px;border-radius:12px;font-weight:800}
+.hero h1{font-size:42px;margin:0 0 8px;color:var(--sf-gold)}.btn{display:inline-block;background:var(--sf-gold);padding:12px 18px;border-radius:12px;font-weight:800}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .card{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,215,0,.25);padding:16px;border-radius:16px}
-.card h3{margin:0 0 6px;color:var(--sf-white)}.muted{opacity:.85;font-size:14px}
-h2{color:var(--sf-gold);margin-top:36px}
-.price .card{border-width:2px}.price .card:nth-child(2){box-shadow:0 0 24px rgba(255,215,0,.1)}
+.card h3{margin:0 6px 6px 0;color:var(--sf-white)}.muted{opacity:.85;font-size:14px}
+h2{color:var(--sf-gold);margin-top:36px}.price .card{border-width:2px}.price .card:nth-child(2){box-shadow:0 0 24px rgba(255,215,0,.1)}
 footer{margin-top:36px;opacity:.7;font-size:13px}
 </style></head><body>
 <div class="wrap">
@@ -31,9 +29,9 @@ footer{margin-top:36px;opacity:.7;font-size:13px}
     </div>
   </section>
 
-  <section>
+  <section id="latest-section">
     <h2>Latest</h2>
-    <p class="muted">Auto-pulls 3 posts next (v0.2 roadmap).</p>
+    <div id="latest" class="grid"></div>
   </section>
 
   <section id="pricing" class="price">
@@ -47,4 +45,5 @@ footer{margin-top:36px;opacity:.7;font-size:13px}
 
   <footer>© SmartFlow Systems</footer>
 </div>
+<script src="/latest.js" defer></script>
 </body></html>
