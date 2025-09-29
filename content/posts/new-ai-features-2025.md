@@ -9,11 +9,11 @@ Big news! We've just launched **5 major new features** that take SmartFlow to th
 
 ## 🤖 AI Review Response Manager
 - **Automatic Google/Yelp review responses** with brand-appropriate replies
-- **Sentiment analysis** to prioritize urgent negative reviews  
+- **Sentiment analysis** to prioritize urgent negative reviews
 - **Template library** for different review types
 - Saves hours of manual work while maintaining your brand voice
 
-## 💡 Smart Upsell Engine  
+## 💡 Smart Upsell Engine
 - **AI-powered product/service recommendations** during booking
 - **Dynamic pricing** based on demand, weather, events
 - **Cross-sell suggestions** based on customer history
