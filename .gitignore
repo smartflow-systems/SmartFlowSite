@@ -1,1 +1,4 @@
-.sfs-backups/
+node_modules/
+.env
+.env.*
+dist/
