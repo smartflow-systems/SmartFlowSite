@@ -1,0 +1,28 @@
+name: SFS Sync Ping
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST SFS_SYNC_URL
+        env:
+          SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SFS_SYNC_URL:-}" ]]; then
+            echo "No SFS_SYNC_URL secret; skipping"; exit 0
+          fi
+          json=$(jq -n \
+            --arg event "${{ github.event_name }}" \
+            --arg repo  "${{ github.repository }}" \
+            --arg sha   "${{ github.sha }}" \
+            --arg ref   "${{ github.ref }}" \
+            --arg actor "${{ github.actor }}" \
+            '{event:$event,repo:$repo,sha:$sha,ref:$ref,actor:$actor}')
+          curl -fsS -X POST "$SFS_SYNC_URL" -H 'content-type: application/json' -d "$json"
+          echo "Pinged $SFS_SYNC_URL"
