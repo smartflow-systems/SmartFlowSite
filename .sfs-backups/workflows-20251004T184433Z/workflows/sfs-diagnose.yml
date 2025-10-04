@@ -1,0 +1,16 @@
+name: sfs-diagnose
+on:
+  pull_request: { branches: [ main ] }
+  push: { branches: [ main, "users/**", "feat/**" ] }
+  workflow_dispatch:
+
+jobs:
+  sfs-diagnose:
+    name: sfs-diagnose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          du -sh . || true
+          git status || true
+          echo "diagnose ok"
