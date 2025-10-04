@@ -1,5 +1,7 @@
 name: SFS CI
-concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -14,8 +16,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  test:
-    name: test
+  test:                # job id
+    name: test         # display name (matches required status check)
     runs-on: ubuntu-latest
     permissions:
       contents: write
