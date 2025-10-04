@@ -4,13 +4,18 @@ permissions:
   contents: read
 
 on:
-  workflow_dispatch:
   push:
-    branches: ["**"]
+    branches:
+      - main
+      - tune/**
   pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
 
 jobs:
-  build:
+  test:
+    name: test
     runs-on: ubuntu-latest
     permissions:
       contents: write
