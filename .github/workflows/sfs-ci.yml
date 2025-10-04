@@ -1,0 +1,13 @@
+concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }
+permissions:
+  contents: read
+- name: Enable SSH signing
+  if: ${{ secrets.SFS_SSH_SIGNING_KEY != '\ }}
+  if: ${{ secrets.SFS_SSH_SIGNING_KEY != '' }}
+  run: |
+    mkdir -p ~/.ssh
+    echo "${{ secrets.SFS_SSH_SIGNING_KEY }}" > ~/.ssh/ssh_signing_key
+    chmod 600 ~/.ssh/ssh_signing_key
+    git config gpg.format ssh
+    git config user.signingKey ~/.ssh/ssh_signing_key
+    git config commit.gpgsign true
