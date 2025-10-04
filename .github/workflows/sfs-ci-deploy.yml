@@ -1,6 +1,11 @@
 name: sfs-ci-deploy
 on:
   workflow_call:
+    secrets:
+      SFS_PAT: { required: false }
+    inputs:
+      service: { type: string, required: false, default: smartflowsite }
+      env: { type: string, required: false, default: dev }
     inputs:
       python_version:
         type: string
