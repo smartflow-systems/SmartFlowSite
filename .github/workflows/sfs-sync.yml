@@ -1,0 +1,23 @@
+name: SFS Sync Ping
+permissions: {}
+on:
+  push: { branches: ["**"] }
+  pull_request: { types: [opened, synchronize, reopened] }
+jobs:
+  ping:
+    if: ${{ github.event_name != 'pull_request' && secrets.SFS_SYNC_URL != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST (non-blocking)
+        env:
+          URL:   ${{ secrets.SFS_SYNC_URL }}
+          EVENT: ${{ github.event_name }}
+          REPO:  ${{ github.repository }}
+          SHA:   ${{ github.sha }}
+          REF:   ${{ github.ref }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+          payload=$(jq -n --arg event "$EVENT" --arg repo "$REPO" --arg sha "$SHA" --arg ref "$REF" --arg actor "$ACTOR" \
+            '{event:$event,repo:$repo,sha:$sha,ref:$ref,actor:$actor}')
+          curl -fsS -X POST "$URL" -H 'content-type: application/json' -d "$payload" || echo "Ping failed (ignored)"
