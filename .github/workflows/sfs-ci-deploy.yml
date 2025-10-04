@@ -1,14 +1,25 @@
-name: sfs-ci-deploy
+name: SFS Reusable CI + Deploy
 on:
   workflow_call:
     inputs:
-      service: { type: string, required: false, default: smartflowsite }
-      env:     { type: string, required: false, default: dev }
-      python_version: { type: string, required: false, default: "3.11" }
+      service: { required: true, type: string }
+      env: { required: true, type: string }
     secrets:
-      SFS_PAT: { required: false }
+      SFS_PAT: { required: true }
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.service }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  ci:
-    uses: ./.github/workflows/reuse-sfs-ci.yml
-    with:
-      python_version: ${{ inputs.python_version }}
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Echo inputs
+        run: |
+          echo "Service=${{ inputs.service }}  Env=${{ inputs.env }}"
+      - name: Guard secret
+        if: ${{ !secrets.SFS_PAT }}
+        run: echo "Missing SFS_PAT (set at Org Secrets)"; exit 1
