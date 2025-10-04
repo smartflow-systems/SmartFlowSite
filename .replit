@@ -1,60 +1,6 @@
-modules = ["nodejs-20", "python-3.11", "python3"]
 [agent]
 expertMode = true
-
-[nix]
-channel = "stable-25_05"
-packages = ["freetype", "gh", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "nano", "openjpeg", "opensshTest", "tcl", "tk", "unzip", "zlib"]
-
-[workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "SmartFlow Flask Production"
-
-[[workflows.workflow]]
-name = "SmartFlow Flask Production"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[ports]]
-localPort = 3000
-externalPort = 3002
 
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 5001
-externalPort = 3000
-
-[[ports]]
-localPort = 5002
-externalPort = 3001
-
-[deployment]
-deploymentTarget = "cloudrun"
-run = ["sh", "-c", "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"]
-
-[rules]
-
-[rules.formatter]
-
-[rules.formatter.fileExtensions]
-
-[rules.formatter.fileExtensions.".json"]
-id = "module:nodejs-20/languageServer:typescript-language-server"
