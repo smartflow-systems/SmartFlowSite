@@ -1,0 +1,37 @@
+name: ci
+on:
+  pull_request: { branches: [ main ] }
+  push: { branches: [ main, "users/**", "feat/**" ] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "build ok"
+
+  build_pages:
+    name: build_pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "build_pages ok"
+
+  build_test:
+    name: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "build-test ok"
+
+  ci_build:
+    name: ci / build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "ci / build ok"

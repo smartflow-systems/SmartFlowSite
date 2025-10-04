@@ -2,9 +2,11 @@ name: sfs-ci-deploy
 on:
   workflow_call:
     inputs:
-      python_version:
-        type: string
-        default: "3.11"
+      service: { type: string, required: false, default: smartflowsite }
+      env:     { type: string, required: false, default: dev }
+      python_version: { type: string, required: false, default: "3.11" }
+    secrets:
+      SFS_PAT: { required: false }
 jobs:
   ci:
     uses: ./.github/workflows/reuse-sfs-ci.yml

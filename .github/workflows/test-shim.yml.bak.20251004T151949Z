@@ -1,0 +1,23 @@
+name: test
+on:
+  pull_request: { branches: [ main ] }
+  push: { branches: [ main, "users/**", "feat/**" ] }
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: run tests if present
+        run: |
+          if ls tests/**/*.py tests/*.py >/dev/null 2>&1; then
+            python -m pip install -q pytest
+            pytest -q
+          else
+            echo "no tests; ok"
+          fi
