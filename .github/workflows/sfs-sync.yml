@@ -1,28 +1,28 @@
-name: SFS Sync Ping
+name: SFS Sync
 on:
+  workflow_call:
+    secrets:
+      SFS_SYNC_URL: { required: false }
   push:
-    branches: [ "**" ]
-  pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main]
+permissions:
+  contents: read
 jobs:
-  ping:
+  sync:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
-      - name: POST SFS_SYNC_URL
+      - name: Sync webhook (guarded)
         env:
           SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
-        shell: bash
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          if [[ -z "${SFS_SYNC_URL:-}" ]]; then
-            echo "No SFS_SYNC_URL secret; skipping"; exit 0
-          fi
-          json=$(jq -n \
-            --arg event "${{ github.event_name }}" \
-            --arg repo  "${{ github.repository }}" \
-            --arg sha   "${{ github.sha }}" \
-            --arg ref   "${{ github.ref }}" \
-            --arg actor "${{ github.actor }}" \
-            '{event:$event,repo:$repo,sha:$sha,ref:$ref,actor:$actor}')
-          curl -fsS -X POST "$SFS_SYNC_URL" -H 'content-type: application/json' -d "$json"
-          echo "Pinged $SFS_SYNC_URL"
+          if [ -z "${SFS_SYNC_URL:-}" ]; then
+            echo "::notice title=SFS Sync::No SFS_SYNC_URL secret; skipping."; exit 0; fi
+          if ! [[ "${SFS_SYNC_URL}" =~ ^https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+$ ]]; then
+            echo "::notice title=SFS Sync::Invalid SFS_SYNC_URL; skipping."; exit 0; fi
+          curl -sS -m 15 --retry 2 -H "Content-Type: application/json" \
+            -X POST "${SFS_SYNC_URL}" \
+            --data "{\"repo\":\"${REPO}\",\"sha\":\"${SHA}\"}"
