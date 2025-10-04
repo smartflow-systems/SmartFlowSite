@@ -1,0 +1,49 @@
+# (OVERWRITE) Auto-decorate PR body with CI badges + links
+name: PR Decorator
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  decorate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            const owner = context.repo.owner
+            const repo = context.repo.repo
+            const act = `https://github.com/${owner}/${repo}/actions/workflows/ci.yml`
+            const codeql = `https://github.com/${owner}/${repo}/actions/workflows/codeql.yml`
+            const badges = [
+              `[![SFS CI + Deploy](${act.replace('/actions/workflows/','/badge.svg?job=build')})](${act})`,
+              `[![CodeQL](${codeql.replace('/actions/workflows/','/badge.svg')})](${codeql})`,
+              `[![Codex Guarded](https://img.shields.io/badge/Codex-guarded-black?labelColor=3B2F2F&color=FFD700)](https://chatgpt.com/codex/settings/general)`
+            ].join(' ')
+            const openPR = pr.html_url
+            const section = `
+<!-- PR-DECO:START -->
+${badges}
+
+**Quick links:** [Open PR](${openPR}) • [CI Logs](${act}) • [CodeQL](${codeql})
+> House rules: tests pass, no innerHTML, secret-audit green, reusable SFS CI.
+<!-- PR-DECO:END -->
+`.trim()
+            const body = pr.body || ""
+            const start = "<!-- PR-DECO:START -->", end="<!-- PR-DECO:END -->"
+            let next = body
+            const s = body.indexOf(start), e = body.indexOf(end)
+            if (s !== -1 && e !== -1 && e > s) {
+              next = body.slice(0,s) + section + body.slice(e+end.length)
+            } else {
+              next = section + "\n\n" + body
+            }
+            if (next !== body) {
+              await github.rest.pulls.update({owner, repo, pull_number: pr.number, body: next})
+              core.info("PR body updated with badges + links.")
+            } else {
+              core.info("No changes needed.")
+            }
