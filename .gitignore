@@ -2,3 +2,7 @@ node_modules/
 .env
 .env.*
 dist/
+
+# SFS temp backups
+.sfs-backups/
+.github/workflows/*.bak.*
