@@ -1,23 +1,18 @@
 name: Sync Labels
 on:
   push:
-    branches: [main]
     paths:
       - ".github/labels.yml"
       - ".github/workflows/labels-sync.yml"
   workflow_dispatch:
 permissions:
-  contents: read
-  issues: write
-  pull-requests: write
+  contents: write
 jobs:
   labels:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout (pinned SHA)
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
-      - name: Sync labels (pinned SHA)
-        uses: crazy-max/ghaction-github-labeler@569c50a54a82bc7a1ea25604f692b4288fb6d7a5
+      - uses: actions/checkout@v4
+      - uses: crazy-max/ghaction-github-labeler@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
