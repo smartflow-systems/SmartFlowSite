@@ -6,6 +6,7 @@ on:
 
 jobs:
   decorate:
+    if: github.ref == 'refs/heads/main'
     if: ${{ github.event.pull_request.number != '' && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     permissions:
