@@ -20,6 +20,14 @@ jobs:
         run: |
           git config user.name  "SmartFlow Bot"
           git config user.email "bot@smartflow.systems"
+      - name: Enable SSH signing
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SFS_SSH_SIGNING_KEY }}" > ~/.ssh/ssh_signing_key
+          chmod 600 ~/.ssh/ssh_signing_key
+          git config gpg.format ssh
+          git config user.signingKey ~/.ssh/ssh_signing_key
+          git config commit.gpgsign true
       - name: Commit back (if changes)
         run: |
           git add -A
