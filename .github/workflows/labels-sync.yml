@@ -14,8 +14,10 @@ jobs:
   labels:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
-      - uses: crazy-max/ghaction-github-labeler@f6e9c7a86d06c7ad8faf612ef0b4993dcdbe21cc
+      - name: Checkout (pinned SHA)
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - name: Sync labels (pinned SHA)
+        uses: crazy-max/ghaction-github-labeler@569c50a54a82bc7a1ea25604f692b4288fb6d7a5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
