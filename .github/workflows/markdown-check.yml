@@ -1,3 +1,4 @@
+permissions: { contents: read }
 name: Markdown Check
 on:
   pull_request:

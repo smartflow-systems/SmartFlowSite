@@ -1,3 +1,4 @@
+permissions: { contents: write, pull-requests: write }
 name: PR Decorator
 on:
   pull_request:
@@ -11,6 +12,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with: { token: ${{ secrets.SFS_PAT }} }
 
       - name: Write badges + quick links
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
