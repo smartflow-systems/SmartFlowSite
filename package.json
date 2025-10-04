@@ -1,4 +1,11 @@
-{ "name":"smartflowsite","private":true,"type":"module",
-  "scripts":{"dev":"node server.js","start":"node server.js","health":"curl -sS http://localhost:${PORT:-5000}/health || true"},
-  "dependencies":{}
+{
+  "name": "smartflowsite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.cjs",
+    "health": "curl -sS http://localhost:${PORT:-5000}/health || true"
+  },
+  "dependencies": {}
 }
