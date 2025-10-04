@@ -1,0 +1,59 @@
+name: SFS CI
+concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          token: ${{ secrets.SFS_PAT }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+
+      - name: Bot identity
+        run: |
+          git config user.name  "SmartFlow Bot"
+          git config user.email "bot@smartflow.systems"
+
+      - name: Enable SSH signing
+        if: ${{ secrets.SFS_SSH_SIGNING_KEY != '' }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SFS_SSH_SIGNING_KEY }}" > ~/.ssh/ssh_signing_key
+          chmod 600 ~/.ssh/ssh_signing_key
+          git config gpg.format ssh
+          git config user.signingKey ~/.ssh/ssh_signing_key
+          git config commit.gpgsign true
+
+      - run: npm ci || npm i
+
+      - name: Commit back (if changes)
+        run: |
+          git add -A
+          git diff --quiet || git commit -m "chore: bot update"
+
+      - name: Push back
+        if: ${{ github.event_name != 'pull_request' }}
+        run: git push origin HEAD:${{ github.ref }}
+
+      - name: Stamp repo (proof)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          date -u +"%FT%TZ" > .sfs-stamp
+          git add .sfs-stamp
+          git diff --quiet || git commit -m "chore: ci stamp"
+          git push origin HEAD:${{ github.ref }}
