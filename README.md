@@ -1,4 +1,8 @@
 <!-- BADGES:START -->
+[![CodeQL](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/codeql.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/codeql.yml)
+<!-- BADGES:END -->
+
+<!-- BADGES:START -->
 [![SFS CI + Deploy](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml)
 [![Reusable SFS CI](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ci-deploy.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ci-deploy.yml)
 <!-- BADGES:END -->
