@@ -1,0 +1,5 @@
+name: SFS CodeQL Config
+paths-ignore:
+  - node_modules/**
+  - **/*.min.js
+  - dist/** 
