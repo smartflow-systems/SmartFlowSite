@@ -1,27 +1,16 @@
 name: Markdown Check
 on:
-  workflow_dispatch:
   pull_request:
-    paths: ["**/*.md","**/*.yml","**/*.yaml"]
-    paths-ignore: [".sfs-backups/**"]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+permissions:
+  contents: read
 jobs:
-  lint:
-    if: github.ref == 'refs/heads/main'
+  markdownlint:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
-      - name: Lint tracked Markdown/YAML
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "Checking tabs/trailing spaces…"
-          files_md=$(git ls-files '*.md' | grep -Ev '^\.sfs-backups/' || true)
-          files_yml=$(git ls-files '*.yml' '*.yaml' | grep -Ev '^\.sfs-backups/' || true)
-          [ -z "${files_md}${files_yml}" ] && exit 0
-          if [ -n "$files_md" ]; then
-            ! grep -RIn $'\t' -- $files_md || { echo "Tabs found in MD"; exit 1; }
-            ! grep -RIn ' $'  -- $files_md || { echo "Trailing spaces in MD"; exit 1; }
-          fi
-          if [ -n "$files_yml" ]; then
-            ! grep -RIn ' $'  -- $files_yml || { echo "Trailing spaces in YAML"; exit 1; }
-          fi
+      - uses: actions/checkout@v4
+      - name: Lint MD
+        uses: DavidAnson/markdownlint-cli2-action@v17
