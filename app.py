@@ -8,6 +8,10 @@ from email.message import EmailMessage
 BASE = Path(__file__).parent.resolve()
 app = Flask(__name__, static_url_path="", static_folder=str(BASE))
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
 def load_json(path: Path, fallback=None):
     try:
         if not path.exists():
@@ -55,9 +59,12 @@ def lead():
         return jsonify({"ok": False, "error": "invalid"}), 400
     payload["ts"] = payload.get("ts") or __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
-    # Ensure data directory exists
+    # Ensure data directory exists with proper permissions
     data_dir = BASE / "data"
-    data_dir.mkdir(exist_ok=True)
+    try:
+        data_dir.mkdir(mode=0o755, exist_ok=True)
+    except OSError as e:
+        print(f"Warning: Could not create data directory: {e}")
     
     # Store
     out = data_dir / "leads.jsonl"
@@ -95,6 +102,3 @@ def static_proxy(path: str):
         # If file not found, return 404
         abort(404)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "5000"))
-    app.run(host="0.0.0.0", port=port, debug=False)

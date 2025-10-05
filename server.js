@@ -76,7 +76,14 @@ http.createServer((req, res) => {
     return res.end();
   }
 
-  if (req.url === "/health" || req.url.startsWith("/api/health")) return ok(res, { ok: true });
+  if (req.url === "/health" || req.url.startsWith("/api/health")) {
+    return ok(res, { 
+      ok: true, 
+      service: "SmartFlowSite",
+      timestamp: Date.now(),
+      port: PORT 
+    });
+  }
 
   // add other API routes above; static last:
   return serveStatic(req, res);

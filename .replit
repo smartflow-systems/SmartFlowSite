@@ -4,3 +4,15 @@ expertMode = true
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[workflows]
+runButton = "SmartFlow Production"
+
+[[workflows.workflow]]
+name = "SmartFlow Production"
+author = 36680818
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 app.py"
