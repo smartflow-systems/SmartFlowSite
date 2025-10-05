@@ -1,26 +1,23 @@
-name: SFS Sync
+name: SFS Sync Ping
 on:
-  workflow_call:
-    secrets:
-      SFS_SYNC_URL: { required: false }
+  pull_request:
   push:
     branches: [main]
-permissions:
-  contents: read
+permissions: { contents: read }
 jobs:
-  sync:
+  ping:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     steps:
-      - name: Sync webhook (guarded)
+      - name: Guard + ping
         env:
           SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
           REPO: ${{ github.repository }}
-          SHA: ${{ github.sha }}
+          SHA:  ${{ github.sha }}
         run: |
           set -euo pipefail
           if [ -z "${SFS_SYNC_URL:-}" ]; then
-            echo "::notice title=SFS Sync::No SFS_SYNC_URL secret; skipping."; exit 0; fi
+            echo "::notice title=SFS Sync::No SFS_SYNC_URL; skipping."; exit 0; fi
           if ! [[ "${SFS_SYNC_URL}" =~ ^https?://[A-Za-z0-9._~:/?#@!$&'()*+,;=%-]+$ ]]; then
             echo "::notice title=SFS Sync::Invalid SFS_SYNC_URL; skipping."; exit 0; fi
           curl -sS -m 15 --retry 2 -H "Content-Type: application/json" \
