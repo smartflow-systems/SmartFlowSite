@@ -8,6 +8,10 @@ from email.message import EmailMessage
 BASE = Path(__file__).parent.resolve()
 app = Flask(__name__, static_url_path="", static_folder=str(BASE))
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
 def load_json(path: Path, fallback=None):
     try:
         if not path.exists():

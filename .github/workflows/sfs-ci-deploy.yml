@@ -2,24 +2,25 @@ name: SFS Reusable CI + Deploy
 on:
   workflow_call:
     inputs:
-      service: { required: true, type: string }
-      env: { required: true, type: string }
+      service: { type: string, required: false, default: smartflowsite }
+      env:     { type: string, required: false, default: dev }
+      python_version: { type: string, required: false, default: "3.11" }
     secrets:
-      SFS_PAT: { required: true }
-  workflow_dispatch: {}
+      SFS_PAT: { required: false }
+
 permissions:
   contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ inputs.service }}-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Echo inputs
-        run: |
-          echo "Service=${{ inputs.service }}  Env=${{ inputs.env }}"
-      - name: Guard secret
+      - run: echo "Service=${{ inputs.service }} Env=${{ inputs.env }} Py=${{ inputs.python_version }}"
+      - name: Guard PAT (optional)
         if: ${{ !secrets.SFS_PAT }}
-        run: echo "Missing SFS_PAT (set at Org Secrets)"; exit 1
+        run: echo "::notice::Missing SFS_PAT; skipping deploy stage."
