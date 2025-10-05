@@ -1,8 +1,44 @@
-<!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>SmartFlowSite</title></head>
-  <body style="font-family: system-ui; padding: 2rem">
-    <h1>SmartFlowSite is live 🚀</h1>
-    <p>This is a demo deploy via GitHub Pages.</p>
-  </body>
-</html>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SmartFlow Systems</title>
+<link rel="stylesheet" href="/smartflow-theme.css">
+<style>
+.hero{padding:56px 20px;background:#0D0D0D;color:#fff;text-align:center}
+.hero .cta{display:inline-block;margin-top:16px;padding:10px 18px;background:#FFD700;color:#0D0D0D;border-radius:10px;text-decoration:none}
+.hero .cta:hover{background:#E6C200}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:24px;background:#3B2F2F;color:#F5F5DC}
+.card{background:#0D0D0D;color:#fff;padding:16px;border-radius:16px;border:1px solid #FFD700}
+.section{padding:24px}
+footer{padding:24px;text-align:center;background:#0D0D0D;color:#fff}
+</style></head><body>
+<section id="hero" class="hero">
+  <h1>Bookings. Bots. Shops. Websites.</h1>
+  <p>Faster than Calendly, Fresha, or Wix—because it’s built for you.</p>
+  <a class="cta" href="#pricing">Start free</a>
+</section>
+
+<section id="projects" class="grid">
+  <div class="card"><h3>AI Bot</h3><ul><li>Leads & replies</li><li>DM scripts</li><li>Train on your site</li></ul><a href="#buy-ai">Buy</a></div>
+  <div class="card"><h3>Booking</h3><ul><li>Stripe + GCal</li><li>No-show texts</li><li>Embeds</li></ul><a href="#book-demo">Book</a></div>
+  <div class="card"><h3>Ecom Shops</h3><ul><li>1-hour setup</li><li>Upsells</li><li>WhatsApp pay</li></ul><a href="#buy-shop">Buy</a></div>
+  <div class="card"><h3>Websites</h3><ul><li>1-pager</li><li>SEO basics</li><li>Fast hosting</li></ul><a href="#buy-site">Buy</a></div>
+</section>
+
+<section id="latest" class="section">
+  <h2>Latest</h2><ul id="news"></ul>
+</section>
+
+<section id="pricing" class="section">
+  <h2>Pricing</h2>
+  <p>Starter • Pro • Premium — join the waitlist.</p>
+</section>
+
+<footer>© SmartFlow Systems</footer>
+
+<script>
+fetch('/updates.json').then(r=>r.json()).then(list=>{
+  document.querySelector('#latest #news').innerHTML =
+    list.slice(0,3).map(x=>`<li><a href="${x.url}">${x.title}</a> — ${x.date}</li>`).join('');
+}).catch(()=>{document.querySelector('#latest #news').innerHTML='<li>Updates coming…</li>'});
+</script>
+</body></html>
