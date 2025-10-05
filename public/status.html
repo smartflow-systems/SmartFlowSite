@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>SmartFlow Status</title>
+  <link rel="stylesheet" href="smartflow-theme.css"/>
+  <style>
+    body{font-family:system-ui, sans-serif;background:var(--sf-beige);color:var(--sf-black);margin:0;padding:2rem;}
+    .card{background:var(--sf-white);border:2px solid var(--sf-brown);border-radius:16px;padding:1rem;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+    h1{color:var(--sf-brown);} .ok{color:var(--sf-gold);} .bad{color:crimson;}
+    label{display:block;margin:.5rem 0 .25rem;} input,button{padding:.5rem;border-radius:8px;border:1px solid var(--sf-brown);}
+    button{background:var(--sf-gold);border-color:var(--sf-gold-2);cursor:pointer}
+    pre{white-space:pre-wrap;background:#f7f7f7;border-radius:8px;padding:.75rem}
+  </style>
+</head>
+<body>
+  <h1>SmartFlow Status</h1>
+  <div class="card">
+    <p><strong>Targets</strong></p>
+    <label>Base URL (e.g. https://socialscalebooster.example)</label>
+    <input id="base" placeholder="https://…" />
+    <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap">
+      <button onclick="check('/health')">Check /health</button>
+      <button onclick="check('/api/boost',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:'ping'})})">POST /api/boost</button>
+      <button onclick="cors()">CORS preflight</button>
+    </div>
+    <div id="out" style="margin-top:1rem"><em>Results will appear here.</em></div>
+  </div>
+<script>
+function url(path){const b=document.getElementById('base').value.replace(/\/$/,''); return b? b+path : path}
+async function check(path, init){const o=document.getElementById('out'); o.textContent='…';
+  try{ const res=await fetch(url(path), init); const txt=await res.text();
+    o.innerHTML = `<p class="${res.ok?'ok':'bad'}">${res.status} ${res.statusText}</p><pre>${txt.slice(0,2000)}</pre>`;
+  }catch(e){o.innerHTML=`<p class="bad">Fetch failed</p><pre>${String(e)}</pre>`}
+}
+async function cors(){const o=document.getElementById('out'); o.textContent='…';
+  try{ const res=await fetch(url('/api/boost'), { method:'OPTIONS' }); 
+    o.innerHTML = `<p class="${res.ok?'ok':'bad'}">Preflight ${res.status}</p><pre>${[...res.headers].map(([k,v])=>k+': '+v).join('\n')}</pre>`;
+  }catch(e){o.innerHTML=`<p class="bad">Preflight failed</p><pre>${String(e)}</pre>`}
+}
+</script>
+</body>
+</html>

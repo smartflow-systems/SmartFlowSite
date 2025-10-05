@@ -12,9 +12,28 @@
       const u = cfg.calendlyUrl || '';
       const box = document.getElementById('calendly-box');
       if(u && /calendly\.com/.test(u)){
-        box.<!-- XSS FIX: removed innerHTML --> = `<iframe src="${u}" style="width:100%;height:780px;border:0;border-radius:12px;background:#0f0c0a"></iframe>`;
+        const iframe = document.createElement('iframe');
+        iframe.src = u;
+        iframe.style.cssText = 'width:100%;height:780px;border:0;border-radius:12px;background:#0f0c0a';
+        box.textContent = '';
+        box.appendChild(iframe);
       } else {
-        box.<!-- XSS FIX: removed innerHTML --> = `<article class="card" style="padding:16px"><h3>Booking temporarily unavailable</h3><p>Please email <a href="mailto:garethbowers@hotmail.com">garethbowers@hotmail.com</a> with 2–3 times that suit you.</p></article>`;
+        const article = document.createElement('article');
+        article.className = 'card';
+        article.style.padding = '16px';
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Booking temporarily unavailable';
+        const p = document.createElement('p');
+        p.textContent = 'Please email ';
+        const a = document.createElement('a');
+        a.href = 'mailto:garethbowers@hotmail.com';
+        a.textContent = 'garethbowers@hotmail.com';
+        p.appendChild(a);
+        p.appendChild(document.createTextNode(' with 2–3 times that suit you.'));
+        article.appendChild(h3);
+        article.appendChild(p);
+        box.textContent = '';
+        box.appendChild(article);
       }
     }catch(e){}
   });

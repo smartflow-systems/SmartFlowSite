@@ -55,9 +55,12 @@ def lead():
         return jsonify({"ok": False, "error": "invalid"}), 400
     payload["ts"] = payload.get("ts") or __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
-    # Ensure data directory exists
+    # Ensure data directory exists with proper permissions
     data_dir = BASE / "data"
-    data_dir.mkdir(exist_ok=True)
+    try:
+        data_dir.mkdir(mode=0o755, exist_ok=True)
+    except OSError as e:
+        print(f"Warning: Could not create data directory: {e}")
     
     # Store
     out = data_dir / "leads.jsonl"
