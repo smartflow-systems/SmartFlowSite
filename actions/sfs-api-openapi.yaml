@@ -1,0 +1,10 @@
+openapi: 3.0.1
+info: {title: SmartFlow API, version: "0.1"}
+servers: [{url: "${SFS_SYNC_URL}"}]
+paths:
+  /health: {get: {summary: Service health, responses: {"200": {description: OK}}}}
+  /boost:
+    get:
+      summary: Return boost metadata
+      parameters: [{in: query, name: q, schema: {type: string}}]
+      responses: {"200": {description: OK}}

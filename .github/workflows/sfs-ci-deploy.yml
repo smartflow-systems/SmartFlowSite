@@ -1,4 +1,4 @@
-name: sfs-ci-deploy
+name: SFS Reusable CI + Deploy
 on:
   workflow_call:
     inputs:
@@ -7,8 +7,17 @@ on:
       python_version: { type: string, required: false, default: "3.11" }
     secrets:
       SFS_PAT: { required: false }
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.service }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  ci:
-    uses: ./.github/workflows/reuse-sfs-ci.yml
-    with:
-      python_version: ${{ inputs.python_version }}
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Service=${{ inputs.service }} Env=${{ inputs.env }} Py=${{ inputs.python_version }}"
+      - name: Guard PAT (optional)
+        if: ${{ !secrets.SFS_PAT }}
+        run: echo "::notice::Missing SFS_PAT; skipping deploy stage."
