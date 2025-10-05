@@ -1,0 +1,5 @@
+### SFS Health
+GET {{SFS_SYNC_URL}}/health
+
+### Boost Metadata
+GET {{SFS_SYNC_URL}}/boost?q=hello
