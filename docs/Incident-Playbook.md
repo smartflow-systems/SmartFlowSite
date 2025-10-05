@@ -1,3 +1,3 @@
 # Incident Playbook
-SEV ladder, roles (commander/comms/ops). First 30-min checklist.
-Channels, status page, postmortem template.
+SEV levels, roles (commander, comms, ops). First 30 min script.
+Comm channels, status page, postmortem template.

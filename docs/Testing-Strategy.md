@@ -1,3 +1,4 @@
 # Testing Strategy
-Unit (fast) | E2E (critical paths). Target 80% cov.
-Commands: `npm test` / `pytest -q`. Add tests for bugs/features/refactors.
+Unit: fast, pure functions. E2E: critical paths. 
+Commands: `npm test` / `pytest -q`. Coverage target: 80%.
+When to add tests: bug fix, new feature, critical refactor.
