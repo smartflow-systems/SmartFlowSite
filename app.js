@@ -3,8 +3,13 @@ const t = (v) => (v ?? '').toString().replace(/[<>]/g, '');
 async function getConfig(){
   try {
     const res = await fetch('site.config.json', {cache: 'no-store'});
+    if (!res.ok) {
+      console.warn('Config fetch failed:', res.status);
+      return {};
+    }
     return await res.json();
   } catch (e) {
+    console.error('Config load error:', e);
     return {};
   }
 }
