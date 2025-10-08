@@ -3,7 +3,7 @@ permissions: {}
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * *'   # 09:00 UTC daily
+    - cron: '0 9 * * *'
 jobs:
   ping:
     runs-on: ubuntu-latest
