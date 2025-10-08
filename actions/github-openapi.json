@@ -1,0 +1,133 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "GitHub Actions (SmartFlow minimal+)", "version": "1.1.0" },
+  "servers": [{ "url": "https://api.github.com" }],
+  "components": {
+    "securitySchemes": { "tokenAuth": { "type": "http", "scheme": "bearer" } },
+    "schemas": {
+      "WorkflowRun": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "event": { "type": "string" },
+          "status": { "type": "string" },
+          "conclusion": { "type": "string", "nullable": true },
+          "head_branch": { "type": "string" },
+          "head_sha": { "type": "string" },
+          "html_url": { "type": "string" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches": {
+      "post": {
+        "operationId": "dispatchWorkflow",
+        "summary": "Dispatch a workflow",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "workflow_id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ref"],
+                "properties": {
+                  "ref": { "type": "string", "example": "main" },
+                  "inputs": { "type": "object", "additionalProperties": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "204": { "description": "Queued" } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs": {
+      "get": {
+        "operationId": "listRuns",
+        "summary": "List workflow runs",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "branch", "in": "query", "schema": { "type": "string" } },
+          { "name": "per_page", "in": "query", "schema": { "type": "integer", "default": 10 } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs/{run_id}": {
+      "get": {
+        "operationId": "getRun",
+        "summary": "Get a workflow run",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "run_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WorkflowRun" } } } } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs": {
+      "get": {
+        "operationId": "listRunJobs",
+        "summary": "List jobs for a run",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "run_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs/{run_id}/logs": {
+      "get": {
+        "operationId": "getRunLogs",
+        "summary": "Get logs archive URL",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "run_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "302": { "description": "Redirect to logs archive" }, "200": { "description": "Direct URL (proxied)" } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs/{run_id}/rerun": {
+      "post": {
+        "operationId": "rerunRun",
+        "summary": "Rerun a workflow run",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "run_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "201": { "description": "Rerun requested" }, "202": { "description": "Accepted" } }
+      }
+    },
+    "/repos/{owner}/{repo}/actions/runs/{run_id}/cancel": {
+      "post": {
+        "operationId": "cancelRun",
+        "summary": "Cancel a workflow run",
+        "security": [{ "tokenAuth": [] }],
+        "parameters": [
+          { "name": "owner", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "repo", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "run_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "202": { "description": "Cancellation requested" } }
+      }
+    }
+  }
+}

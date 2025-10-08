@@ -1,26 +1,20 @@
-name: SFS Reusable CI + Deploy
+name: SFS Reusable CI Deploy
 on:
   workflow_call:
     inputs:
-      service: { type: string, required: false, default: smartflowsite }
-      env:     { type: string, required: false, default: dev }
-      python_version: { type: string, required: false, default: "3.11" }
+      node_version:
+        type: string
+        default: '20'
     secrets:
-      SFS_PAT: { required: false }
-
-permissions:
-  contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ inputs.service }}-${{ github.ref }}
-  cancel-in-progress: true
-
+      SFS_PAT:
+        required: true
 jobs:
-  build_and_deploy:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Service=${{ inputs.service }} Env=${{ inputs.env }} Py=${{ inputs.python_version }}"
-      - name: Guard PAT (optional)
-        if: ${{ !secrets.SFS_PAT }}
-        run: echo "::notice::Missing SFS_PAT; skipping deploy stage."
+        with: { token: ${{ secrets.SFS_PAT }} }
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ inputs.node_version }} }
+      - run: npm ci || true
+      - run: echo "Reusable CI OK for $GITHUB_REPOSITORY:$GITHUB_REF_NAME"

@@ -1,0 +1,13 @@
+name: SFS Sync Ping
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * *'   # 09:00 UTC daily
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping optional SFS_SYNC_URL
+        env: { SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }} }
+        run: |
+          if [ -n "${SFS_SYNC_URL:-}" ]; then curl -fsSL "$SFS_SYNC_URL"; else echo "SFS_SYNC_URL not set; noop"; fi
