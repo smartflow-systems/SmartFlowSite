@@ -1,4 +1,5 @@
 name: SFS Sync Ping
+permissions: {}
 on:
   workflow_dispatch:
   schedule:

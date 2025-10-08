@@ -1,4 +1,6 @@
 name: SFS Reusable CI Deploy
+permissions:
+  contents: read
 on:
   workflow_call:
     inputs:
