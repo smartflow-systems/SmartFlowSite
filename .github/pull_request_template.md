@@ -1,13 +1,27 @@
+## What
+Clear, one-liner summary.
+
 ## Why
-One line.
+Business/ops reason in plain talk.
 
-## What changed
-- Feature bullets
-- Files touched
+## Change list
+- Files touched (paths in [brackets])
+- Notes (migrations? none)
 
-## How to verify
-Shell/Browser steps.
+## Checklist
+- [ ] Commit shows **Verified** (signed)
+- [ ] CI checks green (CodeQL, tests)
+- [ ] If workflow: includes `workflow_dispatch`
+- [ ] Secrets reviewed: SFS_PAT (req), REPLIT_TOKEN/SFS_SYNC_URL (opt)
 
-## Risk & rollback
-- Risk notes
-- `git revert <commit>` if needed
+## Security / Secrets
+Runner = GitHub-hosted. Reads only listed secrets.
+
+## Test plan
+Steps to prove it works (URLs/commands).
+
+## Rollback
+Revert PR or delete the file on a new branch.
+
+## Follow-ups
+Next tiny wins or tickets.
