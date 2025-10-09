@@ -21,3 +21,5 @@ Push → GitHub Actions runs reusable CI.
 
 ## Agent Notes (see [AGENTS.md])
 Show [paths]; VERIFY + UNDO; Bash uses `set -euo pipefail`. GitHub = source of truth.
+
+<- Edit SCROLL_PX_PER_SEC or fonts to PR template smoke: 20251009T202356Z -->
