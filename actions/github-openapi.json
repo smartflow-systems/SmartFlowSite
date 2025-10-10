@@ -1,1 +1,6 @@
-[PASTE THE SAME JSON BLOCK ABOVE HERE]
+{"openapi":"3.1.0","info":{"title":"GitHub Actions (SFS minimal)","version":"1.1.0"},
+"servers":[{"url":"https://api.github.com"}],
+"components":{"securitySchemes":{"tokenAuth":{"type":"http","scheme":"bearer"}}},
+"paths":{"/repos/{owner}/{repo}/actions/runs":{"get":{"operationId":"listRuns",
+"parameters":[{"name":"owner","in":"path","required":true},{"name":"repo","in":"path","required":true},{"name":"branch","in":"query"}],
+"security":[{"tokenAuth":[]}],"responses":{"200":{"description":"OK"}}}}}}
