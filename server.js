@@ -29,7 +29,7 @@ const MIME = {
   ".txt": "text/plain; charset=utf-8",
 };
 
-const publicRoot = path.resolve(__dirname, "public");
+const publicRoot = path.resolve(__dirname);
 
 const safePathname = (u) => {
   try {
