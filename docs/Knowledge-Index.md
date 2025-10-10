@@ -1,6 +1,3 @@
-# SFS Knowledge Index
-- Roadmap.md
-- Runbook-Diagnose.md
-- CI-HowTo.md
-- API-Contracts.yaml
-- Secrets-Checklist.md
+# SmartFlow Knowledge Index
+Order: Master ▸ Repo-Map ▸ Roadmap ▸ Runbook ▸ CI ▸ Secrets ▸ API ▸ Theme.
+If conflicts: prefer newest timestamp; otherwise ask.

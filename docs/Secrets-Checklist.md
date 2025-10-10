@@ -1,3 +1,2 @@
-# Secrets
-SFS_PAT (req), REPLIT_TOKEN, SFS_SYNC_URL
-Location: GitHub Org → Settings → Secrets → Actions
+Names only (no values):
+SFS_PAT • REPLIT_TOKEN • SFS_SYNC_URL → GitHub Org ▸ Secrets (Actions)
