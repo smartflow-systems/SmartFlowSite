@@ -23,3 +23,5 @@ Push → GitHub Actions runs reusable CI.
 Show [paths]; VERIFY + UNDO; Bash uses `set -euo pipefail`. GitHub = source of truth.
 
 <- Edit SCROLL_PX_PER_SEC or fonts to PR template smoke: 20251009T202356Z -->
+
+- Static served from **/public** via `app.use(express.static('public'))`
