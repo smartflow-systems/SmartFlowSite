@@ -1,0 +1,218 @@
+[
+  {
+    "id": "bookflow",
+    "name": "BookFlow Pro",
+    "icon": "📅",
+    "description": "Advanced booking system with calendar sync, automated reminders, and payment processing. Perfect for salons and service businesses.",
+    "tags": ["Booking", "Payments", "Calendar"],
+    "demoUrl": "https://example.com/bookflow-demo",
+    "features": [
+      "Real-time calendar management",
+      "Automated SMS & email reminders",
+      "Integrated payment processing",
+      "Staff scheduling & management",
+      "Customer profile system",
+      "Analytics & reporting"
+    ],
+    "pricing": "Starting at £29/month - includes up to 100 bookings",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/bookflow-demo"
+      },
+      {
+        "label": "Documentation",
+        "url": "https://docs.example.com/bookflow"
+      }
+    ]
+  },
+  {
+    "id": "smartcommerce",
+    "name": "SmartCommerce Suite",
+    "icon": "🛍️",
+    "description": "Complete e-commerce solution with inventory management, order tracking, and customer analytics.",
+    "tags": ["E-commerce", "Inventory", "Analytics"],
+    "demoUrl": "https://example.com/commerce-demo",
+    "features": [
+      "Product catalog management",
+      "Order processing & tracking",
+      "Inventory management",
+      "Customer analytics",
+      "Multi-channel selling",
+      "Payment gateway integration"
+    ],
+    "pricing": "Starting at £49/month - includes up to 500 products",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/commerce-demo"
+      },
+      {
+        "label": "Pricing Details",
+        "url": "https://example.com/commerce-pricing"
+      }
+    ]
+  },
+  {
+    "id": "aibot",
+    "name": "AI Social Bot Pro",
+    "icon": "🤖",
+    "description": "Advanced AI-powered social media automation with review management, smart upselling, and voice assistant capabilities.",
+    "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
+    "demoUrl": "https://example.com/aibot-demo",
+    "features": [
+      "AI Review Response Manager with sentiment analysis",
+      "Smart Upsell Engine with dynamic pricing",
+      "Voice AI Assistant for phone bookings",
+      "Multi-platform content generation",
+      "Brand voice customization",
+      "Performance optimization & analytics"
+    ],
+    "pricing": "Starting at £79/month - includes AI review management + voice assistant",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/aibot-demo"
+      },
+      {
+        "label": "AI Features",
+        "url": "https://example.com/aibot-features"
+      }
+    ]
+  },
+  {
+    "id": "growthflow",
+    "name": "GrowthFlow Analytics",
+    "icon": "📊",
+    "description": "Comprehensive business intelligence platform with real-time metrics, forecasting, and growth optimization.",
+    "tags": ["Analytics", "Growth", "Business Intelligence"],
+    "demoUrl": "https://example.com/growth-demo",
+    "features": [
+      "Real-time dashboard",
+      "Predictive analytics",
+      "Customer lifetime value tracking",
+      "Revenue forecasting",
+      "A/B testing framework",
+      "Custom reporting"
+    ],
+    "pricing": "Starting at £59/month - includes unlimited reports",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/growth-demo"
+      },
+      {
+        "label": "Analytics Guide",
+        "url": "https://example.com/growth-guide"
+      }
+    ]
+  },
+  {
+    "id": "webbuilder",
+    "name": "WebBuilder Pro",
+    "icon": "🌐",
+    "description": "Drag-and-drop website builder optimized for service businesses with built-in SEO and conversion tools.",
+    "tags": ["Website", "SEO", "Conversion"],
+    "demoUrl": "https://example.com/webbuilder-demo",
+    "features": [
+      "Drag-and-drop editor",
+      "Mobile-responsive templates",
+      "SEO optimization tools",
+      "Conversion tracking",
+      "Form builder",
+      "Hosting included"
+    ],
+    "pricing": "Starting at £19/month - includes hosting & SSL",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/webbuilder-demo"
+      },
+      {
+        "label": "Templates",
+        "url": "https://example.com/webbuilder-templates"
+      }
+    ]
+  },
+  {
+    "id": "paymentflow",
+    "name": "PaymentFlow Gateway",
+    "icon": "💳",
+    "description": "Secure payment processing with fraud detection, subscription management, and detailed transaction analytics.",
+    "tags": ["Payments", "Security", "Subscriptions"],
+    "demoUrl": "https://example.com/payment-demo",
+    "features": [
+      "Multi-currency support",
+      "Fraud detection & prevention",
+      "Subscription billing",
+      "Transaction analytics",
+      "PCI compliance",
+      "API integration"
+    ],
+    "pricing": "2.9% + 30p per transaction - no monthly fees",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/payment-demo"
+      },
+      {
+        "label": "Security Details",
+        "url": "https://example.com/payment-security"
+      }
+    ]
+  },
+  {
+    "id": "queue-management",
+    "name": "Virtual Queue Pro",
+    "icon": "📱",
+    "description": "Smart queue management system with SMS updates, real-time predictions, and location-based notifications.",
+    "tags": ["Queue", "SMS", "Location", "Predictions"],
+    "demoUrl": "https://example.com/queue-demo",
+    "features": [
+      "Virtual 'wait in line' via SMS updates",
+      "Real-time wait time predictions",
+      "Location-based notifications when it's your turn",
+      "Queue analytics and optimization",
+      "Staff efficiency tracking",
+      "Customer satisfaction monitoring"
+    ],
+    "pricing": "Starting at £49/month - includes unlimited SMS notifications",
+    "links": [
+      {
+        "label": "Live Demo",
+        "url": "https://example.com/queue-demo"
+      },
+      {
+        "label": "Queue Analytics",
+        "url": "https://docs.example.com/queue-analytics"
+      }
+    ]
+  },
+  {
+    "id": "ar-try-on",
+    "name": "AR Try-On Studio",
+    "icon": "🕶️",
+    "description": "Augmented reality integration for virtual hair color previews, style visualization, and service demonstrations.",
+    "tags": ["AR", "Virtual Try-On", "Visualization"],
+    "demoUrl": "https://example.com/ar-demo",
+    "features": [
+      "Virtual hair color/style previews for salons",
+      "Before/after AR visualization for services",
+      "Booking integration with realistic expectations",
+      "Social sharing of AR previews",
+      "Custom style recommendations",
+      "Mobile app integration"
+    ],
+    "pricing": "Starting at £99/month - includes AR SDK + mobile app",
+    "links": [
+      {
+        "label": "AR Demo",
+        "url": "https://example.com/ar-demo"
+      },
+      {
+        "label": "Integration Guide",
+        "url": "https://docs.example.com/ar-integration"
+      }
+    ]
+  }
+]
