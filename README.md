@@ -1,4 +1,6 @@
 <!-- BADGES:START -->
+[![Health check](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/health-check.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/health-check.yml)
+[![Health check](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/health-check.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/health-check.yml)
 [![SFS CI + Deploy](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/ci.yml)
 [![Reusable SFS CI](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ci-deploy.yml/badge.svg)](https://github.com/smartflow-systems/SmartFlowSite/actions/workflows/sfs-ci-deploy.yml)
 <!-- BADGES:END -->
