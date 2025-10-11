@@ -1,26 +1,19 @@
 ---
-name: Bug report
+name: "🐞 Bug report"
 about: Report a problem so we can fix it
 labels: bug
 ---
-
-### Description
-A clear description of the bug.
-
-### Steps to Reproduce
-1. …
-2. …
-3. …
-
-### Expected Behavior
-What you expected to happen.
-
-### Actual Behavior
-What actually happened (include logs, errors, or screenshots).
-
-### Environment
-- Browser/OS:
-- Branch/Commit:
-
-### Additional Context
-Anything else we should know?
+## What happened?
+## Steps to reproduce
+1.
+2.
+3.
+## Expected vs actual
+**Expected:**
+**Actual:**
+## Screenshots / logs
+## Env
+- Branch/commit:
+- Runtime (Replit/local):
+- URL/Route:
+## Extra notes

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Roadmap
+    url: https://github.com/smartflow-systems/SmartFlowSite/blob/main/docs/Roadmap.md
+    about: See priorities before opening an issue.

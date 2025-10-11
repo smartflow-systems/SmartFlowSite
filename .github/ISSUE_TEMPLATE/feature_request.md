@@ -1,20 +1,12 @@
 ---
-name: Feature request
-about: Suggest an idea to improve SmartFlowSite
-labels: enhancement
+name: "✨ Feature request"
+about: Propose a new capability or improvement
+labels: feature
 ---
-
-### Problem
-What problem are we trying to solve?
-
-### Proposal
-Describe the feature and how it would work.
-
-### Alternatives
-Any alternative solutions you considered.
-
-### Success Criteria
-How we’ll know this is successful.
-
-### Additional Context
-Links, screenshots, references.
+## Problem / goal
+## Proposal
+## Acceptance criteria
+- [ ]
+## Risks / tradeoffs
+## Dependencies
+## Notes
