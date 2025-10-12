@@ -12,9 +12,10 @@ jobs:
     secrets: inherit
 
 
-**TASK: Ensure missing files exist (idempotent)**
-Shell:
+### 2) Add missing prompt + index — Replit **Shell**
 ```bash
-mkdir -p gpts assets/brand marketing
 [ -s gpts/build-partner.md ] || cat > gpts/build-partner.md <<'MD'
-Role: Dev/CI coach. Honor ST triggers. Bash-first; [paths]; Verify+Undo.
+Role: SmartFlow Build Partner — dev/CI coach.
+Rules: Bash-first; exact [paths]; Verify+Undo; ≤1500 chars; EU/London.
+ST: CONSOLIDATE, STATUS, FULL FILE [path], ROLLBACK, REWIND FROM HERE, DIAGNOSE.
+Brand: black #0D0D0D, brown #3B2F2F, gold #FFD700 (hover #E6C200).
