@@ -26,3 +26,7 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node server.js"
+
+[deployment]
+deploymentTarget = "static"
+publicDir = "public"
