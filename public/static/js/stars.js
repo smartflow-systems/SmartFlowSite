@@ -10,6 +10,7 @@ class CircuitFlowAnimation {
         this.animationId = null;
         this.time = 0;
         this.energy = 0.7; // Flow speed (0.1 to 1.0)
+        this.resizeHandler = null; // Store resize handler for cleanup
         
         // Golden spark colors matching SmartFlow theme
         this.colors = {
@@ -50,7 +51,9 @@ class CircuitFlowAnimation {
     }
     
     setupEventListeners() {
-        window.addEventListener('resize', () => this.resize());
+        // Store bound resize handler for cleanup
+        this.resizeHandler = () => this.resize();
+        window.addEventListener('resize', this.resizeHandler);
     }
     
     resize() {
@@ -253,15 +256,30 @@ class CircuitFlowAnimation {
     destroy() {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
+        if (this.resizeHandler) {
+            window.removeEventListener('resize', this.resizeHandler);
+            this.resizeHandler = null;
         }
         if (this.canvas && this.canvas.parentNode) {
             this.canvas.parentNode.removeChild(this.canvas);
+            this.canvas = null;
         }
+        this.ctx = null;
+        this.paths = [];
+        this.particles = [];
     }
 }
 
 // Initialize when DOM is ready - NOW WORKS ON MOBILE TOO!
 document.addEventListener('DOMContentLoaded', () => {
+    // Guard against double initialization
+    if (window.circuitAnimation) {
+        console.log('Circuit flow animation already initialized');
+        return;
+    }
+    
     console.log('DOM loaded, screen width:', window.innerWidth);
     console.log('Initializing circuit flow animation...');
     try {
@@ -279,6 +297,7 @@ document.addEventListener('visibilitychange', () => {
     if (window.circuitAnimation) {
         if (document.hidden) {
             window.circuitAnimation.destroy();
+            window.circuitAnimation = null;
         } else {
             window.circuitAnimation = new CircuitFlowAnimation();
         }
