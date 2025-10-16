@@ -1,27 +1,24 @@
-// SmartFlow Circuit Board Animation with Flowing Stars and Chip Cricket Effects
-class CircuitBoardAnimation {
+// SmartFlow Circuit Flow Animation - Flowing Sparks with Trails
+class CircuitFlowAnimation {
     constructor() {
         this.canvas = null;
         this.ctx = null;
         this.width = 0;
         this.height = 0;
-        this.nodes = [];
-        this.connections = [];
-        this.pulses = [];
-        this.stars = [];
-        this.crickets = [];
+        this.paths = [];
+        this.particles = [];
         this.animationId = null;
+        this.time = 0;
+        this.energy = 0.7; // Flow speed (0.1 to 1.0)
         
-        // Colors matching the SmartFlow theme - enhanced brightness
+        // Golden spark colors matching SmartFlow theme
         this.colors = {
-            background: 'transparent',  // Let page background show through
-            circuit: '#d4af37',
-            circuitDim: 'rgba(212, 175, 55, 0.6)',  // More visible
-            pulse: '#ffdd00',  // Brighter gold
-            pulseGlow: 'rgba(255, 221, 0, 0.9)',   // Brighter glow
-            node: '#d4af37',
-            star: '#ffdd00',   // Brighter gold
-            cricket: '#e9e6df'
+            sparkTrailStart: 'rgba(218, 165, 32, 0)',
+            sparkTrailMid: 'rgba(255, 200, 100, 0.3)',
+            sparkTrailEnd: 'rgba(255, 255, 200, 0.5)',
+            sparkRay: 'rgba(255, 255, 150, 0.4)',
+            sparkHead: 'rgba(255, 255, 200, 0.6)',
+            sparkGlow: 'rgba(255, 255, 200, 0.3)'
         };
         
         this.init();
@@ -30,9 +27,7 @@ class CircuitBoardAnimation {
     init() {
         this.createCanvas();
         this.setupEventListeners();
-        this.generateCircuitBoard();
-        this.generateStars();
-        this.generateCrickets();
+        this.initializePaths();
         this.animate();
     }
     
@@ -64,297 +59,192 @@ class CircuitBoardAnimation {
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         
-        // Regenerate circuit board on resize
-        this.generateCircuitBoard();
+        // Regenerate paths on resize
+        this.initializePaths();
     }
     
-    generateCircuitBoard() {
-        this.nodes = [];
-        this.connections = [];
-        this.pulses = [];
+    initializePaths() {
+        this.paths = [];
+        this.particles = [];
         
-        const nodeCount = Math.floor((this.width * this.height) / 8000);  // More nodes
-        const gridSpacing = 60;  // Closer together
+        // Create invisible circuit-like paths
+        const numPaths = 40 + Math.floor(Math.random() * 20);
         
-        // Generate nodes in a loose grid pattern
-        for (let i = 0; i < nodeCount; i++) {
-            this.nodes.push({
-                x: Math.random() * this.width,
-                y: Math.random() * this.height,
-                radius: 3 + Math.random() * 4,  // Larger nodes
-                pulse: Math.random() * Math.PI * 2,
-                energy: 0.5 + Math.random() * 0.5
-            });
+        for (let i = 0; i < numPaths; i++) {
+            const path = {
+                points: [],
+                orientation: Math.random() > 0.5 ? 'horizontal' : 'vertical'
+            };
+            
+            // Create circuit-like paths with right-angle turns
+            const segments = 3 + Math.floor(Math.random() * 5);
+            let x = Math.random() * this.width;
+            let y = Math.random() * this.height;
+            
+            path.points.push({ x, y });
+            
+            for (let j = 0; j < segments; j++) {
+                const direction = Math.floor(Math.random() * 4); // 0=right, 1=down, 2=left, 3=up
+                const length = 50 + Math.random() * 150;
+                
+                switch(direction) {
+                    case 0: x += length; break;
+                    case 1: y += length; break;
+                    case 2: x -= length; break;
+                    case 3: y -= length; break;
+                }
+                
+                // Keep in bounds
+                x = Math.max(50, Math.min(this.width - 50, x));
+                y = Math.max(50, Math.min(this.height - 50, y));
+                
+                path.points.push({ x, y });
+            }
+            
+            this.paths.push(path);
         }
         
-        // Create connections between nearby nodes
-        for (let i = 0; i < this.nodes.length; i++) {
-            for (let j = i + 1; j < this.nodes.length; j++) {
-                const dx = this.nodes[i].x - this.nodes[j].x;
-                const dy = this.nodes[i].y - this.nodes[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+        // Initialize particles on paths
+        const particlesPerPath = 3;
+        
+        this.paths.forEach((path, pathIndex) => {
+            for (let i = 0; i < particlesPerPath; i++) {
+                this.particles.push({
+                    pathIndex,
+                    segmentIndex: 0,
+                    progress: Math.random(),
+                    speed: 0.01 + Math.random() * 0.02,
+                    size: 2 + Math.random() * 2,
+                    flickerOffset: Math.random() * Math.PI * 2,
+                    life: 0
+                });
+            }
+        });
+    }
+    
+    updateParticles() {
+        this.particles.forEach(particle => {
+            const path = this.paths[particle.pathIndex];
+            if (!path) return;
+            
+            // Update progress with random speed spikes
+            const speedSpike = Math.random() < 0.05 ? 2 + Math.random() * 3 : 1;
+            particle.progress += particle.speed * this.energy * speedSpike;
+            
+            // Fade in and out
+            particle.life = (particle.life || 0) + 0.02;
+            const fadeIn = Math.min(particle.life * 2, 1);
+            const fadeOut = particle.segmentIndex >= path.points.length - 2 ? 
+                Math.max(0, 1 - (particle.progress * 2)) : 1;
+            particle.fadeFactor = fadeIn * fadeOut;
+            
+            // Move to next segment if needed
+            if (particle.progress >= 1) {
+                particle.progress = 0;
+                particle.segmentIndex++;
                 
-                if (distance < 150 && Math.random() < 0.5) {  // More connections
-                    this.connections.push({
-                        start: i,
-                        end: j,
-                        opacity: 0.3 + Math.random() * 0.4
-                    });
+                // Loop back to start with new life cycle
+                if (particle.segmentIndex >= path.points.length - 1) {
+                    particle.segmentIndex = 0;
+                    particle.life = 0;
+                    particle.speed = 0.01 + Math.random() * 0.02;
                 }
             }
-        }
-    }
-    
-    generateStars() {
-        this.stars = [];
-        const starCount = 120;  // More stars
-        
-        for (let i = 0; i < starCount; i++) {
-            this.stars.push({
-                x: Math.random() * this.width,
-                y: Math.random() * this.height,
-                size: 2 + Math.random() * 4,  // Larger stars
-                speed: 0.1 + Math.random() * 0.3,  // Much slower movement
-                opacity: 0.3 + Math.random() * 0.7,
-                twinkle: Math.random() * Math.PI * 2,
-                direction: Math.random() * Math.PI * 2,
-                drift: Math.random() * 0.02  // Very subtle drift for natural movement
-            });
-        }
-    }
-    
-    generateCrickets() {
-        this.crickets = [];
-        const cricketCount = 15;  // More crickets
-        
-        for (let i = 0; i < cricketCount; i++) {
-            this.crickets.push({
-                x: Math.random() * this.width,
-                y: Math.random() * this.height,
-                targetX: Math.random() * this.width,
-                targetY: Math.random() * this.height,
-                speed: 0.3 + Math.random() * 0.7,
-                size: 2 + Math.random() * 2,
-                pulse: Math.random() * Math.PI * 2,
-                trail: []
-            });
-        }
-    }
-    
-    updatePulses() {
-        // Add new pulses randomly along connections - more frequent
-        if (Math.random() < 0.15 && this.connections.length > 0) {
-            const connection = this.connections[Math.floor(Math.random() * this.connections.length)];
-            const startNode = this.nodes[connection.start];
-            const endNode = this.nodes[connection.end];
-            
-            this.pulses.push({
-                startX: startNode.x,
-                startY: startNode.y,
-                endX: endNode.x,
-                endY: endNode.y,
-                progress: 0,
-                speed: 0.008 + Math.random() * 0.012,
-                size: 2 + Math.random() * 3,
-                life: 1.0
-            });
-        }
-        
-        // Update existing pulses
-        this.pulses = this.pulses.filter(pulse => {
-            pulse.progress += pulse.speed;
-            pulse.life = Math.max(0, pulse.life - 0.005);
-            return pulse.progress < 1.0 && pulse.life > 0;
         });
     }
     
-    updateStars() {
-        this.stars.forEach(star => {
-            // Very slow autonomous movement
-            star.x += Math.cos(star.direction) * star.speed * 0.3;  // Even slower
-            star.y += Math.sin(star.direction) * star.speed * 0.3;
+    drawParticles() {
+        this.particles.forEach(particle => {
+            const path = this.paths[particle.pathIndex];
+            if (!path) return;
             
-            // Add subtle drift for more natural movement
-            star.direction += (Math.random() - 0.5) * star.drift;
-            star.twinkle += 0.05;  // Slower twinkling too
+            // Get current position
+            const p1 = path.points[particle.segmentIndex];
+            const p2 = path.points[particle.segmentIndex + 1];
             
-            // Wrap around screen edges smoothly
-            if (star.x < -10) star.x = this.width + 10;
-            if (star.x > this.width + 10) star.x = -10;
-            if (star.y < -10) star.y = this.height + 10;
-            if (star.y > this.height + 10) star.y = -10;
-        });
-    }
-    
-    updateCrickets() {
-        this.crickets.forEach(cricket => {
-            // Move towards target
-            const dx = cricket.targetX - cricket.x;
-            const dy = cricket.targetY - cricket.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (!p1 || !p2) return;
             
-            if (distance < 10 || Math.random() < 0.01) {
-                // Set new target
-                cricket.targetX = Math.random() * this.width;
-                cricket.targetY = Math.random() * this.height;
-            } else {
-                cricket.x += (dx / distance) * cricket.speed;
-                cricket.y += (dy / distance) * cricket.speed;
-            }
+            const x = p1.x + (p2.x - p1.x) * particle.progress;
+            const y = p1.y + (p2.y - p1.y) * particle.progress;
             
-            cricket.pulse += 0.15;
+            // Flicker effect - dimmer with fade
+            const flicker = (Math.sin(this.time * 8 + particle.flickerOffset) * 0.2 + 0.4) * particle.fadeFactor;
             
-            // Add to trail
-            cricket.trail.push({ x: cricket.x, y: cricket.y });
-            if (cricket.trail.length > 20) {
-                cricket.trail.shift();
-            }
-        });
-    }
-    
-    drawCircuitBoard() {
-        // Draw connections
-        this.connections.forEach(connection => {
-            const startNode = this.nodes[connection.start];
-            const endNode = this.nodes[connection.end];
+            // Calculate direction of movement
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const angle = Math.atan2(dy, dx);
             
+            // Add slight random drift for organic movement
+            const driftX = Math.sin(this.time * 2 + particle.flickerOffset) * 3;
+            const driftY = Math.cos(this.time * 2 + particle.flickerOffset) * 3;
+            const finalX = x + driftX;
+            const finalY = y + driftY;
+            
+            // Draw spark trail
+            const trailLength = 15 + particle.size * 5;
+            const trailStartX = finalX - Math.cos(angle) * trailLength;
+            const trailStartY = finalY - Math.sin(angle) * trailLength;
+            
+            // Main spark line with gradient
+            const gradient = this.ctx.createLinearGradient(trailStartX, trailStartY, finalX, finalY);
+            gradient.addColorStop(0, this.colors.sparkTrailStart);
+            gradient.addColorStop(0.5, `rgba(255, 200, 100, ${0.3 * flicker})`);
+            gradient.addColorStop(1, `rgba(255, 255, 200, ${0.5 * flicker})`);
+            
+            this.ctx.strokeStyle = gradient;
+            this.ctx.lineWidth = 2;
             this.ctx.beginPath();
-            this.ctx.moveTo(startNode.x, startNode.y);
-            this.ctx.lineTo(endNode.x, endNode.y);
-            this.ctx.strokeStyle = `rgba(212, 175, 55, ${connection.opacity})`;
-            this.ctx.lineWidth = 2;  // Thicker lines
+            this.ctx.moveTo(trailStartX, trailStartY);
+            this.ctx.lineTo(finalX, finalY);
             this.ctx.stroke();
-        });
-        
-        // Draw nodes
-        this.nodes.forEach(node => {
-            const pulseSize = node.radius + Math.sin(node.pulse) * 1;
-            node.pulse += 0.02;
             
-            this.ctx.beginPath();
-            this.ctx.arc(node.x, node.y, pulseSize, 0, Math.PI * 2);
-            this.ctx.fillStyle = this.colors.node;
-            this.ctx.fill();
-            
-            // Enhanced glow effect
-            this.ctx.beginPath();
-            this.ctx.arc(node.x, node.y, pulseSize + 4, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(255, 221, 0, ${node.energy * 0.5})`;
-            this.ctx.fill();
-            
-            // Outer glow
-            this.ctx.beginPath();
-            this.ctx.arc(node.x, node.y, pulseSize + 8, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(255, 221, 0, ${node.energy * 0.2})`;
-            this.ctx.fill();
-        });
-    }
-    
-    drawPulses() {
-        this.pulses.forEach(pulse => {
-            const x = pulse.startX + (pulse.endX - pulse.startX) * pulse.progress;
-            const y = pulse.startY + (pulse.endY - pulse.startY) * pulse.progress;
-            
-            // Glow effect
-            const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, pulse.size * 3);
-            gradient.addColorStop(0, `rgba(212, 175, 55, ${pulse.life * 0.8})`);
-            gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
-            
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, pulse.size * 3, 0, Math.PI * 2);
-            this.ctx.fillStyle = gradient;
-            this.ctx.fill();
-            
-            // Core pulse
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, pulse.size, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${pulse.life})`;
-            this.ctx.fill();
-        });
-    }
-    
-    drawStars() {
-        this.stars.forEach(star => {
-            const twinkleOpacity = star.opacity * (0.5 + 0.5 * Math.sin(star.twinkle));
-            
-            this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(212, 175, 55, ${twinkleOpacity})`;
-            this.ctx.fill();
-            
-            // Enhanced star glow with multiple layers
-            const gradient1 = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 6);
-            gradient1.addColorStop(0, `rgba(255, 221, 0, ${twinkleOpacity * 0.8})`);
-            gradient1.addColorStop(1, 'rgba(255, 221, 0, 0)');
-            
-            this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.size * 6, 0, Math.PI * 2);
-            this.ctx.fillStyle = gradient1;
-            this.ctx.fill();
-            
-            // Inner bright glow
-            const gradient2 = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 2);
-            gradient2.addColorStop(0, `rgba(255, 255, 255, ${twinkleOpacity * 0.6})`);
-            gradient2.addColorStop(1, 'rgba(255, 221, 0, 0)');
-            
-            this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
-            this.ctx.fillStyle = gradient2;
-            this.ctx.fill();
-        });
-    }
-    
-    drawCrickets() {
-        this.crickets.forEach(cricket => {
-            // Draw enhanced trail
-            cricket.trail.forEach((point, index) => {
-                const alpha = (index / cricket.trail.length) * 0.6;
-                const size = 1 + (index / cricket.trail.length) * 2;
+            // Add spark rays at the head
+            const numRays = 3;
+            for (let i = 0; i < numRays; i++) {
+                const rayAngle = angle + (Math.random() - 0.5) * Math.PI / 3;
+                const rayLength = 3 + Math.random() * 6;
+                const rayEndX = finalX + Math.cos(rayAngle) * rayLength;
+                const rayEndY = finalY + Math.sin(rayAngle) * rayLength;
                 
                 this.ctx.beginPath();
-                this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-                this.ctx.fillStyle = `rgba(233, 230, 223, ${alpha})`;
-                this.ctx.fill();
-                
-                // Trail glow
-                this.ctx.beginPath();
-                this.ctx.arc(point.x, point.y, size * 2, 0, Math.PI * 2);
-                this.ctx.fillStyle = `rgba(233, 230, 223, ${alpha * 0.3})`;
-                this.ctx.fill();
-            });
+                this.ctx.moveTo(finalX, finalY);
+                this.ctx.lineTo(rayEndX, rayEndY);
+                this.ctx.strokeStyle = `rgba(255, 255, 150, ${flicker * 0.4})`;
+                this.ctx.lineWidth = 1;
+                this.ctx.stroke();
+            }
             
-            // Draw cricket body
-            const pulseSize = cricket.size + Math.sin(cricket.pulse) * 0.5;
-            
+            // Bright head point
+            this.ctx.fillStyle = `rgba(255, 255, 200, ${flicker * 0.6})`;
             this.ctx.beginPath();
-            this.ctx.arc(cricket.x, cricket.y, pulseSize, 0, Math.PI * 2);
-            this.ctx.fillStyle = this.colors.cricket;
+            this.ctx.arc(finalX, finalY, 1.5, 0, Math.PI * 2);
             this.ctx.fill();
             
-            // Cricket glow
+            // Head glow
+            const glowGradient = this.ctx.createRadialGradient(finalX, finalY, 0, finalX, finalY, 8);
+            glowGradient.addColorStop(0, `rgba(255, 255, 200, ${0.3 * flicker})`);
+            glowGradient.addColorStop(1, 'rgba(255, 200, 100, 0)');
+            this.ctx.fillStyle = glowGradient;
             this.ctx.beginPath();
-            this.ctx.arc(cricket.x, cricket.y, pulseSize + 3, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(233, 230, 223, 0.4)`;
+            this.ctx.arc(finalX, finalY, 8, 0, Math.PI * 2);
             this.ctx.fill();
         });
     }
     
     render() {
-        // Clear canvas with fade effect for trails
-        this.ctx.fillStyle = 'rgba(11, 11, 11, 0.1)';  // Semi-transparent clear for trail effects
+        // Dark background with fade effect for trails
+        this.ctx.fillStyle = 'rgba(5, 5, 10, 0.08)';
         this.ctx.fillRect(0, 0, this.width, this.height);
         
-        // Draw all elements
-        this.drawCircuitBoard();
-        this.drawPulses();
-        this.drawStars();
-        this.drawCrickets();
+        // Draw flowing sparks
+        this.drawParticles();
     }
     
     animate() {
-        this.updatePulses();
-        this.updateStars();
-        this.updateCrickets();
+        this.time += 0.016;
+        
+        this.updateParticles();
         this.render();
         
         this.animationId = requestAnimationFrame(() => this.animate());
@@ -370,23 +260,17 @@ class CircuitBoardAnimation {
     }
 }
 
-// Initialize when DOM is ready
+// Initialize when DOM is ready - NOW WORKS ON MOBILE TOO!
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, screen width:', window.innerWidth);
-    // Only initialize if we're not on a mobile device (performance consideration)
-    if (window.innerWidth > 768) {
-        console.log('Initializing circuit board animation...');
-        try {
-            window.circuitAnimation = new CircuitBoardAnimation();
-            console.log('Circuit animation created successfully');
-            console.log('Generated nodes:', window.circuitAnimation.nodes.length);
-            console.log('Generated connections:', window.circuitAnimation.connections.length);
-            console.log('Generated stars:', window.circuitAnimation.stars.length);
-        } catch (error) {
-            console.error('Error creating circuit animation:', error);
-        }
-    } else {
-        console.log('Skipping animation on mobile device');
+    console.log('Initializing circuit flow animation...');
+    try {
+        window.circuitAnimation = new CircuitFlowAnimation();
+        console.log('Circuit flow animation created successfully');
+        console.log('Generated paths:', window.circuitAnimation.paths.length);
+        console.log('Generated particles:', window.circuitAnimation.particles.length);
+    } catch (error) {
+        console.error('Error creating circuit flow animation:', error);
     }
 });
 
@@ -395,8 +279,8 @@ document.addEventListener('visibilitychange', () => {
     if (window.circuitAnimation) {
         if (document.hidden) {
             window.circuitAnimation.destroy();
-        } else if (window.innerWidth > 768) {
-            window.circuitAnimation = new CircuitBoardAnimation();
+        } else {
+            window.circuitAnimation = new CircuitFlowAnimation();
         }
     }
 });
