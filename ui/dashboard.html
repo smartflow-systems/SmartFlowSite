@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>SmartFlow — UI Shell</title>
+  <link rel="preload" href="/assets/ui.css" as="style">
+  <link rel="stylesheet" href="/assets/ui.css">
+  <script defer src="/assets/ui.js"></script>
+</head>
+<body class="sf-body">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <aside class="sf-aside" aria-label="Sidebar navigation">
+    <div class="brand">
+      <button class="icon-btn" data-action="toggleNav" aria-label="Close sidebar">☰</button>
+      <span class="brand-name">SmartFlow</span>
+    </div>
+    <nav>
+      <ul class="nav">
+        <li><a href="#overview" data-route aria-current="page">Overview</a></li>
+        <li><a href="#workflows" data-route>Workflows</a></li>
+        <li><a href="#tasks" data-route>Tasks</a></li>
+        <li><a href="#analytics" data-route>Analytics</a></li>
+        <li class="sep"></li>
+        <li><a href="#settings" data-route>Settings</a></li>
+      </ul>
+    </nav>
+    <footer class="aside-footer">
+      <button class="chip" data-action="toggleTheme" aria-label="Toggle theme">Theme</button>
+    </footer>
+  </aside>
+
+  <div class="sf-wrapper">
+    <header class="sf-header">
+      <button class="icon-btn" data-action="toggleNav" aria-label="Open sidebar">☰</button>
+      <form class="search" role="search" aria-label="Search">
+        <input type="search" placeholder="Search workflows, tasks…"/>
+      </form>
+      <div class="user">
+        <button class="chip" data-action="openQuickAdd">+ New</button>
+        <div class="avatar" aria-hidden="true">SF</div>
+      </div>
+    </header>
+
+    <main id="main" class="sf-main" tabindex="-1">
+      <section data-view="overview" hidden>
+        <h1 class="h1">Overview</h1>
+        <div class="kpis">
+          <article class="card kpi"><h2>Active Workflows</h2><p class="big" data-bind="kpi.activeWorkflows">0</p></article>
+          <article class="card kpi"><h2>Tasks Today</h2><p class="big" data-bind="kpi.tasksToday">0</p></article>
+          <article class="card kpi"><h2>Avg. Duration</h2><p class="big" data-bind="kpi.avgDuration">—</p></article>
+          <article class="card kpi"><h2>Success Rate</h2><p class="big" data-bind="kpi.successRate">—</p></article>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <header class="card-head">
+              <h2>Recent Runs</h2>
+              <button class="chip" data-action="refreshRuns">Refresh</button>
+            </header>
+            <div class="table-wrap">
+              <table class="table" aria-label="Recent workflow runs">
+                <thead><tr><th>ID</th><th>Workflow</th><th>Status</th><th>Duration</th><th>Started</th></tr></thead>
+                <tbody data-list="recentRuns"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card-head"><h2>Throughput (last 7 days)</h2></header>
+            <svg class="spark" viewBox="0 0 100 40" aria-label="Throughput sparkline">
+              <polyline data-bind="sparkline" fill="none" stroke-width="2" points=""></polyline>
+            </svg>
+          </article>
+        </div>
+      </section>
+
+      <section data-view="workflows" hidden>
+        <h1 class="h1">Workflows</h1>
+        <div class="toolbar">
+          <button class="chip" data-action="openQuickAdd">New Workflow</button>
+          <select data-filter="status" aria-label="Filter by status">
+            <option value="">All statuses</option><option>Active</option><option>Paused</option><option>Draft</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Name</th><th>Version</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead>
+            <tbody data-list="workflows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section data-view="tasks" hidden>
+        <h1 class="h1">Tasks</h1>
+        <div class="kanban">
+          <div class="col"><h2>Queued</h2><ul class="list" data-list="tasks:Queued"></ul></div>
+          <div class="col"><h2>Running</h2><ul class="list" data-list="tasks:Running"></ul></div>
+          <div class="col"><h2>Done</h2><ul class="list" data-list="tasks:Done"></ul></div>
+        </div>
+      </section>
+
+      <section data-view="analytics" hidden>
+        <h1 class="h1">Analytics</h1>
+        <article class="card">
+          <header class="card-head"><h2>Runtime Distribution</h2></header>
+          <div class="chart">
+            <div class="bar" style="--v:12%"></div>
+            <div class="bar" style="--v:35%"></div>
+            <div class="bar" style="--v:58%"></div>
+            <div class="bar" style="--v:33%"></div>
+            <div class="bar" style="--v:70%"></div>
+            <div class="bar" style="--v:48%"></div>
+          </div>
+        </article>
+      </section>
+
+      <section data-view="settings" hidden>
+        <h1 class="h1">Settings</h1>
+        <form class="form" id="settingsForm" novalidate>
+          <label>Organization name <input name="orgName" placeholder="Smart Flow Systems" required/></label>
+          <label>Default concurrency <input name="concurrency" type="number" min="1" max="128" value="8" required/></label>
+          <label>Notifications
+            <select name="notify"><option>Email</option><option>Slack</option><option>Webhook</option></select>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="chip">Save</button>
+            <span class="muted" data-bind="settingsStatus"></span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="modal" data-modal>
+    <form method="dialog" class="modal-card" id="quickAddForm">
+      <header class="card-head"><h2>Quick Add</h2><button class="icon-btn" value="cancel" aria-label="Close">✕</button></header>
+      <label>Type <select name="type"><option>Workflow</option><option>Task</option></select></label>
+      <label>Name <input name="name" required placeholder="e.g., Ingest CSV"/></label>
+      <menu class="form-actions">
+        <button class="chip" value="cancel">Cancel</button>
+        <button class="chip" value="default">Create</button>
+      </menu>
+    </form>
+  </dialog>
+</body>
+</html>
