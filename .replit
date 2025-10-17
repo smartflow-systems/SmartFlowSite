@@ -1,50 +1,8 @@
-modules = ["nodejs-20", "python-3.11", "python3"]
-[agent]
-expertMode = true
+hidden = ["node_modules",".cache",".pnpm-store"]
 
-[nix]
-channel = "stable-25_05"
-packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "zlib", "unzip"]
+[packager]
+language = "nodejs"
+packageManager = "npm"
 
-[workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "SmartFlow Production"
-
-[[workflows.workflow]]
-name = "SmartFlow Production"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 main.py"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[ports]]
-localPort = 3000
-externalPort = 3002
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-
-[[ports]]
-localPort = 5001
-externalPort = 3000
-
-[[ports]]
-localPort = 5002
-externalPort = 3001
-
-[deployment]
-deploymentTarget = "cloudrun"
+[run]
+command = "bash -lc './replit-run.sh'"
