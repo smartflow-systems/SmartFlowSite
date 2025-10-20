@@ -110,7 +110,7 @@ img{max-width:100%;display:block}
 /* projects grid - glassmorphism cards */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .project-card{
-  background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.75), rgba(11,11,11,.6));
+  background:rgba(11,11,11,.85);
   backdrop-filter:saturate(180%) blur(18px) brightness(1.05);
   border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.2);
@@ -141,7 +141,7 @@ img{max-width:100%;display:block}
   opacity:1;
 }
 .project-card:hover{
-  background:linear-gradient(145deg, rgba(212,175,55,.12), rgba(20,17,15,.9), rgba(11,11,11,.75));
+  background:rgba(11,11,11,.95);
   border-color:rgba(212,175,55,.6);
   border-top-color:rgba(255,221,0,.3);
   transform:translateY(-4px);
@@ -161,7 +161,7 @@ img{max-width:100%;display:block}
 /* latest - glassmorphism cards */
 .latest-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .latest-card{
-  background:linear-gradient(140deg, rgba(212,175,55,.06), rgba(20,17,15,.7), rgba(11,11,11,.6));
+  background:rgba(11,11,11,.8);
   backdrop-filter:saturate(170%) blur(16px) brightness(1.03);
   border:1px solid rgba(212,175,55,.35);
   border-top:1px solid rgba(255,255,255,.18);
@@ -191,7 +191,7 @@ img{max-width:100%;display:block}
   left:100%;
 }
 .latest-card:hover{
-  background:linear-gradient(140deg, rgba(212,175,55,.1), rgba(20,17,15,.85), rgba(11,11,11,.75));
+  background:rgba(11,11,11,.95);
   border-color:rgba(212,175,55,.5);
   border-top-color:rgba(255,221,0,.25);
   transform:translateY(-3px);
@@ -312,7 +312,7 @@ body {
 .project-card.selected,
 .latest-card.selected,
 .price-card.selected {
-  background: linear-gradient(135deg, rgba(255,221,0,.15), rgba(212,175,55,.2), rgba(20,17,15,.9)) !important;
+  background: rgba(11,11,11,.95) !important;
   border: 2px solid rgba(212,175,55,.9) !important;
   border-top: 2px solid rgba(255,221,0,.8) !important;
   box-shadow:
