@@ -6,6 +6,7 @@ app.use(express.static("public", { index: false }));
 
 // health check (optional)
 app.get("/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 // port
 const port = process.env.PORT || 5000;
