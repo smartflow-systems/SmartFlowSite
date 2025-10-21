@@ -2,7 +2,7 @@ import express from "express";
 const app = express();
 
 // serve everything from /public
-app.use(express.static("public"));
+app.use(express.static("public", { index: false }));
 
 // health check (optional)
 app.get("/health", (_req, res) => res.json({ ok: true }));
