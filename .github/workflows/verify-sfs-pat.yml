@@ -38,7 +38,10 @@ jobs:
           set -euo pipefail
           headers="$(mktemp)"
           body="$(mktemp)"
-          code=$(curl -sS -w '%{http_code}' -o "$body" -D "$headers"             -H "Authorization: Bearer ${{ secrets.SFS_PAT }}"             -H "Accept: application/vnd.github+json"             https://api.github.com/user)
+          code=$(curl -sS -w '%{http_code}' -o "$body" -D "$headers" \
+            -H "Authorization: Bearer ${{ secrets.SFS_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/user)
 
           echo "http_code=$code" >> "$GITHUB_OUTPUT"
 
@@ -69,7 +72,9 @@ jobs:
       - name: Assert repo/public_repo scope if present (classic PATs only)
         if: ${{ steps.auth.outputs.scopes != '' }}
         run: |
-          echo "${{ steps.auth.outputs.scopes }}" | grep -Eq '(^|, )repo(,|$)|(^|, )public_repo(,|$)'             && echo "✅ Scope check passed"             || { echo "❌ Missing repo/public_repo scope"; exit 1; }
+          echo "${{ steps.auth.outputs.scopes }}" | grep -Eq '(^|, )repo(,|$)|(^|, )public_repo(,|$)' \
+            && echo "✅ Scope check passed" \
+            || { echo "❌ Missing repo/public_repo scope"; exit 1; }
 
       - name: Optional repo access check (non-fatal)
         env:
@@ -79,7 +84,9 @@ jobs:
         run: |
           set -euo pipefail
           echo "Checking permissions against ${OWNER}/${REPO} (optional)…"
-          resp=$(curl -sS -H "Authorization: Bearer ${TOKEN}"                         -H "Accept: application/vnd.github+json"                         "https://api.github.com/repos/${OWNER}/${REPO}" || true)
+          resp=$(curl -sS -H "Authorization: Bearer ${TOKEN}" \
+                        -H "Accept: application/vnd.github+json" \
+                        "https://api.github.com/repos/${OWNER}/${REPO}" || true)
           if echo "$resp" | jq -e '.message=="Not Found"' >/dev/null 2>&1; then
             echo "⚠️ Repo ${OWNER}/${REPO} not visible to this token/user (ok if private/elsewhere)."
             exit 0
