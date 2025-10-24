@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-OWNER="${1:-smartflow-systems}"
-REPO="${2:-SmartFlowSite}"
-REF="${3:-chore/verify-sfs-pat}"
-WF_FILE="verify-sfs-pat.yml"
-: "${GITHUB_TOKEN:?Set GITHUB_TOKEN (a PAT with repo/workflow) before running.}"
-echo "Dispatching .github/workflows/${WF_FILE} on ref=${REF} for ${OWNER}/${REPO}…"
+OWNER="${1:?owner (e.g. smartflow-systems)}"
+REPO="${2:?repo (e.g. SmartFlowSite)}"
+REF="${3:?ref/branch (e.g. chore/verify-sfs-pat)}"
+WF_FILE="${4:-verify-sfs-pat.yml}"
+: "${GITHUB_TOKEN:?Set GITHUB_TOKEN first}"
+WF_PATH=".github/workflows/${WF_FILE}"
+echo "• Sanity: OWNER=${OWNER} REPO=${REPO} REF=${REF} WF_PATH=${WF_PATH}"
+test -f "${WF_PATH}" || { echo "Missing ${WF_PATH} in your checkout"; exit 1; }
+echo "• Dispatching ${WF_PATH} on ref=${REF}…"
 curl -sS -X POST \
   -H "Authorization: Bearer ${GITHUB_TOKEN}" \
   -H "Accept: application/vnd.github+json" \
   "https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WF_FILE}/dispatches" \
   -d "{\"ref\":\"${REF}\",\"inputs\":{\"owner\":\"${OWNER}\",\"repo\":\"${REPO}\"}}"
-echo "✔ Dispatched. Open: https://github.com/${OWNER}/${REPO}/actions/workflows/${WF_FILE}"
-echo
-echo "Polling latest run metadata…"
+echo "• Polling latest run url…"
 curl -sS \
   -H "Authorization: Bearer ${GITHUB_TOKEN}" \
   -H "Accept: application/vnd.github+json" \
