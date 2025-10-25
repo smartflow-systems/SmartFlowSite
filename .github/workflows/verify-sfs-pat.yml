@@ -1,7 +1,8 @@
 name: verify-sfs-pat
 on:
   workflow_dispatch:
-  push: { paths: [".github/workflows/verify-sfs-pat.yml"] }
+  push:
+    paths: [".github/workflows/verify-sfs-pat.yml"]
 
 jobs:
   verify:
@@ -30,4 +31,3 @@ jobs:
           echo "— Key headers —"
           grep -Ei '^(x-oauth-scopes|x-ratelimit|date):' "$headers" | sed 's/\r$//'
           echo "———————"
-# touch 20251025T204643Z
