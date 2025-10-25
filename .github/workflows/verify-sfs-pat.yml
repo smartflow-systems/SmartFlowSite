@@ -1,19 +1,7 @@
 name: verify-sfs-pat
-
 on:
   workflow_dispatch:
-    inputs:
-      owner:
-        description: "GitHub org/user to test repo access against (optional)"
-        required: false
-        default: "smartflow-systems"
-      repo:
-        description: "Repository name to test access against (optional)"
-        required: false
-        default: "SmartFlowSite"
-  push:
-    paths:
-      - ".github/workflows/verify-sfs-pat.yml"
+  push: { paths: [".github/workflows/verify-sfs-pat.yml"] }
 
 jobs:
   verify:
@@ -22,77 +10,24 @@ jobs:
       - name: Ensure secret is present
         run: |
           if [ -z "${{ secrets.SFS_PAT }}" ]; then
-            echo "❌ Missing Actions secret SFS_PAT" >&2
-            exit 1
-          fi
+            echo "❌ Missing Actions secret SFS_PAT"; exit 1; fi
           echo "✅ SFS_PAT is present"
 
-      - name: Install tooling
-        run: |
-          sudo apt-get update -y || true
-          sudo apt-get install -y jq || true
+      - name: Install jq
+        run: sudo apt-get update -y && sudo apt-get install -y jq
 
       - name: Authenticate with GitHub API (/user)
-        id: auth
         run: |
           set -euo pipefail
-          headers="$(mktemp)"
-          body="$(mktemp)"
+          headers="$(mktemp)"; body="$(mktemp)"
           code=$(curl -sS -w '%{http_code}' -o "$body" -D "$headers" \
             -H "Authorization: Bearer ${{ secrets.SFS_PAT }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/user)
-
-          echo "http_code=$code" >> "$GITHUB_OUTPUT"
-
-          if [ "$code" != "200" ]; then
-            echo "❌ GitHub auth failed with HTTP $code"
-            echo "Body:"; cat "$body"
-            exit 1
-          fi
-
+            -H "Accept: application/vnd.github+json" https://api.github.com/user)
+          echo "http_code=$code"
+          if [ "$code" != "200" ]; then echo "❌ GitHub auth failed ($code)"; echo "Body:"; cat "$body"; exit 1; fi
           login=$(jq -r '.login // empty' "$body" 2>/dev/null || true)
-          echo "login=$login" >> "$GITHUB_OUTPUT"
-
-          scopes=$(grep -i '^x-oauth-scopes:' "$headers" | cut -d' ' -f2- | tr -d '\r' || true)
-          echo "scopes=$scopes" >> "$GITHUB_OUTPUT"
-
-          if [ -n "$login" ]; then
-            echo "✅ Auth OK as: $login"
-          else
-            echo "✅ Auth OK (fine-grained token likely)"
-          fi
-
-          if [ -n "$scopes" ]; then
-            echo "ℹ️ x-oauth-scopes: $scopes"
-          else
-            echo "ℹ️ No x-oauth-scopes header (fine-grained or hidden scopes)."
-          fi
-
-      - name: Assert repo/public_repo scope if present (classic PATs only)
-        if: ${{ steps.auth.outputs.scopes != '' }}
-        run: |
-          echo "${{ steps.auth.outputs.scopes }}" | grep -Eq '(^|, )repo(,|$)|(^|, )public_repo(,|$)' \
-            && echo "✅ Scope check passed" \
-            || { echo "❌ Missing repo/public_repo scope"; exit 1; }
-
-      - name: Optional repo access check (non-fatal)
-        env:
-          OWNER: ${{ inputs.owner }}
-          REPO: ${{ inputs.repo }}
-          TOKEN: ${{ secrets.SFS_PAT }}
-        run: |
-          set -euo pipefail
-          echo "Checking permissions against ${OWNER}/${REPO} (optional)…"
-          resp=$(curl -sS -H "Authorization: Bearer ${TOKEN}" \
-                        -H "Accept: application/vnd.github+json" \
-                        "https://api.github.com/repos/${OWNER}/${REPO}" || true)
-          if echo "$resp" | jq -e '.message=="Not Found"' >/dev/null 2>&1; then
-            echo "⚠️ Repo ${OWNER}/${REPO} not visible to this token/user (ok if private/elsewhere)."
-            exit 0
-          fi
-          can_push=$(echo "$resp" | jq -r '.permissions.push // empty')
-          [ "$can_push" = "true" ] && echo "✅ Token has push permission to ${OWNER}/${REPO}" || echo "ℹ️ No push permission (may be read-only or fine-grained)."
-
-      - name: Done
-        run: echo "🎯 SFS_PAT verification completed."
+          [ -n "$login" ] && echo "✅ Auth OK as: $login" || echo "✅ Auth OK (fine-grained token likely)"
+          echo "— Key headers —"
+          grep -Ei '^(x-oauth-scopes|x-ratelimit|date):' "$headers" | sed 's/\r$//'
+          echo "———————"
+# touch 20251025T204643Z
