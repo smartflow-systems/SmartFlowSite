@@ -11,6 +11,10 @@
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif}
+body{position:relative;min-height:100%;overflow-x:hidden}
+body > *:not(canvas){position:relative;z-index:1}
+.circuit{position:fixed;inset:0;pointer-events:none;opacity:.32;z-index:0;mix-blend-mode:screen;display:block;filter:drop-shadow(0 0 12px rgba(255,215,0,.22))}
+@media (prefers-reduced-motion: reduce){.circuit{display:none}}
 a{color:var(--gold);text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -110,18 +114,18 @@ img{max-width:100%;display:block}
 /* projects grid - glassmorphism cards */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .project-card{
-  background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.75), rgba(11,11,11,.6));
-  backdrop-filter:saturate(180%) blur(18px) brightness(1.05);
-  border:1px solid rgba(212,175,55,.4);
-  border-top:1px solid rgba(255,255,255,.2);
-  border-left:1px solid rgba(255,255,255,.1);
+  background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(20,17,15,.65), rgba(11,11,11,.5));
+  backdrop-filter:saturate(200%) blur(20px) brightness(1.08);
+  border:1px solid rgba(212,175,55,.35);
+  border-top:1px solid rgba(255,255,255,.24);
+  border-left:1px solid rgba(255,255,255,.14);
   padding:20px;
   border-radius:20px;
   box-shadow:
-    0 12px 48px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.15),
-    inset 0 -1px 0 rgba(0,0,0,.1),
-    0 0 0 1px rgba(212,175,55,.2);
+    0 18px 48px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(0,0,0,.12),
+    0 0 0 1px rgba(212,175,55,.24);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   position:relative;
   overflow:hidden;

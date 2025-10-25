@@ -9,6 +9,126 @@ async function getConfig(){
   }
 }
 
+function initCircuitBackground(){
+  const canvas = document.getElementById('circuit-bg');
+  if (!canvas || typeof canvas.getContext !== 'function') return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let animationId = 0;
+  let running = false;
+  let wires = [];
+
+  const randomVelocity = () => (Math.random() - 0.5) * 1.2 || 0.4;
+
+  function seedWires(){
+    wires = Array.from({ length: 60 }, () => ({
+      x: Math.random() * Math.max(width, 1),
+      y: Math.random() * Math.max(height, 1),
+      dx: randomVelocity(),
+      dy: randomVelocity()
+    }));
+  }
+
+  function resize(){
+    width = window.innerWidth;
+    height = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(Math.floor(width * dpr), 1);
+    canvas.height = Math.max(Math.floor(height * dpr), 1);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    seedWires();
+  }
+
+  function draw(){
+    if (!running) return;
+    ctx.clearRect(0, 0, width, height);
+
+    ctx.save();
+    ctx.lineWidth = 1.1;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(236, 200, 64, 0.32)';
+    ctx.shadowColor = 'rgba(255, 215, 0, 0.45)';
+    ctx.shadowBlur = 6;
+    ctx.globalCompositeOperation = 'lighter';
+
+    wires.forEach((wire) => {
+      wire.x = (wire.x + wire.dx + width) % width;
+      wire.y = (wire.y + wire.dy + height) % height;
+
+      const dirX = wire.dx === 0 ? 1 : Math.sign(wire.dx);
+      const dirY = wire.dy === 0 ? 1 : Math.sign(wire.dy);
+      const nextX = wire.x + dirX * 8;
+      const nextY = wire.y + dirY * 8;
+
+      ctx.beginPath();
+      ctx.moveTo(wire.x, wire.y);
+      ctx.lineTo(nextX, nextY);
+      ctx.stroke();
+
+      if (Math.random() < 0.05) {
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.65)';
+        ctx.arc(nextX, nextY, 1.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (Math.random() < 0.01) {
+        wire.dx = randomVelocity();
+        wire.dy = randomVelocity();
+      }
+    });
+
+    ctx.restore();
+
+    animationId = requestAnimationFrame(draw);
+  }
+
+  function start(){
+    if (running) return;
+    running = true;
+    canvas.style.display = '';
+    resize();
+    window.addEventListener('resize', resize);
+    draw();
+  }
+
+  function stop(){
+    if (!running) return;
+    running = false;
+    window.removeEventListener('resize', resize);
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, width, height);
+    canvas.style.display = 'none';
+  }
+
+  const handleMotionChange = (event) => {
+    if (event.matches) {
+      stop();
+    } else {
+      start();
+    }
+  };
+
+  if (motionQuery) {
+    if (typeof motionQuery.addEventListener === 'function') {
+      motionQuery.addEventListener('change', handleMotionChange);
+    } else if (typeof motionQuery.addListener === 'function') {
+      motionQuery.addListener(handleMotionChange);
+    }
+    handleMotionChange(motionQuery);
+  } else {
+    start();
+  }
+}
+
 async function loadLatest() {
   const target = document.getElementById('latest-list');
   if (!target) return;
@@ -270,6 +390,7 @@ async function setupLeadForm() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
+  initCircuitBackground();
   // Set current year in footer
   const yearEl = document.getElementById('y');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
