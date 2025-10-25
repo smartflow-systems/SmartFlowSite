@@ -9,7 +9,7 @@
     "start": "node server.js",
     "dev": "node server.js",
     "build": "echo 'build complete' && exit 0",
-    "test": "echo 'no tests configured' && exit 0",
+    "test": "node --test",
     "migrate": "prisma migrate dev --name init",
     "studio": "prisma studio"
   },
