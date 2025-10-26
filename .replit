@@ -6,6 +6,10 @@ expertMode = true
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 33707
+externalPort = 3000
+
 [workflows]
 runButton = "Project"
 
@@ -47,3 +51,6 @@ waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[nix]
+packages = ["gh"]
