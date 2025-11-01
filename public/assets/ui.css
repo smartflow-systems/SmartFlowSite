@@ -1,0 +1,8 @@
+:root{--sf-black:#0D0D0D;--sf-brown:#3B2F2F;--sf-gold:#FFD700;--sf-gold2:#E6C200;--sf-beige:#F5F5DC;--sf-white:#FFF}
+*{box-sizing:border-box}html,body{margin:0;background:var(--sf-black);color:var(--sf-beige);font:16px/1.6 system-ui,Segoe UI,Inter,sans-serif}
+a{color:var(--sf-gold)}a:hover{color:var(--sf-gold2)}.container{max-width:1100px;margin:0 auto;padding:24px}
+.btn{display:inline-block;padding:10px 16px;border:1px solid var(--sf-gold);border-radius:10px}
+.btn--gold{background:var(--sf-gold);color:var(--sf-black);font-weight:700}.btn--gold:hover{background:var(--sf-gold2)}
+.card{background:#14110f;border:1px solid #26201d;border-radius:14px;padding:16px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.header,.footer{backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid #2a2420}.hero{padding:48px 0}
