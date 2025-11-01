@@ -1,5 +1,12 @@
-[
-  {"title":"v0.2 — API Boost + landing copy","date":"2025-08-28","url":"updates.html#v0-2"},
-  {"title":"v0.3 — Presets + Save Boosts","date":"2025-09-02","url":"updates.html#v0-3"},
-  {"title":"Roadmap — Calendar, Analytics, Pricing, Cases","date":"2025-09-05","url":"updates.html#roadmap"}
-]
+
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Welcome to SmartFlow Systems",
+      "excerpt": "Discover how our automation solutions can transform your business",
+      "date": "2025-01-01",
+      "slug": "welcome-smartflow"
+    }
+  ]
+}

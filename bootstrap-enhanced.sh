@@ -67,12 +67,12 @@ cat > "$THEME_CANON" <<'CSS'
 .sf-bg{background:var(--sf-black);color:var(--sf-white)}
 .sf-text-muted{color:var(--sf-muted)}
 
-/* Ultra-Realistic Glassmorphism Cards */
+/* Ultra-Realistic Glassmorphism Cards with Golden Tint */
 .sf-glass{
   position:relative;
-  background:linear-gradient(145deg, rgba(20,17,15,.75), rgba(11,11,11,.6));
+  background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.8), rgba(11,11,11,.65));
   backdrop-filter:saturate(180%) blur(20px) brightness(1.06);
-  border:1px solid rgba(212,175,55,.35);
+  border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.22);
   border-left:1px solid rgba(255,255,255,.12);
   border-radius:20px;
@@ -81,7 +81,7 @@ cat > "$THEME_CANON" <<'CSS'
     0 16px 64px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -1px 0 rgba(0,0,0,.12),
-    0 0 0 1px rgba(212,175,55,.12);
+    0 0 0 1px rgba(212,175,55,.2);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   overflow:hidden;
 }
@@ -99,38 +99,38 @@ cat > "$THEME_CANON" <<'CSS'
 }
 
 .sf-glass:hover{
-  background:linear-gradient(145deg, rgba(20,17,15,.9), rgba(11,11,11,.75));
-  border-color:rgba(212,175,55,.8);
-  border-top-color:rgba(255,221,0,.4);
+  background:linear-gradient(145deg, rgba(212,175,55,.12), rgba(20,17,15,.95), rgba(11,11,11,.8));
+  border-color:rgba(212,175,55,.6);
+  border-top-color:rgba(255,221,0,.3);
   transform:translateY(-4px);
   box-shadow:
-    0 0 40px rgba(212,175,55,.7),
-    0 0 20px rgba(255,221,0,.5),
+    0 0 25px rgba(212,175,55,.4),
+    0 0 12px rgba(255,221,0,.3),
     0 24px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.25),
     inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 2px rgba(212,175,55,.4);
+    0 0 0 2px rgba(212,175,55,.3);
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes sf-golden-pulse {
   0% {
     box-shadow:
-      0 0 40px rgba(212,175,55,.7),
-      0 0 20px rgba(255,221,0,.5),
+      0 0 25px rgba(212,175,55,.4),
+      0 0 12px rgba(255,221,0,.3),
       0 24px 80px rgba(0,0,0,.5),
       inset 0 1px 0 rgba(255,255,255,.25),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.4);
+      0 0 0 2px rgba(212,175,55,.3);
   }
   100% {
     box-shadow:
-      0 0 60px rgba(212,175,55,.9),
-      0 0 30px rgba(255,221,0,.7),
+      0 0 35px rgba(212,175,55,.6),
+      0 0 18px rgba(255,221,0,.4),
       0 24px 80px rgba(0,0,0,.5),
-      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 1px 0 rgba(255,255,255,.3),
       inset 0 -1px 0 rgba(0,0,0,.15),
-      0 0 0 2px rgba(212,175,55,.6);
+      0 0 0 2px rgba(212,175,55,.4);
   }
 }
 
@@ -152,6 +152,51 @@ cat > "$THEME_CANON" <<'CSS'
     0 28px 100px rgba(212,175,55,.4),
     0 24px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+/* Selected state for all cards - prominent golden glow like SmartPart */
+.sf-glass.selected,
+.sf-card.selected,
+.project-card.selected,
+.latest-card.selected,
+.price-card.selected {
+  background: linear-gradient(135deg, rgba(255,221,0,.15), rgba(212,175,55,.2), rgba(20,17,15,.9)) !important;
+  border: 2px solid rgba(212,175,55,.9) !important;
+  border-top: 2px solid rgba(255,221,0,.8) !important;
+  box-shadow:
+    0 0 50px rgba(212,175,55,.8) !important,
+    0 0 25px rgba(255,221,0,.6) !important,
+    0 20px 60px rgba(0,0,0,.5) !important,
+    inset 0 1px 0 rgba(255,255,255,.4) !important,
+    inset 0 -1px 0 rgba(0,0,0,.2) !important;
+  transform: translateY(-4px) scale(1.02) !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Strong golden glow outline */
+.sf-glass.selected::after,
+.sf-card.selected::after,
+.project-card.selected::after,
+.latest-card.selected::after,
+.price-card.selected::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -4px !important;
+  left: -4px !important;
+  right: -4px !important;
+  bottom: -4px !important;
+  background: linear-gradient(45deg, 
+    rgba(212,175,55,1) 0%, 
+    rgba(255,221,0,.8) 25%, 
+    rgba(212,175,55,1) 50%, 
+    rgba(255,221,0,.8) 75%, 
+    rgba(212,175,55,1) 100%) !important;
+  border-radius: 28px !important;
+  z-index: -1 !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  filter: blur(2px) !important;
 }
 
 /* Enhanced buttons with glass effects */
@@ -886,6 +931,7 @@ cat > "$HTML_TEMPLATE" <<'HTML'
 
   <script src="src/effects/flowing-stars.js"></script>
   <script src="src/effects/sparkles.js"></script>
+  <script src="src/effects/card-selection.js"></script>
   <script src="src/smartflow-init.js"></script>
 </body>
 </html>
@@ -893,7 +939,7 @@ HTML
 
 # 11) Git add all new files
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  git add sfs-kit "$SRC/sfs-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
+  git add sfs-kit "$SRC/sfs-premium-theme.css" "$COMP_TSX" "$IDX" "$STARS_JS" "$SPARKLES_JS" "$CARD_SELECT_JS" "$INIT_JS" "$HTML_TEMPLATE" public/assets/brand || true
   echo "✅ Staged changes. Review: git diff --staged"
 fi
 
@@ -905,6 +951,7 @@ echo " - $(realpath --relative-to="$ROOT" "$SRC")/sfs-premium-theme.css"
 echo " - $(realpath --relative-to="$ROOT" "$COMP_TSX") (enhanced with highlight functionality)"
 echo " - $(realpath --relative-to="$ROOT" "$STARS_JS") (flowing stars animation)"
 echo " - $(realpath --relative-to="$ROOT" "$SPARKLES_JS") (interactive sparkles)"
+echo " - $(realpath --relative-to="$ROOT" "$CARD_SELECT_JS") (card selection with persistence)"
 echo " - $(realpath --relative-to="$ROOT" "$INIT_JS") (initialization script)"
 echo " - sfs-template.html (demo template)"
 echo " - public/assets/brand/sfs-logo-*.svg (premium logos)"
@@ -915,6 +962,8 @@ echo " - Slow-moving stars flowing behind glass cards"
 echo " - Interactive sparkles throughout the interface"
 echo " - Circuit board animation with data pulses"
 echo " - Toggleable card highlighting (PRO effect)"
+echo " - Click-to-select cards with localStorage persistence"
+echo " - Prominent golden glow selection like SmartPart card"
 echo " - Performance optimizations for mobile"
 echo " - Enhanced buttons with shimmer animations"
 echo ""

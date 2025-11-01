@@ -1,0 +1,7 @@
+/smartflow-store-api
+  .env
+  package.json
+  server.js
+  prisma/
+    schema.prisma     (use the one I gave you earlier)
+    

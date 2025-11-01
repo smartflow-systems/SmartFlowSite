@@ -1,0 +1,51 @@
+{
+  "plans": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "subtitle": "Perfect for getting started",
+      "price": "£199",
+      "period": "one-time",
+      "popular": false,
+      "features": [
+        "1 system setup",
+        "Brand colours & logo",
+        "Email support",
+        "Basic documentation",
+        "30-day setup support"
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "subtitle": "Most popular for small businesses",
+      "price": "£499",
+      "period": "one-time",
+      "popular": true,
+      "features": [
+        "2 systems + integrations",
+        "Stripe + Calendar sync",
+        "Priority support",
+        "Advanced customization",
+        "60-day optimization support",
+        "Training session included"
+      ]
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "subtitle": "Full automation package",
+      "price": "£999",
+      "period": "one-time",
+      "popular": false,
+      "features": [
+        "All systems + presets",
+        "Analytics + training",
+        "30-day optimization",
+        "Custom integrations",
+        "Dedicated support",
+        "Monthly strategy calls"
+      ]
+    }
+  ]
+}
