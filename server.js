@@ -1,27 +1,14 @@
-{
-  "name": "smartflow-store-api",
-  "version": "0.1.0",
-  "description": "Smartflow Store MVP API",
-  "main": "server.js",
-  "type": "module",
-  "scripts": {
-    "dev": "node server.js",
-    "migrate": "prisma migrate dev --name init",
-    "studio": "prisma studio"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.16.1",
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2",
-    "stripe": "^16.5.0"
-  },
-  "devDependencies": {
-    "prisma": "^5.16.1"
-  },
-  "engines": {
-    "node": ">=18"
-  }
-}
+import express from "express";
+const app = express();
+
+// serve everything from /public
+app.use(express.static("public", { index: false }));
+
+// health check (optional)
+app.get("/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+// port
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`serving on ${port}`));
+export default app;
