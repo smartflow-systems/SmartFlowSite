@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "title": "<span class=\"gold\">Next-Gen AI Automation</span> — Voice AI, AR Try-On, Smart Reviews & More",
+    "subtitle": "Advanced booking, AI assistants, virtual queues, AR visualization & intelligent upselling. The future is here."
+  },
+  "pricing": [
+    {
+      "name": "Starter",
+      "price": "£29/mo",
+      "description": "Perfect for small businesses getting started with automation",
+      "features": [
+        "1 system of your choice",
+        "Basic AI review responses",
+        "Standard queue management",
+        "Email support",
+        "Mobile app access"
+      ],
+      "cta": "Start Free Trial",
+      "featured": false
+    },
+    {
+      "name": "Pro",
+      "price": "£79/mo",
+      "description": "Advanced AI features for growing service businesses",
+      "features": [
+        "Up to 3 systems included",
+        "AI Review Response Manager",
+        "Voice AI Assistant",
+        "Virtual Queue Pro with SMS",
+        "Smart Upsell Engine",
+        "Priority support & training"
+      ],
+      "cta": "Get Started",
+      "featured": true
+    },
+    {
+      "name": "Premium",
+      "price": "£149/mo",
+      "description": "Complete AI automation suite with AR technology",
+      "features": [
+        "All systems included",
+        "AR Try-On Studio",
+        "Advanced AI analytics",
+        "Custom voice AI training",
+        "Dedicated account manager",
+        "24/7 phone support",
+        "SLA guarantee"
+      ],
+      "cta": "Contact Sales",
+      "featured": false
+    }
+  ],
+  "caseStudy": {
+    "company": "Elite Barber Co.",
+    "quote": "SmartFlow transformed our business. Bookings increased 300%, customer retention improved dramatically, and we finally have time to focus on what we do best - cutting hair.",
+    "author": "Marcus Johnson",
+    "metrics": [
+      {
+        "label": "Booking Increase",
+        "value": "+300%"
+      },
+      {
+        "label": "Revenue Growth",
+        "value": "+£15k/mo"
+      },
+      {
+        "label": "Time Saved",
+        "value": "20hrs/week"
+      },
+      {
+        "label": "Customer Retention",
+        "value": "+85%"
+      }
+    ]
+  },
+  "social": {
+    "twitter": "https://twitter.com/smartflowsys",
+    "instagram": "https://instagram.com/smartflowsystems",
+    "youtube": "https://youtube.com/@smartflowsystems"
+  }
+}

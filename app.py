@@ -10,9 +10,11 @@ app = Flask(__name__, static_url_path="", static_folder=str(BASE))
 
 def load_json(path: Path, fallback=None):
     try:
+        if not path.exists():
+            return fallback
         with path.open("r", encoding="utf-8") as f:
             return json.load(f)
-    except Exception:
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
         return fallback
 
 @app.after_request
@@ -53,9 +55,12 @@ def lead():
         return jsonify({"ok": False, "error": "invalid"}), 400
     payload["ts"] = payload.get("ts") or __import__("datetime").datetime.utcnow().isoformat() + "Z"
 
+    # Ensure data directory exists
+    data_dir = BASE / "data"
+    data_dir.mkdir(exist_ok=True)
+    
     # Store
-    out = BASE / "data" / "leads.jsonl"
-    out.parent.mkdir(exist_ok=True)
+    out = data_dir / "leads.jsonl"
     with out.open("a", encoding="utf-8") as f:
         f.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
@@ -84,8 +89,12 @@ def lead():
 
 @app.route("/<path:path>")
 def static_proxy(path: str):
-    return send_from_directory(BASE, path)
+    try:
+        return send_from_directory(BASE, path)
+    except Exception:
+        # If file not found, return 404
+        abort(404)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8080"))
+    port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)

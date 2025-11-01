@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+        submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install flask gunicorn
+      - run: |
+          nohup gunicorn -w 2 -b 0.0.0.0:5000 app:app &
+          sleep 5
+      - run: curl -f http://127.0.0.1:5000/health

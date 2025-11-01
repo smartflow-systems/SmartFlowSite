@@ -1,0 +1,34 @@
+name: SFS Sync
+on:
+  workflow_dispatch:
+  push: { branches: [ main ] }
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build JSON
+        id: build_json
+        shell: bash
+        run: |
+          set -euo pipefail
+          json="$(jq -cn --arg repo "$GITHUB_REPOSITORY" --arg sha "$GITHUB_SHA" '{repo:$repo,sha:$sha}')"
+          echo "json=$json" >> "$GITHUB_OUTPUT"
+      - name: Validate SFS_SYNC_URL
+        shell: bash
+        env: { SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }} }
+        run: |
+          set -euo pipefail
+          echo "::add-mask::$SFS_SYNC_URL"
+          CLEAN_URL="$(printf '%s' "$SFS_SYNC_URL" | tr -d '\r' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+          [[ "$CLEAN_URL" =~ ^https?://[A-Za-z0-9._:-]+(/.*)?$ ]] || { echo "❌ SFS_SYNC_URL invalid"; exit 2; }
+          echo "CLEAN_URL=$CLEAN_URL" >> "$GITHUB_ENV"
+      - name: Sync SmartFlow
+        shell: bash
+        env: { json: ${{ steps.build_json.outputs.json }} }
+        run: |
+          set -euo pipefail
+          : "${CLEAN_URL:?CLEAN_URL missing}"
+          BODY="$(printf '%s' "${json:-}" | jq -c . 2>/dev/null || true)"
+          [ -n "$BODY" ] || { echo "❌ Invalid JSON body"; exit 4; }
+          curl -fsS -X POST "$CLEAN_URL" -H 'content-type: application/json' --data-binary "$BODY"

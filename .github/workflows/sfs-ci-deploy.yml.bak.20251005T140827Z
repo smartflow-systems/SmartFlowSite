@@ -1,0 +1,7 @@
+name: SFS CI Deploy
+on:
+  push: {branches: [main, feat/**, fix/**]}
+  pull_request: {}
+jobs:
+  reuse:
+    uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
