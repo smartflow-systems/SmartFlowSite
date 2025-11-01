@@ -1,28 +1,34 @@
-name: SFS Sync Ping
+name: SFS Sync
 on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  push: { branches: [ main ] }
 jobs:
-  ping:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: POST SFS_SYNC_URL
-        env:
-          SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
+      - uses: actions/checkout@v4
+      - name: Build JSON
+        id: build_json
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "${SFS_SYNC_URL:-}" ]]; then
-            echo "No SFS_SYNC_URL secret; skipping"; exit 0
-          fi
-          json=$(jq -n \
-            --arg event "${{ github.event_name }}" \
-            --arg repo  "${{ github.repository }}" \
-            --arg sha   "${{ github.sha }}" \
-            --arg ref   "${{ github.ref }}" \
-            --arg actor "${{ github.actor }}" \
-            '{event:$event,repo:$repo,sha:$sha,ref:$ref,actor:$actor}')
-          curl -fsS -X POST "$SFS_SYNC_URL" -H 'content-type: application/json' -d "$json"
-          echo "Pinged $SFS_SYNC_URL"
+          json="$(jq -cn --arg repo "$GITHUB_REPOSITORY" --arg sha "$GITHUB_SHA" '{repo:$repo,sha:$sha}')"
+          echo "json=$json" >> "$GITHUB_OUTPUT"
+      - name: Validate SFS_SYNC_URL
+        shell: bash
+        env: { SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }} }
+        run: |
+          set -euo pipefail
+          echo "::add-mask::$SFS_SYNC_URL"
+          CLEAN_URL="$(printf '%s' "$SFS_SYNC_URL" | tr -d '\r' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+          [[ "$CLEAN_URL" =~ ^https?://[A-Za-z0-9._:-]+(/.*)?$ ]] || { echo "❌ SFS_SYNC_URL invalid"; exit 2; }
+          echo "CLEAN_URL=$CLEAN_URL" >> "$GITHUB_ENV"
+      - name: Sync SmartFlow
+        shell: bash
+        env: { json: ${{ steps.build_json.outputs.json }} }
+        run: |
+          set -euo pipefail
+          : "${CLEAN_URL:?CLEAN_URL missing}"
+          BODY="$(printf '%s' "${json:-}" | jq -c . 2>/dev/null || true)"
+          [ -n "$BODY" ] || { echo "❌ Invalid JSON body"; exit 4; }
+          curl -fsS -X POST "$CLEAN_URL" -H 'content-type: application/json' --data-binary "$BODY"
