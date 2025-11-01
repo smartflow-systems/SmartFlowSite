@@ -1,0 +1,11 @@
+version: 0.1
+people:
+  - handle: boweazy
+    role: Founder
+    scope: Org + Product
+    repos: [SmartFlowSite, SocialScaleBoosterAIbot, SFSDataQueryEngine, SFSAPDemoCRM, sfs-marketing-and-growth]
+    permissions: admin
+    secrets_access: [SFS_PAT, REPLIT_TOKEN, SFS_SYNC_URL]
+    gpts: [SmartFlow Build Partner, Operator]
+    contact: "@boweazy"
+    notes: Owns baseline updates.
