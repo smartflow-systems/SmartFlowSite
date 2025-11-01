@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — Build. Automate. Sell.</title>
+  <meta name="description" content="AI Social Bots, Booking Systems, E-commerce shops and Premium Websites. All built and ready to sell."/>
+  <meta name="theme-color" content="#0D0D0D"/>
+  <style>
+    :root{--sf-black:#0D0D0D;--sf-brown:#3B2F2F;--sf-gold:#FFD700;--sf-gold-2:#E6C200;--sf-beige:#F5F5DC;--sf-white:#FFFFFF;--sf-gold-grad:linear-gradient(135deg,var(--sf-gold),var(--sf-gold-2))}
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e9e6e1;background:var(--sf-black);overflow-x:hidden}
+
+    /* Circuit Background Canvas */
+    #circuit-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.3}
+    .content-layer{position:relative;z-index:1}
+
+    /* Nav */
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;background:rgba(11,11,11,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.2);position:sticky;top:0;z-index:100}
+    .brand{font-size:1.5rem;font-weight:600;color:var(--sf-gold);text-decoration:none}
+    .nav nav{display:flex;gap:2rem;align-items:center}
+    .nav a{color:#cbbf9b;text-decoration:none;transition:color .3s}
+    .nav a:hover{color:var(--sf-gold)}
+
+    /* Hero */
+    .hero{min-height:90vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative}
+    .hero-inner{max-width:800px}
+    .hero h1{font-size:clamp(2.5rem,6vw,4.5rem);margin-bottom:1.5rem;background:var(--sf-gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:1.25rem;color:#9a8f80;margin-bottom:2.5rem;line-height:1.6}
+    .hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+    /* Buttons */
+    .btn{padding:.875rem 2rem;border-radius:8px;text-decoration:none;font-weight:600;transition:all .3s;display:inline-block;border:none;cursor:pointer;font-size:1rem}
+    .btn-gold{background:var(--sf-gold-grad);color:#0b0b0b}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(212,175,55,.3)}
+    .btn-ghost{background:transparent;border:2px solid var(--sf-gold);color:var(--sf-gold)}
+    .btn-ghost:hover{background:rgba(212,175,55,.1)}
+
+    /* Section */
+    .section{padding:5rem 2rem;position:relative}
+    .container{max-width:1200px;margin:0 auto}
+    .section-title{font-size:2.5rem;margin-bottom:3rem;text-align:center;color:var(--sf-gold)}
+
+    /* Projects Grid */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-bottom:3rem}
+    .project-card,.card{background:rgba(20,20,20,.8);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,.2);border-radius:12px;padding:2rem;transition:all .3s}
+    .project-card:hover{border-color:var(--sf-gold);transform:translateY(-4px);box-shadow:0 12px 30px rgba(212,175,55,.15)}
+    .project-card h3,.card h3{font-size:1.5rem;margin-bottom:1rem;color:#f4e4c1}
+
+    .feature-list{list-style:none;margin-bottom:1.5rem}
+    .feature-list li{padding:.5rem 0;color:#9a8f80;position:relative;padding-left:1.5rem}
+    .feature-list li:before{content:'→';position:absolute;left:0;color:var(--sf-gold)}
+
+    .actions{display:flex;gap:.75rem;flex-wrap:wrap}
+
+    /* Footer */
+    .footer{padding:2rem;text-align:center;color:#9a8f80;background:rgba(11,11,11,.9);border-top:1px solid rgba(212,175,55,.2)}
+
+    /* Energy Control */
+    .energy-control{position:fixed;bottom:2rem;right:2rem;background:rgba(11,11,11,.9);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,.3);border-radius:12px;padding:1.5rem;z-index:50;min-width:200px}
+    .energy-control label{display:block;color:var(--sf-gold);font-size:.875rem;margin-bottom:.5rem;font-weight:600}
+    .energy-control input[type=range]{width:100%;margin-bottom:.5rem}
+    .energy-control .value{text-align:center;color:#9a8f80;font-size:.875rem}
+
+    @media (max-width:768px){.nav nav{gap:1rem;font-size:.875rem}.energy-control{bottom:1rem;right:1rem;padding:1rem;min-width:160px}}
+    .section.gold{background:rgba(59,47,47,.3);border-top:1px solid rgba(212,175,55,.15);border-bottom:1px solid rgba(212,175,55,.15)}
+  </style>
+</head>
+<body>
+  <!-- Circuit Background Canvas -->
+  <canvas id="circuit-bg"></canvas>
+
+  <!-- Content Layer -->
+  <div class="content-layer">
+    <!-- Nav -->
+    <header class="nav">
+      <a class="brand" href="/">SmartFlow Systems</a>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#latest">Latest</a>
+        <a href="#testimonials">Proof</a>
+        <a class="btn btn-gold" href="#pricing">Book a demo</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+      <div class="hero-inner">
+        <h1>Book. Automate. Sell — on day one.</h1>
+        <p>Beat Calendly/Fresha/Wix on first glance: AI bots, one-click booking, conversion-ready shops, and premium sites — prebuilt and branded.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold" href="#projects">See the Systems</a>
+          <a class="btn btn-ghost" href="#pricing">Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section container">
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+        <article class="project-card">
+          <h3>AI Social Bot</h3>
+          <ul class="feature-list">
+            <li>Auto captions + niche hashtags</li>
+            <li>DM funnels & lead capture</li>
+            <li>Content calendar presets</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-gold" href="#projects">See capabilities</a>
+            <a class="btn btn-ghost" href="#">View code</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <h3>Booking System</h3>
+          <ul class="feature-list">
+            <li>Stripe deposits & no-show protection</li>
+            <li>Google Calendar sync</li>
+            <li>Industry presets (barber/salon/fitness)</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-gold" href="#projects">See capabilities</a>
+            <a class="btn btn-ghost" href="#">Demo</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <h3>E-commerce Shops</h3>
+          <ul class="feature-list">
+            <li>One-page checkout</li>
+            <li>Upsells & abandoned cart emails</li>
+            <li>Speed-first static storefronts</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-gold" href="#projects">See capabilities</a>
+            <a class="btn btn-ghost" href="#">Demo</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <h3>Websites</h3>
+          <ul class="feature-list">
+            <li>Premium black/brown + gold</li>
+            <li>SEO-ready, lightning fast</li>
+            <li>Lead forms & analytics</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-gold" href="#projects">See capabilities</a>
+            <a class="btn btn-ghost" href="#">Demo</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Latest -->
+    <section id="latest" class="section container">
+      <h2 class="section-title">Latest</h2>
+      <div id="latest-grid" class="projects-grid"></div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section container">
+      <h2 class="section-title">Proof</h2>
+      <div class="projects-grid">
+        <div class="card"><p>“Booked 43 slots in 10 days.”</p><small>— Jamie, Barber</small></div>
+        <div class="card"><p>“DM bot doubled inquiries.”</p><small>— Sacha, Beauty</small></div>
+        <div class="card"><p>“Store went live in an hour.”</p><small>— Rafi, Fitness</small></div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section container gold">
+      <h2 class="section-title">Get Started</h2>
+      <div class="projects-grid">
+        <div class="card"><h3>Starter</h3><ul class="feature-list"><li>1 site + booking</li><li>Basic bot</li></ul><a class="btn btn-gold" href="#">Join waitlist</a></div>
+        <div class="card"><h3>Pro</h3><ul class="feature-list"><li>Site + shop</li><li>DM funnels</li><li>Analytics</li></ul><a class="btn btn-gold" href="#">Book a demo</a></div>
+        <div class="card"><h3>Premium</h3><ul class="feature-list"><li>Full stack</li><li>Custom automations</li><li>Priority support</li></ul><a class="btn btn-gold" href="#">Talk to us</a></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
+    </footer>
+  </div>
+
+  <!-- Energy Control -->
+  <div class="energy-control">
+    <label>Circuit Flow</label>
+    <input type="range" id="energy-slider" min="0.1" max="1" step="0.01" value="0.4">
+    <div class="value"><span id="energy-value">40</span>%</div>
+  </div>
+
+  <script>
+    // Circuit Background Animation
+    const canvas=document.getElementById('circuit-bg');
+    const ctx=canvas.getContext('2d');
+    let animationId;let time=0;let paths=[];let particles=[];let energy=0.4;
+    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;initializePaths();}
+    function initializePaths(){paths=[];const gridSize=80;const cols=Math.floor(canvas.width/gridSize);const rows=Math.floor(canvas.height/gridSize);
+      for(let row=1;row<rows;row++){const y=row*gridSize;const path={points:[]};const startCol=Math.floor(Math.random()*(cols-4));const segments=3+Math.floor(Math.random()*5);let x=startCol*gridSize;path.points.push({x,y});
+        for(let i=0;i<segments;i++){x+=gridSize*(1+Math.floor(Math.random()*3));if(x>canvas.width-gridSize)break;path.points.push({x,y});
+          if(Math.random()>0.6&&i<segments-1){const newY=y+gridSize*(Math.random()>0.5?1:-1);if(newY>0&&newY<canvas.height){path.points.push({x,y:newY});}}}
+        if(path.points.length>1)paths.push(path);} 
+      for(let col=1;col<cols;col++){const x=col*gridSize;const path={points:[]};const startRow=Math.floor(Math.random()*(rows-4));const segments=2+Math.floor(Math.random()*4);let y=startRow*gridSize;path.points.push({x,y});
+        for(let i=0;i<segments;i++){y+=gridSize*(1+Math.floor(Math.random()*3));if(y>canvas.height-gridSize)break;path.points.push({x,y});
+          if(Math.random()>0.6&&i<segments-1){const newX=x+gridSize*(Math.random()>0.5?1:-1);if(newX>0&&newX<canvas.width){path.points.push({x:newX,y});}}}
+        if(path.points.length>1)paths.push(path);} 
+      particles=[];const particlesPerPath=3;paths.forEach((path,pathIndex)=>{for(let i=0;i<particlesPerPath;i++){particles.push({pathIndex,segmentIndex:0,progress:Math.random(),speed:0.01+Math.random()*0.02,size:2+Math.random()*2,flickerOffset:Math.random()*Math.PI*2,life:0});}});}
+    function animate(){time+=0.016;ctx.fillStyle='rgba(5,5,10,0.08)';ctx.fillRect(0,0,canvas.width,canvas.height);
+      const gridSize=80;ctx.fillStyle='rgba(212,175,55,0.08)';for(let x=gridSize;x<canvas.width;x+=gridSize){for(let y=gridSize;y<canvas.height;y+=gridSize){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}}
+      particles.forEach(particle=>{const path=paths[particle.pathIndex];if(!path)return;const speedSpike=Math.random()<0.05?2+Math.random()*3:1;particle.progress+=particle.speed*energy*speedSpike;particle.life=(particle.life||0)+0.02;const fadeIn=Math.min(particle.life*2,1);const fadeOut=particle.segmentIndex>=path.points.length-2?Math.max(0,1-(particle.progress*2)):1;const fadeFactor=fadeIn*fadeOut; if(particle.progress>=1){particle.progress=0;particle.segmentIndex++;if(particle.segmentIndex>=path.points.length-1){particle.segmentIndex=0;particle.life=0;particle.speed=0.01+Math.random()*0.02;}} const p1=path.points[particle.segmentIndex];const p2=path.points[particle.segmentIndex+1];if(!p1||!p2)return; const x=p1.x+(p2.x-p1.x)*particle.progress;const y=p1.y+(p2.y-p1.y)*particle.progress; const flicker=(Math.sin(time*8+particle.flickerOffset)*0.2+0.4)*fadeFactor; const dx=p2.x-p1.x;const dy=p2.y-p1.y;const angle=Math.atan2(dy,dx); const trailLength=20+particle.size*6;const trailStartX=x-Math.cos(angle)*trailLength;const trailStartY=y-Math.sin(angle)*trailLength; const gradient=ctx.createLinearGradient(trailStartX,trailStartY,x,y);gradient.addColorStop(0,'rgba(218,165,32,0)');gradient.addColorStop(0.5,`rgba(212,175,55,${0.4*flicker})`);gradient.addColorStop(1,`rgba(244,228,193,${0.6*flicker})`); ctx.strokeStyle=gradient;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(trailStartX,trailStartY);ctx.lineTo(x,y);ctx.stroke(); ctx.fillStyle=`rgba(244,228,193,${flicker*0.8})`;ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);ctx.fill(); const glowGradient=ctx.createRadialGradient(x,y,0,x,y,12);glowGradient.addColorStop(0,`rgba(244,228,193,${0.4*flicker})`);glowGradient.addColorStop(1,'rgba(212,175,55,0)');ctx.fillStyle=glowGradient;ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fill();}); animationId=requestAnimationFrame(animate);} 
+
+    const slider=document.getElementById('energy-slider');const valueDisplay=document.getElementById('energy-value');
+    slider.addEventListener('input',(e)=>{energy=parseFloat(e.target.value);valueDisplay.textContent=Math.floor(energy*100)});
+
+    // Initialize
+    resizeCanvas();animate();window.addEventListener('resize',resizeCanvas);
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    // Latest loader (pulls /blog/index.json and renders 3 items)
+    (async function loadLatest(){
+      try{
+        const r=await fetch('/blog/index.json',{cache:'no-store'});
+        const posts=(await r.json()).slice(0,3);
+        const grid=document.getElementById('latest-grid');
+        if(grid){
+          grid.innerHTML=posts.map(p=>`<article class="card"><h3>${p.title}</h3><p class="feature-list" style="list-style:none;margin:.5rem 0 1rem 0;color:#9a8f80">${p.excerpt||''}</p><a class="btn btn-ghost" href="${p.url}">Read update</a></article>`).join('');
+        }
+      }catch(e){const g=document.getElementById('latest-grid'); if(g) g.innerHTML='<div class="card"><p>No posts yet. Add /public/blog/index.json.</p></div>';}
+    })();
+  </script>
+</body>
+</html>

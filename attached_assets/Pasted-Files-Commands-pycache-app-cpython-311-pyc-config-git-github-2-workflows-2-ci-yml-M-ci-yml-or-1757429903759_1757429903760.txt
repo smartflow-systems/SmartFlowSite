@@ -1,0 +1,183 @@
+Files
+Commands
+__pycache__
+app.cpython-311.pyc
+.config
+.git
+.github
+2
+workflows
+2
+ci.yml
+M
+ci.yml.orig
+sfs-ci-deploy.yml
+A
+dependabot.yml
+app
+2
+api
+2
+gh-sync
+2
+route.js
+A
+route.ts
+A
+assets
+attached_assets
+blog
+content
+data
+export SMARTFLOW_NEXT_URL="https:
+gh secret set REPL_SYNC_URL -R boweazy
+pages
+2
+api
+2
+gh-sync.js
+A
+gh-sync.ts
+A
+projects
+scripts
+1
+build.js
+deploy.sh
+M
+smartflow-github-vercel.sh
+sync.sh
+server
+smartflow-kit
+static
+tools
+smartflo_brand_pack.py
+social.html
+admin.html
+app.js
+app.js.bak.1757191303
+app.js.bak.1757191410
+app.js.bak.1757191706
+app.js.bak.1757192664
+app.py
+book_old.html
+book.html
+bootstrap-enhanced.sh
+browserconfig.xml
+case-study.html
+contact.html
+Express
+A
+express.json()
+A
+fix_latest.sh
+index.html
+index.html.bak
+index.html.bak.1757191303
+index.html.bak.1757191410
+index.html.bak.1757191706
+index.html.bak.1757192664
+leads.html
+main.py
+A
+postcss.config.cjs
+pricing_old.html
+pricing.html
+pricing.json
+privacy.html
+projects booking.html
+README.md
+replit.md
+rss.xml
+SECURITY.md
+server.js
+server.js:
+A
+setup_live.sh
+sfs-webhoo
+A
+simple-index.html
+simple-styles.css
+site.config.json
+site.config.json.bak.1757191303
+site.config.json.bak.1757191410
+site.config.json.bak.1757191706
+site.config.json.bak.1757192664
+site.webmanifest
+sitemap.xml
+smart-part.html
+static-logo.png
+styles.css
+styles.css.bak.1757191303
+styles.css.bak.1757191410
+styles.css.bak.1757191706
+styles.css.bak.1757192664
+switch-version.html
+tailwind.config.cjs
+tailwind.smartflow.preset.cjs
+terms.html
+updates.html
+vercel.json
+wsgi.py
+Packager files
+.pythonlibs
+.upm
+node_modules
+package-lock.json
+package.json
+Config files
+.replit
+M
+Enable "Accessible Terminal" in Workspace Settings to use a screen reader with the shell.
+{"name":"sfs-webhook","private":true,"version":"0.0
+
+
+Enable "Accessible Terminal" in Workspace Settings to use a screen reader with the shell.
+SESSION_SECRET
+••••••••
+SFS_PAT
+••••••••
+REPLIT_TOKEN
+••••••••
+SFS_SYNC_URL
+••••••••
+SYNC_TOKEN
+••••••••
+OPENAI_API_KEY
+••••••••
+Port :5000 opened on
+- name: Check SFS secrets
+  run: |
+    test -n "${{ secrets.SFS_PAT }}"      || (echo SFS_PAT MISSING && exit 1)
+    test -n "${{ secrets.REPLIT_TOKEN }}" || (echo REPLIT_TOKEN MISSING && exit 1)
+    test -n "${{ secrets.SFS_SYNC_URL }}" || (echo SFS_SYNC_URL MISSING && exit 1)
+
+  if (!viaActions && !viaWebhook) return res.status(401).send("nope");
+
+  const repo = req.body?.repository?.full_name || req.body?.repo || "unknown";
+  const sha  = req.body?.after || req.body?.sha || "ping";
+  const ev   = req.get("x-github-event") || "manual";
+  console.log("[SFS] Deploy", {repo, sha, ev});
+  return res.json({ status:"ok" });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, ()=>console.log("SFS webhook on:"+PORT));
+Commands
+Production
+Status
+gareth published 3 days ago
+Visibility
+Public
+Domain
+https://smart-flow-site-Smart-F-Syst.replit.app
+Type
+Autoscale(2 vCPU / 2 GiB RAM / 2 Max)
+See all usage
+21d0fc06
+Smart-F-Syst
+gareth failed to publish 23 days ago
+Commands
+Unknown Git Error
+UNKNOWN
+There was an unrecognized fatal error with Git. This is probably a bug in the app.
