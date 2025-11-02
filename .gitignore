@@ -11,3 +11,5 @@ out/
 input.jpg
 labeled.jpg
 
+out/
+dist/

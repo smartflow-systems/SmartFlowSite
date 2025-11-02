@@ -21,7 +21,9 @@
     "images:story:tt": "bash sfs-tools.sh story --channel tiktok --kind story --guides",
     "images:square:fb": "bash sfs-tools.sh square --channel facebook --kind post",
     "images:export": "bash sfs-tools.sh export --src out --name sfs-assets --dist dist",
-    "images:test": "bash scripts/sfs-nightly-check.sh"
+    "images:test": "bash scripts/sfs-nightly-check.sh",
+    "images:check": "bash scripts/sfs-nightly-check.sh",
+    "images:smoke": "bash scripts/sfs-smoke.sh"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

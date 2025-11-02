@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ "${SKIP_SFS_SMOKE:-0}" = "1" ]] && { echo "↪ skipping smoke (SKIP_SFS_SMOKE=1)"; exit 0; }
+echo "🚀 SFS smoke (pre-push)…"
+npm run -s images:smoke >/dev/null && { echo "✅ smoke OK"; exit 0; }
+echo "❌ smoke failed"; exit 1

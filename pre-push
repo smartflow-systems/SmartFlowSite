@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ "${SKIP_SFS_SMOKE:-0}" = "1" ]] && { echo "↪ skipping smoke"; exit 0; }
+echo "🚀 SFS smoke (pre-push)…"
+if [ -f package.json ] && grep -q '"build"' package.json; then
+  npm -s run -s build >/dev/null 2>&1 || { echo "❌ build failed"; exit 1; }
+else
+  echo "ℹ️ no build script; skipping"
+fi
+echo "✅ smoke ok"

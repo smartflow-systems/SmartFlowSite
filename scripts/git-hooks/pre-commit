@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Skip knobs
+[[ "${SKIP_SFS_CHECK:-0}" = "1" ]] && { echo "↪ skipping images:check (SKIP_SFS_CHECK=1)"; exit 0; }
+
+# Only run when image pipeline or assets likely affected
+changed="$(git diff --cached --name-only)"
+if ! printf '%s\n' "$changed" | grep -E -q \
+  '^(sfs-tools\.sh|scripts/|assets/raw/|replit\.nix|package\.json)'; then
+  exit 0
+fi
+
+echo "🔎 Running images:check…"
+if npm run -s images:check 2>/dev/null; then
+  echo "✅ images:check passed"
+  exit 0
+fi
+
+# Fallback to direct script if npm script missing
+if [[ -x scripts/sfs-nightly-check.sh ]]; then
+  if bash scripts/sfs-nightly-check.sh; then
+    echo "✅ nightly-check passed"
+    exit 0
+  fi
+fi
+
+echo "❌ Image pipeline check failed."
+echo "   Tip: use SKIP_SFS_CHECK=1 or --no-verify to bypass (not recommended)."
+exit 1
