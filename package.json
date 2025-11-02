@@ -11,7 +11,17 @@
     "build": "echo 'build complete' && exit 0",
     "test": "echo 'no tests configured' && exit 0",
     "migrate": "prisma migrate dev --name init",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "images:square": "bash sfs-tools.sh square --channel ig --kind post",
+    "images:story": "bash sfs-tools.sh story --channel ig --kind story --guides",
+    "images:wm:text": "bash sfs-tools.sh wm-text \"Glass Circuit\" --pos southeast --size 72 --opacity 0.22 --dst out/wm",
+    "images:wm:logo": "bash sfs-tools.sh wm-logo assets/brand/logo.png --pos northeast --scale 220 --logo-opacity 0.8 --dst out/wm",
+    "git:cherry": "bash sfs-tools.sh git-cherry",
+    "images:wm:circuit": "bash sfs-tools.sh wm-circuit --tint '#00FFD1' --opacity 0.18 --blend screen --panels --panel-width 12 --panel-opacity 0.14 --dst out/wm",
+    "images:story:tt": "bash sfs-tools.sh story --channel tiktok --kind story --guides",
+    "images:square:fb": "bash sfs-tools.sh square --channel facebook --kind post",
+    "images:export": "bash sfs-tools.sh export --src out --name sfs-assets --dist dist",
+    "images:test": "bash scripts/sfs-nightly-check.sh"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

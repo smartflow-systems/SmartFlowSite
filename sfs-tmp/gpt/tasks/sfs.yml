@@ -1,0 +1,14 @@
+version: 1
+tasks:
+  - name: triage_issues
+    description: Label/route new GitHub issues by repo and type.
+    inputs: [title, body, repo]
+    outputs: [labels, assignee, next_step]
+  - name: scaffold_feature
+    description: Generate spec + file plan + PR description for a feature.
+    inputs: [repo, feature, acceptance_criteria]
+    outputs: [spec_md, file_plan, pr_body]
+  - name: ship_copy
+    description: Draft and A/B 2 variants of landing/DM/email copy.
+    inputs: [persona, offer, goal]
+    outputs: [v1_copy, v2_copy, test_metric]

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+DST="${DST:-out}"     # override: DST=dist ./scripts/im-vert
+KEEP="${KEEP:-0}"     # KEEP=1 to keep EXIF
+mkdir -p "$DST"
+
+convert_one() {
+  local f="$1" base
+  base="$(basename "$f")"
+  if [[ "$KEEP" == "1" ]]; then
+    magick "$f" -auto-orient -resize 1080x1920^ -gravity center -extent 1080x1920 -quality 90 "$DST/$base"
+  else
+    magick "$f" -auto-orient -resize 1080x1920^ -gravity center -extent 1080x1920 -strip -quality 90 "$DST/$base"
+  fi
+}
+
+if [[ "$#" -gt 0 ]]; then
+  for f in "$@"; do convert_one "$f"; done
+else
+  find . -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.heic' -o -iname '*.webp' \) \
+    ! -path "./$DST/*" -print0 | while IFS= read -r -d '' f; do convert_one "$f"; done
+fi
+
+echo "Done -> $DST/"

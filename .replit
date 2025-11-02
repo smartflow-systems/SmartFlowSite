@@ -53,4 +53,4 @@ waitForPort = 5000
 outputType = "webview"
 
 [nix]
-packages = ["gh"]
+packages = ["gh", "imagemagick", "fetchutils"]
