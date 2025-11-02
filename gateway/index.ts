@@ -22,7 +22,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import authMiddleware from './middleware/auth';
 import campaignTracker from './middleware/campaign-tracker';
 import analyticsRouter from './routes/analytics';
-
+import rateLimit from 'express-rate-limit';
 dotenv.config();
 
 const app = express();
@@ -35,6 +35,14 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Analytics endpoint rate limiter (per-IP)
+const analyticsRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit to 100 requests per windowMs per IP
+  standardHeaders: true, // Return rate limit info in RateLimit-* headers
+  legacyHeaders: false, // Disable X-RateLimit-* headers
+});
 
 // Health check
 app.get('/health', (req, res) => {
@@ -53,7 +61,7 @@ app.get('/health', (req, res) => {
 });
 
 // Unified Analytics Endpoint (cross-project)
-app.use('/api/unified/analytics', authMiddleware, analyticsRouter);
+app.use('/api/unified/analytics', analyticsRateLimiter, authMiddleware, analyticsRouter);
 
 // Marketing & Growth Service
 app.use('/api/marketing', createProxyMiddleware({
