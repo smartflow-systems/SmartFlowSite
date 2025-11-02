@@ -5,3 +5,9 @@ dist/
 
 # local backups
 *.bak.*
+
+# ImageMagick outputs
+out/
+input.jpg
+labeled.jpg
+
