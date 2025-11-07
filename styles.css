@@ -1,12 +1,20 @@
 :root{
-  --bg:#0b0b0b;           /* Deep black/brown base */
-  --panel:#14110f;        /* Espresso brown */
-  --gold:#d4af37;         /* Shiny gold */
-  --text:#e9e6df;         /* Warm parchment */
-  --muted:#9a8f80;        /* Soft taupe */
-  --accent:#d4af37;
+  /* SFS Theme Colors */
+  --bg:#4B2E2E;           /* Dark brown base */
+  --panel:#0A0A0A;        /* Black panel */
+  --gold:#FFD700;         /* SFS Gold */
+  --gold-100:#FFF7CC;     /* Lightest gold */
+  --gold-300:#FFE58A;     /* Light gold */
+  --gold-500:#FFD700;     /* Primary gold */
+  --gold-600:#E6C200;     /* Medium gold */
+  --gold-700:#B58E00;     /* Dark gold */
+  --gold-800:#7A5A00;     /* Darkest gold */
+  --text:#FFF7CC;         /* Gold text */
+  --muted:#FFE58A;        /* Muted gold */
+  --accent:#FFD700;
   --radius:14px;
   --shadow:0 10px 30px rgba(0,0,0,.45);
+  --gold-gradient:linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
 }
 
 *{box-sizing:border-box}
@@ -96,15 +104,19 @@ img{max-width:100%;display:block}
   border-color:rgba(212,175,55,.5);
 }
 .btn-gold{
-  background:linear-gradient(135deg, var(--gold), #ffdd00);
-  color:#1a1a1a;
+  background:var(--gold-gradient);
+  color:#0A0A0A;
   font-weight:700;
   border:none;
-  box-shadow:0 4px 15px rgba(212,175,55,.4);
+  box-shadow:0 0 18px 0 rgba(255,215,0,.35);
+  transition:transform .08s ease, box-shadow .2s ease, filter .2s ease;
 }
 .btn-gold:hover{
-  background:linear-gradient(135deg, #ffdd00, var(--gold));
-  box-shadow:0 8px 25px rgba(212,175,55,.6);
+  filter:brightness(1.05);
+  box-shadow:0 0 25px 0 rgba(255,215,0,.5);
+}
+.btn-gold:active{
+  transform:translateY(1px) scale(.99);
 }
 
 /* projects grid - glassmorphism cards */
