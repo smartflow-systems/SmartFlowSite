@@ -25,7 +25,10 @@ def add_caching(resp):
     else:
         resp.cache_control.public = True
         resp.cache_control.max_age = int(timedelta(days=7).total_seconds())
-    resp.headers.setdefault("Access-Control-Allow-Origin", "*")
+
+    # Security: Configure CORS with allowed origins from environment
+    allowed_origin = os.getenv("CORS_ORIGIN", "http://localhost:3000")
+    resp.headers.setdefault("Access-Control-Allow-Origin", allowed_origin)
     return resp
 
 @app.route("/")
@@ -40,10 +43,26 @@ def health():
 
 @app.route("/data/<path:fname>")
 def data_files(fname: str):
-    p = BASE / "data" / fname
-    if not p.exists():
+    # Security: prevent path traversal attacks
+    # Only allow alphanumeric, dots, hyphens, underscores
+    if not fname or ".." in fname or fname.startswith("/"):
+        abort(403)
+
+    # Resolve and validate path stays within data directory
+    data_dir = (BASE / "data").resolve()
+    requested_path = (data_dir / fname).resolve()
+
+    # Ensure resolved path is within data directory
+    try:
+        requested_path.relative_to(data_dir)
+    except ValueError:
+        # Path is outside data directory
+        abort(403)
+
+    if not requested_path.exists() or not requested_path.is_file():
         abort(404)
-    return send_from_directory(p.parent, p.name)
+
+    return send_from_directory(requested_path.parent, requested_path.name)
 
 @app.post("/lead")
 def lead():
