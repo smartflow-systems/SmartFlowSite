@@ -5,7 +5,7 @@
     "icon": "📅",
     "description": "Advanced booking system with calendar sync, automated reminders, and payment processing. Perfect for salons and service businesses.",
     "tags": ["Booking", "Payments", "Calendar"],
-    "demoUrl": "https://example.com/bookflow-demo",
+    "demoUrl": "https://smartflow-booking-demo.replit.app",
     "features": [
       "Real-time calendar management",
       "Automated SMS & email reminders",
@@ -18,7 +18,7 @@
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/bookflow-demo"
+        "url": "https://smartflow-booking-demo.replit.app"
       },
       {
         "label": "Documentation",
@@ -32,7 +32,7 @@
     "icon": "🛍️",
     "description": "Complete e-commerce solution with inventory management, order tracking, and customer analytics.",
     "tags": ["E-commerce", "Inventory", "Analytics"],
-    "demoUrl": "https://example.com/commerce-demo",
+    "demoUrl": "https://smartflow-ecom-demo.replit.app",
     "features": [
       "Product catalog management",
       "Order processing & tracking",
@@ -45,7 +45,7 @@
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/commerce-demo"
+        "url": "https://smartflow-ecom-demo.replit.app"
       },
       {
         "label": "Pricing Details",
@@ -59,7 +59,7 @@
     "icon": "🤖",
     "description": "Advanced AI-powered social media automation with review management, smart upselling, and voice assistant capabilities.",
     "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
-    "demoUrl": "https://example.com/aibot-demo",
+    "demoUrl": "https://socialscalebooster.replit.app",
     "features": [
       "AI Review Response Manager with sentiment analysis",
       "Smart Upsell Engine with dynamic pricing",
@@ -72,7 +72,7 @@
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/aibot-demo"
+        "url": "https://socialscalebooster.replit.app"
       },
       {
         "label": "AI Features",
@@ -86,7 +86,7 @@
     "icon": "📊",
     "description": "Comprehensive business intelligence platform with real-time metrics, forecasting, and growth optimization.",
     "tags": ["Analytics", "Growth", "Business Intelligence"],
-    "demoUrl": "https://example.com/growth-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
       "Real-time dashboard",
       "Predictive analytics",
@@ -98,12 +98,12 @@
     "pricing": "Starting at £59/month - includes unlimited reports",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/growth-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Analytics Guide",
-        "url": "https://example.com/growth-guide"
+        "label": "Contact Us",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -113,7 +113,7 @@
     "icon": "🌐",
     "description": "Drag-and-drop website builder optimized for service businesses with built-in SEO and conversion tools.",
     "tags": ["Website", "SEO", "Conversion"],
-    "demoUrl": "https://example.com/webbuilder-demo",
+    "demoUrl": "https://github.com/smartflow-systems/SmartFlowSite",
     "features": [
       "Drag-and-drop editor",
       "Mobile-responsive templates",
@@ -125,12 +125,12 @@
     "pricing": "Starting at £19/month - includes hosting & SSL",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/webbuilder-demo"
+        "label": "View Example",
+        "url": "https://github.com/smartflow-systems/SmartFlowSite"
       },
       {
-        "label": "Templates",
-        "url": "https://example.com/webbuilder-templates"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -140,7 +140,7 @@
     "icon": "💳",
     "description": "Secure payment processing with fraud detection, subscription management, and detailed transaction analytics.",
     "tags": ["Payments", "Security", "Subscriptions"],
-    "demoUrl": "https://example.com/payment-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
       "Multi-currency support",
       "Fraud detection & prevention",
@@ -152,12 +152,12 @@
     "pricing": "2.9% + 30p per transaction - no monthly fees",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/payment-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Security Details",
-        "url": "https://example.com/payment-security"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -167,7 +167,7 @@
     "icon": "📱",
     "description": "Smart queue management system with SMS updates, real-time predictions, and location-based notifications.",
     "tags": ["Queue", "SMS", "Location", "Predictions"],
-    "demoUrl": "https://example.com/queue-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
       "Virtual 'wait in line' via SMS updates",
       "Real-time wait time predictions",
@@ -179,12 +179,12 @@
     "pricing": "Starting at £49/month - includes unlimited SMS notifications",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/queue-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Queue Analytics",
-        "url": "https://docs.example.com/queue-analytics"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -194,7 +194,7 @@
     "icon": "🕶️",
     "description": "Augmented reality integration for virtual hair color previews, style visualization, and service demonstrations.",
     "tags": ["AR", "Virtual Try-On", "Visualization"],
-    "demoUrl": "https://example.com/ar-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
       "Virtual hair color/style previews for salons",
       "Before/after AR visualization for services",
@@ -206,12 +206,12 @@
     "pricing": "Starting at £99/month - includes AR SDK + mobile app",
     "links": [
       {
-        "label": "AR Demo",
-        "url": "https://example.com/ar-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Integration Guide",
-        "url": "https://docs.example.com/ar-integration"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   }
