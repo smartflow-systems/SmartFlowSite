@@ -1,12 +1,25 @@
 import express from "express";
+import { readFileSync } from "fs";
+
 const app = express();
+
+// Load config once at startup
+const config = JSON.parse(readFileSync("./public/site.config.json", "utf-8"));
 
 // serve everything from /public
 app.use(express.static("public"));
 
-// health check (optional)
-app.get("/health", (_req, res) => res.json({ ok: true }));
-app.get("/api/health", (_req, res) => res.json({ ok: true }));
+// health check with site info
+app.get("/health", (_req, res) => res.json({
+  ok: true,
+  siteName: config.siteName,
+  version: config.version
+}));
+app.get("/api/health", (_req, res) => res.json({
+  ok: true,
+  siteName: config.siteName,
+  version: config.version
+}));
 
 // port
 const port = process.env.PORT || 5000;
