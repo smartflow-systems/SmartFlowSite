@@ -8,9 +8,13 @@
   <meta name="theme-color" content="#0b0b0b"/>
   <link rel="icon" href="assets/favicon.png"/>
   <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
+  <link rel="stylesheet" href="sfs-complete-theme.css"/>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <!-- SFS Circuit Flow Background -->
+  <canvas id="circuit-canvas"></canvas>
+
   <!-- Nav -->
   <header class="nav">
     <a class="brand" href="/">SmartFlow Systems</a>
@@ -48,7 +52,7 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/ai-bot.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SocialScaleBoosterAIbot">View code</a>
         </div>
       </article>
 
@@ -62,7 +66,7 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/booking.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+          <a class="btn btn-ghost" href="contact.html">Request Demo</a>
         </div>
       </article>
 
@@ -76,7 +80,7 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/ecom.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+          <a class="btn btn-ghost" href="contact.html">Request Demo</a>
         </div>
       </article>
 
@@ -90,7 +94,49 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/websites.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SmartFlowSite">View code</a>
+        </div>
+      </article>
+
+      <!-- Data Query Engine -->
+      <article class="project-card">
+        <h3>DataLens Analytics</h3>
+        <ul class="feature-list">
+          <li>Natural language to SQL queries</li>
+          <li>Interactive data visualizations</li>
+          <li>Real-time analytics dashboard</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/smartflow-systems/SFSDataQueryEngine" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SFSDataQueryEngine">View code</a>
+        </div>
+      </article>
+
+      <!-- Marketing & Growth Tools -->
+      <article class="project-card">
+        <h3>Marketing & Growth Suite</h3>
+        <ul class="feature-list">
+          <li>UTM builder & campaign tracking</li>
+          <li>AI post generator for social media</li>
+          <li>Link-in-bio & OG image tools</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/smartflow-systems/sfs-marketing-and-growth" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/sfs-marketing-and-growth">View code</a>
+        </div>
+      </article>
+
+      <!-- Data Scraping & Insights -->
+      <article class="project-card">
+        <h3>DataFlow Insights</h3>
+        <ul class="feature-list">
+          <li>Web scraping & social media analysis</li>
+          <li>Product manager data tools</li>
+          <li>Automated data collection & exports</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/boweazy/DataScrapeInsights" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/DataScrapeInsights">View code</a>
         </div>
       </article>
     </div>
@@ -107,7 +153,7 @@
           <li>Works with Replit Deployments & Secrets</li>
         </ul>
         <div class="actions">
-          <a id="smart-part-live" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+          <a id="smart-part-live" class="btn btn-gold btn-lg" href="contact.html" target="_blank" rel="noopener">Open Live Mini-App</a>
           <a class="btn btn-ghost" href="smart-part.html">What is this?</a>
         </div>
       </div>
@@ -154,7 +200,7 @@
           <li>Brand colours & logo</li>
           <li>Email support</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Join Waitlist</a>
+        <a class="btn btn-gold" href="contact.html?plan=starter">Join Waitlist</a>
       </div>
       <div class="price-card featured">
         <h3>Pro</h3>
@@ -164,7 +210,7 @@
           <li>Stripe + Calendar</li>
           <li>Priority support</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Book Build</a>
+        <a class="btn btn-gold" href="contact.html?plan=pro">Book Build</a>
       </div>
       <div class="price-card">
         <h3>Premium</h3>
@@ -174,13 +220,13 @@
           <li>Analytics + training</li>
           <li>30-day optimisation</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Apply</a>
+        <a class="btn btn-gold" href="contact.html?plan=premium">Apply</a>
       </div>
     </div>
   </section>
 
   <footer class="footer">
-    <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
+    <p>© <span id="y"></span> SmartFlow Systems — Built by Gareth Bowers</p>
   </footer>
 
   <script src="app.js" defer></script>
@@ -224,5 +270,8 @@
     container.replaceChildren(frag);
   })();
   </script>
+
+  <!-- SFS Circuit Flow Animation -->
+  <script src="sfs-circuit-flow.js"></script>
 </body>
 </html>

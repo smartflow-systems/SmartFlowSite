@@ -1,0 +1,25 @@
+name: Markdown Check
+on:
+  pull_request:
+    paths: ["**/*.md","**/*.yml","**/*.yaml"]
+    paths-ignore: [".sfs-backups/**"]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - name: Lint tracked Markdown/YAML
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking tabs/trailing spaces…"
+          files_md=$(git ls-files '*.md' | grep -Ev '^\.sfs-backups/' || true)
+          files_yml=$(git ls-files '*.yml' '*.yaml' | grep -Ev '^\.sfs-backups/' || true)
+          [ -z "${files_md}${files_yml}" ] && exit 0
+          if [ -n "$files_md" ]; then
+            ! grep -RIn $'\t' -- $files_md || { echo "Tabs found in MD"; exit 1; }
+            ! grep -RIn ' $'  -- $files_md || { echo "Trailing spaces in MD"; exit 1; }
+          fi
+          if [ -n "$files_yml" ]; then
+            ! grep -RIn ' $'  -- $files_yml || { echo "Trailing spaces in YAML"; exit 1; }
+          fi
