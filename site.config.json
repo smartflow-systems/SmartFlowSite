@@ -1,9 +1,0 @@
-{
-  "siteName": "SmartFlow Systems",
-  "description": "Professional automation solutions for modern businesses",
-  "version": "1.0.0",
-  "features": {
-    "leadCapture": true,
-    "emailNotifications": false
-  }
-}
