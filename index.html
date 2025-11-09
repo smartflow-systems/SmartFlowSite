@@ -8,9 +8,13 @@
   <meta name="theme-color" content="#0b0b0b"/>
   <link rel="icon" href="assets/favicon.png"/>
   <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
+  <link rel="stylesheet" href="sfs-complete-theme.css"/>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <!-- SFS Circuit Flow Background -->
+  <canvas id="circuit-canvas"></canvas>
+
   <!-- Nav -->
   <header class="nav">
     <a class="brand" href="/">SmartFlow Systems</a>
@@ -48,7 +52,7 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/ai-bot.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SocialScaleBoosterAIbot">View code</a>
         </div>
       </article>
 
@@ -90,7 +94,63 @@
         </ul>
         <div class="actions">
           <a class="btn btn-gold" href="projects/websites.html">See capabilities</a>
-          <a class="btn btn-ghost" target="_blank" href="#">Demo</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SmartFlowSite">View code</a>
+        </div>
+      </article>
+
+      <!-- SecureAuth Pro -->
+      <article class="project-card">
+        <h3>SecureAuth Pro</h3>
+        <ul class="feature-list">
+          <li>USB cold storage authentication</li>
+          <li>FIDO-compliant security</li>
+          <li>Blockchain credential ledger</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="projects/secure-vault.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="contact.html">Request demo</a>
+        </div>
+      </article>
+
+      <!-- Data Query Engine -->
+      <article class="project-card">
+        <h3>DataLens Analytics</h3>
+        <ul class="feature-list">
+          <li>Natural language to SQL queries</li>
+          <li>Interactive data visualizations</li>
+          <li>Real-time analytics dashboard</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/smartflow-systems/SFSDataQueryEngine" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/SFSDataQueryEngine">View code</a>
+        </div>
+      </article>
+
+      <!-- Marketing & Growth Tools -->
+      <article class="project-card">
+        <h3>Marketing & Growth Suite</h3>
+        <ul class="feature-list">
+          <li>UTM builder & campaign tracking</li>
+          <li>AI post generator for social media</li>
+          <li>Link-in-bio & OG image tools</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/smartflow-systems/sfs-marketing-and-growth" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/smartflow-systems/sfs-marketing-and-growth">View code</a>
+        </div>
+      </article>
+
+      <!-- Data Scraping & Insights -->
+      <article class="project-card">
+        <h3>DataFlow Insights</h3>
+        <ul class="feature-list">
+          <li>Web scraping & social media analysis</li>
+          <li>Product manager data tools</li>
+          <li>Automated data collection & exports</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://github.com/boweazy/DataScrapeInsights" target="_blank">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/DataScrapeInsights">View code</a>
         </div>
       </article>
     </div>
@@ -224,5 +284,8 @@
     container.replaceChildren(frag);
   })();
   </script>
+
+  <!-- SFS Circuit Flow Animation -->
+  <script src="sfs-circuit-flow.js"></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+name: Experiment
+description: Run a growth test
+labels: ["type:experiment"]
+body:
+  - type: input
+    id: hypothesis
+    attributes: {label: Hypothesis}
+  - type: input
+    id: metric
+    attributes: {label: Primary Metric}
+  - type: input
+    id: duration
+    attributes: {label: Duration}
