@@ -50,6 +50,8 @@ def data_files(fname: str):
 
     # Resolve and validate path stays within data directory
     data_dir = (BASE / "data").resolve()
+    # lgtm[py/path-injection] - Path is validated below with relative_to()
+    # codeql[py/path-injection] - Safe: validated with relative_to() before use
     requested_path = (data_dir / fname).resolve()
 
     # Ensure resolved path is within data directory
@@ -59,9 +61,13 @@ def data_files(fname: str):
         # Path is outside data directory
         abort(403)
 
+    # lgtm[py/path-injection] - Path validated above
+    # codeql[py/path-injection] - Safe: path validated to be within data_dir
     if not requested_path.exists() or not requested_path.is_file():
         abort(404)
 
+    # lgtm[py/path-injection] - Path validated above
+    # codeql[py/path-injection] - Safe: path validated to be within data_dir
     return send_from_directory(requested_path.parent, requested_path.name)
 
 @app.post("/lead")
@@ -108,7 +114,23 @@ def lead():
 
 @app.route("/<path:path>")
 def static_proxy(path: str):
+    # Security: prevent path traversal in static file serving
+    if not path or ".." in path or path.startswith("/"):
+        abort(403)
+
+    # Validate path stays within BASE directory
     try:
+        base_dir = BASE.resolve()
+        # lgtm[py/path-injection] - Path validated below with relative_to()
+        # codeql[py/path-injection] - Safe: validated with relative_to() before use
+        requested_path = (base_dir / path).resolve()
+        requested_path.relative_to(base_dir)
+    except (ValueError, OSError):
+        abort(403)
+
+    try:
+        # lgtm[py/path-injection] - Path validated above
+        # codeql[py/path-injection] - Safe: path validated to be within BASE
         return send_from_directory(BASE, path)
     except Exception:
         # If file not found, return 404
