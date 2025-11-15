@@ -2,12 +2,15 @@
 <meta charset="utf-8"><title>Admin — SmartFlow Systems (No Backend)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="styles.css">
+<script defer src="assets/circuit-bg.js"></script>
 <style>
   .wrap{max-width:980px;margin:24px auto;padding:0 16px}
-  textarea,input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1}
-  label{display:block;margin:10px 0 6px}
+  textarea,input,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(212,175,55,.2);background:rgba(15,12,10,.8);backdrop-filter:blur(10px);color:#e9e6e1;transition:all .3s ease}
+  textarea:focus,input:focus,select:focus{outline:none;border-color:rgba(212,175,55,.5);box-shadow:0 0 15px rgba(212,175,55,.2)}
+  label{display:block;margin:10px 0 6px;color:var(--text)}
   .grid2{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:860px){.grid2{grid-template-columns:1fr 1fr}}
   .note{color:#cbbf9b}
+  .card{margin-top:16px}
 </style>
 </head><body>
 <header class="nav"><div class="brand"><img class="logo" src="assets/smartflow-logo.png"><span>SmartFlow Admin</span></div>
