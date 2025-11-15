@@ -1,3 +1,0 @@
-run = "npm run start"
-language = "nodejs"
-entrypoint = "server.js"
