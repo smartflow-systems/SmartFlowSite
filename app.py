@@ -3,6 +3,7 @@ from flask import Flask, send_from_directory, jsonify, request, abort
 from pathlib import Path
 from datetime import timedelta
 import smtplib, json, os
+import urllib.parse
 from email.message import EmailMessage
 
 BASE = Path(__file__).parent.resolve()
@@ -114,8 +115,11 @@ def lead():
 
 @app.route("/<path:path>")
 def static_proxy(path: str):
+    # Decode percent-encoded characters to prevent traversal via encoded payloads
+    safe_path = urllib.parse.unquote(path)
+
     # Security: prevent path traversal in static file serving
-    if not path or ".." in path or path.startswith("/"):
+    if not safe_path or ".." in safe_path or safe_path.startswith("/"):
         abort(403)
 
     # Validate path stays within BASE directory
@@ -123,7 +127,9 @@ def static_proxy(path: str):
         base_dir = BASE.resolve()
         # lgtm[py/path-injection] - Path validated below with relative_to()
         # codeql[py/path-injection] - Safe: validated with relative_to() before use
-        requested_path = (base_dir / path).resolve()
+        requested_path = (base_dir / safe_path).resolve()
+
+        # Disallow symlinks/escapes: requested file must stay within BASE after resolving
         requested_path.relative_to(base_dir)
     except (ValueError, OSError):
         abort(403)
@@ -131,7 +137,7 @@ def static_proxy(path: str):
     try:
         # lgtm[py/path-injection] - Path validated above
         # codeql[py/path-injection] - Safe: path validated to be within BASE
-        return send_from_directory(BASE, path)
+        return send_from_directory(BASE, safe_path)
     except Exception:
         # If file not found, return 404
         abort(404)
