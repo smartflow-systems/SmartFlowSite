@@ -5,24 +5,43 @@
     "icon": "📅",
     "description": "Advanced booking system with calendar sync, automated reminders, and payment processing. Perfect for salons and service businesses.",
     "tags": ["Booking", "Payments", "Calendar"],
-    "demoUrl": "https://example.com/bookflow-demo",
+    "demoUrl": "https://smartflow-booking-demo.replit.app",
     "features": [
-      "Real-time calendar management",
-      "Automated SMS & email reminders",
-      "Integrated payment processing",
-      "Staff scheduling & management",
-      "Customer profile system",
-      "Analytics & reporting"
+      "Real-time calendar management with drag-and-drop interface",
+      "Multi-location booking support with location-specific availability",
+      "Automated SMS & email reminders (24h, 2h, and custom intervals)",
+      "Integrated Stripe payment processing with deposit collection",
+      "Google Calendar & Outlook sync (bi-directional)",
+      "Staff scheduling with individual calendars and availability rules",
+      "No-show protection with automatic deposit forfeiture",
+      "Customer profile system with booking history and preferences",
+      "Service packages and recurring bookings",
+      "Custom booking forms with conditional fields",
+      "Wait list management with automatic notifications",
+      "Industry presets for barbers, salons, fitness, medical, and consulting",
+      "Multi-timezone support for international bookings",
+      "Group booking and event management",
+      "Cancellation and rescheduling with configurable policies",
+      "Advanced analytics & reporting dashboard",
+      "Revenue tracking and payment reconciliation",
+      "Staff performance metrics and utilization rates",
+      "Customer retention and lifetime value analysis",
+      "API access for custom integrations",
+      "Mobile-responsive booking widget for websites",
+      "QR code check-in system",
+      "Automated review requests post-appointment",
+      "Gift card and voucher support",
+      "Dynamic pricing rules based on time, staff, or demand"
     ],
     "pricing": "Starting at £29/month - includes up to 100 bookings",
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/bookflow-demo"
+        "url": "https://smartflow-booking-demo.replit.app"
       },
       {
         "label": "Documentation",
-        "url": "https://docs.example.com/bookflow"
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -32,24 +51,49 @@
     "icon": "🛍️",
     "description": "Complete e-commerce solution with inventory management, order tracking, and customer analytics.",
     "tags": ["E-commerce", "Inventory", "Analytics"],
-    "demoUrl": "https://example.com/commerce-demo",
+    "demoUrl": "https://smartflow-ecom-demo.replit.app",
     "features": [
-      "Product catalog management",
-      "Order processing & tracking",
-      "Inventory management",
-      "Customer analytics",
-      "Multi-channel selling",
-      "Payment gateway integration"
+      "Product catalog management with unlimited SKUs",
+      "Variant management (size, color, material) with individual pricing",
+      "Bulk product import/export via CSV",
+      "Advanced inventory tracking with low-stock alerts",
+      "Multi-warehouse inventory management",
+      "Order processing with customizable workflows",
+      "Real-time order tracking with customer notifications",
+      "Abandoned cart recovery with automated email sequences",
+      "One-page checkout with guest checkout option",
+      "Smart upsell and cross-sell recommendations using AI",
+      "Dynamic product bundles and combo deals",
+      "Customer analytics with RFM segmentation",
+      "Multi-channel selling (website, social, marketplaces)",
+      "Integrated payment gateways (Stripe, PayPal, Square)",
+      "Tax calculation with regional tax rules",
+      "Shipping rate calculator with carrier integrations",
+      "Digital product delivery with secure download links",
+      "Subscription products with recurring billing",
+      "Customer reviews and ratings system",
+      "SEO-optimized product pages with auto-generated meta tags",
+      "Coupon and discount code engine",
+      "Gift card and store credit management",
+      "Customer account dashboard with order history",
+      "Return and refund management",
+      "Multi-currency support with real-time conversion",
+      "Email marketing integration (Mailchimp, Klaviyo)",
+      "Advanced search with filters and facets",
+      "Product recommendations based on browsing history",
+      "Sales performance dashboard with conversion metrics",
+      "Inventory forecasting and reorder alerts",
+      "Speed-optimized static storefronts for sub-1s load times"
     ],
     "pricing": "Starting at £49/month - includes up to 500 products",
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/commerce-demo"
+        "url": "https://smartflow-ecom-demo.replit.app"
       },
       {
         "label": "Pricing Details",
-        "url": "https://example.com/commerce-pricing"
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -59,24 +103,49 @@
     "icon": "🤖",
     "description": "Advanced AI-powered social media automation with review management, smart upselling, and voice assistant capabilities.",
     "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
-    "demoUrl": "https://example.com/aibot-demo",
+    "demoUrl": "https://socialscalebooster.replit.app",
     "features": [
-      "AI Review Response Manager with sentiment analysis",
-      "Smart Upsell Engine with dynamic pricing",
-      "Voice AI Assistant for phone bookings",
-      "Multi-platform content generation",
-      "Brand voice customization",
-      "Performance optimization & analytics"
+      "AI Review Response Manager with GPT-4 powered sentiment analysis",
+      "Automatic review monitoring across Google, Yelp, Facebook, TripAdvisor",
+      "Smart review response generation matching your brand voice",
+      "Negative review escalation and crisis management",
+      "Review sentiment trending and competitor comparison",
+      "Smart Upsell Engine with dynamic pricing optimization",
+      "Customer behavior prediction for personalized offers",
+      "AI-powered product recommendation engine",
+      "Voice AI Assistant for phone bookings and inquiries",
+      "Natural language processing for appointment scheduling",
+      "Multi-language support (20+ languages)",
+      "Voice sentiment detection for customer satisfaction",
+      "Multi-platform content generation (Instagram, Facebook, Twitter, LinkedIn, TikTok)",
+      "Auto captions with niche-specific hashtag research",
+      "Content calendar with AI-suggested optimal posting times",
+      "Image and video caption generation from visual analysis",
+      "Trending topic integration for timely content",
+      "DM funnel automation with lead qualification",
+      "Chatbot for Instagram, Facebook Messenger, and WhatsApp",
+      "Lead capture with CRM integration",
+      "Automated follow-up sequences based on engagement",
+      "Brand voice customization with tone and style settings",
+      "Competitor content analysis and benchmarking",
+      "Engagement analytics with AI-powered insights",
+      "Performance optimization recommendations",
+      "A/B testing for captions, hashtags, and posting times",
+      "User-generated content curation and reposting",
+      "Influencer identification and outreach automation",
+      "Social listening for brand mentions and keywords",
+      "ROI tracking with attribution modeling",
+      "Automated reporting with custom KPI dashboards"
     ],
     "pricing": "Starting at £79/month - includes AI review management + voice assistant",
     "links": [
       {
         "label": "Live Demo",
-        "url": "https://example.com/aibot-demo"
+        "url": "https://socialscalebooster.replit.app"
       },
       {
         "label": "AI Features",
-        "url": "https://example.com/aibot-features"
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -86,24 +155,49 @@
     "icon": "📊",
     "description": "Comprehensive business intelligence platform with real-time metrics, forecasting, and growth optimization.",
     "tags": ["Analytics", "Growth", "Business Intelligence"],
-    "demoUrl": "https://example.com/growth-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
-      "Real-time dashboard",
-      "Predictive analytics",
-      "Customer lifetime value tracking",
-      "Revenue forecasting",
-      "A/B testing framework",
-      "Custom reporting"
+      "Real-time dashboard with customizable widgets",
+      "Predictive analytics using machine learning models",
+      "Customer lifetime value (CLV) tracking and prediction",
+      "Revenue forecasting with 90-day accuracy projections",
+      "Churn prediction and prevention recommendations",
+      "Cohort analysis for retention and engagement",
+      "A/B testing framework with statistical significance calculator",
+      "Multivariate testing for advanced optimization",
+      "Funnel analytics with drop-off point identification",
+      "Attribution modeling (first-touch, last-touch, multi-touch)",
+      "Customer journey mapping and visualization",
+      "RFM (Recency, Frequency, Monetary) segmentation",
+      "Product performance analytics with profitability insights",
+      "Marketing campaign ROI tracking across channels",
+      "Custom reporting with drag-and-drop report builder",
+      "Scheduled report delivery via email",
+      "Data export in CSV, Excel, PDF formats",
+      "Goal tracking with progress visualization",
+      "KPI alerts and anomaly detection",
+      "Competitor benchmarking dashboard",
+      "Traffic source analysis and channel optimization",
+      "Conversion rate optimization insights",
+      "Session replay and heatmap integration",
+      "User segmentation with behavioral targeting",
+      "Custom event tracking with unlimited events",
+      "Real-time notifications for critical metrics",
+      "Data warehouse integration (BigQuery, Snowflake, Redshift)",
+      "API access for custom data extraction",
+      "SQL query builder for advanced analysis",
+      "White-label reporting for agencies",
+      "Team collaboration with shared dashboards and annotations"
     ],
     "pricing": "Starting at £59/month - includes unlimited reports",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/growth-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Analytics Guide",
-        "url": "https://example.com/growth-guide"
+        "label": "Contact Us",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -113,24 +207,58 @@
     "icon": "🌐",
     "description": "Drag-and-drop website builder optimized for service businesses with built-in SEO and conversion tools.",
     "tags": ["Website", "SEO", "Conversion"],
-    "demoUrl": "https://example.com/webbuilder-demo",
+    "demoUrl": "https://github.com/smartflow-systems/SmartFlowSite",
     "features": [
-      "Drag-and-drop editor",
-      "Mobile-responsive templates",
-      "SEO optimization tools",
-      "Conversion tracking",
-      "Form builder",
-      "Hosting included"
+      "Drag-and-drop visual editor with real-time preview",
+      "100+ mobile-responsive templates for service businesses",
+      "Custom CSS and HTML editing for advanced users",
+      "Component library with 200+ pre-built blocks",
+      "Global styling system for consistent branding",
+      "SEO optimization tools with on-page analysis",
+      "Auto-generated XML sitemaps",
+      "Schema markup for rich search results",
+      "Open Graph and Twitter Card meta tags",
+      "SEO-friendly URL structure",
+      "Image optimization with automatic compression",
+      "Lazy loading for improved page speed",
+      "Built-in CDN for global content delivery",
+      "SSL certificate included with automatic renewal",
+      "Conversion tracking with Google Analytics integration",
+      "Heatmap and session recording integration",
+      "A/B testing for landing pages",
+      "Pop-up and slide-in form builder",
+      "Lead magnet delivery automation",
+      "Contact form builder with conditional logic",
+      "Email notification system for form submissions",
+      "CRM integration (HubSpot, Salesforce, Pipedrive)",
+      "Marketing automation platform connections",
+      "Multi-page website support with unlimited pages",
+      "Blog platform with RSS feed",
+      "Portfolio and gallery modules",
+      "Testimonial and review showcases",
+      "Team member profiles and bios",
+      "Pricing table builder",
+      "FAQ accordion builder",
+      "Custom domain connection",
+      "Subdomain support for landing pages",
+      "Version history and rollback",
+      "Scheduled content publishing",
+      "Password-protected pages",
+      "404 error page customization",
+      "Redirect management",
+      "Backup and export functionality",
+      "Multi-user collaboration with role-based permissions",
+      "White-label option for agencies"
     ],
     "pricing": "Starting at £19/month - includes hosting & SSL",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/webbuilder-demo"
+        "label": "View Example",
+        "url": "https://github.com/smartflow-systems/SmartFlowSite"
       },
       {
-        "label": "Templates",
-        "url": "https://example.com/webbuilder-templates"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -140,24 +268,57 @@
     "icon": "💳",
     "description": "Secure payment processing with fraud detection, subscription management, and detailed transaction analytics.",
     "tags": ["Payments", "Security", "Subscriptions"],
-    "demoUrl": "https://example.com/payment-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
-      "Multi-currency support",
-      "Fraud detection & prevention",
-      "Subscription billing",
-      "Transaction analytics",
-      "PCI compliance",
-      "API integration"
+      "Multi-currency support for 135+ currencies",
+      "Real-time currency conversion with transparent rates",
+      "AI-powered fraud detection and prevention",
+      "3D Secure authentication for card transactions",
+      "Address Verification System (AVS)",
+      "Card Verification Value (CVV) checks",
+      "Velocity checks and suspicious pattern detection",
+      "Subscription billing with flexible intervals",
+      "Tiered pricing and usage-based billing",
+      "Trial periods and setup fees",
+      "Proration for mid-cycle upgrades/downgrades",
+      "Automatic failed payment retry logic",
+      "Dunning management for subscription recovery",
+      "Transaction analytics dashboard",
+      "Revenue recognition reporting",
+      "Settlement reporting with payout tracking",
+      "Refund and chargeback management",
+      "Dispute handling with evidence submission",
+      "PCI DSS Level 1 compliance",
+      "Tokenization for secure card storage",
+      "End-to-end encryption for sensitive data",
+      "API integration with comprehensive documentation",
+      "Webhook notifications for real-time updates",
+      "SDKs for major programming languages",
+      "Payment link generation for invoicing",
+      "Mobile-optimized checkout flow",
+      "One-click checkout for returning customers",
+      "Digital wallet support (Apple Pay, Google Pay, PayPal)",
+      "ACH/bank transfer processing",
+      "Buy Now Pay Later (BNPL) integration",
+      "Invoice generation and automated sending",
+      "Payment reminders for overdue invoices",
+      "Multi-merchant support for marketplaces",
+      "Split payments and revenue sharing",
+      "Tax calculation with global tax rules",
+      "Receipt and invoice customization",
+      "Customer payment portal",
+      "Saved payment methods management",
+      "Compliance with GDPR and financial regulations"
     ],
     "pricing": "2.9% + 30p per transaction - no monthly fees",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/payment-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Security Details",
-        "url": "https://example.com/payment-security"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -167,24 +328,56 @@
     "icon": "📱",
     "description": "Smart queue management system with SMS updates, real-time predictions, and location-based notifications.",
     "tags": ["Queue", "SMS", "Location", "Predictions"],
-    "demoUrl": "https://example.com/queue-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
-      "Virtual 'wait in line' via SMS updates",
-      "Real-time wait time predictions",
-      "Location-based notifications when it's your turn",
-      "Queue analytics and optimization",
-      "Staff efficiency tracking",
-      "Customer satisfaction monitoring"
+      "Virtual 'wait in line' with SMS and app-based check-in",
+      "QR code scanning for instant queue joining",
+      "Real-time wait time predictions using AI algorithms",
+      "Dynamic wait time updates based on service patterns",
+      "Location-based notifications when it's customer's turn",
+      "Geofencing for arrival detection and queue activation",
+      "SMS updates at configurable intervals",
+      "Two-way SMS for customer responses",
+      "Multi-language support for notifications",
+      "Queue analytics and optimization insights",
+      "Historical data analysis for capacity planning",
+      "Peak time identification and staff allocation",
+      "Staff efficiency tracking and performance metrics",
+      "Service time analysis by staff member",
+      "Customer satisfaction monitoring with post-service surveys",
+      "Net Promoter Score (NPS) tracking",
+      "Queue abandonment rate analysis",
+      "Multi-location queue management",
+      "Priority queue for VIP customers",
+      "Appointment integration for scheduled slots",
+      "Walk-in and appointment hybrid management",
+      "No-show tracking and penalty system",
+      "Waitlist management with callback system",
+      "Staff dashboard with real-time queue status",
+      "Digital signage integration for in-store displays",
+      "Kiosk mode for self-service check-in",
+      "Ticket printing for customers without phones",
+      "Branded mobile app (white-label option)",
+      "Push notifications for mobile app users",
+      "Customer profile system with preferences",
+      "Repeat customer recognition and fast-track",
+      "Service bundling for multiple services",
+      "Group check-in for families or parties",
+      "Real-time capacity monitoring",
+      "Overflow management with nearby location suggestions",
+      "API for custom integrations",
+      "Reporting dashboard with export capabilities",
+      "Compliance with accessibility standards"
     ],
     "pricing": "Starting at £49/month - includes unlimited SMS notifications",
     "links": [
       {
-        "label": "Live Demo",
-        "url": "https://example.com/queue-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Queue Analytics",
-        "url": "https://docs.example.com/queue-analytics"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   },
@@ -194,24 +387,54 @@
     "icon": "🕶️",
     "description": "Augmented reality integration for virtual hair color previews, style visualization, and service demonstrations.",
     "tags": ["AR", "Virtual Try-On", "Visualization"],
-    "demoUrl": "https://example.com/ar-demo",
+    "demoUrl": "https://calendly.com/smartflow-systems",
     "features": [
-      "Virtual hair color/style previews for salons",
-      "Before/after AR visualization for services",
-      "Booking integration with realistic expectations",
-      "Social sharing of AR previews",
-      "Custom style recommendations",
-      "Mobile app integration"
+      "Virtual hair color/style previews with 200+ realistic options",
+      "AI-powered face detection and feature mapping",
+      "Real-time AR rendering with 60fps performance",
+      "Before/after AR visualization for beauty services",
+      "Makeup try-on with customizable products",
+      "Eyewear virtual try-on for glasses and sunglasses",
+      "Jewelry visualization on hands and body",
+      "Tattoo placement preview with size adjustment",
+      "Nail color and design visualization",
+      "Booking integration with AR-selected services",
+      "Realistic expectations management to reduce no-shows",
+      "Social sharing of AR previews to Instagram, Facebook, Snapchat",
+      "AR selfie capture with branded watermarks",
+      "Custom style recommendations based on face shape",
+      "AI skin tone analysis for color matching",
+      "Virtual consultation with side-by-side comparison",
+      "Mobile app integration (iOS and Android)",
+      "Web-based AR (no app download required)",
+      "AR SDK for custom app development",
+      "Product catalog integration for e-commerce",
+      "Virtual showroom for product browsing",
+      "3D model viewer for products",
+      "Color matching algorithms for accurate representation",
+      "Lighting simulation for different environments",
+      "Multi-angle view (front, side, back)",
+      "Video recording of AR experience",
+      "Gift AR preview to friends and family",
+      "AR experience analytics and engagement tracking",
+      "Conversion rate tracking from AR to booking",
+      "Customizable AR UI matching brand colors",
+      "Accessibility features for inclusive design",
+      "Cloud-based processing for device compatibility",
+      "Offline mode for limited AR features",
+      "API access for third-party integrations",
+      "White-label solution for businesses",
+      "Regular updates with new AR features and effects"
     ],
     "pricing": "Starting at £99/month - includes AR SDK + mobile app",
     "links": [
       {
-        "label": "AR Demo",
-        "url": "https://example.com/ar-demo"
+        "label": "Request Demo",
+        "url": "https://calendly.com/smartflow-systems"
       },
       {
-        "label": "Integration Guide",
-        "url": "https://docs.example.com/ar-integration"
+        "label": "Learn More",
+        "url": "https://calendly.com/smartflow-systems"
       }
     ]
   }
