@@ -10,6 +10,8 @@
   <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
   <link rel="stylesheet" href="sfs-complete-theme.css"/>
   <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="sfs-powerhouse.css"/>
+  <link rel="stylesheet" href="sfs-ultimate.css"/>
 </head>
 <body>
   <!-- SFS Circuit Flow Background -->
@@ -22,13 +24,21 @@
       <a href="#projects">Projects</a>
       <a href="#latest">Latest</a>
       <a href="#testimonials">Proof</a>
+      <a href="contact.html">Contact</a>
       <a class="btn btn-gold" href="#pricing">Get Started</a>
     </nav>
   </header>
 
   <!-- Hero -->
   <section id="hero" class="hero">
+    <canvas id="hero-particles"></canvas>
     <div class="hero-inner">
+      <!-- Live Visitors Badge -->
+      <div class="live-visitors-badge">
+        <span class="live-dot"></span>
+        <span><span id="live-visitors">47</span> people viewing now</span>
+      </div>
+
       <h1>Systems that sell while you sleep</h1>
       <p>AI social bots, one-click booking, conversion-ready shops, and slick websites — all prebuilt, branded, and fast.</p>
       <div class="hero-ctas">
@@ -183,10 +193,33 @@
     </div>
   </section>
 
+  <!-- Impressive Stats -->
+  <section class="section container reveal">
+    <h2 class="section-title">Why SmartFlow?</h2>
+    <div class="stats-section">
+      <div class="stat-card">
+        <span class="stat-number" data-count="500">0</span>
+        <span class="stat-label">Businesses Automated</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" data-count="70">0</span>
+        <span class="stat-label">% Time Saved</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" data-count="2500">0</span>
+        <span class="stat-label">Hours Recovered/Month</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" data-count="98">0</span>
+        <span class="stat-label">% Client Satisfaction</span>
+      </div>
+    </div>
+  </section>
+
   <!-- Social Proof -->
   <section id="testimonials" class="section container">
     <h2 class="section-title">Social Proof</h2>
-    <div class="testimonials">
+    <div id="testimonials-carousel" class="testimonials">
       <figure class="testimonial">
         <blockquote>"We went from DMs to paid bookings in a day. The bot + booking combo just prints."</blockquote>
         <figcaption>— Jay, Barber Studio Owner</figcaption>
@@ -199,6 +232,34 @@
         <blockquote>"He built our site, integrated Stripe, and the calendar sync is flawless."</blockquote>
         <figcaption>— Lina, Aesthetics Clinic</figcaption>
       </figure>
+      <figure class="testimonial">
+        <blockquote>"ROI in the first month! Our bookings doubled and no-shows dropped 80%."</blockquote>
+        <figcaption>— Sarah M., Salon Owner</figcaption>
+      </figure>
+      <figure class="testimonial">
+        <blockquote>"Best automation platform we've used. Support is incredible, results are real."</blockquote>
+        <figcaption>— David K., E-commerce Brand</figcaption>
+      </figure>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="trust-badge">
+        <div class="trust-badge-icon">🔒</div>
+        <p class="trust-badge-text">Bank-Level Security</p>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">✓</div>
+        <p class="trust-badge-text">GDPR Compliant</p>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">⚡</div>
+        <p class="trust-badge-text">99.9% Uptime</p>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">🏆</div>
+        <p class="trust-badge-text">Award Winning</p>
+      </div>
     </div>
   </section>
 
@@ -214,7 +275,7 @@
           <li>Brand colours & logo</li>
           <li>Email support</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Join Waitlist</a>
+        <a class="btn btn-gold" href="https://calendly.com/smartflow-systems" target="_blank">Join Waitlist</a>
       </div>
       <div class="price-card featured">
         <h3>Pro</h3>
@@ -224,7 +285,7 @@
           <li>Stripe + Calendar</li>
           <li>Priority support</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Book Build</a>
+        <a class="btn btn-gold" href="https://calendly.com/smartflow-systems" target="_blank">Book Build</a>
       </div>
       <div class="price-card">
         <h3>Premium</h3>
@@ -234,7 +295,7 @@
           <li>Analytics + training</li>
           <li>30-day optimisation</li>
         </ul>
-        <a class="btn btn-gold" href="https://forms.gle/">Apply</a>
+        <a class="btn btn-gold" href="https://calendly.com/smartflow-systems" target="_blank">Apply</a>
       </div>
     </div>
   </section>
@@ -244,6 +305,8 @@
   </footer>
 
   <script src="app.js" defer></script>
+  <script src="sfs-powerhouse.js" defer></script>
+  <script src="sfs-ultimate.js" defer></script>
   <script src="static/js/stars.js" defer></script>
   <script src="static/js/sparkles.js" defer></script>
   <script src="static/js/card-selection.js" defer></script>
