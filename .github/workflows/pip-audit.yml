@@ -5,6 +5,10 @@ on:
       - "requirements*.txt"
       - "pyproject.toml"
       - "poetry.lock"
+
+permissions:
+  contents: read
+
 jobs:
   audit:
     runs-on: ubuntu-latest
