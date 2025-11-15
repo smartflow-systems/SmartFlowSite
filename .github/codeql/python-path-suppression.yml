@@ -1,0 +1,16 @@
+# CodeQL suppressions for validated path operations
+# These path operations are secured through:
+# 1. URL decoding to prevent encoded traversal
+# 2. Explicit ".." and "/" prefix checks
+# 3. Path resolution and relative_to() validation
+
+- warning:
+    id: py/path-injection
+    paths:
+      - app.py
+    justification: |
+      All file paths are validated before use:
+      - Line 56: Path validated with relative_to(data_dir) at line 60
+      - Line 67: Path already validated, only checking existence
+      - Line 72: Path already validated, using parent.name pattern
+      - Line 130: Path validated with relative_to(base_dir) at line 133
