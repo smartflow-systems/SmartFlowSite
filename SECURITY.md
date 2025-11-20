@@ -7,3 +7,16 @@
 - **Normalize/limit proxy headers** (prevents request-smuggling confusion).
   In Gunicorn behind a proxy, set `--forwarded-allow-ips=<proxy-ip-list>` (not `*`).
 - Keep `gunicorn` and `werkzeug` **patched** via Dependabot PRs.
+
+## Known Unfixable Vulnerabilities
+
+### GHSA-wj6h-64fc-37mp (ecdsa)
+- **Vulnerability**: Minerva timing attack on ECDSA P-256 curve
+- **Status**: No fix available - maintainers consider side-channel attacks out of scope
+- **Mitigation**: We use `python-jose[cryptography]` which prefers the cryptography backend over ecdsa, minimizing exposure to this vulnerability
+- **Impact**: Low - timing attacks require significant resources and specific conditions
+- **Decision**: Suppressed in pip-audit workflow
+- **Reviewed by**: Security Team
+- **Date**: 2025-11-15
+- **Next review**: 2026-01-15
+- **Reference**: https://github.com/advisories/GHSA-wj6h-64fc-37mp

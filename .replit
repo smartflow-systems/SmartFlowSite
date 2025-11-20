@@ -11,7 +11,7 @@ localPort = 33707
 externalPort = 3000
 
 [workflows]
-runButton = "Project"
+runButton = "Run Node Server"
 
 [[workflows.workflow]]
 name = "Run Flask App"

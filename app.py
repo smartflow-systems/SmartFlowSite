@@ -1,8 +1,9 @@
 from __future__ import annotations
-from flask import Flask, send_from_directory, jsonify, request, abort
+from flask import Flask, send_from_directory, jsonify, request, abort, safe_join
 from pathlib import Path
 from datetime import timedelta
 import smtplib, json, os
+import urllib.parse
 from email.message import EmailMessage
 
 BASE = Path(__file__).parent.resolve()
@@ -43,26 +44,17 @@ def health():
 
 @app.route("/data/<path:fname>")
 def data_files(fname: str):
-    # Security: prevent path traversal attacks
-    # Only allow alphanumeric, dots, hyphens, underscores
-    if not fname or ".." in fname or fname.startswith("/"):
+    # Security: prevent path traversal using Flask's safe_join
+    # safe_join returns None if the path tries to escape the directory
+    safe_path = safe_join(str(BASE / "data"), fname)
+    if safe_path is None:
         abort(403)
 
-    # Resolve and validate path stays within data directory
-    data_dir = (BASE / "data").resolve()
-    requested_path = (data_dir / fname).resolve()
-
-    # Ensure resolved path is within data directory
-    try:
-        requested_path.relative_to(data_dir)
-    except ValueError:
-        # Path is outside data directory
-        abort(403)
-
-    if not requested_path.exists() or not requested_path.is_file():
+    # Check if file exists
+    if not Path(safe_path).is_file():
         abort(404)
 
-    return send_from_directory(requested_path.parent, requested_path.name)
+    return send_from_directory(BASE / "data", fname)
 
 @app.post("/lead")
 def lead():
@@ -108,8 +100,17 @@ def lead():
 
 @app.route("/<path:path>")
 def static_proxy(path: str):
+    # Decode percent-encoded characters to prevent traversal via encoded payloads
+    decoded_path = urllib.parse.unquote(path)
+
+    # Security: prevent path traversal using Flask's safe_join
+    # safe_join returns None if the path tries to escape the directory
+    safe_path = safe_join(str(BASE), decoded_path)
+    if safe_path is None:
+        abort(403)
+
     try:
-        return send_from_directory(BASE, path)
+        return send_from_directory(BASE, decoded_path)
     except Exception:
         # If file not found, return 404
         abort(404)
