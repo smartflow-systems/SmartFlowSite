@@ -1,13 +1,16 @@
 {
   "name": "smartflow-store-api",
   "version": "0.1.0",
-  "description": "Smartflow Store MVP API",
+  "description": "Smartflow Store MVP API with Multi-Agent Orchestration",
   "main": "server.js",
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "orchestrator": "node server/orchestrator/index.js",
+    "agent": "node scripts/sfs-agent-cli.js",
+    "sync": "node scripts/sync-chatgpt-claude.js sync",
+    "sync:watch": "node scripts/sync-chatgpt-claude.js watch",
     "build": "echo 'build complete' && exit 0",
     "test": "echo 'no tests configured' && exit 0",
     "migrate": "prisma migrate dev --name init",
