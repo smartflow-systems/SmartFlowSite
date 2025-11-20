@@ -333,6 +333,20 @@ img{
   animation: sf-golden-pulse 2s ease-in-out infinite alternate;
 }
 .project-card h3{margin-top:0}
+.project-logo{
+  width:120px;
+  height:auto;
+  margin:0 auto 16px auto;
+  display:block;
+  opacity:0.9;
+  filter:drop-shadow(0 2px 8px rgba(212,175,55,.3));
+  transition:all 0.3s ease;
+}
+.project-card:hover .project-logo{
+  opacity:1;
+  filter:drop-shadow(0 4px 12px rgba(212,175,55,.5));
+  transform:scale(1.05);
+}
 .feature-list{margin:0 0 16px 18px}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
 
