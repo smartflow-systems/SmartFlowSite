@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import { attachDevProxy } from "./dev-proxy.js";
 import { attachStatic } from "./serve-static.js";

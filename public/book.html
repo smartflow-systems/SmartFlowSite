@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book a Call — SmartFlow Systems</title>
+  <meta name="description" content="Book a free 30‑minute strategy call or send your brief." />
+  <link rel="icon" href="static-logo.png" />
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header container">
+    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
+    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <h1>Let's map your build</h1>
+      <p class="sub">Tell us your goal. We'll advise the fastest path and set it up.</p>
+    </section>
+
+    <section class="section container">
+      <div class="book-grid">
+        <form id="lead-form" class="card" novalidate>
+          <h2 class="section-title">Send your brief</h2>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required /></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="business">Business</label><input id="business" name="business" autocomplete="organization" /></div>
+          <div class="field">
+            <label for="plan">Plan</label>
+            <select id="plan" name="plan">
+              <option value="">Undecided</option><option value="starter">Starter</option><option value="pro">Pro</option><option value="premium">Premium</option>
+            </select>
+          </div>
+          <div class="field"><label for="goal">What outcome do you want?</label><textarea id="goal" name="goal" rows="5" placeholder="e.g. Fill Saturdays; sell 50 tees/mo; automate DMs…"></textarea></div>
+          <button class="btn btn-gold btn-lg" type="submit" id="submit-btn">Send brief</button>
+          <p id="form-note" class="muted small">We'll reply within 1 business day.</p>
+        </form>
+
+        <aside class="card">
+          <h2 class="section-title">Prefer to schedule?</h2>
+          <p>Book a free 30‑minute call.</p>
+          <a id="cal-btn" class="btn btn-ghost btn-lg" href="#" target="_blank" rel="noopener">Open Calendly</a>
+          <ul class="ticks"><li>Actionable steps</li><li>Clear timeline & price</li><li>No fluff</li></ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <small>© <span id="y"></span> SmartFlow Systems.</small>
+    <a class="link" href="index.html">Home</a>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

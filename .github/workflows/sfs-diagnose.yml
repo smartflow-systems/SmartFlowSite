@@ -1,17 +1,19 @@
-name: SFS Diagnose
+name: sfs-diagnose
 on:
-  workflow_dispatch: {}
+  pull_request: { branches: [ main ] }
+  push: { branches: [ main, "users/**", "feat/**" ] }
+  workflow_dispatch:
+
 permissions:
   contents: read
 
 jobs:
-  check:
+  sfs-diagnose:
+    name: sfs-diagnose
     runs-on: ubuntu-latest
     steps:
-      - name: Print repo/ref
-        run: echo "Repo=$GITHUB_REPOSITORY ref=$GITHUB_REF_NAME"
-      - name: Check required secrets
-        run: |
-          test -n "${{ secrets.SFS_PAT }}" && echo SFS_PAT=OK || echo SFS_PAT=MISSING
-          test -n "${{ secrets.REPLIT_TOKEN }}" && echo REPLIT_TOKEN=OK || echo REPLIT_TOKEN=MISSING
-          test -n "${{ secrets.SFS_SYNC_URL }}" && echo SFS_SYNC_URL=OK || echo SFS_SYNC_URL=MISSING
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - run: |
+          du -sh . || true
+          git status || true
+          echo "diagnose ok"

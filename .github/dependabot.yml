@@ -1,10 +1,36 @@
 version: 2
 updates:
-  - package-ecosystem: npm
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: weekly
-  - package-ecosystem: pip
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "boweazy"
+    labels:
+      - "dependencies"
+      - "security"
+
+  # Enable version updates for pip (Python)
+  - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: weekly
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "boweazy"
+    labels:
+      - "dependencies"
+      - "security"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "boweazy"
+    labels:
+      - "dependencies"
+      - "github-actions"

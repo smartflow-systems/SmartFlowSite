@@ -1,21 +1,22 @@
-# Security Policy
+# Security notes (Python)
 
-## Supported Versions
+- **Do not run the Werkzeug debugger in production.**
+  Set `FLASK_ENV=production` / `DEBUG=0` and never expose the debug PIN.
+- **Cap upload size** at the web server and app (prevents resource exhaustion).
+  Example (Gunicorn env): `WEB_MAX_CONTENT_LENGTH=10_000_000` and app-side guards.
+- **Normalize/limit proxy headers** (prevents request-smuggling confusion).
+  In Gunicorn behind a proxy, set `--forwarded-allow-ips=<proxy-ip-list>` (not `*`).
+- Keep `gunicorn` and `werkzeug` **patched** via Dependabot PRs.
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+## Known Unfixable Vulnerabilities
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
-
-## Reporting a Vulnerability
-
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+### GHSA-wj6h-64fc-37mp (ecdsa)
+- **Vulnerability**: Minerva timing attack on ECDSA P-256 curve
+- **Status**: No fix available - maintainers consider side-channel attacks out of scope
+- **Mitigation**: We use `python-jose[cryptography]` which prefers the cryptography backend over ecdsa, minimizing exposure to this vulnerability
+- **Impact**: Low - timing attacks require significant resources and specific conditions
+- **Decision**: Suppressed in pip-audit workflow
+- **Reviewed by**: Security Team
+- **Date**: 2025-11-15
+- **Next review**: 2026-01-15
+- **Reference**: https://github.com/advisories/GHSA-wj6h-64fc-37mp
