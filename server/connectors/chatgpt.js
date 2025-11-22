@@ -28,7 +28,8 @@ class ChatGPTConnector extends BaseConnector {
    * Invoke ChatGPT agent
    */
   async invoke(agentId, task) {
-    const { action, input, context } = task;
+    // Destructure only what we use from task
+    // action, input, context are available in task object if needed by subclasses
 
     console.log(`🤖 Invoking ChatGPT agent: ${agentId}`);
 
@@ -143,7 +144,7 @@ class ChatGPTConnector extends BaseConnector {
       const thread = await threadResponse.json();
 
       // Add message to thread
-      const messageResponse = await fetch(`${this.baseUrl}/threads/${thread.id}/messages`, {
+      await fetch(`${this.baseUrl}/threads/${thread.id}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -134,7 +134,7 @@ class AgentRegistry {
    */
   findByCapability(capability) {
     const matches = [];
-    for (const [id, agent] of this.agents.entries()) {
+    for (const [, agent] of this.agents.entries()) {
       if (agent.capabilities.includes(capability)) {
         matches.push(agent);
       }
@@ -147,7 +147,7 @@ class AgentRegistry {
    */
   findByPlatform(platform) {
     const matches = [];
-    for (const [id, agent] of this.agents.entries()) {
+    for (const [, agent] of this.agents.entries()) {
       if (agent.platform === platform) {
         matches.push(agent);
       }
@@ -160,7 +160,7 @@ class AgentRegistry {
    */
   findByApp(appName) {
     const matches = [];
-    for (const [id, agent] of this.agents.entries()) {
+    for (const [, agent] of this.agents.entries()) {
       if (agent.apps && agent.apps.includes(appName)) {
         matches.push(agent);
       }

@@ -33,7 +33,7 @@ class ClaudeConnector extends BaseConnector {
    * Invoke Claude agent
    */
   async invoke(agentId, task) {
-    const { action, input, context } = task;
+    // task object contains action, input, context - available if needed
 
     console.log(`🤖 Invoking Claude agent: ${agentId}`);
 

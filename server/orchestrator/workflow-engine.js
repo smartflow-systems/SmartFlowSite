@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const { sanitizeForLog } = require('../utils/log-sanitizer.js');
 
 /**
  * Workflow Engine - Executes multi-agent workflows with dependencies
@@ -132,7 +133,7 @@ class WorkflowEngine {
       state.error = error.message;
       state.failed_at = new Date().toISOString();
 
-      console.error(`❌ Workflow failed: ${workflowId} - ${error.message}`);
+      console.error(`❌ Workflow failed: ${sanitizeForLog(workflowId)} - ${sanitizeForLog(error.message)}`);
 
       return state;
     } finally {
@@ -222,7 +223,7 @@ class WorkflowEngine {
       },
       'log': async (input) => {
         const message = this.resolveVariables(input.message || '', workflowState.context);
-        console.log(`📝 Workflow log: ${message}`);
+        console.log(`📝 Workflow log: ${sanitizeForLog(message)}`);
         return { logged: true, message };
       },
       'store-state': async (input) => {
@@ -325,7 +326,7 @@ class WorkflowEngine {
   async saveWorkflow(workflow) {
     const workflowPath = this.getSafePath(workflow.id);
     await fs.writeFile(workflowPath, JSON.stringify(workflow, null, 2));
-    console.log(`💾 Saved workflow: ${workflow.id}`);
+    console.log(`💾 Saved workflow: ${sanitizeForLog(workflow.id)}`);
   }
 
   /**

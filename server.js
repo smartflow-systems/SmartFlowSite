@@ -1,6 +1,7 @@
 import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
 
 const app = express();
 
@@ -158,7 +159,7 @@ app.get("/api/leads", (_req, res) => {
 // API: Stripe Checkout (placeholder - requires Stripe configuration)
 app.post("/api/stripe/checkout", async (req, res) => {
   try {
-    const { planId, successUrl, cancelUrl } = req.body;
+    const { planId } = req.body;
 
     // Load pricing data
     const pricingData = JSON.parse(readFileSync("./public/pricing.json", "utf-8"));
@@ -178,7 +179,7 @@ app.post("/api/stripe/checkout", async (req, res) => {
     // 2. Add STRIPE_SECRET_KEY to .env
     // 3. Create Stripe checkout session
 
-    console.log(`Checkout requested for plan: ${planId}`);
+    console.log(`Checkout requested for plan: ${sanitizeForLog(planId)}`);
 
     // Placeholder response
     res.json({

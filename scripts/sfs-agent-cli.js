@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const fs = require('fs').promises;
-const path = require('path');
 
 /**
  * SFS Agent CLI - Command-line tool for managing agents, workflows, and packages

@@ -74,7 +74,7 @@ class CircuitBoardAnimation {
         this.pulses = [];
         
         const nodeCount = Math.floor((this.width * this.height) / 8000);  // More nodes
-        const gridSpacing = 60;  // Closer together
+        // const gridSpacing = 60;  // Closer together
         
         // Generate nodes in a loose grid pattern
         for (let i = 0; i < nodeCount; i++) {
