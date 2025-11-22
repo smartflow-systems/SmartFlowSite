@@ -1,9 +1,4 @@
 name: "CodeQL Config"
 
-# Suppress false positives for path traversal checks
-# All paths are validated before use with resolve() and relative_to()
-query-filters:
-  - exclude:
-      id: py/path-injection
-      paths:
-        - app.py
+# Advanced configuration for CodeQL security scanning
+# Enables comprehensive security analysis with extended query suite
