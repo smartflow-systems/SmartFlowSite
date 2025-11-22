@@ -12,10 +12,42 @@ class StateStore {
   }
 
   /**
+   * Sanitize namespace to prevent path traversal attacks
+   * @param {string} namespace - The namespace to sanitize
+   * @returns {string} - Safe namespace
+   */
+  sanitizeNamespace(namespace) {
+    // Remove any path separators and dangerous characters
+    const safe = namespace.replace(/[^a-zA-Z0-9_-]/g, '_');
+    // Ensure it doesn't start with dots
+    return safe.replace(/^\.+/, '_');
+  }
+
+  /**
+   * Get safe path for namespace file
+   * @param {string} namespace - The namespace
+   * @returns {string} - Safe absolute path
+   */
+  getSafePath(namespace) {
+    const sanitized = this.sanitizeNamespace(namespace);
+    const safePath = path.join(this.stateDir, `${sanitized}.json`);
+
+    // Verify the resolved path is within stateDir
+    const resolvedPath = path.resolve(safePath);
+    const resolvedBase = path.resolve(this.stateDir);
+
+    if (!resolvedPath.startsWith(resolvedBase)) {
+      throw new Error('Invalid namespace: path traversal detected');
+    }
+
+    return safePath;
+  }
+
+  /**
    * Initialize state store
    */
   async initialize() {
-    await fs.mkdir(this.stateDir, { recursive: true });
+    await fs.mkdir(this.stateDir, { recursive: true});
     console.log('✅ State store initialized');
   }
 
@@ -158,7 +190,7 @@ class StateStore {
       }
     }
 
-    const filePath = path.join(this.stateDir, `${namespace}.json`);
+    const filePath = this.getSafePath(namespace);
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
   }
 
@@ -166,7 +198,7 @@ class StateStore {
    * Load namespace from disk
    */
   async loadNamespace(namespace) {
-    const filePath = path.join(this.stateDir, `${namespace}.json`);
+    const filePath = this.getSafePath(namespace);
 
     try {
       const content = await fs.readFile(filePath, 'utf8');

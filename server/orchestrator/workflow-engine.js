@@ -14,6 +14,38 @@ class WorkflowEngine {
   }
 
   /**
+   * Sanitize filename to prevent path traversal attacks
+   * @param {string} filename - The filename to sanitize
+   * @returns {string} - Safe filename
+   */
+  sanitizeFilename(filename) {
+    // Remove any path separators and dangerous characters
+    const safe = filename.replace(/[^a-zA-Z0-9_-]/g, '_');
+    // Ensure it doesn't start with dots
+    return safe.replace(/^\.+/, '_');
+  }
+
+  /**
+   * Validate and create safe path within workflow directory
+   * @param {string} filename - The filename
+   * @returns {string} - Safe absolute path
+   */
+  getSafePath(filename) {
+    const sanitized = this.sanitizeFilename(filename);
+    const safePath = path.join(this.workflowDir, `${sanitized}.json`);
+
+    // Verify the resolved path is within workflowDir
+    const resolvedPath = path.resolve(safePath);
+    const resolvedBase = path.resolve(this.workflowDir);
+
+    if (!resolvedPath.startsWith(resolvedBase)) {
+      throw new Error('Invalid file path: path traversal detected');
+    }
+
+    return safePath;
+  }
+
+  /**
    * Initialize workflow engine
    */
   async initialize() {
@@ -282,7 +314,7 @@ class WorkflowEngine {
    * Load workflow from file
    */
   async loadWorkflow(workflowName) {
-    const workflowPath = path.join(this.workflowDir, `${workflowName}.json`);
+    const workflowPath = this.getSafePath(workflowName);
     const content = await fs.readFile(workflowPath, 'utf8');
     return JSON.parse(content);
   }
@@ -291,7 +323,7 @@ class WorkflowEngine {
    * Save workflow to file
    */
   async saveWorkflow(workflow) {
-    const workflowPath = path.join(this.workflowDir, `${workflow.id}.json`);
+    const workflowPath = this.getSafePath(workflow.id);
     await fs.writeFile(workflowPath, JSON.stringify(workflow, null, 2));
     console.log(`💾 Saved workflow: ${workflow.id}`);
   }
@@ -305,8 +337,15 @@ class WorkflowEngine {
 
     for (const file of files) {
       if (file.endsWith('.json')) {
-        const content = await fs.readFile(path.join(this.workflowDir, file), 'utf8');
-        workflows.push(JSON.parse(content));
+        // Validate file is within workflow directory
+        const safePath = path.join(this.workflowDir, path.basename(file));
+        const resolvedPath = path.resolve(safePath);
+        const resolvedBase = path.resolve(this.workflowDir);
+
+        if (resolvedPath.startsWith(resolvedBase)) {
+          const content = await fs.readFile(safePath, 'utf8');
+          workflows.push(JSON.parse(content));
+        }
       }
     }
 
