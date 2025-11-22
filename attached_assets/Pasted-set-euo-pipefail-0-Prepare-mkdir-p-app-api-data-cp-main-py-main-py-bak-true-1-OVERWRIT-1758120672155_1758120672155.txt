@@ -1,0 +1,63 @@
+set -euo pipefail
+
+# 0) Prepare
+mkdir -p app/api data
+cp main.py main.py.bak || true
+
+# 1) (OVERWRITE) [app/api/utils.py]
+cat <<'PY' > app/api/utils.py
+import os
+from flask import abort
+def safe_file_access(user_input):
+    safe_root = os.path.abspath("data")
+    target_path = os.path.abspath(os.path.join(safe_root, user_input))
+    if not target_path.startswith(safe_root): abort(403)
+    if not os.path.exists(target_path): abort(404)
+    return target_path
+PY
+
+# 2) (OVERWRITE) [app/api/test_route.py]
+cat <<'PY' > app/api/test_route.py
+from flask import Blueprint, send_file
+from app.api.utils import safe_file_access
+router = Blueprint("test_route", __name__)
+@router.route("/test/<path:filename>")
+def test_file(filename):
+    return send_file(safe_file_access(filename))
+PY
+
+# 3) Seed data if missing
+[ -f data/posts.json ]   || echo '{ "posts": [] }'  > data/posts.json
+[ -f data/boosts.json ]  || echo '{ "boosts": [] }' > data/boosts.json
+
+# 4) Patch [main.py]: import/register blueprint + add /status (idempotent)
+python3 - <<'PY'
+import re, subprocess, pathlib
+p = 'main.py'; s = open(p).read()
+if "from app.api.test_route import router as test_route" not in s:
+    s = s.replace("app = Flask(__name__)", "app = Flask(__name__)\nfrom app.api.test_route import router as test_route")
+if "app.register_blueprint(test_route)" not in s:
+    s = re.sub(r'(?m)^if __name__.*$', "app.register_blueprint(test_route)\n\\g<0>", s, count=1) if "if __name__" in s else s + "\napp.register_blueprint(test_route)\n"
+if '@app.get("/status")' not in s:
+    s += """
+@app.get("/status")
+def status():
+    from pathlib import Path
+    import subprocess
+    version = (Path("VERSION").read_text().strip() if Path("VERSION").exists() else "dev")
+    try:
+        commit = subprocess.check_output(["git","rev-parse","--short","HEAD"]).decode().strip()
+    except Exception:
+        commit = "n/a"
+    return jsonify(status="ok", version=version, commit=commit)
+"""
+open(p,'w').write(s)
+PY
+
+# 5) Ensure runner & deps
+echo 'run = "python3 main.py"' > .replit
+grep -q '^flask' requirements.txt 2>/dev/null || echo 'flask' >> requirements.txt
+pip install -q -r requirements.txt
+echo "0.1.1" > VERSION
+
+echo "✅ Merged. Click RUN, then test /health, /test/posts.json, /status"

@@ -1,0 +1,11 @@
+# 🧭 SmartFlow Agent — Rules (Compact)
+- Plain talk → then code; minimal steps; fast vs safe path.
+- Paths in [brackets]; (OVERWRITE) above full files.
+- One Apply-All Bash (set -euo pipefail) then Verify + Undo; end with “Bundle & apply now?”
+- Triggers: CONSOLIDATE / REWIND FROM HERE / FULL FILE / ROLLBACK / STATUS / DIAGNOSE.
+- If “Yes” to extras → single consolidated Apply-All; old snippets = new baseline.
+- Call out tokens (GitHub/Replit Secrets). Warn before deletes; offer backup.
+- Replit fallback: edit in UI, then chmod + run.
+- Context: control repo SmartFlowSite; linked repos SFSAPDemoCRM/SFSDataQueryEngine/SocialScaleBoosterAIbot/sfs-marketing-and-growth.
+- Reusable workflow: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
+- Secrets: SFS_PAT, REPLIT_TOKEN (opt), SFS_SYNC_URL (opt)

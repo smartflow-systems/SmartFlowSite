@@ -268,6 +268,92 @@ async function setupLeadForm() {
   });
 }
 
+// Status Panel Functions (dev/admin only)
+async function loadStatus() {
+  // Check proper environment gating via config
+  const config = await getConfig();
+  const showPanel = config.showStatusPanel === true;
+  
+  if (!showPanel) return;
+  
+  const panel = document.getElementById('status-panel');
+  const statusData = document.getElementById('status-data');
+  
+  if (!panel || !statusData) return;
+  
+  // Show the panel
+  panel.style.display = 'block';
+  
+  try {
+    // Call /status API (uses dev proxy or VITE_API_BASE)
+    const response = await fetch('/status', { 
+      method: 'GET',
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      
+      // Clear existing content safely
+      statusData.textContent = '';
+      
+      // Create success status using safe DOM creation
+      const okDiv = document.createElement('div');
+      okDiv.className = 'status-ok';
+      okDiv.textContent = '✓ Backend Connected';
+      statusData.appendChild(okDiv);
+      
+      // Add details safely with textContent
+      const details = [
+        ['Service', data.service || 'Unknown'],
+        ['Backend', data.backend || 'Unknown'], 
+        ['Status', data.data_endpoint || 'Active'],
+        ['Updated', new Date().toLocaleTimeString()]
+      ];
+      
+      details.forEach(([label, value]) => {
+        const detail = document.createElement('div');
+        detail.className = 'status-detail';
+        detail.textContent = `${t(label)}: ${t(value)}`;
+        statusData.appendChild(detail);
+      });
+      
+    } else {
+      throw new Error(`HTTP ${response.status}`);
+    }
+  } catch (error) {
+    // Clear existing content safely
+    statusData.textContent = '';
+    
+    // Create error status using safe DOM creation
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'status-error';
+    errorDiv.textContent = '✗ Backend Unavailable';
+    statusData.appendChild(errorDiv);
+    
+    // Add error details safely
+    const errorDetails = [
+      ['Error', error.message],
+      ['Note', 'Using dev proxy or check VITE_API_BASE'],
+      ['Checked', new Date().toLocaleTimeString()]
+    ];
+    
+    errorDetails.forEach(([label, value]) => {
+      const detail = document.createElement('div');
+      detail.className = 'status-detail';
+      detail.textContent = `${t(label)}: ${t(value)}`;
+      statusData.appendChild(detail);
+    });
+  }
+}
+
+function toggleStatusPanel() {
+  const panel = document.getElementById('status-panel');
+  if (panel) {
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
   // Set current year in footer
@@ -278,7 +364,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([
     loadLatest(),
     loadPricingCards(),
-    setupLeadForm()
+    setupLeadForm(),
+    loadStatus() // Add status panel loading
   ]);
   
   // Start testimonials rotation

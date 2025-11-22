@@ -1,0 +1,140 @@
+{
+  "name": "sfs-replit-smoke",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sfs:diag": "bash scripts/sfs-diagnose.sh",
+    "sfs:smoke": "node src/sfs-smo
+
+#!/usr/bin/env bash
+# bootstrap_sfs.sh — create scripts, set perms, and run the safe wrapper
+set -euo pipefail
+
+mkdir -p scripts src
+
+# --- scripts/sfs-safe-run.sh ---
+cat > scripts/sfs-safe-run.sh <<'SH'
+#!/usr/bin/env bash
+# Purpose: run any SFS script with crash-proof debugging and logging
+set -euo pipefail
+TARGET="${1:-scripts/sfs-quick-fix.sh}"
+echo "== Bash =="; bash --version | head -n1 || true; echo
+[ -f "$TARGET" ] || { echo "❌ File not found: $TARGET"; exit 2; }
+chmod +x "$TARGET" || true
+# Fix CRLF
+if file "$TARGET" | grep -qi crlf; then perl -pi -e 's/\r\n/\n/g' "$TARGET"; fi
+# Ensure bash shebang
+head -n1 "$TARGET" | grep -qE '^#!/usr/bin/env (ba)?sh' || { (echo '#!/usr/bin/env bash'; cat "$TARGET") > "$TARGET.tmp" && mv "$TARGET.tmp" "$TARGET"; chmod +x "$TARGET"; }
+# Trap crashes
+set -o errtrace
+trap 'c=$?; echo; echo "💥 Crash captured (exit $c)"; echo "Last: $BASH_COMMAND"; env | sed -E "s/(SFS_(TOKEN|API_KEY))=.*/\1=***masked***/"; exit $c' ERR
+# Env snapshot
+mask(){ s="$1"; n=${#s}; [ $n -le 8 ] && printf "***" || printf "%s...%s" "${s:0:6}" "${s: -4}"; }
+echo "== Env =="; echo "SFS_API_URL=${SFS_API_URL:-<unset>}"; [ -n "${SFS_TOKEN:-}" ] && echo "SFS_TOKEN=$(mask "$SFS_TOKEN")" || echo "SFS_TOKEN=<unset>"; [ -n "${SFS_API_KEY:-}" ] && echo "SFS_API_KEY=$(mask "$SFS_API_KEY")" || echo "SFS_API_KEY=<unset>"; echo
+LOG=.sfs_last_run.log
+echo "== Running: $TARGET =="; (set -x; "$TARGET") 2>&1 | tee "$LOG"; code=${PIPESTATUS[0]}; echo; echo "== Done (exit $code). Log: $LOG =="; exit "$code"
+SH
+
+# --- scripts/sfs-quick-fix.sh ---
+cat > scripts/sfs-quick-fix.sh <<'SH'
+#!/usr/bin/env bash
+# Purpose: fast sanity (internet, placeholder URL), DNS, health, auth
+set -euo pipefail
+echo "== Network sanity =="; curl -sS https://example.com >/dev/null && echo "OK: Internet reachable." || { echo "❌ No internet from Replit container."; exit 1; }
+echo "== Current env =="; echo "SFS_API_URL=${SFS_API_URL:-<unset>}"; echo "SFS_TOKEN set? $([ -n "${SFS_TOKEN:-}" ] && echo yes || echo no)"; echo "SFS_API_KEY set? $([ -n "${SFS_API_KEY:-}" ] && echo yes || echo no)"
+if [ -z "${SFS_API_URL:-}" ] || [ "${SFS_API_URL:-}" = "https://API.SMARTFLOW.SYSTEMS" ]; then
+  cat <<'MSG'
+❌ Placeholder/empty SFS_API_URL.
+Fix: Replit → 🔐 Secrets → set SFS_API_URL to your REAL tenant/region endpoint (from SFS console),
+and add SFS_TOKEN (Bearer) OR SFS_API_KEY (x-api-key).
+Examples (illustrative):
+  https://eu.smartflow.systems
+  https://us.smartflow.systems
+  https://<tenant>.smartflow.systems
+MSG
+  exit 2
+fi
+HOST=$(echo "$SFS_API_URL" | sed -E 's#^https?://([^/]+).*$#\1#')
+echo "== DNS check for $HOST =="; (getent ahosts "$HOST" || true); (nslookup "$HOST" || true)
+echo "== Health probe =="; for p in /v1/health /health /ping /v1/ping; do code=$(curl -sS -o /tmp/h -w "%{http_code}" "${SFS_API_URL%/}${p}" || true); echo "${SFS_API_URL%/}${p} → HTTP $code"; [ "$code" != "000" ] && break; done
+if [ -n "${SFS_TOKEN:-}" ] || [ -n "${SFS_API_KEY:-}" ]; then
+  echo "== Auth probe =="; H=(); [ -n "${SFS_TOKEN:-}" ] && H+=(-H "Authorization: Bearer ${SFS_TOKEN}"); [ -n "${SFS_API_KEY:-}" ] && H+=(-H "x-api-key: ${SFS_API_KEY}")
+  for p in /v1/me /v1/projects /me; do code=$(curl -sS -o /tmp/a -w "%{http_code}" "${H[@]}" "${SFS_API_URL%/}${p}" || true); echo "Auth ${p} → HTTP $code"; [ "$code" -ge 200 ] && [ "$code" -lt 300 ] && { echo "✅ Auth looks good."; exit 0; }; done
+  echo "❌ Auth failed. Check header type (Bearer vs x-api-key) and scopes."; exit 3
+else
+  echo "ℹ️ Add SFS_TOKEN or SFS_API_KEY in 🔐 Secrets and re-run."; exit 4
+fi
+SH
+
+# --- scripts/sfs-diagnose.sh ---
+cat > scripts/sfs-diagnose.sh <<'SH'
+#!/usr/bin/env bash
+# Purpose: deep diag of env, JWT expiry, health, and auth
+set -euo pipefail
+: "${SFS_API_URL:=${SFS_API_URL:-https://API.SMARTFLOW.SYSTEMS}}"
+: "${SFS_TOKEN:=${SFS_TOKEN:-}}"
+: "${SFS_API_KEY:=${SFS_API_KEY:-}}"
+: "${SFS_ORG_ID:=${SFS_ORG_ID:-}}"
+: "${SFS_PROJECT_ID:=${SFS_PROJECT_ID:-}}"
+: "${SFS_INSECURE:=${SFS_INSECURE:-false}}"
+: "${SFS_TIMEOUT:=${SFS_TIMEOUT:-15}}"
+HEALTH_PATHS=("/v1/health" "/health" "/ping" "/v1/ping")
+AUTH_PATHS=("/v1/me" "/v1/projects" "/v1/account" "/me")
+need(){ command -v "$1" >/dev/null 2>&1 || { echo "Missing '$1'."; exit 1; }; }
+need curl
+HAS_JQ=0; command -v jq >/dev/null 2>&1 && HAS_JQ=1
+HAS_OSSL=0; command -v openssl >/dev/null 2>&1 && HAS_OSSL=1
+mask(){ s="$1"; n=${#s}; [ $n -le 8 ] && printf "***masked***" || printf "%s...%s" "${s:0:6}" "${s: -4}"; }
+echo "=== SFS Diagnose ==="; echo "API URL       : ${SFS_API_URL}"; echo "ORG / PROJECT : ${SFS_ORG_ID:-<unset>} / ${SFS_PROJECT_ID:-<unset>}"; echo "TOKEN present : $([ -n "${SFS_TOKEN}" ] && echo yes || echo no)"; [ -n "${SFS_TOKEN:-}" ] && echo "TOKEN (masked): $(mask "$SFS_TOKEN")"; echo "API_KEY present: $([ -n "${SFS_API_KEY:-}" ] && echo yes || echo no)"; [ -n "${SFS_API_KEY:-}" ] && echo "API_KEY (masked): $(mask "$SFS_API_KEY")"; echo "TLS insecure  : ${SFS_INSECURE}"
+if [ "${SFS_API_URL:-}" = "https://API.SMARTFLOW.SYSTEMS" ]; then echo "❌ Placeholder SFS_API_URL. Set real endpoint in 🔐 Secrets."; exit 2; fi
+if [ -n "${SFS_TOKEN:-}" ] && [ $HAS_OSSL -eq 1 ] && [[ "$SFS_TOKEN" == *.*.* ]]; then
+  echo "---- JWT details ----"
+  jwt_part(){ p="$1"; m=$(( ${#p} % 4 )); [ $m -gt 0 ] && p="${p}$(printf '=%.0s' $(seq 1 $((4-m))))"; echo "$p" | tr '_-' '/+' | openssl base64 -d -A 2>/dev/null || true; }
+  IFS='.' read -r H P _ <<< "$SFS_TOKEN"; echo "Header : $(jwt_part "$H")"; echo "Payload: $(jwt_part "$P")"
+  if [ $HAS_JQ -eq 1 ]; then EXP=$(jwt_part "$P" | jq -r 'try .exp // empty'); NOW=$(date +%s); [ -n "${EXP:-}" ] && { [ "$NOW" -ge "$EXP" ] && echo "⚠️  Token appears EXPIRED (exp=$EXP, now=$NOW)" || echo "⏳ Token time left: $((EXP-NOW))s (~$(( (EXP-NOW)/3600 ))h)"; }; fi
+fi
+CURL_FLAGS=(--silent --show-error --max-time "${SFS_TIMEOUT}" --connect-timeout 5 --location); [ "${SFS_INSECURE}" = "true" ] && CURL_FLAGS+=(-k)
+echo "---- Probing health ----"
+ok=false; for p in "${HEALTH_PATHS[@]}"; do URL="${SFS_API_URL%/}${p}"; code=$(curl "${CURL_FLAGS[@]}" -o /tmp/sfs_health.json -w "%{http_code}" "$URL" || true); echo "Tried ${URL} → HTTP $code"; [ "$code" != "000" ] && ok=true && break; done; $ok || echo "⚠️ No healthy response."
+echo; echo "---- Probing authenticated endpoint ----"
+for p in "${AUTH_PATHS[@]}"; do URL="${SFS_API_URL%/}${p}"; if [ -n "${SFS_TOKEN:-}" ]; then code=$(curl "${CURL_FLAGS[@]}" -H "Authorization: Bearer ${SFS_TOKEN}" -o /tmp/sfs_auth.json -w "%{http_code}" "$URL" || true); echo "Bearer ${URL} → HTTP $code"; [ "$code" -ge 200 ] && [ "$code" -lt 300 ] && { [ $HAS_JQ -eq 1 ] && jq -r '.' </tmp/sfs_auth.json || head -c 300 /tmp/sfs_auth.json; echo; echo "✅ Auth OK — token works."; exit 0; }; fi; if [ -n "${SFS_API_KEY:-}" ]; then code=$(curl "${CURL_FLAGS[@]}" -H "x-api-key: ${SFS_API_KEY}" -o /tmp/sfs_auth.json -w "%{http_code}" "$URL" || true); echo "x-api-key ${URL} → HTTP $code"; [ "$code" -ge 200 ] && [ "$code" -lt 300 ] && { [ $HAS_JQ -eq 1 ] && jq -r '.' </tmp/sfs_auth.json || head -c 300 /tmp/sfs_auth.json; echo; echo "✅ Auth OK — API key works."; exit 0; }; fi; done
+echo "❌ Auth failed — bad/expired token, wrong header, or missing scopes."; exit 2
+SH
+
+# --- .env.example (helpful hint) ---
+cat > .env.example <<'ENV'
+# Copy into Replit 🔐 Secrets — these are EXAMPLES
+SFS_API_URL=https://<your-tenant-or-region>.smartflow.systems
+SFS_TOKEN=REPLACE_WITH_JWT_OR_OPAQUE_TOKEN
+# Or, if your project uses API keys instead:
+# SFS_API_KEY=REPLACE_WITH_API_KEY
+SFS_ORG_ID=YOUR_ORG_ID
+SFS_PROJECT_ID=YOUR_PROJECT_ID
+SFS_TIMEOUT=15
+SFS_INSECURE=false
+ENV
+
+# --- src smoke test (unchanged) ---
+cat > src/sfs-smoke.js <<'JS'
+const apiUrl = (process.env.SFS_API_URL || "").replace(/\/+$/,"");
+const token  = process.env.SFS_TOKEN || "";
+const apiKey = process.env.SFS_API_KEY || "";
+if (!apiUrl) { console.error("Missing SFS_API_URL"); process.exit(1); }
+if (!token && !apiKey) { console.error("Set SFS_TOKEN or SFS_API_KEY in Replit Secrets."); process.exit(1); }
+const opts = { method: "GET", headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}), ...(apiKey ? { "x-api-key": apiKey } : {}) } };
+const candidates = ["/v1/me","/v1/projects","/me"];
+(async () => { for (const p of candidates) { const url = apiUrl + p; try { const res = await fetch(url, opts); console.log(`GET ${url} → ${res.status}`); const t = await res.text(); console.log(t.slice(0,500)); if (res.ok) process.exit(0); } catch(e){ console.error(`Network error for ${url}:`, e.message); } } process.exit(2); })();
+JS
+
+# --- package.json (basic scripts) ---
+cat > package.json <<'JSON'
+{
+  "name": "sfs-replit-smoke",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sfs:diag": "bash scripts/sfs-diagnose.sh",
+    "sfs:smoke": "node src/sfs-smoke.js"
+  },
+  "dependencies": {}
+}
