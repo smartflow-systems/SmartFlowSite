@@ -11,6 +11,28 @@ class AgentRegistry {
   }
 
   /**
+   * Sanitize agent ID to prevent path traversal attacks
+   */
+  sanitizeAgentId(agentId) {
+    const safe = agentId.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return safe.replace(/^\.+/, '_');
+  }
+
+  /**
+   * Get safe path for agent manifest
+   */
+  getSafePath(agentId) {
+    const sanitized = this.sanitizeAgentId(agentId);
+    const safePath = path.join(this.manifestDir, `${sanitized}.json`);
+    const resolvedPath = path.resolve(safePath);
+    const resolvedBase = path.resolve(this.manifestDir);
+    if (!resolvedPath.startsWith(resolvedBase)) {
+      throw new Error('Invalid agent ID: path traversal detected');
+    }
+    return safePath;
+  }
+
+  /**
    * Initialize registry by loading all agent manifests
    */
   async initialize() {
@@ -67,7 +89,7 @@ class AgentRegistry {
     this.validateManifest(manifest);
 
     // Save manifest to disk
-    const manifestPath = path.join(this.manifestDir, `${manifest.agent_id}.json`);
+    const manifestPath = this.getSafePath(manifest.agent_id);
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 
     // Add to registry
@@ -198,7 +220,7 @@ class AgentRegistry {
     this.agents.delete(agentId);
 
     // Remove manifest file
-    const manifestPath = path.join(this.manifestDir, `${agentId}.json`);
+    const manifestPath = this.getSafePath(agentId);
     try {
       await fs.unlink(manifestPath);
     } catch (error) {

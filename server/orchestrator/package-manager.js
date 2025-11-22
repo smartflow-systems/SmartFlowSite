@@ -13,6 +13,28 @@ class PackageManager {
   }
 
   /**
+   * Sanitize package name to prevent path traversal attacks
+   */
+  sanitizePackageName(packageName) {
+    const safe = packageName.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return safe.replace(/^\.+/, '_');
+  }
+
+  /**
+   * Get safe path for package
+   */
+  getSafePath(packageName) {
+    const sanitized = this.sanitizePackageName(packageName);
+    const safePath = path.join(this.packageDir, `${sanitized}.json`);
+    const resolvedPath = path.resolve(safePath);
+    const resolvedBase = path.resolve(this.packageDir);
+    if (!resolvedPath.startsWith(resolvedBase)) {
+      throw new Error('Invalid package name: path traversal detected');
+    }
+    return safePath;
+  }
+
+  /**
    * Initialize package manager
    */
   async initialize() {
@@ -77,7 +99,7 @@ class PackageManager {
     this.validatePackage(pkg);
 
     // Save package to disk
-    const packagePath = path.join(this.packageDir, `${pkg.package_id}.json`);
+    const packagePath = this.getSafePath(pkg.package_id);
     await fs.writeFile(packagePath, JSON.stringify(pkg, null, 2));
 
     // Add to registry
@@ -288,7 +310,7 @@ class PackageManager {
     this.packages.delete(packageId);
 
     // Remove package file
-    const packagePath = path.join(this.packageDir, `${packageId}.json`);
+    const packagePath = this.getSafePath(packageId);
     try {
       await fs.unlink(packagePath);
     } catch (error) {
