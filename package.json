@@ -2,6 +2,7 @@
   "name": "smartflow-store-api",
   "version": "0.1.0",
   "description": "Smartflow Store MVP API with Multi-Agent Orchestration",
+  "type": "module",
   "main": "server.js",
   "private": true,
   "scripts": {
