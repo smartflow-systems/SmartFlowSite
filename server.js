@@ -2,12 +2,41 @@ import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
+import rateLimit from "express-rate-limit";
 
 const app = express();
+
+// Rate limiting configuration
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const leadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // Limit each IP to 5 lead submissions per hour
+  message: "Too many lead submissions, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const checkoutLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 checkout requests per 15 minutes
+  message: "Too many checkout requests, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Apply rate limiting to all API routes
+app.use("/api/", apiLimiter);
 
 // Load config once at startup
 const config = JSON.parse(readFileSync("./public/site.config.json", "utf-8"));
@@ -64,7 +93,7 @@ app.get("/api/health", (_req, res) => res.json({
 }));
 
 // API: Submit Lead
-app.post("/api/leads", (req, res) => {
+app.post("/api/leads", leadLimiter, (req, res) => {
   try {
     const { firstName, lastName, email, company, phone, source } = req.body;
 
@@ -120,7 +149,7 @@ app.post("/api/leads", (req, res) => {
       throw new Error("Failed to save lead");
     }
 
-    console.log(`✓ New lead captured: ${email}`);
+    console.log(`✓ New lead captured: ${sanitizeForLog(email)}`);
 
     // Return success
     res.status(201).json({
@@ -157,7 +186,7 @@ app.get("/api/leads", (_req, res) => {
 });
 
 // API: Stripe Checkout (placeholder - requires Stripe configuration)
-app.post("/api/stripe/checkout", async (req, res) => {
+app.post("/api/stripe/checkout", checkoutLimiter, async (req, res) => {
   try {
     const { planId } = req.body;
 
