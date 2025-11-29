@@ -1,10 +1,10 @@
 :root{
-  --bg:#0b0b0b;           /* Deep black/brown base */
+  --bg:#0D0D0D;           /* Deep black/brown base */
   --panel:#14110f;        /* Espresso brown */
-  --gold:#d4af37;         /* Shiny gold */
+  --gold:#FFD700;         /* Shiny gold */
   --text:#e9e6df;         /* Warm parchment */
   --muted:#9a8f80;        /* Soft taupe */
-  --accent:#d4af37;
+  --accent:#FFD700;
   --radius:14px;
   --shadow:0 10px 30px rgba(0,0,0,.45);
 }

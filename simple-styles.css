@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'SF Pro Display', 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0b0b0b;
+  background: #0D0D0D;
   color: #f5f5f5;
   line-height: 1.6;
 }
@@ -12,7 +12,7 @@ body {
   align-items: center;
   background: #1a1a1a;
   padding: 15px 30px;
-  border-bottom: 3px solid #D4AF37;
+  border-bottom: 3px solid #FFD700;
   box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .navbar a {
-  color: #D4AF37;
+  color: #FFD700;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
@@ -45,7 +45,7 @@ body {
 .hero {
   text-align: center;
   padding: 120px 30px;
-  background: linear-gradient(135deg, #0b0b0b, #1a1a1a, #2d1f1a);
+  background: linear-gradient(135deg, #0D0D0D, #1a1a1a, #2d1f1a);
   background-size: 400% 400%;
   animation: marbledTexture 8s ease-in-out infinite;
 }
@@ -58,7 +58,7 @@ body {
 
 .hero h1 {
   font-size: 4rem;
-  background: linear-gradient(135deg, #D4AF37, #F4E4BC, #B8941F);
+  background: linear-gradient(135deg, #FFD700, #F4E4BC, #B8941F);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -78,14 +78,14 @@ body {
   display: inline-block;
   margin-top: 20px;
   padding: 18px 40px;
-  background: linear-gradient(135deg, #D4AF37, #F4E4BC, #B8941F);
-  color: #0b0b0b;
+  background: linear-gradient(135deg, #FFD700, #F4E4BC, #B8941F);
+  color: #0D0D0D;
   font-weight: 700;
   text-decoration: none;
   border-radius: 8px;
   font-size: 1.1rem;
   transition: all 0.3s ease;
-  border: 2px solid #D4AF37;
+  border: 2px solid #FFD700;
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
@@ -103,7 +103,7 @@ body {
 
 .projects h2, .testimonials h2, .pricing h2 {
   font-size: 2.5rem;
-  color: #D4AF37;
+  color: #FFD700;
   margin-bottom: 50px;
   font-weight: 600;
 }
@@ -119,7 +119,7 @@ body {
   padding: 30px;
   border: 2px solid rgba(212, 175, 55, 0.3);
   background: rgba(45, 31, 26, 0.5);
-  color: #D4AF37;
+  color: #FFD700;
   font-weight: 600;
   border-radius: 12px;
   font-size: 1.2rem;
@@ -129,7 +129,7 @@ body {
 
 .card:hover {
   transform: translateY(-5px);
-  border-color: #D4AF37;
+  border-color: #FFD700;
   box-shadow: 
     0 0 40px rgba(212, 175, 55, 0.7),
     0 0 20px rgba(255, 221, 0, 0.5),
@@ -172,7 +172,7 @@ body {
 }
 
 .testimonial cite {
-  color: #D4AF37;
+  color: #FFD700;
   font-weight: 600;
   font-size: 1.1rem;
 }
@@ -195,7 +195,7 @@ body {
 }
 
 .plan.featured {
-  border: 3px solid #D4AF37;
+  border: 3px solid #FFD700;
   transform: scale(1.05);
   position: relative;
 }
@@ -206,8 +206,8 @@ body {
   top: -15px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #D4AF37, #F4E4BC, #B8941F);
-  color: #0b0b0b;
+  background: linear-gradient(135deg, #FFD700, #F4E4BC, #B8941F);
+  color: #0D0D0D;
   padding: 8px 20px;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -216,7 +216,7 @@ body {
 
 .plan:hover {
   transform: translateY(-5px);
-  border-color: #D4AF37;
+  border-color: #FFD700;
   box-shadow: 
     0 0 40px rgba(212, 175, 55, 0.7),
     0 0 20px rgba(255, 221, 0, 0.5),
@@ -229,7 +229,7 @@ body {
 }
 
 .plan h3 {
-  color: #D4AF37;
+  color: #FFD700;
   font-size: 1.8rem;
   margin-bottom: 15px;
 }
@@ -250,7 +250,7 @@ footer {
   background: rgba(11, 11, 11, 0.95);
   text-align: center;
   padding: 30px;
-  border-top: 3px solid #D4AF37;
+  border-top: 3px solid #FFD700;
   color: #8B7355;
   margin-top: 60px;
 }

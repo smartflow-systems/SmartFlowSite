@@ -15,11 +15,11 @@ class CircuitBoardAnimation {
         // Colors matching the SmartFlow theme - enhanced brightness
         this.colors = {
             background: 'transparent',  // Let page background show through
-            circuit: '#d4af37',
+            circuit: '#FFD700',
             circuitDim: 'rgba(212, 175, 55, 0.6)',  // More visible
             pulse: '#ffdd00',  // Brighter gold
             pulseGlow: 'rgba(255, 221, 0, 0.9)',   // Brighter glow
-            node: '#d4af37',
+            node: '#FFD700',
             star: '#ffdd00',   // Brighter gold
             cricket: '#e9e6df'
         };
