@@ -213,9 +213,8 @@ img{max-width:100%;display:block}
   overflow:hidden;
   cursor:pointer;
 }
-.project-card h3{margin:0 0 6px 0;font-size:1.05rem}
-.project-card p{margin:0 0 8px 0;font-size:.85rem;opacity:.9}
-.project-card .description{font-size:.8rem;line-height:1.4;margin-bottom:8px}
+.project-card h3{margin:0 0 6px 0;font-size:1.05rem;font-weight:600}
+.project-card p{margin:0 0 8px 0;font-size:.8rem;opacity:.85;line-height:1.35}
 .project-card::before{
   content:'';
   position:absolute;

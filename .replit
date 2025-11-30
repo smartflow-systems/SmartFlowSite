@@ -14,10 +14,6 @@ externalPort = 3000
 localPort = 42137
 externalPort = 3002
 
-[[ports]]
-localPort = 43893
-externalPort = 3001
-
 [workflows]
 runButton = "Run Node Server"
 
