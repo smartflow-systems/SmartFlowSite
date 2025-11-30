@@ -529,15 +529,28 @@ class TypingAnimation {
 const showAchievementBadge = (title, description) => {
   const badge = document.createElement('div');
   badge.className = 'achievement-badge';
-  badge.innerHTML = `
-    <div class="achievement-content">
-      <div class="achievement-icon">🏆</div>
-      <div class="achievement-text">
-        <strong>${title}</strong>
-        <p>${description}</p>
-      </div>
-    </div>
-  `;
+  
+  const content = document.createElement('div');
+  content.className = 'achievement-content';
+  
+  const icon = document.createElement('div');
+  icon.className = 'achievement-icon';
+  icon.textContent = '🏆';
+  
+  const textDiv = document.createElement('div');
+  textDiv.className = 'achievement-text';
+  
+  const titleEl = document.createElement('strong');
+  titleEl.textContent = title;
+  
+  const descEl = document.createElement('p');
+  descEl.textContent = description;
+  
+  textDiv.appendChild(titleEl);
+  textDiv.appendChild(descEl);
+  content.appendChild(icon);
+  content.appendChild(textDiv);
+  badge.appendChild(content);
 
   document.body.appendChild(badge);
   setTimeout(() => badge.classList.add('show'), 100);
