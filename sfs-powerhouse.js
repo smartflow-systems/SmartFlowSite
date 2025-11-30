@@ -75,16 +75,37 @@ const showSocialProof = () => {
 
   const popup = document.createElement('div');
   popup.className = 'social-proof-popup';
-  popup.innerHTML = `
-    <div class="social-proof-content">
-      <div class="social-proof-icon">✓</div>
-      <div class="social-proof-text">
-        <strong>${notification.name}</strong> from ${notification.location}<br>
-        <span>${notification.action}</span>
-      </div>
-      <button class="social-proof-close" onclick="this.parentElement.parentElement.remove()">×</button>
-    </div>
-  `;
+
+  const content = document.createElement('div');
+  content.className = 'social-proof-content';
+
+  const icon = document.createElement('div');
+  icon.className = 'social-proof-icon';
+  icon.textContent = '✓';
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'social-proof-text';
+
+  const nameStrong = document.createElement('strong');
+  nameStrong.textContent = notification.name;
+  textDiv.appendChild(nameStrong);
+
+  textDiv.appendChild(document.createTextNode(' from ' + notification.location));
+  textDiv.appendChild(document.createElement('br'));
+
+  const actionSpan = document.createElement('span');
+  actionSpan.textContent = notification.action;
+  textDiv.appendChild(actionSpan);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'social-proof-close';
+  closeBtn.textContent = '×';
+  closeBtn.addEventListener('click', () => popup.remove());
+
+  content.appendChild(icon);
+  content.appendChild(textDiv);
+  content.appendChild(closeBtn);
+  popup.appendChild(content);
 
   document.body.appendChild(popup);
 
