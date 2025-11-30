@@ -12,7 +12,7 @@ async function loadProjects() {
     projects.forEach(p => {
       const card = document.createElement('a');
       card.className = 'project-card';
-      card.href = p.link;
+      card.href = p.demoUrl || '#';
       card.target = '_blank';
       card.rel = 'noopener';
       card.title = p.description;
