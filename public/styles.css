@@ -19,6 +19,62 @@ img{max-width:100%;display:block}
 .section-title{font-size:1.9rem;margin:0 0 18px 0}
 .center{text-align:center}
 
+/* hamburger menu sidebar */
+.menu-sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  width:280px;
+  background:linear-gradient(180deg, rgba(11,11,11,.95), rgba(20,17,15,.85));
+  backdrop-filter:blur(12px);
+  border-right:1px solid rgba(212,175,55,.3);
+  box-shadow:8px 0 32px rgba(0,0,0,.6);
+  z-index:100;
+  transform:translateX(-100%);
+  transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding:60px 0 40px 0;
+  overflow-y:auto;
+}
+.menu-sidebar.open{
+  transform:translateX(0);
+}
+.menu-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  background:transparent;
+  border:none;
+  color:var(--gold);
+  font-size:2rem;
+  cursor:pointer;
+  padding:4px 8px;
+  transition:all 0.2s;
+}
+.menu-close:hover{
+  transform:scale(1.2);
+}
+.menu-links{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.menu-links a{
+  display:block;
+  padding:16px 24px;
+  color:var(--text);
+  border-left:3px solid transparent;
+  transition:all 0.2s;
+  font-size:1.05rem;
+  text-decoration:none;
+}
+.menu-links a:hover{
+  background:rgba(212,175,55,.1);
+  border-left-color:var(--gold);
+  color:var(--gold);
+  padding-left:32px;
+}
+
 /* nav - ultra-realistic glassmorphism */
 .nav{
   position:sticky;
@@ -39,8 +95,38 @@ img{max-width:100%;display:block}
     inset 0 1px 0 rgba(255,255,255,.2),
     inset 0 -1px 0 rgba(0,0,0,.1);
 }
-.brand{font-weight:700;letter-spacing:.4px}
-.links a{margin-left:18px}
+.brand{font-weight:700;letter-spacing:.4px;flex:1}
+.menu-btn{
+  background:transparent;
+  border:none;
+  color:var(--gold);
+  font-size:1.8rem;
+  cursor:pointer;
+  padding:6px 10px;
+  transition:all 0.2s;
+  margin-right:14px;
+}
+.menu-btn:hover{
+  transform:scale(1.1);
+}
+
+/* overlay when menu is open */
+.menu-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,.6);
+  z-index:99;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s;
+}
+.menu-overlay.open{
+  opacity:1;
+  pointer-events:auto;
+}
 
 /* hero */
 .hero{display:grid;place-items:center;min-height:72vh;background:

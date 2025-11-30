@@ -71,26 +71,31 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (Nov 30, 2025)
 
-### Projects Expansion
-- ✅ Expanded from 6 hardcoded cards to 30 dynamic cards
+### Projects & Navigation
+- ✅ Expanded from 6 hardcoded cards to **30 dynamic cards**
 - ✅ Created `projects.js` for dynamic card rendering from JSON
-- ✅ Updated `systems.json` with 30 complete SFS apps with descriptions, tags, and links
+- ✅ Updated `systems.json` with 30 complete SFS apps (descriptions, tags, links)
+- ✅ **Hamburger menu** on left side with all navigation links
+- ✅ Menu includes: Projects, Latest, Pricing, Contact, GitHub, Book Demo
+- ✅ Smooth slide-in animation with overlay
 - ✅ Optimized CSS grid for smaller cards (180px minmax) - displays 5-7 cards per row
-- ✅ Cleaned up merge conflicts in `index.html` (removed all conflict markers)
-- ✅ Added "See the 30 Systems" copy to hero section
+- ✅ Cleaned up merge conflicts in `index.html`
+- ✅ Added "See the 30 Systems" to hero section
 
 ### Code Quality
 - Removed hardcoded project cards from HTML
 - Dynamic card generation reduces HTML file size by 50%
 - Scalable system for adding more apps in future
+- Added `menu.js` for hamburger menu functionality
 
 ## File Structure
 
 ```
 public/
 ├── index.html           # Main entry point
-├── styles.css           # All styling (grid, cards, animations)
+├── styles.css           # All styling (grid, cards, animations, menu)
 ├── projects.js          # Project card renderer (loads from JSON)
+├── menu.js              # Hamburger menu toggle & sidebar
 ├── app.js               # Legacy app initialization
 ├── data/
 │   ├── systems.json     # 30 SFS app definitions

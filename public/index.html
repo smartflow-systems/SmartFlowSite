@@ -11,16 +11,25 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <!-- Hamburger Menu Sidebar -->
+  <div id="menu-sidebar" class="menu-sidebar">
+    <button id="menu-close" class="menu-close">&times;</button>
+    <nav class="menu-links">
+      <a href="#projects">Projects</a>
+      <a href="#latest">Latest Updates</a>
+      <a href="#testimonials">Social Proof</a>
+      <a href="#pricing">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://github.com/smartflow-systems" target="_blank">GitHub</a>
+      <a href="https://calendly.com/smartflow-systems" target="_blank">Book Demo</a>
+    </nav>
+  </div>
+
   <!-- Nav -->
   <header class="nav">
+    <button id="menu-btn" class="menu-btn">☰</button>
     <a class="brand" href="/">SmartFlow Systems</a>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="#latest">Latest</a>
-      <a href="#testimonials">Proof</a>
-      <a href="contact.html">Contact</a>
-      <a class="btn btn-gold" href="#pricing">Get Started</a>
-    </nav>
+    <a class="btn btn-gold" href="#pricing">Get Started</a>
   </header>
 
   <!-- Hero -->
@@ -112,6 +121,7 @@
 
   <script src="app.js" defer></script>
   <script src="projects.js" defer></script>
+  <script src="menu.js" defer></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
