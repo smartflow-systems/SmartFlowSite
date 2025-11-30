@@ -68,13 +68,14 @@
     button.id = 'sfs-hamburger-btn';
     button.className = 'sfs-hamburger-btn';
     button.setAttribute('aria-label', 'Toggle menu');
-    button.innerHTML = `
-      <span class="sfs-hamburger-icon">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
-    `;
+    
+    const hamburgerIcon = document.createElement('span');
+    hamburgerIcon.className = 'sfs-hamburger-icon';
+    for (let i = 0; i < 3; i++) {
+      const span = document.createElement('span');
+      hamburgerIcon.appendChild(span);
+    }
+    button.appendChild(hamburgerIcon);
 
     // Create overlay
     const overlay = document.createElement('div');
@@ -86,53 +87,97 @@
     sidebar.id = 'sfs-menu-sidebar';
     sidebar.className = 'sfs-menu-sidebar';
 
-    // Build sidebar content
-    let sidebarHTML = `
-      <div class="sfs-menu-header">
-        <div class="sfs-menu-logo">
-          <div class="sfs-logo-icon">⚡</div>
-          <div>
-            <div class="sfs-logo-text">SmartFlow Systems</div>
-            <div class="sfs-logo-subtitle">Build. Automate. Sell.</div>
-          </div>
-        </div>
-        <button class="sfs-menu-close" aria-label="Close menu">×</button>
-      </div>
-      <div class="sfs-menu-content">
-    `;
+    // Build sidebar content using safe DOM methods
+    // Header
+    const header = document.createElement('div');
+    header.className = 'sfs-menu-header';
+    
+    const logo = document.createElement('div');
+    logo.className = 'sfs-menu-logo';
+    
+    const logoIcon = document.createElement('div');
+    logoIcon.className = 'sfs-logo-icon';
+    logoIcon.textContent = '⚡';
+    
+    const logoTextWrapper = document.createElement('div');
+    const logoText = document.createElement('div');
+    logoText.className = 'sfs-logo-text';
+    logoText.textContent = 'SmartFlow Systems';
+    
+    const logoSubtitle = document.createElement('div');
+    logoSubtitle.className = 'sfs-logo-subtitle';
+    logoSubtitle.textContent = 'Build. Automate. Sell.';
+    
+    logoTextWrapper.appendChild(logoText);
+    logoTextWrapper.appendChild(logoSubtitle);
+    logo.appendChild(logoIcon);
+    logo.appendChild(logoTextWrapper);
+    
+    const closeButton = document.createElement('button');
+    closeButton.className = 'sfs-menu-close';
+    closeButton.setAttribute('aria-label', 'Close menu');
+    closeButton.textContent = '×';
+    
+    header.appendChild(logo);
+    header.appendChild(closeButton);
+    
+    // Content
+    const content = document.createElement('div');
+    content.className = 'sfs-menu-content';
 
     menuSections.forEach(section => {
-      sidebarHTML += `
-        <div class="sfs-menu-section">
-          <h3 class="sfs-menu-section-title">${section.title}</h3>
-          <ul class="sfs-menu-items">
-      `;
+      const sectionDiv = document.createElement('div');
+      sectionDiv.className = 'sfs-menu-section';
+      
+      const sectionTitle = document.createElement('h3');
+      sectionTitle.className = 'sfs-menu-section-title';
+      sectionTitle.textContent = section.title;
+      sectionDiv.appendChild(sectionTitle);
+      
+      const menuList = document.createElement('ul');
+      menuList.className = 'sfs-menu-items';
+      
       section.items.forEach(item => {
         const icon = icons[item.icon] || '•';
         const isActive = window.location.pathname === item.href || window.location.hash === item.href;
-        sidebarHTML += `
-          <li>
-            <a href="${item.href}" class="sfs-menu-item ${isActive ? 'active' : ''}">
-              <span class="sfs-menu-icon">${icon}</span>
-              <span class="sfs-menu-label">${item.label}</span>
-            </a>
-          </li>
-        `;
+        
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.className = 'sfs-menu-item';
+        if (isActive) {
+          link.classList.add('active');
+        }
+        
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'sfs-menu-icon';
+        iconSpan.textContent = icon;
+        
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'sfs-menu-label';
+        labelSpan.textContent = item.label;
+        
+        link.appendChild(iconSpan);
+        link.appendChild(labelSpan);
+        li.appendChild(link);
+        menuList.appendChild(li);
       });
-      sidebarHTML += `
-          </ul>
-        </div>
-      `;
+      
+      sectionDiv.appendChild(menuList);
+      content.appendChild(sectionDiv);
     });
+    
+    // Footer
+    const footer = document.createElement('div');
+    footer.className = 'sfs-menu-footer';
+    const footerText = document.createElement('p');
+    footerText.textContent = `© ${new Date().getFullYear()} SmartFlow Systems`;
+    footer.appendChild(footerText);
 
-    sidebarHTML += `
-      </div>
-      <div class="sfs-menu-footer">
-        <p>© ${new Date().getFullYear()} SmartFlow Systems</p>
-      </div>
-    `;
-
-    sidebar.innerHTML = sidebarHTML;
+    // Assemble sidebar
+    sidebar.appendChild(header);
+    sidebar.appendChild(content);
+    sidebar.appendChild(footer);
 
     // Append to body
     document.body.appendChild(button);
@@ -140,7 +185,6 @@
     document.body.appendChild(sidebar);
 
     // Event listeners
-    const closeButton = sidebar.querySelector('.sfs-menu-close');
 
     function openMenu() {
       sidebar.classList.add('open');
