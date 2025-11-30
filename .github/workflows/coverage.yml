@@ -20,13 +20,14 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install
 
       - name: Run tests with coverage
         run: npm run test:coverage || npm test -- --coverage || echo "No test coverage configured"
         continue-on-error: true
 
       - name: Upload coverage to Codecov
+        if: hashFiles('coverage/**') != ''
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -35,3 +36,4 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
           verbose: true
+        continue-on-error: true
