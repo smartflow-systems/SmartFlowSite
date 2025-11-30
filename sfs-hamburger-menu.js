@@ -182,8 +182,6 @@
     document.body.appendChild(sidebar);
 
     // Event listeners
-    const closeButton = sidebar.querySelector('.sfs-menu-close');
-
     function openMenu() {
       sidebar.classList.add('open');
       overlay.classList.add('open');
