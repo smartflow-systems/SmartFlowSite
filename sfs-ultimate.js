@@ -396,7 +396,8 @@ const initUrgencyTimer = () => {
     const distance = endOfDay - now;
 
     if (distance < 0) {
-      timer.innerHTML = '<span class="timer-expired">Offer ended - New offer tomorrow!</span>';
+      timer.textContent = 'Offer ended - New offer tomorrow!';
+      timer.className = 'timer-expired';
       return;
     }
 
@@ -404,13 +405,43 @@ const initUrgencyTimer = () => {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    timer.innerHTML = `
-      <span class="timer-unit"><strong>${hours}h</strong></span>
-      <span class="timer-sep">:</span>
-      <span class="timer-unit"><strong>${minutes}m</strong></span>
-      <span class="timer-sep">:</span>
-      <span class="timer-unit"><strong>${seconds}s</strong></span>
-    `;
+    // Clear existing content
+    timer.textContent = '';
+    timer.className = '';
+
+    // Create timer elements safely
+    const hourSpan = document.createElement('span');
+    hourSpan.className = 'timer-unit';
+    const hourStrong = document.createElement('strong');
+    hourStrong.textContent = `${hours}h`;
+    hourSpan.appendChild(hourStrong);
+
+    const sep1 = document.createElement('span');
+    sep1.className = 'timer-sep';
+    sep1.textContent = ':';
+
+    const minSpan = document.createElement('span');
+    minSpan.className = 'timer-unit';
+    const minStrong = document.createElement('strong');
+    minStrong.textContent = `${minutes}m`;
+    minSpan.appendChild(minStrong);
+
+    const sep2 = document.createElement('span');
+    sep2.className = 'timer-sep';
+    sep2.textContent = ':';
+
+    const secSpan = document.createElement('span');
+    secSpan.className = 'timer-unit';
+    const secStrong = document.createElement('strong');
+    secStrong.textContent = `${seconds}s`;
+    secSpan.appendChild(secStrong);
+
+    // Append all elements
+    timer.appendChild(hourSpan);
+    timer.appendChild(sep1);
+    timer.appendChild(minSpan);
+    timer.appendChild(sep2);
+    timer.appendChild(secSpan);
   };
 
   updateTimer();
