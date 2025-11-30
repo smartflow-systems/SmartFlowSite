@@ -9,8 +9,9 @@
   // Create and inject canvas
   const canvas = document.createElement('canvas');
   canvas.id = 'circuit-bg';
-  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.35;pointer-events:none';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.7;pointer-events:none;background:rgba(0,0,0,0.2)';
   document.body.insertBefore(canvas, document.body.firstChild);
+  console.log('🔌 Circuit animation canvas created and injected');
 
   const ctx = canvas.getContext('2d');
   let animationId;
@@ -221,9 +222,4 @@
   }
 
   window.addEventListener('resize', resizeCanvas);
-
-  // Disable on mobile for performance
-  if (window.innerWidth < 768) {
-    canvas.style.display = 'none';
-  }
 })();
