@@ -108,24 +108,28 @@ img{max-width:100%;display:block}
 }
 
 /* projects grid - glassmorphism cards */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .project-card{
   background:linear-gradient(145deg, rgba(212,175,55,.08), rgba(20,17,15,.75), rgba(11,11,11,.6));
   backdrop-filter:saturate(180%) blur(18px) brightness(1.05);
   border:1px solid rgba(212,175,55,.4);
   border-top:1px solid rgba(255,255,255,.2);
   border-left:1px solid rgba(255,255,255,.1);
-  padding:20px;
-  border-radius:20px;
+  padding:12px;
+  border-radius:12px;
   box-shadow:
-    0 12px 48px rgba(0,0,0,.35),
+    0 8px 32px rgba(0,0,0,.3),
     inset 0 1px 0 rgba(255,255,255,.15),
     inset 0 -1px 0 rgba(0,0,0,.1),
     0 0 0 1px rgba(212,175,55,.2);
   transition:all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   position:relative;
   overflow:hidden;
+  cursor:pointer;
 }
+.project-card h3{margin:0 0 6px 0;font-size:1.05rem}
+.project-card p{margin:0 0 8px 0;font-size:.85rem;opacity:.9}
+.project-card .description{font-size:.8rem;line-height:1.4;margin-bottom:8px}
 .project-card::before{
   content:'';
   position:absolute;
@@ -141,18 +145,13 @@ img{max-width:100%;display:block}
   opacity:1;
 }
 .project-card:hover{
-  background:linear-gradient(145deg, rgba(212,175,55,.12), rgba(20,17,15,.9), rgba(11,11,11,.75));
-  border-color:rgba(212,175,55,.6);
-  border-top-color:rgba(255,221,0,.3);
-  transform:translateY(-4px);
+  background:linear-gradient(145deg, rgba(212,175,55,.15), rgba(20,17,15,.9), rgba(11,11,11,.75));
+  border-color:rgba(212,175,55,.7);
+  transform:translateY(-3px) scale(1.02);
   box-shadow:
-    0 0 30px rgba(212,175,55,.4),
-    0 0 15px rgba(255,221,0,.3),
-    0 20px 60px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(255,255,255,.25),
-    inset 0 -1px 0 rgba(0,0,0,.15),
-    0 0 0 2px rgba(212,175,55,.3);
-  animation: sf-golden-pulse 2s ease-in-out infinite alternate;
+    0 0 20px rgba(212,175,55,.4),
+    0 12px 40px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.2);
 }
 .project-card h3{margin-top:0}
 .feature-list{margin:0 0 16px 18px}
