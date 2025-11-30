@@ -45,12 +45,27 @@
   }
   function renderRecentRuns() {
     const tbody = qs('[data-list="recentRuns"]');
-    tbody.innerHTML = state.recentRuns.map(row => `
-      <tr>
-        <td>${row.id}</td><td>${row.wf}</td>
-        <td><span class="status ${cls(row.status)}">${row.status}</span></td>
-        <td>${row.dur}</td><td>${row.start}</td>
-      </tr>`).join('');
+    tbody.textContent = '';
+    state.recentRuns.forEach(row => {
+      const tr = document.createElement('tr');
+      ['id', 'wf'].forEach(k => {
+        const td = document.createElement('td');
+        td.textContent = row[k];
+        tr.appendChild(td);
+      });
+      const statusTd = document.createElement('td');
+      const span = document.createElement('span');
+      span.className = `status ${cls(row.status)}`;
+      span.textContent = row.status;
+      statusTd.appendChild(span);
+      tr.appendChild(statusTd);
+      ['dur', 'start'].forEach(k => {
+        const td = document.createElement('td');
+        td.textContent = row[k];
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
   }
   function renderSpark() {
     const max = Math.max(...state.spark, 1);
@@ -67,11 +82,27 @@
   function renderWorkflows() {
     const statusFilter = qs('[data-filter="status"]').value;
     const tbody = qs('[data-list="workflows"]');
-    const rows = state.workflows
-      .filter(w => !statusFilter || w.status === statusFilter)
-      .map(w => `<tr><td>${w.name}</td><td>${w.version}</td><td>${w.status}</td><td>${w.owner}</td><td>${w.updated}</td></tr>`)
-      .join('');
-    tbody.innerHTML = rows || `<tr><td colspan="5" class="muted">No workflows</td></tr>`;
+    tbody.textContent = '';
+    const filtered = state.workflows.filter(w => !statusFilter || w.status === statusFilter);
+    if (filtered.length === 0) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 5;
+      td.className = 'muted';
+      td.textContent = 'No workflows';
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    } else {
+      filtered.forEach(w => {
+        const tr = document.createElement('tr');
+        ['name', 'version', 'status', 'owner', 'updated'].forEach(k => {
+          const td = document.createElement('td');
+          td.textContent = w[k];
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
   }
 
   function renderTasks() {
@@ -79,7 +110,18 @@
     state.tasks.forEach(t => buckets[t.status]?.push(t));
     for (const [k, items] of Object.entries(buckets)) {
       const ul = qs(`[data-list="tasks:${k}"]`);
-      ul.innerHTML = items.map(t => `<li><div>${t.title}</div><span class="badge">${t.tag}</span></li>`).join('');
+      ul.textContent = '';
+      items.forEach(t => {
+        const li = document.createElement('li');
+        const div = document.createElement('div');
+        div.textContent = t.title;
+        const span = document.createElement('span');
+        span.className = 'badge';
+        span.textContent = t.tag;
+        li.appendChild(div);
+        li.appendChild(span);
+        ul.appendChild(li);
+      });
     }
   }
 
