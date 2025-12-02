@@ -1,0 +1,97 @@
+=== SmartFlow Quick Check @ 20250916T234801Z ===
+# Git remotes/branch
+origin	https://github.com/smartflow-systems/SmartFlowSite.git (fetch)
+origin	https://github.com/smartflow-systems/SmartFlowSite.git (push)
+chore/sfs-rules
+
+# Recent commits (5)
+235e617 Fix deployment errors by configuring Replit correctly
+7f0cf94 Update project configuration and entry point for successful deployment
+33f6f8e Update port configuration for development and production environments
+72d6004 Assistant checkpoint: Fixed server conflicts and missing code
+b081785 Checkpoint before assistant change: Add installer for ChatGPT application
+
+# Workflows present
+ci.yml
+ci.yml.orig
+deploy.yml
+diagnose.yml
+labels-sync.yml
+reuse-sfs.yml
+sfs-ci-deploy.yml
+sfs-diagnose.yml
+sfs-health.yml
+sf-shellcheck.yml
+sfs-rules-ci.yml
+
+# Workflow triggers (push/pr/main)
+.github/workflows/labels-sync.yml:2:on:
+.github/workflows/labels-sync.yml:17:    runs-on: ubuntu-latest
+.github/workflows/sfs-ci-deploy.yml:2:on:
+.github/workflows/sfs-ci-deploy.yml:27:    runs-on: ubuntu-latest
+.github/workflows/sfs-ci-deploy.yml:32:          node-version: '18'
+.github/workflows/sfs-ci-deploy.yml:46:    runs-on: ubuntu-latest
+.github/workflows/ci.yml.orig:3:on:
+.github/workflows/ci.yml.orig:10:    runs-on: ubuntu-latest
+.github/workflows/ci.yml.orig:18:          python-version: "3.11"
+.github/workflows/ci.yml:5:on:
+.github/workflows/ci.yml:11:    runs-on: ubuntu-latest
+.github/workflows/ci.yml:16:          node-version: '18'
+.github/workflows/sfs-diagnose.yml:2:on:
+.github/workflows/sfs-diagnose.yml:9:    runs-on: ubuntu-latest
+.github/workflows/sf-shellcheck.yml:5:on:
+.github/workflows/sf-shellcheck.yml:21:    runs-on: ubuntu-latest
+.github/workflows/diagnose.yml:2:on:
+.github/workflows/diagnose.yml:11:    runs-on: ubuntu-latest
+.github/workflows/sfs-rules-ci.yml:2:on:
+.github/workflows/sfs-rules-ci.yml:7:    runs-on: ubuntu-latest
+.github/workflows/sfs-rules-ci.yml:12:          python-version: '3.x'
+.github/workflows/sfs-health.yml:2:on: { pull_request: { branches: [ "main" ] }, workflow_dispatch: {} }
+.github/workflows/sfs-health.yml:5:    runs-on: ubuntu-latest
+.github/workflows/reuse-sfs.yml:2:on:
+.github/workflows/reuse-sfs.yml:10:      node_version: '18'
+
+# Status page & API present?
+✓ app/status/page.tsx
+✗ missing health API
+
+# Health markers
+check-20250916T223855Z.txt
+
+# Next.js router type
+App Router
+
+# Package.json name/version
+sfs-replit-smoke no-version
+
+# GitHub Actions badge reachability
+200
+
+# Replit env (redacted names only)
+GITHUB_USER
+REPLIT_DOMAINS
+REPLIT_PID1_FLAG_PREEVALED_SYSPKGS
+REPLIT_LD_AUDIT
+REPLIT_CLI
+REPLIT_USER
+REPLIT_SUBCLUSTER
+REPLIT_DB_URL
+REPLIT_SESSION
+REPLIT_TOKEN
+REPLIT_RIPPKGS_INDICES
+SFS_SYNC_URL
+REPLIT_USER_RUN
+REPLIT_CONTAINER
+REPLIT_RTLD_LOADER
+REPLIT_DEV_DOMAIN
+REPLIT_CLUSTER
+REPLIT_BASHRC
+REPLIT_PID1_VERSION
+REPLIT_NIX_CHANNEL
+REPLIT_USERID
+REPLIT_CONNECTORS_HOSTNAME
+REPLIT_RUN_PATH
+REPLIT_PID2
+REPLIT_ENVIRONMENT
+REPLIT_HELIUM_ENABLED
+SFS_PAT

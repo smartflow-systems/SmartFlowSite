@@ -1,0 +1,206 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# SmartFlow "master" helper for hardening Flask /data route.
+# Actions: all (default), apply, verify, undo
+# Usage:   bash scripts/smartflow-harden-data-route.sh [all|apply|verify|undo]
+#
+# Paths:
+APP_FILE="app.py"                                      # [app.py]
+PATCH_DIR="patches"                                    # [patches/]
+PATCH_FILE="${PATCH_DIR}/0001-harden-data-files-route.patch"   # [patches/0001-harden-data-files-route.patch]
+DATA_DIR="data"                                        # [data/]
+TEST_FILE="${DATA_DIR}/probe.txt"                      # [data/probe.txt]
+SYMLINK_FILE="${DATA_DIR}/outside.txt"                 # [data/outside.txt]
+
+# Server settings:
+HOST="${HOST:-127.0.0.1}"
+PORT="${PORT:-5000}"
+
+say() { printf "\033[1;34m%s\033[0m\n" "$*"; }
+warn() { printf "\033[1;33m%s\033[0m\n" "$*"; }
+err() { printf "\033[1;31m%s\033[0m\n" "$*"; }
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || { err "Missing required command: $1"; exit 1; }
+}
+
+write_patch() {
+  mkdir -p "$PATCH_DIR"
+  say "Writing patch → [$PATCH_FILE]"
+  # (OVERWRITE) [patches/0001-harden-data-files-route.patch]
+  cat > "$PATCH_FILE" <<'PATCH'
+*** a/app.py
+--- b/app.py
+@@
+ @app.route("/data/<path:fname>")
+ def data_files(fname: str):
+-    data_root = BASE / "data"
+-    # Normalize and resolve the final path
+-    try:
+-        p = (data_root / fname).resolve()
+-    except Exception:
+-        abort(404)
+-    # Ensure the requested file is within the data directory
+-    if not str(p).startswith(str(data_root)):
+-        abort(403)
+-    if not p.exists():
+-        abort(404)
+-    return send_from_directory(p.parent, p.name)
++    data_root = (BASE / "data").resolve()
++    try:
++        p = (data_root / fname).resolve()
++        # Ensure the requested file is within the data directory (follows symlinks)
++        p.relative_to(data_root)
++    except (OSError, ValueError):
++        # Hide whether the path was outside or malformed
++        abort(404)
++    if not p.is_file():
++        abort(404)
++    # Optional: restrict file types
++    # allowed = {".json", ".csv"}
++    # if p.suffix not in allowed:
++    #     abort(403)
++    return send_from_directory(p.parent, p.name)
+PATCH
+}
+
+backup_app() {
+  local ts
+  ts="$(date +%Y%m%d-%H%M%S)"
+  warn "Creating safety backup: cp -a [$APP_FILE] [${APP_FILE}.bak.${ts}]"
+  cp -a "$APP_FILE" "${APP_FILE}.bak.${ts}"
+}
+
+apply_patch() {
+  say "Applying patch to [$APP_FILE]"
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git apply --index "$PATCH_FILE" || { err "git apply failed"; exit 1; }
+  else
+    need_cmd patch
+    patch -p0 < "$PATCH_FILE"
+  fi
+  say "Running Python syntax check…"
+  python -m py_compile "$APP_FILE"
+}
+
+start_server() {
+  say "Starting Flask dev server on ${HOST}:${PORT} (background)…"
+  export FLASK_APP="$APP_FILE"
+  # Prefer flask if installed; otherwise try `python -m flask`.
+  if command -v flask >/dev/null 2>&1; then
+    flask run --host "$HOST" --port "$PORT" >/tmp/smartflow-flask.log 2>&1 &
+  else
+    python -m flask run --host "$HOST" --port "$PORT" >/tmp/smartflow-flask.log 2>&1 &
+  fi
+  FLASK_PID=$!
+  # Wait for server to accept connections
+  for i in $(seq 1 40); do
+    if curl -fsS "http://${HOST}:${PORT}/data/does-not-exist" >/dev/null 2>&1 || kill -0 "$FLASK_PID" 2>/dev/null; then
+      break
+    fi
+    sleep 0.25
+  done
+  # Give it a beat
+  sleep 0.25
+  say "Server PID: ${FLASK_PID}"
+}
+
+stop_server() {
+  if [ "${FLASK_PID:-}" != "" ] && kill -0 "$FLASK_PID" 2>/dev/null; then
+    say "Stopping server PID ${FLASK_PID}"
+    kill "$FLASK_PID" 2>/dev/null || true
+    wait "$FLASK_PID" 2>/dev/null || true
+  fi
+}
+
+verify_route() {
+  say "Running verification checks…"
+  mkdir -p "$DATA_DIR"
+
+  # Happy path
+  echo "ok" > "$TEST_FILE"
+  say "Check 200 OK on in-root file…"
+  curl -sS -i "http://${HOST}:${PORT}/data/$(basename "$TEST_FILE")" | grep -E "HTTP/1.[01] 200"
+  curl -sS "http://${HOST}:${PORT}/data/$(basename "$TEST_FILE")" | grep -Fx "ok"
+
+  # Path traversal blocked
+  say "Check traversal is blocked (../) → expect 404…"
+  curl -sS -i "http://${HOST}:${PORT}/data/../${APP_FILE}" | grep -E "404"
+
+  # Symlink escape blocked (ignore error on non-POSIX)
+  say "Check symlink escape is blocked → expect 404…"
+  ln -sf /etc/hosts "$SYMLINK_FILE" 2>/dev/null || true
+  curl -sS -i "http://${HOST}:${PORT}/data/$(basename "$SYMLINK_FILE")" | grep -E "404" || true
+
+  # Cleanup probes
+  rm -f "$TEST_FILE" "$SYMLINK_FILE"
+  say "Verification complete."
+}
+
+do_apply() {
+  need_cmd python
+  need_cmd curl
+  need_cmd grep
+  write_patch
+  backup_app
+  apply_patch
+}
+
+do_verify() {
+  # Light check: ensure Flask import is available before boot
+  python - <<'PY'
+import sys
+try:
+    import flask  # noqa: F401
+except Exception as e:
+    sys.stderr.write("ERROR: Flask is not importable in this Python environment.\n")
+    sys.exit(2)
+PY
+  start_server
+  trap stop_server EXIT
+  verify_route
+}
+
+do_undo() {
+  say "Restoring from the latest backup if present…"
+  # Restore latest backup copy of app.py
+  latest="$(ls -1t app.py.bak.* 2>/dev/null | head -n1 || true)"
+  if [ -n "${latest}" ]; then
+    warn "cp -a [$latest] → [$APP_FILE]"
+    cp -a "${latest}" "$APP_FILE"
+    say "Restored [$APP_FILE] from [$latest]"
+  else
+    warn "No app.py.bak.* backup files found; skipping file copy restore."
+  fi
+  # If in git, also unstage & restore working tree
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    say "Using git to restore worktree & index for [$APP_FILE]"
+    git restore --staged --worktree "$APP_FILE" || true
+  fi
+  say "You can also remove the patch file if desired: rm -f [$PATCH_FILE]"
+}
+
+ACTION="${1:-all}"
+case "$ACTION" in
+  all)
+    do_apply
+    do_verify
+    ;;
+  apply)
+    do_apply
+    ;;
+  verify)
+    do_verify
+    ;;
+  undo)
+    do_undo
+    ;;
+  *)
+    err "Unknown action: $ACTION"
+    echo "Usage: $0 [all|apply|verify|undo]"
+    exit 2
+    ;;
+esac
+
+say "Done."

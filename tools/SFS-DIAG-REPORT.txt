@@ -1,0 +1,7 @@
+SFS DIAG REPORT
+- Remotes / PAT / user.email
+- Branch ahead/behind
+- Workflows present & reusable reference
+- Build scripts present
+- Replit health endpoints
+- Expected secrets
