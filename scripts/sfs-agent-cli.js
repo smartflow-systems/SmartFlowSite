@@ -3,32 +3,442 @@
 const fs = require('fs').promises;
 
 /**
+ * HTTP Client for SFS Orchestrator API
+ */
+class OrchestratorClient {
+  constructor(baseUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:5001') {
+    this.baseUrl = baseUrl;
+  }
+
+  /**
+   * Generic GET request handler
+   */
+  async get(endpoint) {
+    const response = await fetch(`${this.baseUrl}${endpoint}`);
+    return await response.json();
+  }
+
+  /**
+   * Generic POST request handler
+   */
+  async post(endpoint, body) {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return await response.json();
+  }
+
+  // Agent endpoints
+  async listAgents() {
+    return await this.get('/api/agents');
+  }
+
+  async getAgent(agentId) {
+    return await this.get(`/api/agents/${agentId}`);
+  }
+
+  async registerAgent(manifest) {
+    return await this.post('/api/agents/register', manifest);
+  }
+
+  async invokeAgent(agentId, task = {}) {
+    return await this.post(`/api/agents/${agentId}/invoke`, task);
+  }
+
+  // Workflow endpoints
+  async listWorkflows() {
+    return await this.get('/api/workflows');
+  }
+
+  async executeWorkflow(workflow) {
+    return await this.post('/api/workflows/execute', workflow);
+  }
+
+  // Package endpoints
+  async listPackages() {
+    return await this.get('/api/packages');
+  }
+
+  async getPackage(packageId) {
+    return await this.get(`/api/packages/${packageId}`);
+  }
+
+  async executePackage(packageId, context) {
+    return await this.post(`/api/packages/${packageId}/execute`, { context });
+  }
+
+  // Health check
+  async getHealth() {
+    return await this.get('/health');
+  }
+}
+
+/**
+ * Utility functions for file operations and formatting
+ */
+class CLIUtils {
+  /**
+   * Read and parse JSON file
+   */
+  static async readJsonFile(filePath) {
+    const content = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(content);
+  }
+
+  /**
+   * Print formatted header
+   */
+  static printHeader(title, count = null) {
+    const countText = count !== null ? ` (${count})` : '';
+    console.log(`\n📋 ${title}${countText}\n`);
+    console.log('─'.repeat(60));
+  }
+
+  /**
+   * Print formatted separator
+   */
+  static printSeparator() {
+    console.log('\n' + '─'.repeat(60) + '\n');
+  }
+
+  /**
+   * Print success message
+   */
+  static printSuccess(message) {
+    console.log(`✅ ${message}`);
+  }
+
+  /**
+   * Print error message
+   */
+  static printError(message) {
+    console.error(`❌ ${message}`);
+  }
+
+  /**
+   * Validate required argument
+   */
+  static validateRequiredArg(arg, argName, usage) {
+    if (!arg) {
+      this.printError(`Missing required argument: ${argName}`);
+      console.log(`Usage: ${usage}`);
+      process.exit(1);
+    }
+  }
+}
+
+/**
+ * Command handlers for agent operations
+ */
+class AgentCommands {
+  constructor(client) {
+    this.client = client;
+  }
+
+  async list() {
+    const data = await this.client.listAgents();
+
+    CLIUtils.printHeader('Registered Agents', data.count);
+
+    for (const agent of data.agents) {
+      console.log(`\n🤖 ${agent.agent_id}`);
+      console.log(`   Platform: ${agent.platform}`);
+      console.log(`   Capabilities: ${agent.capabilities.join(', ')}`);
+      console.log(`   Status: ${agent.status}`);
+
+      if (agent.invocation_count > 0) {
+        console.log(`   Invocations: ${agent.invocation_count}`);
+        console.log(`   Last invoked: ${agent.last_invoked}`);
+      }
+    }
+
+    CLIUtils.printSeparator();
+  }
+
+  async register(manifestPath) {
+    CLIUtils.validateRequiredArg(
+      manifestPath,
+      'manifest path',
+      'sfs-agent-cli agent register <manifest.json>'
+    );
+
+    const manifest = await CLIUtils.readJsonFile(manifestPath);
+    const data = await this.client.registerAgent(manifest);
+
+    if (data.success) {
+      CLIUtils.printSuccess(`Agent registered: ${data.agent.agent_id}`);
+    } else {
+      CLIUtils.printError(`Registration failed: ${data.error}`);
+      process.exit(1);
+    }
+  }
+
+  async info(agentId) {
+    CLIUtils.validateRequiredArg(
+      agentId,
+      'agent ID',
+      'sfs-agent-cli agent info <agent-id>'
+    );
+
+    const data = await this.client.getAgent(agentId);
+
+    if (!data.success) {
+      CLIUtils.printError(`Agent not found: ${agentId}`);
+      process.exit(1);
+    }
+
+    const agent = data.agent;
+
+    console.log(`\n🤖 ${agent.agent_id}\n`);
+    console.log('─'.repeat(60));
+    console.log(`Name: ${agent.name || agent.agent_id}`);
+    console.log(`Platform: ${agent.platform}`);
+    console.log(`Status: ${agent.status}`);
+
+    this._printList('Capabilities', agent.capabilities);
+    this._printList('Apps', agent.apps);
+    this._printList('Context Files', agent.context_files);
+
+    console.log(`\nInvocations: ${agent.invocation_count || 0}`);
+    if (agent.last_invoked) {
+      console.log(`Last invoked: ${agent.last_invoked}`);
+    }
+
+    CLIUtils.printSeparator();
+  }
+
+  async invoke(agentId, taskFile) {
+    CLIUtils.validateRequiredArg(
+      agentId,
+      'agent ID',
+      'sfs-agent-cli agent invoke <agent-id> [task.json]'
+    );
+
+    let task = {};
+    if (taskFile) {
+      task = await CLIUtils.readJsonFile(taskFile);
+    }
+
+    console.log(`🚀 Invoking agent: ${agentId}...`);
+
+    const data = await this.client.invokeAgent(agentId, task);
+
+    if (data.success) {
+      console.log(`\n✅ Agent invocation completed\n`);
+      console.log(JSON.stringify(data.result, null, 2));
+    } else {
+      CLIUtils.printError(`Invocation failed: ${data.error}`);
+      process.exit(1);
+    }
+  }
+
+  _printList(title, items) {
+    if (items && items.length > 0) {
+      console.log(`\n${title}:`);
+      items.forEach(item => console.log(`  - ${item}`));
+    }
+  }
+}
+
+/**
+ * Command handlers for workflow operations
+ */
+class WorkflowCommands {
+  constructor(client) {
+    this.client = client;
+  }
+
+  async list() {
+    const data = await this.client.listWorkflows();
+
+    CLIUtils.printHeader('Workflows', data.count);
+
+    for (const workflow of data.workflows) {
+      console.log(`\n⚙️  ${workflow.id}`);
+      if (workflow.name) console.log(`   Name: ${workflow.name}`);
+      if (workflow.description) console.log(`   Description: ${workflow.description}`);
+      console.log(`   Steps: ${workflow.steps.length}`);
+    }
+
+    CLIUtils.printSeparator();
+  }
+
+  async execute(workflowFile, contextFile) {
+    CLIUtils.validateRequiredArg(
+      workflowFile,
+      'workflow file',
+      'sfs-agent-cli workflow execute <workflow.json> [context.json]'
+    );
+
+    const workflow = await CLIUtils.readJsonFile(workflowFile);
+
+    let context = {};
+    if (contextFile) {
+      context = await CLIUtils.readJsonFile(contextFile);
+    }
+
+    console.log(`🚀 Executing workflow: ${workflow.id}...`);
+
+    const data = await this.client.executeWorkflow({ ...workflow, context });
+
+    if (data.success) {
+      const result = data.result;
+      console.log(`\n✅ Workflow ${result.status}\n`);
+      console.log(`Started: ${result.started_at}`);
+      console.log(`Completed: ${result.completed_at || 'In progress'}`);
+      console.log(`Steps completed: ${result.completed_steps.length}/${result.steps.length}`);
+
+      if (result.error) {
+        CLIUtils.printError(`Error: ${result.error}`);
+      }
+    } else {
+      CLIUtils.printError(`Workflow execution failed: ${data.error}`);
+      process.exit(1);
+    }
+  }
+
+  async status(workflowId) {
+    CLIUtils.validateRequiredArg(
+      workflowId,
+      'workflow ID',
+      'sfs-agent-cli workflow status <workflow-id>'
+    );
+
+    // Note: This endpoint would need to be implemented in the API
+    CLIUtils.printError('Workflow status check not yet implemented');
+    process.exit(1);
+  }
+}
+
+/**
+ * Command handlers for package operations
+ */
+class PackageCommands {
+  constructor(client) {
+    this.client = client;
+  }
+
+  async list() {
+    const data = await this.client.listPackages();
+
+    CLIUtils.printHeader('Packages', data.count);
+
+    for (const pkg of data.packages) {
+      console.log(`\n📦 ${pkg.package_id} (v${pkg.version})`);
+      if (pkg.name) console.log(`   Name: ${pkg.name}`);
+      if (pkg.description) console.log(`   Description: ${pkg.description}`);
+      console.log(`   Agents: ${pkg.agents.join(', ')}`);
+
+      if (pkg.capabilities) {
+        console.log(`   Capabilities: ${pkg.capabilities.join(', ')}`);
+      }
+    }
+
+    CLIUtils.printSeparator();
+  }
+
+  async info(packageId) {
+    CLIUtils.validateRequiredArg(
+      packageId,
+      'package ID',
+      'sfs-agent-cli package info <package-id>'
+    );
+
+    const data = await this.client.getPackage(packageId);
+
+    if (!data.success) {
+      CLIUtils.printError(`Package not found: ${packageId}`);
+      process.exit(1);
+    }
+
+    const pkg = data.package;
+
+    console.log(`\n📦 ${pkg.package_id} (v${pkg.version})\n`);
+    console.log('─'.repeat(60));
+    console.log(`Name: ${pkg.name || pkg.package_id}`);
+    if (pkg.description) console.log(`Description: ${pkg.description}`);
+
+    this._printList('Agents', pkg.agents);
+    this._printList('Capabilities', pkg.capabilities);
+
+    if (pkg.workflow) {
+      console.log(`\nWorkflow Steps: ${pkg.workflow.length}`);
+      pkg.workflow.forEach((step, index) => {
+        console.log(`  ${index + 1}. ${step.name || step.action}`);
+      });
+    }
+
+    CLIUtils.printSeparator();
+  }
+
+  async execute(packageId, contextFile) {
+    CLIUtils.validateRequiredArg(
+      packageId,
+      'package ID',
+      'sfs-agent-cli package execute <package-id> [context.json]'
+    );
+
+    let context = {};
+    if (contextFile) {
+      context = await CLIUtils.readJsonFile(contextFile);
+    }
+
+    console.log(`🚀 Executing package: ${packageId}...`);
+
+    const data = await this.client.executePackage(packageId, context);
+
+    if (data.success) {
+      const result = data.result;
+      const workflowResult = result.workflow_result;
+
+      console.log(`\n✅ Package execution ${workflowResult.status}\n`);
+      console.log(`Package: ${result.package_id} (v${result.version})`);
+      console.log(`Steps completed: ${workflowResult.completed_steps.length}`);
+    } else {
+      CLIUtils.printError(`Package execution failed: ${data.error}`);
+      process.exit(1);
+    }
+  }
+
+  _printList(title, items) {
+    if (items && items.length > 0) {
+      console.log(`\n${title}:`);
+      items.forEach(item => console.log(`  - ${item}`));
+    }
+  }
+}
+
+/**
  * SFS Agent CLI - Command-line tool for managing agents, workflows, and packages
  */
 class SFSAgentCLI {
   constructor() {
-    this.baseUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:5001';
+    this.client = new OrchestratorClient();
+    this.agentCommands = new AgentCommands(this.client);
+    this.workflowCommands = new WorkflowCommands(this.client);
+    this.packageCommands = new PackageCommands(this.client);
   }
 
   /**
-   * Main CLI handler
+   * Main CLI handler with command routing
    */
   async run(args) {
-    const command = args[0];
-    const subcommand = args[1];
+    const [command, subcommand, ...remainingArgs] = args;
 
     try {
       switch (command) {
         case 'agent':
-          await this.handleAgent(subcommand, args.slice(2));
+          await this.handleAgentCommand(subcommand, remainingArgs);
           break;
 
         case 'workflow':
-          await this.handleWorkflow(subcommand, args.slice(2));
+          await this.handleWorkflowCommand(subcommand, remainingArgs);
           break;
 
         case 'package':
-          await this.handlePackage(subcommand, args.slice(2));
+          await this.handlePackageCommand(subcommand, remainingArgs);
           break;
 
         case 'status':
@@ -40,357 +450,79 @@ class SFSAgentCLI {
           break;
 
         default:
-          console.log(`Unknown command: ${command}`);
+          CLIUtils.printError(`Unknown command: ${command}`);
           this.showHelp();
           process.exit(1);
       }
     } catch (error) {
-      console.error(`❌ Error: ${error.message}`);
+      CLIUtils.printError(error.message);
       process.exit(1);
     }
   }
 
   /**
-   * Handle agent commands
+   * Route agent subcommands to appropriate handlers
    */
-  async handleAgent(subcommand, args) {
-    switch (subcommand) {
-      case 'list':
-        await this.listAgents();
-        break;
+  async handleAgentCommand(subcommand, args) {
+    const handlers = {
+      list: () => this.agentCommands.list(),
+      register: () => this.agentCommands.register(args[0]),
+      info: () => this.agentCommands.info(args[0]),
+      invoke: () => this.agentCommands.invoke(args[0], args[1])
+    };
 
-      case 'register':
-        await this.registerAgent(args[0]);
-        break;
+    const handler = handlers[subcommand];
 
-      case 'info':
-        await this.agentInfo(args[0]);
-        break;
-
-      case 'invoke':
-        await this.invokeAgent(args[0], args[1]);
-        break;
-
-      default:
-        console.log('Usage: sfs-agent-cli agent [list|register|info|invoke]');
-    }
-  }
-
-  /**
-   * Handle workflow commands
-   */
-  async handleWorkflow(subcommand, args) {
-    switch (subcommand) {
-      case 'list':
-        await this.listWorkflows();
-        break;
-
-      case 'execute':
-        await this.executeWorkflow(args[0], args[1]);
-        break;
-
-      case 'status':
-        await this.workflowStatus(args[0]);
-        break;
-
-      default:
-        console.log('Usage: sfs-agent-cli workflow [list|execute|status]');
-    }
-  }
-
-  /**
-   * Handle package commands
-   */
-  async handlePackage(subcommand, args) {
-    switch (subcommand) {
-      case 'list':
-        await this.listPackages();
-        break;
-
-      case 'info':
-        await this.packageInfo(args[0]);
-        break;
-
-      case 'execute':
-        await this.executePackage(args[0], args[1]);
-        break;
-
-      default:
-        console.log('Usage: sfs-agent-cli package [list|info|execute]');
-    }
-  }
-
-  /**
-   * List all agents
-   */
-  async listAgents() {
-    const response = await fetch(`${this.baseUrl}/api/agents`);
-    const data = await response.json();
-
-    console.log(`\n📋 Registered Agents (${data.count})\n`);
-    console.log('─'.repeat(60));
-
-    for (const agent of data.agents) {
-      console.log(`\n🤖 ${agent.agent_id}`);
-      console.log(`   Platform: ${agent.platform}`);
-      console.log(`   Capabilities: ${agent.capabilities.join(', ')}`);
-      console.log(`   Status: ${agent.status}`);
-      if (agent.invocation_count > 0) {
-        console.log(`   Invocations: ${agent.invocation_count}`);
-        console.log(`   Last invoked: ${agent.last_invoked}`);
-      }
-    }
-
-    console.log('\n' + '─'.repeat(60) + '\n');
-  }
-
-  /**
-   * Register an agent from manifest file
-   */
-  async registerAgent(manifestPath) {
-    const content = await fs.readFile(manifestPath, 'utf8');
-    const manifest = JSON.parse(content);
-
-    const response = await fetch(`${this.baseUrl}/api/agents/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(manifest)
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(`✅ Agent registered: ${data.agent.agent_id}`);
+    if (handler) {
+      await handler();
     } else {
-      console.error(`❌ Registration failed: ${data.error}`);
-      process.exit(1);
+      console.log('Usage: sfs-agent-cli agent [list|register|info|invoke]');
     }
   }
 
   /**
-   * Show agent info
+   * Route workflow subcommands to appropriate handlers
    */
-  async agentInfo(agentId) {
-    const response = await fetch(`${this.baseUrl}/api/agents/${agentId}`);
-    const data = await response.json();
+  async handleWorkflowCommand(subcommand, args) {
+    const handlers = {
+      list: () => this.workflowCommands.list(),
+      execute: () => this.workflowCommands.execute(args[0], args[1]),
+      status: () => this.workflowCommands.status(args[0])
+    };
 
-    if (!data.success) {
-      console.error(`❌ Agent not found: ${agentId}`);
-      process.exit(1);
-    }
+    const handler = handlers[subcommand];
 
-    const agent = data.agent;
-
-    console.log(`\n🤖 ${agent.agent_id}\n`);
-    console.log('─'.repeat(60));
-    console.log(`Name: ${agent.name || agent.agent_id}`);
-    console.log(`Platform: ${agent.platform}`);
-    console.log(`Status: ${agent.status}`);
-    console.log(`\nCapabilities:`);
-    agent.capabilities.forEach(cap => console.log(`  - ${cap}`));
-
-    if (agent.apps && agent.apps.length > 0) {
-      console.log(`\nApps:`);
-      agent.apps.forEach(app => console.log(`  - ${app}`));
-    }
-
-    if (agent.context_files && agent.context_files.length > 0) {
-      console.log(`\nContext Files:`);
-      agent.context_files.forEach(file => console.log(`  - ${file}`));
-    }
-
-    console.log(`\nInvocations: ${agent.invocation_count || 0}`);
-    if (agent.last_invoked) {
-      console.log(`Last invoked: ${agent.last_invoked}`);
-    }
-
-    console.log('─'.repeat(60) + '\n');
-  }
-
-  /**
-   * Invoke an agent
-   */
-  async invokeAgent(agentId, taskFile) {
-    let task = {};
-
-    if (taskFile) {
-      const content = await fs.readFile(taskFile, 'utf8');
-      task = JSON.parse(content);
-    }
-
-    console.log(`🚀 Invoking agent: ${agentId}...`);
-
-    const response = await fetch(`${this.baseUrl}/api/agents/${agentId}/invoke`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task)
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(`\n✅ Agent invocation completed\n`);
-      console.log(JSON.stringify(data.result, null, 2));
+    if (handler) {
+      await handler();
     } else {
-      console.error(`❌ Invocation failed: ${data.error}`);
-      process.exit(1);
+      console.log('Usage: sfs-agent-cli workflow [list|execute|status]');
     }
   }
 
   /**
-   * List workflows
+   * Route package subcommands to appropriate handlers
    */
-  async listWorkflows() {
-    const response = await fetch(`${this.baseUrl}/api/workflows`);
-    const data = await response.json();
+  async handlePackageCommand(subcommand, args) {
+    const handlers = {
+      list: () => this.packageCommands.list(),
+      info: () => this.packageCommands.info(args[0]),
+      execute: () => this.packageCommands.execute(args[0], args[1])
+    };
 
-    console.log(`\n📋 Workflows (${data.count})\n`);
-    console.log('─'.repeat(60));
+    const handler = handlers[subcommand];
 
-    for (const workflow of data.workflows) {
-      console.log(`\n⚙️  ${workflow.id}`);
-      if (workflow.name) console.log(`   Name: ${workflow.name}`);
-      if (workflow.description) console.log(`   Description: ${workflow.description}`);
-      console.log(`   Steps: ${workflow.steps.length}`);
-    }
-
-    console.log('\n' + '─'.repeat(60) + '\n');
-  }
-
-  /**
-   * Execute a workflow
-   */
-  async executeWorkflow(workflowFile, contextFile) {
-    const workflowContent = await fs.readFile(workflowFile, 'utf8');
-    const workflow = JSON.parse(workflowContent);
-
-    let context = {};
-    if (contextFile) {
-      const contextContent = await fs.readFile(contextFile, 'utf8');
-      context = JSON.parse(contextContent);
-    }
-
-    console.log(`🚀 Executing workflow: ${workflow.id}...`);
-
-    const response = await fetch(`${this.baseUrl}/api/workflows/execute`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...workflow, context })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(`\n✅ Workflow ${data.result.status}\n`);
-      console.log(`Started: ${data.result.started_at}`);
-      console.log(`Completed: ${data.result.completed_at || 'In progress'}`);
-      console.log(`Steps completed: ${data.result.completed_steps.length}/${data.result.steps.length}`);
-
-      if (data.result.error) {
-        console.log(`\n❌ Error: ${data.result.error}`);
-      }
+    if (handler) {
+      await handler();
     } else {
-      console.error(`❌ Workflow execution failed: ${data.error}`);
-      process.exit(1);
+      console.log('Usage: sfs-agent-cli package [list|info|execute]');
     }
   }
 
   /**
-   * List packages
-   */
-  async listPackages() {
-    const response = await fetch(`${this.baseUrl}/api/packages`);
-    const data = await response.json();
-
-    console.log(`\n📦 Packages (${data.count})\n`);
-    console.log('─'.repeat(60));
-
-    for (const pkg of data.packages) {
-      console.log(`\n📦 ${pkg.package_id} (v${pkg.version})`);
-      if (pkg.name) console.log(`   Name: ${pkg.name}`);
-      if (pkg.description) console.log(`   Description: ${pkg.description}`);
-      console.log(`   Agents: ${pkg.agents.join(', ')}`);
-      if (pkg.capabilities) {
-        console.log(`   Capabilities: ${pkg.capabilities.join(', ')}`);
-      }
-    }
-
-    console.log('\n' + '─'.repeat(60) + '\n');
-  }
-
-  /**
-   * Show package info
-   */
-  async packageInfo(packageId) {
-    const response = await fetch(`${this.baseUrl}/api/packages/${packageId}`);
-    const data = await response.json();
-
-    if (!data.success) {
-      console.error(`❌ Package not found: ${packageId}`);
-      process.exit(1);
-    }
-
-    const pkg = data.package;
-
-    console.log(`\n📦 ${pkg.package_id} (v${pkg.version})\n`);
-    console.log('─'.repeat(60));
-    console.log(`Name: ${pkg.name || pkg.package_id}`);
-    if (pkg.description) console.log(`Description: ${pkg.description}`);
-
-    console.log(`\nAgents:`);
-    pkg.agents.forEach(agent => console.log(`  - ${agent}`));
-
-    if (pkg.capabilities) {
-      console.log(`\nCapabilities:`);
-      pkg.capabilities.forEach(cap => console.log(`  - ${cap}`));
-    }
-
-    if (pkg.workflow) {
-      console.log(`\nWorkflow Steps: ${pkg.workflow.length}`);
-      pkg.workflow.forEach((step, i) => {
-        console.log(`  ${i + 1}. ${step.name || step.action}`);
-      });
-    }
-
-    console.log('─'.repeat(60) + '\n');
-  }
-
-  /**
-   * Execute a package
-   */
-  async executePackage(packageId, contextFile) {
-    let context = {};
-    if (contextFile) {
-      const content = await fs.readFile(contextFile, 'utf8');
-      context = JSON.parse(content);
-    }
-
-    console.log(`🚀 Executing package: ${packageId}...`);
-
-    const response = await fetch(`${this.baseUrl}/api/packages/${packageId}/execute`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ context })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(`\n✅ Package execution ${data.result.workflow_result.status}\n`);
-      console.log(`Package: ${data.result.package_id} (v${data.result.version})`);
-      console.log(`Steps completed: ${data.result.workflow_result.completed_steps.length}`);
-    } else {
-      console.error(`❌ Package execution failed: ${data.error}`);
-      process.exit(1);
-    }
-  }
-
-  /**
-   * Show orchestrator status
+   * Show orchestrator health and status
    */
   async showStatus() {
-    const response = await fetch(`${this.baseUrl}/health`);
-    const data = await response.json();
+    const data = await this.client.getHealth();
 
     console.log(`\n🧠 SFS Orchestrator Status\n`);
     console.log('─'.repeat(60));
@@ -402,11 +534,11 @@ class SFSAgentCLI {
     console.log(`  Packages: ${data.components.packages.total}`);
     console.log(`  Active Workflows: ${data.components.workflows.active}`);
     console.log(`  Connectors: ${data.components.connectors.join(', ')}`);
-    console.log('─'.repeat(60) + '\n');
+    CLIUtils.printSeparator();
   }
 
   /**
-   * Show help
+   * Display CLI usage help
    */
   showHelp() {
     console.log(`
@@ -439,7 +571,7 @@ Examples:
   }
 }
 
-// Run CLI
+// CLI entry point
 if (require.main === module) {
   const cli = new SFSAgentCLI();
   const args = process.argv.slice(2);
@@ -450,7 +582,7 @@ if (require.main === module) {
   }
 
   cli.run(args).catch(error => {
-    console.error(`❌ Fatal error: ${error.message}`);
+    CLIUtils.printError(`Fatal error: ${error.message}`);
     process.exit(1);
   });
 }
