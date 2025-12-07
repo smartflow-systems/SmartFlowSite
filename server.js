@@ -1,11 +1,54 @@
 import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
 
 const app = express();
 
-// Middleware
+// Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'self'"]
+    }
+  },
+  crossOriginEmbedderPolicy: false
+}));
+
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://smartflowsite.com', 'https://www.smartflowsite.com']
+    : '*',
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later."
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5, // Limit auth attempts
+  message: "Too many authentication attempts, please try again later."
+});
+
+app.use('/api/', limiter);
+
+// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,6 +89,39 @@ function writeLeads(data) {
     console.error("Error writing leads:", error);
     return false;
   }
+}
+
+// Authentication middleware for admin endpoints
+function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  const apiKey = process.env.ADMIN_API_KEY || process.env.SYNC_TOKEN;
+
+  if (!apiKey || apiKey === 'your-sync-token-change-in-production') {
+    return res.status(500).json({
+      success: false,
+      message: "Server configuration error: Admin API key not configured"
+    });
+  }
+
+  if (!authHeader) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required"
+    });
+  }
+
+  const token = authHeader.startsWith('Bearer ')
+    ? authHeader.slice(7)
+    : authHeader;
+
+  if (token !== apiKey) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid credentials"
+    });
+  }
+
+  next();
 }
 
 // serve everything from /public
@@ -138,8 +214,8 @@ app.post("/api/leads", (req, res) => {
   }
 });
 
-// API: Get All Leads (admin only - no auth for now, add later)
-app.get("/api/leads", (_req, res) => {
+// API: Get All Leads (admin only - requires authentication)
+app.get("/api/leads", requireAuth, (_req, res) => {
   try {
     const data = readLeads();
     res.json({
