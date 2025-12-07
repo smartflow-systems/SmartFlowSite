@@ -69,24 +69,31 @@ Preferred communication style: Simple, everyday language.
 - **Deployment**: `replit.toml` configured to run `node server.js` on port 5000
 - **CSS**: Single compiled `styles.css` with all theme and component styles
 
-## Recent Changes (Nov 30, 2025)
+## Recent Changes (Dec 7, 2025)
 
-### Projects & Navigation
+### SFS Design Kit Integration
+- ✅ Saved **SFS-DESIGN-KIT-SETUP-GUIDE.md** as reference for future React apps
+- ✅ Added SFS Design Kit CSS patterns to `styles.css`:
+  - Glass card utility class (`.glass-card`)
+  - Sidebar item styling (`.sidebar-item`)
+  - Custom scrollbar styling (`.custom-scrollbar`)
+  - **11 animation classes**: fade-in, slide-up, scale-in, slide-in-left/right, bounce-in, pulse-glow, shimmer, page-transition, stagger-animation
+  - **2 hover effects**: hover-lift, hover-glow
+  - **6 color utilities**: bg-sfs-black, bg-sfs-brown, bg-sfs-gold, text-sfs-gold, text-sfs-beige, border-sfs-gold
+
+### Bug Fixes & Features
+- ✅ Fixed XSS vulnerability report (confirmed false positive - code uses safe DOM methods)
+- ✅ Restored animated circuit background (`circuit-bg.js`)
+- ✅ Fixed SFS app connection to cards (changed `p.link` → `p.demoUrl`)
+- ✅ Increased circuit animation opacity for visibility (0.35 → 0.7)
+- ✅ Successfully pushed 12 commits to GitHub (branch protection verified)
+
+### Previous Changes (Nov 30, 2025)
 - ✅ Expanded from 6 hardcoded cards to **30 dynamic cards**
 - ✅ Created `projects.js` for dynamic card rendering from JSON
-- ✅ Updated `systems.json` with 30 complete SFS apps (descriptions, tags, links)
-- ✅ **Hamburger menu** on left side with all navigation links
-- ✅ Menu includes: Projects, Latest, Pricing, Contact, GitHub, Book Demo
-- ✅ Smooth slide-in animation with overlay
-- ✅ Optimized CSS grid for smaller cards (180px minmax) - displays 5-7 cards per row
-- ✅ Cleaned up merge conflicts in `index.html`
-- ✅ Added "See the 30 Systems" to hero section
-
-### Code Quality
-- Removed hardcoded project cards from HTML
-- Dynamic card generation reduces HTML file size by 50%
-- Scalable system for adding more apps in future
-- Added `menu.js` for hamburger menu functionality
+- ✅ Updated `systems.json` with 30 complete SFS apps
+- ✅ **Hamburger menu** with smooth slide-in animation
+- ✅ Optimized CSS grid - displays 5-7 cards per row
 
 ## File Structure
 
