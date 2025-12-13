@@ -1,0 +1,236 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# SmartFlow Git helper
+# Usage: sf <command> [args...]
+# Common: sf save "msg" | sf push | sf pull | sf sync | sf new feature-x | sf switch main | sf status
+
+red(){ printf "\033[31m%s\033[0m\n" "$*"; }
+grn(){ printf "\033[32m%s\033[0m\n" "$*"; }
+ylw(){ printf "\033[33m%s\033[0m\n" "$*"; }
+dim(){ printf "\033[2m%s\033[0m\n" "$*"; }
+
+need_repo(){
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    red "Not inside a git repo. Use: sf clone <git-url> [folder]  OR  cd into your repo."
+    exit 1
+  fi
+}
+
+default_branch(){
+  # Try to detect origin's default branch. Fallback to main/master.
+  local head
+  head="$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)"
+  if [[ -n "${head}" ]]; then
+    echo "${head#origin/}"
+  else
+    # If no origin HEAD, prefer main if exists, else master, else current
+    git show-ref --verify --quiet refs/heads/main && { echo main; return; }
+    git show-ref --verify --quiet refs/heads/master && { echo master; return; }
+    git branch --show-current
+  fi
+}
+
+current_branch(){
+  git branch --show-current
+}
+
+ensure_origin(){
+  if ! git remote get-url origin >/dev/null 2>&1; then
+    red "No 'origin' remote set."
+    ylw "Add it with: git remote add origin <git-url>"
+    exit 1
+  fi
+}
+
+ensure_identity(){
+  # Set a friendly default identity if missing (edit to your details)
+  local name email
+  name="$(git config user.name || true)"
+  email="$(git config user.email || true)"
+  if [[ -z "$name" || -z "$email" ]]; then
+    ylw "Git identity not set for this repo."
+    ylw "Setting temporary local identity: Smartflow User <user@smartflow.local>"
+    git config user.name "Smartflow User"
+    git config user.email "user@smartflow.local"
+    dim  "Tip: set global identity: git config --global user.name 'Your Name'; git config --global user.email 'you@example.com'"
+  fi
+}
+
+cmd_clone(){
+  local url="${1:-}"; local dir="${2:-}"
+  if [[ -z "$url" ]]; then red "Usage: sf clone <git-url> [folder]"; exit 1; fi
+  if [[ -n "$dir" ]]; then
+    git clone "$url" "$dir" && cd "$dir"
+  else
+    git clone "$url"
+  fi
+  grn "Cloned. Next: cd into the folder, then 'sf pull' or 'sf status'."
+}
+
+cmd_init(){
+  # Initialize repo & set origin
+  local url="${1:-}"
+  if [[ -z "$url" ]]; then red "Usage: sf init <git-url>"; exit 1; fi
+  git init
+  git add -A
+  git commit -m "init"
+  git branch -M main || true
+  git remote add origin "$url"
+  git push -u origin "$(default_branch)"
+  grn "Repo initialized and pushed to origin."
+}
+
+cmd_status(){
+  need_repo
+  grn "Repo: $(basename "$(git rev-parse --show-toplevel)")"
+  echo "Remote origin: $(git remote get-url origin 2>/dev/null || echo 'not set')"
+  echo "Branch: $(current_branch)"
+  echo
+  git status -sb
+}
+
+cmd_pull(){
+  need_repo; ensure_origin
+  ensure_identity
+  local br; br="$(current_branch)"
+  if [[ -z "$br" ]]; then br="$(default_branch)"; git checkout "$br" 2>/dev/null || true; fi
+  ylw "Pulling latest with rebase from origin/$br ..."
+  git fetch origin
+  git pull --rebase origin "$br"
+  grn "Pulled."
+}
+
+cmd_push(){
+  need_repo; ensure_origin
+  ensure_identity
+  local br; br="$(current_branch)"
+  if [[ -z "$br" ]]; then br="$(default_branch)"; git checkout "$br" 2>/dev/null || true; fi
+  ylw "Pushing to origin/$br ..."
+  # Create upstream if missing
+  if ! git rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
+    git push -u origin "$br"
+  else
+    git push
+  fi
+  grn "Pushed."
+}
+
+cmd_save(){
+  need_repo
+  local msg="${1:-}"
+  if [[ -z "$msg" ]]; then
+    msg="chore: quick save $(date '+%Y-%m-%d %H:%M:%S')"
+    ylw "No message provided. Using: '$msg'"
+  fi
+  git add -A
+  # Only commit if there are changes
+  if ! git diff --cached --quiet; then
+    git commit -m "$msg"
+    grn "Committed."
+  else
+    ylw "No changes to commit."
+  fi
+  cmd_push
+}
+
+cmd_sync(){
+  # Safely bring your branch up to date: stash → pull --rebase → pop
+  need_repo; ensure_origin
+  ensure_identity
+  local br; br="$(current_branch)"
+  if [[ -z "$br" ]]; then br="$(default_branch)"; git checkout "$br" 2>/dev/null || true; fi
+  ylw "Stashing local changes (if any)..."
+  git stash push -u -m "sf-sync-$(date +%s)" || true
+  ylw "Fetching & rebasing onto origin/$br ..."
+  git fetch origin
+  git rebase "origin/$br" || { red "Rebase had conflicts. Resolve, then 'git rebase --continue'."; exit 1; }
+  ylw "Restoring stash..."
+  if git stash list | grep -q "sf-sync"; then
+    git stash pop || { ylw "Auto-apply had conflicts. Fix, add files, then 'git rebase --continue' if needed."; }
+  fi
+  grn "Synced with origin/$br."
+}
+
+cmd_new(){
+  # Create & switch to new branch from default branch
+  need_repo
+  local name="${1:-}"
+  if [[ -z "$name" ]]; then red "Usage: sf new <branch-name>"; exit 1; fi
+  local def; def="$(default_branch)"
+  git fetch origin >/dev/null 2>&1 || true
+  git checkout "$def" 2>/dev/null || git checkout -b "$def"
+  git pull --rebase origin "$def" 2>/dev/null || true
+  git checkout -b "$name"
+  grn "Created & switched to branch: $name"
+}
+
+cmd_switch(){
+  need_repo
+  local name="${1:-}"
+  if [[ -z "$name" ]]; then red "Usage: sf switch <branch-name>"; exit 1; fi
+  git checkout "$name" || red "Branch '$name' not found. Try: sf new $name"
+}
+
+cmd_log(){
+  need_repo
+  git log --oneline --graph --decorate -n 20
+}
+
+cmd_setorigin(){
+  need_repo
+  local url="${1:-}"
+  if [[ -z "$url" ]]; then red "Usage: sf set-origin <git-url>"; exit 1; fi
+  if git remote get-url origin >/dev/null 2>&1; then
+    git remote set-url origin "$url"
+  else
+    git remote add origin "$url"
+  fi
+  grn "Origin set to: $url"
+}
+
+cmd_help(){
+  cat <<EOF
+SmartFlow Git helper
+
+Core:
+  sf save "msg"    - add all, commit, push (msg optional)
+  sf push          - push current branch
+  sf pull          - pull --rebase on current/default branch
+  sf sync          - stash, pull --rebase, pop (safe update)
+
+Branches:
+  sf new <name>    - create branch from default and switch
+  sf switch <name> - switch to branch
+  sf log           - show recent commits
+
+Repo/Remote:
+  sf status        - short status
+  sf clone <url> [dir] - clone repo
+  sf init <url>    - init new repo, set origin, push
+  sf set-origin <url>  - set or update origin
+
+Tips:
+  - Works with either 'main' or 'master'.
+  - If identity missing, sets a local temporary one.
+EOF
+}
+
+main(){
+  local cmd="${1:-help}"; shift || true
+  case "$cmd" in
+    clone)       cmd_clone "$@";;
+    init)        cmd_init "$@";;
+    status)      cmd_status "$@";;
+    pull)        cmd_pull "$@";;
+    push)        cmd_push "$@";;
+    save)        cmd_save "$@";;
+    sync)        cmd_sync "$@";;
+    new)         cmd_new "$@";;
+    switch)      cmd_switch "$@";;
+    log)         cmd_log "$@";;
+    set-origin)  cmd_setorigin "$@";;
+    help|*)      cmd_help;;
+  esac
+}
+main "$@"

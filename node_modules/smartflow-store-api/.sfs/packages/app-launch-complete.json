@@ -1,0 +1,117 @@
+{
+  "package_id": "app-launch-complete",
+  "name": "Complete App Launch Package",
+  "version": "1.0.0",
+  "description": "End-to-end app launch: repo setup → branding → docs → CI/CD → landing page",
+  "capabilities": [
+    "app-launch",
+    "repository-setup",
+    "branding",
+    "documentation",
+    "ci-cd",
+    "content-generation"
+  ],
+  "agents": [
+    "repo-manager",
+    "smartflow-theme-enforcer",
+    "documentation-writer",
+    "ci-setup-agent",
+    "chatgpt-content-creator",
+    "my-first-agent"
+  ],
+  "workflow": [
+    {
+      "name": "create-repository",
+      "agent": "repo-manager",
+      "action": "create-from-template",
+      "input": {
+        "repo_name": "${APP_NAME}",
+        "template_repo": "SmartFlowSite",
+        "enable_ci": true,
+        "branch_protection": true
+      },
+      "output_to": "repo_info"
+    },
+    {
+      "name": "apply-branding",
+      "agent": "smartflow-theme-enforcer",
+      "action": "apply-theme",
+      "input": {
+        "repo_path": "${repo_info.clone_url}",
+        "theme_variant": "standard"
+      },
+      "depends_on": ["create-repository"],
+      "output_to": "branding_result"
+    },
+    {
+      "name": "generate-landing-page",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "landing-page",
+        "topic": "${APP_NAME} - ${APP_DESCRIPTION}",
+        "target_audience": "${TARGET_AUDIENCE}",
+        "tone": "professional"
+      },
+      "depends_on": ["create-repository"],
+      "output_to": "landing_content"
+    },
+    {
+      "name": "create-documentation",
+      "agent": "documentation-writer",
+      "action": "generate-docs",
+      "input": {
+        "doc_type": "readme",
+        "repo_path": "${repo_info.clone_url}",
+        "app_name": "${APP_NAME}",
+        "description": "${APP_DESCRIPTION}"
+      },
+      "depends_on": ["apply-branding", "generate-landing-page"],
+      "output_to": "docs_result"
+    },
+    {
+      "name": "setup-ci-cd",
+      "agent": "ci-setup-agent",
+      "action": "configure-ci",
+      "input": {
+        "repo_path": "${repo_info.clone_url}",
+        "workflow_type": "${WORKFLOW_TYPE}",
+        "deploy_target": "${DEPLOY_TARGET}"
+      },
+      "depends_on": ["create-documentation"],
+      "output_to": "ci_result"
+    },
+    {
+      "name": "finalize-launch",
+      "agent": "my-first-agent",
+      "action": "finalize",
+      "input": {
+        "task": "Finalize app launch",
+        "data": {
+          "app_name": "${APP_NAME}",
+          "repo": "${repo_info}",
+          "branding": "${branding_result}",
+          "ci": "${ci_result}"
+        }
+      },
+      "depends_on": ["setup-ci-cd"],
+      "output_to": "launch_complete"
+    }
+  ],
+  "required_context": [
+    "APP_NAME",
+    "APP_DESCRIPTION",
+    "TARGET_AUDIENCE"
+  ],
+  "default_context": {
+    "WORKFLOW_TYPE": "node",
+    "DEPLOY_TARGET": "replit"
+  },
+  "metadata": {
+    "author": "Garet (SmartFlow Systems)",
+    "created": "2025-01-15",
+    "tags": ["app-launch", "full-stack", "automation"],
+    "estimated_duration": "20-25 minutes",
+    "notes": "Automates the entire app launch process from repo creation to deployment"
+  }
+}

@@ -1,0 +1,33 @@
+name: verify-sfs-pat
+on:
+  workflow_dispatch:
+  push: { paths: [".github/workflows/verify-sfs-pat.yml"] }
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure secret is present
+        run: |
+          if [ -z "${{ secrets.SFS_PAT }}" ]; then echo "❌ Missing Actions secret SFS_PAT"; exit 1; fi
+          echo "✅ SFS_PAT is present"
+      - name: Install jq
+        run: sudo apt-get update -y && sudo apt-get install -y jq
+      - name: Authenticate with GitHub API (/user) with trim + dual scheme
+        env: { RAW: ${{ secrets.SFS_PAT }} }
+        run: |
+          set -euo pipefail
+          TRIM="$(printf '%s' "$RAW" | tr -d '\r' | sed -E 's/[[:space:]]+$//')"
+          raw_len=${#RAW}; trim_len=${#TRIM}; [ "$raw_len" -ne "$trim_len" ] && echo "ℹ️ Trimmed trailing whitespace from token"
+          ok=0; scheme_used=""
+          for SCH in token Bearer; do
+            headers="$(mktemp)"; body="$(mktemp)"
+            code=$(curl -sS -w '%{http_code}' -o "$body" -D "$headers" \
+              -H "Authorization: $SCH $TRIM" -H "Accept: application/vnd.github+json" https://api.github.com/user)
+            echo "try:$SCH code=$code"
+            if [ "$code" = "200" ]; then ok=1; scheme_used="$SCH"; break; fi
+          done
+          [ "$ok" -eq 1 ] || { echo "❌ Auth failed with both schemes"; echo "Body:"; cat "$body"; exit 1; }
+          login=$(jq -r '.login // empty' "$body" 2>/dev/null || true)
+          [ -n "$login" ] && echo "✅ Auth OK as: $login (scheme=$scheme_used)" || echo "✅ Auth OK (fine-grained likely)"
+          grep -Ei '^(x-oauth-scopes|x-ratelimit|date):' "$headers" | sed 's/\r$//'

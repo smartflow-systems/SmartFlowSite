@@ -1,0 +1,74 @@
+═══════════════════════════════════════════════════════════════════════
+  SMARTFLOW SYSTEMS - REPLIT DEPLOYMENT INSTRUCTIONS
+═══════════════════════════════════════════════════════════════════════
+
+STEP 1: Copy the files manually via Replit UI
+
+Since the files are on your local Windows machine, the easiest method is:
+
+1. Open Replit → SmartFlowSite project
+2. In the Files panel (left sidebar), click the upload button
+3. Upload these 3 files from your local machine:
+
+   FROM: C:\Users\garet\OneDrive\Documents\01_Active_Projects\SFS\
+   
+   → index-upgraded.html  (then rename to index.html)
+   → styles-master.css    (then rename to styles.css)  
+   → js\master-app.js     (upload to js/app.js)
+
+STEP 2: Commit in Replit Shell
+
+After uploading, run this in Replit Shell:
+
+git add index.html styles.css js/app.js
+git commit -m "feat: Master landing page upgrade - production ready"
+git push origin main
+
+═══════════════════════════════════════════════════════════════════════
+  ALTERNATIVE: Use curl to download from a gist
+═══════════════════════════════════════════════════════════════════════
+
+If you create a GitHub Gist with the files, you can download them directly:
+
+# Create backup
+mkdir -p .sfs-backups/upgrade-$(date +%Y%m%d-%H%M%S)
+cp index.html .sfs-backups/upgrade-$(date +%Y%m%d-%H%M%S)/ 2>/dev/null || true
+
+# Download files (replace GIST_URL with your actual gist URL)
+# curl -o index.html https://gist.githubusercontent.com/YOUR_USERNAME/GIST_ID/raw/index-upgraded.html
+# curl -o styles.css https://gist.githubusercontent.com/YOUR_USERNAME/GIST_ID/raw/styles-master.css
+# curl -o js/app.js https://gist.githubusercontent.com/YOUR_USERNAME/GIST_ID/raw/master-app.js
+
+# Commit
+git add index.html styles.css js/app.js
+git commit -m "feat: Master landing page upgrade"
+git push origin main
+
+═══════════════════════════════════════════════════════════════════════
+  WHAT YOU'RE DEPLOYING
+═══════════════════════════════════════════════════════════════════════
+
+✅ index.html - Complete redesigned landing page with:
+   • Gradient hero section
+   • Category filtering for solutions
+   • Enhanced social proof & pricing
+   • Mobile-first responsive design
+
+✅ styles.css - Single consolidated CSS (replaces 5+ files)
+   • Clean design system
+   • Responsive breakpoints
+   • Smooth animations
+   • Accessibility features
+
+✅ js/app.js - Unified JavaScript with:
+   • Mobile navigation
+   • Solution filtering
+   • Animated counters
+   • Scroll effects
+   • Performance optimizations
+
+═══════════════════════════════════════════════════════════════════════
+
+RECOMMENDATION: Use file upload method (Step 1 & 2 above)
+It's the fastest and most reliable!
+

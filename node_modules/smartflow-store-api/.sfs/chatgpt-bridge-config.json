@@ -1,0 +1,50 @@
+{
+  "sync_interval": "5m",
+  "chatgpt_projects": [
+    {
+      "project_id": "sfs-marketing-agent",
+      "name": "SFS Marketing Agent",
+      "description": "Marketing content generation and campaign management",
+      "sync_files": [
+        "docs/Memory-Baseline.md",
+        "sfs-theme-config.json",
+        "marketing/*.md",
+        "docs/SmartFlow-Agent-Master.md",
+        "gpts/templates/*.md"
+      ]
+    },
+    {
+      "project_id": "sfs-development-agent",
+      "name": "SFS Development Agent",
+      "description": "Code generation and development assistance",
+      "sync_files": [
+        "docs/Memory-Baseline.md",
+        "docs/CI-HowTo.md",
+        ".github/workflows/*.yml",
+        "SFS-DESIGN-SYSTEM.md"
+      ]
+    }
+  ],
+  "claude_projects": [
+    {
+      "project_name": "SmartFlowSite",
+      "sync_on_change": true,
+      "watch_paths": [
+        "docs/",
+        "sfs-theme-config.json",
+        ".sfs/agents/"
+      ]
+    }
+  ],
+  "sync_rules": {
+    "exclude_patterns": [
+      "node_modules/**",
+      ".git/**",
+      "*.log",
+      ".env",
+      "secrets.*"
+    ],
+    "auto_commit": false,
+    "backup_before_sync": true
+  }
+}

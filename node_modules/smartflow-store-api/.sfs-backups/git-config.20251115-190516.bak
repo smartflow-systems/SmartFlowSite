@@ -1,0 +1,164 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	hooksPath = scripts/git-hooks
+[remote "origin"]
+	fetch = +refs/heads/*:refs/remotes/origin/*
+	gh-resolved = base
+	url = https://github.com/smartflow-systems/SmartFlowSite.git
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[user]
+	name = SmartFlow Bot
+	email = bot@smartflow.systems
+[branch "dev"]
+	remote = origin
+	merge = refs/heads/dev
+[branch "chore/pages-polish"]
+	remote = origin
+	merge = refs/heads/chore/pages-polish
+[branch "fix/codeql-safe-data-route"]
+	remote = origin
+	merge = refs/heads/fix/codeql-safe-data-route
+[branch "chore/sfs-rules"]
+	remote = origin
+	merge = refs/heads/chore/sfs-rules
+[branch "release/v0.2"]
+	remote = origin
+	merge = refs/heads/release/v0.2
+[branch "quarantine-20250919T201632Z"]
+	remote = origin
+	merge = refs/heads/quarantine-20250919T201632Z
+[branch "feat/secure-flask-app-20250919T222224Z"]
+	remote = origin
+	merge = refs/heads/feat/secure-flask-app-20250919T222224Z
+[branch "replit-agent"]
+	remote = origin
+	merge = refs/heads/replit-agent
+[branch "reenable-ci-20250919T233006Z"]
+	remote = origin
+	merge = refs/heads/reenable-ci-20250919T233006Z
+[branch "reenable-ci-restore"]
+	remote = origin
+	merge = refs/heads/reenable-ci-restore
+[branch "feat/sfs-dash-20250920T140938Z"]
+	remote = origin
+	merge = refs/heads/feat/sfs-dash-20250920T140938Z
+[branch "feat/sfs-dash-20250920T141356Z"]
+	remote = origin
+	merge = refs/heads/feat/sfs-dash-20250920T141356Z
+[branch "safe-20250920T165921Z"]
+	remote = origin
+	merge = refs/heads/safe-20250920T165921Z
+[branch "feat/verify-fix-20250920T181323Z"]
+	remote = origin
+	merge = refs/heads/feat/verify-fix-20250920T181323Z
+[branch "feat/sick-mode-20250921T050927Z"]
+	remote = origin
+	merge = refs/heads/feat/sick-mode-20250921T050927Z
+[branch "feat/ci-20251004T143141Z"]
+	remote = origin
+	merge = refs/heads/feat/ci-20251004T143141Z
+[branch "feat/ci-signing-20251004T144257Z"]
+	remote = origin
+	merge = refs/heads/feat/ci-signing-20251004T144257Z
+[branch "feat/ci-stamp-20251004T145847Z"]
+	remote = origin
+	merge = refs/heads/feat/ci-stamp-20251004T145847Z
+[branch "sec/pin-actions-20251004T151949Z"]
+	remote = origin
+	merge = refs/heads/sec/pin-actions-20251004T151949Z
+[branch "fix/ci-reusable-20251004T155010Z"]
+	remote = origin
+	merge = refs/heads/fix/ci-reusable-20251004T155010Z
+[branch "fix/ci-reusable-20251004T155604Z"]
+	remote = origin
+	merge = refs/heads/fix/ci-reusable-20251004T155604Z
+[branch "tune/ci-20251004T171209Z"]
+	remote = origin
+	merge = refs/heads/tune/ci-20251004T171209Z
+[branch "tune/ci-fix-20251004T181200Z"]
+	remote = origin
+	merge = refs/heads/tune/ci-fix-20251004T181200Z
+[branch "fix/sync-gate-20251004T181906Z"]
+	remote = origin
+	merge = refs/heads/fix/sync-gate-20251004T181906Z
+[branch "fix/test-shim-20251004T182732Z"]
+	remote = origin
+	merge = refs/heads/fix/test-shim-20251004T182732Z
+[commit]
+	gpgsign = false
+[branch "fix/sfs-sync-guard-20251004T232751Z"]
+	remote = origin
+	merge = refs/heads/fix/sfs-sync-guard-20251004T232751Z
+[branch "tune/ci-soften-20251004T231722Z"]
+	remote = origin
+	merge = refs/heads/tune/ci-soften-20251004T231722Z
+[branch "docs/project-home-20251005T095747Z"]
+	remote = origin
+	merge = refs/heads/docs/project-home-20251005T095747Z
+[branch "chore/sfs-sync-clean-20251008T185520Z"]
+	remote = origin
+	merge = refs/heads/chore/sfs-sync-clean-20251008T185520Z
+[branch "diag/test-20251011T135852Z"]
+	remote = origin
+	merge = refs/heads/diag/test-20251011T135852Z
+[branch "fix/signing-20251011T140806Z"]
+	remote = origin
+	merge = refs/heads/fix/signing-20251011T140806Z
+[branch "chore/public-serve-verify-20251011T183002Z"]
+	remote = origin
+	merge = refs/heads/chore/public-serve-verify-20251011T183002Z
+[branch "pr-115"]
+	remote = origin
+	merge = refs/heads/pr-115
+[branch "chore/least-perms"]
+	remote = origin
+	merge = refs/heads/chore/least-perms
+[branch "feat/ui-shell"]
+	remote = origin
+	merge = refs/heads/feat/ui-shell
+[branch "ui-shell-signed-signed"]
+	remote = origin
+	merge = refs/heads/main
+[branch "chore/latest-stubs-20251021T054700"]
+	remote = origin
+	merge = refs/heads/chore/latest-stubs-20251021T054700
+[branch "chore/latest-stubs-20251021T054512"]
+	remote = origin
+	merge = refs/heads/chore/latest-stubs-20251021T054512
+[branch "chore/verify-sfs-pat"]
+	remote = origin
+	merge = refs/heads/chore/verify-sfs-pat
+[branch "fix/20251026-0311-restore-deleted"]
+	remote = origin
+	merge = refs/heads/fix/20251026-0311-restore-deleted
+[advice]
+	addEmptyPathspec = false
+[branch "sec/alert35-permissions-20251026-0356-1761451008"]
+	remote = origin
+	merge = refs/heads/sec/alert35-permissions-20251026-0356-1761451008
+[branch "docs/memory-baseline-v0.4"]
+	remote = origin
+	merge = refs/heads/docs/memory-baseline-v0.4
+[branch "fix/insta-agent-pages"]
+	remote = origin
+	merge = refs/heads/fix/insta-agent-pages
+[branch "docs/memory-baseline-v0.4-signed"]
+	remote = origin
+	merge = refs/heads/main
+[branch "ops/bootstrap-20251102-183332"]
+	remote = origin
+	merge = refs/heads/ops/bootstrap-20251102-183332
+[branch "fix/ghost-submodules-20251102225556"]
+	remote = origin
+	merge = refs/heads/fix/ghost-submodules-20251102225556
+[remote "gitsafe-backup"]
+	url = git://gitsafe:5418/backup.git
+	fetch = +refs/heads/*:refs/remotes/gitsafe-backup/*
+[branch "fix/health-endpoint-config"]
+	remote = origin
+	merge = refs/heads/fix/health-endpoint-config

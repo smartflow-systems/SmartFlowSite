@@ -1,0 +1,4 @@
+name: "CodeQL Config"
+
+# Advanced configuration for CodeQL security scanning
+# Enables comprehensive security analysis with extended query suite

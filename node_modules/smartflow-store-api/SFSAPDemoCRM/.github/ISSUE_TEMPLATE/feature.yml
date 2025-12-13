@@ -1,0 +1,10 @@
+name: Feature
+description: Propose a feature
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes: {label: Goal, description: "What outcome do we want?"}
+  - type: textarea
+    id: acceptance
+    attributes: {label: Acceptance Criteria}

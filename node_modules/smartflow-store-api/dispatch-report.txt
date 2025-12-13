@@ -1,0 +1,15 @@
+-- SmartFlowSite
+  ERROR: repo fetch failed
+  (no dispatchable workflows)
+-- SocialScaleBooster
+  ERROR: repo fetch failed
+  (no dispatchable workflows)
+-- SocialScaleBoosterAIbot
+  ERROR: repo fetch failed
+  (no dispatchable workflows)
+-- SFSDataQueryEngine
+  ERROR: repo fetch failed
+  (no dispatchable workflows)
+-- SFSAPDemoCRM
+  ERROR: repo fetch failed
+  (no dispatchable workflows)

@@ -1,0 +1,53 @@
+{
+  "agent_id": "chatgpt-content-creator",
+  "name": "ChatGPT Content Creator",
+  "platform": "chatgpt",
+  "capabilities": [
+    "content-generation",
+    "seo-optimization",
+    "copywriting",
+    "social-media-posts"
+  ],
+  "apps": [
+    "SmartFlowSite",
+    "sfs-marketing-and-growth",
+    "SocialScaleBoosterAIbot"
+  ],
+  "description": "Generates marketing content, blog posts, and social media copy",
+  "triggers": {
+    "events": ["content.requested", "campaign.started"],
+    "schedule": "0 9 * * *",
+    "webhooks": ["/api/agents/content-creator/trigger"]
+  },
+  "context_files": [
+    "docs/Memory-Baseline.md",
+    "sfs-theme-config.json",
+    "marketing/brand-voice.md",
+    "marketing/content-calendar.csv"
+  ],
+  "inputs": {
+    "content_type": "string (blog|social|email|landing-page)",
+    "topic": "string",
+    "target_audience": "string",
+    "tone": "string (professional|casual|technical)",
+    "word_count": "number"
+  },
+  "outputs": {
+    "format": "markdown",
+    "destination": "content/generated/",
+    "schema": {
+      "title": "string",
+      "content": "string",
+      "meta_description": "string",
+      "keywords": "array<string>",
+      "social_snippets": "object"
+    }
+  },
+  "dependencies": [],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "SFS Marketing Team",
+    "last_updated": "2025-01-15",
+    "custom_gpt_id": null
+  }
+}

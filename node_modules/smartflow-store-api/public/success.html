@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success - SmartFlow Systems</title>
+  <link rel="stylesheet" href="sfs-complete-theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .success-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .success-card {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--sf-gold-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 3rem;
+    }
+
+    .success-card h1 {
+      color: var(--sf-gold);
+      margin-bottom: 1rem;
+    }
+
+    .success-card p {
+      color: hsl(var(--muted-foreground));
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="circuit-canvas"></canvas>
+
+  <div class="success-container">
+    <div class="glass-card success-card">
+      <div class="success-icon">✓</div>
+      <h1>Welcome to SmartFlow Systems!</h1>
+      <p>
+        Your payment was successful. We're excited to have you on board!
+        Check your email for account setup instructions and next steps.
+      </p>
+      <p>
+        Our team will reach out within 24 hours to schedule your onboarding session
+        and help you get started with your automation journey.
+      </p>
+      <div class="btn-group">
+        <a href="/admin.html" class="btn btn-gold">Access Dashboard</a>
+        <a href="/landing.html" class="btn btn-ghost">Return to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="sfs-circuit-flow.js"></script>
+</body>
+</html>
