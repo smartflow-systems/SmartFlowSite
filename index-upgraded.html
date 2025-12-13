@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — AI-Powered Business Automation</title>
+  <meta name="description" content="Turn-key business automation systems. AI bots, booking systems, e-commerce platforms, and premium websites — all prebuilt and ready to deploy."/>
+  <meta name="theme-color" content="#0D0D0D"/>
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="SmartFlow Systems — AI-Powered Business Automation"/>
+  <meta property="og:description" content="Turn-key business automation systems. AI bots, booking systems, and premium websites."/>
+  <meta property="og:image" content="https://smartflow-systems.com/assets/og-image.jpg"/>
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png"/>
+
+  <!-- Preload Critical Assets -->
+  <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles-master.css"/>
+</head>
+<body>
+  <!-- Circuit Flow Background Canvas -->
+  <canvas id="circuit-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <header class="nav" role="banner">
+    <div class="nav-container">
+      <a class="brand" href="/" aria-label="SmartFlow Systems Home">
+        <span class="brand-text">SmartFlow Systems</span>
+      </a>
+
+      <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-menu" role="navigation">
+        <a href="#solutions">Solutions</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#proof">Proof</a>
+        <a href="#pricing">Pricing</a>
+        <a href="contact.html">Contact</a>
+        <a class="btn btn-gold btn-sm" href="#pricing">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-particles" aria-hidden="true"></div>
+    <div class="hero-content">
+      <!-- Social Proof Badge -->
+      <div class="live-badge" aria-live="polite">
+        <span class="pulse-dot"></span>
+        <span><strong id="live-count">47</strong> businesses viewing now</span>
+      </div>
+
+      <h1 class="hero-title">
+        Business Automation<br/>
+        <span class="gradient-text">That Works While You Sleep</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Pre-built AI systems, booking platforms, and e-commerce shops.<br/>
+        Deploy in days, not months. No tech skills required.
+      </p>
+
+      <div class="hero-ctas">
+        <a class="btn btn-gold btn-lg" href="#solutions">
+          <span>Explore Solutions</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#how-it-works">How It Works</a>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="hero-trust">
+        <div class="trust-item">
+          <strong>500+</strong>
+          <span>Businesses</span>
+        </div>
+        <div class="trust-item">
+          <strong>99.9%</strong>
+          <span>Uptime</span>
+        </div>
+        <div class="trust-item">
+          <strong>£2M+</strong>
+          <span>Revenue Enabled</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Proposition -->
+  <section id="value-prop" class="section bg-panel">
+    <div class="container">
+      <div class="value-grid">
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <h3>Deploy in Days</h3>
+          <p>Pre-built systems ready to customize with your branding. Skip months of development.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤖</div>
+          <h3>AI-Powered</h3>
+          <p>Smart automation that handles bookings, content, customer service, and sales 24/7.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">📈</div>
+          <h3>Proven Results</h3>
+          <p>Used by 500+ businesses. Average 70% time saved and 40% revenue increase.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔧</div>
+          <h3>Full Support</h3>
+          <p>30-day optimization, training included, and priority support when you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions (Categorized) -->
+  <section id="solutions" class="section">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">Complete Business Solutions</h2>
+        <p class="section-subtitle">Pick the systems you need. All integrate seamlessly.</p>
+      </header>
+
+      <!-- Solution Tabs -->
+      <div class="solution-tabs" role="tablist">
+        <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">All Solutions</button>
+        <button class="tab-btn" data-category="automation" role="tab">Automation</button>
+        <button class="tab-btn" data-category="commerce" role="tab">Commerce</button>
+        <button class="tab-btn" data-category="marketing" role="tab">Marketing</button>
+        <button class="tab-btn" data-category="business" role="tab">Business Tools</button>
+      </div>
+
+      <!-- Featured Solutions -->
+      <div class="featured-solutions">
+        <article class="featured-card" data-category="automation">
+          <div class="featured-badge">Most Popular</div>
+          <div class="featured-content">
+            <h3>AI Social Bot</h3>
+            <p>Automate your social media with AI-powered captions, hashtags, DM funnels, and content scheduling. Turn followers into customers on autopilot.</p>
+            <ul class="feature-list">
+              <li>Auto-generated captions with niche hashtags</li>
+              <li>DM automation & lead capture funnels</li>
+              <li>Pre-built content calendars by industry</li>
+              <li>Multi-platform posting (IG, TikTok, Twitter)</li>
+            </ul>
+            <div class="featured-actions">
+              <a class="btn btn-gold" href="projects/ai-bot.html">See Capabilities</a>
+              <a class="btn btn-ghost" href="https://github.com/smartflow-systems/SocialScaleBoosterAIbot" target="_blank">View Code</a>
+            </div>
+          </div>
+          <div class="featured-visual">
+            <div class="visual-placeholder">🤖</div>
+          </div>
+        </article>
+
+        <article class="featured-card" data-category="automation">
+          <div class="featured-content">
+            <h3>Booking System Pro</h3>
+            <p>Turn-key booking platform with payments, calendar sync, and no-show protection. Perfect for salons, fitness studios, consultants, and more.</p>
+            <ul class="feature-list">
+              <li>Stripe deposits & payment processing</li>
+              <li>Google Calendar two-way sync</li>
+              <li>Industry presets (barber/salon/fitness/med)</li>
+              <li>SMS & email reminders</li>
+            </ul>
+            <div class="featured-actions">
+              <a class="btn btn-gold" href="projects/booking.html">See Capabilities</a>
+              <a class="btn btn-ghost" href="https://smartflow-booking-demo.replit.app" target="_blank">Live Demo</a>
+            </div>
+          </div>
+          <div class="featured-visual">
+            <div class="visual-placeholder">📅</div>
+          </div>
+        </article>
+
+        <article class="featured-card" data-category="commerce">
+          <div class="featured-content">
+            <h3>E-Commerce Platform</h3>
+            <p>Lightning-fast online stores with one-page checkout, upsells, and abandoned cart recovery. Built for speed and conversions.</p>
+            <ul class="feature-list">
+              <li>One-page checkout for higher conversions</li>
+              <li>Smart upsells & cross-sells</li>
+              <li>Automated abandoned cart emails</li>
+              <li>Speed-optimized static storefronts</li>
+            </ul>
+            <div class="featured-actions">
+              <a class="btn btn-gold" href="projects/ecom.html">See Capabilities</a>
+              <a class="btn btn-ghost" href="https://smartflow-ecom-demo.replit.app" target="_blank">Live Demo</a>
+            </div>
+          </div>
+          <div class="featured-visual">
+            <div class="visual-placeholder">🛒</div>
+          </div>
+        </article>
+      </div>
+
+      <!-- All Solutions Grid -->
+      <div class="solutions-grid">
+        <!-- Automation -->
+        <article class="solution-card" data-category="automation">
+          <div class="card-icon">🤖</div>
+          <h3>AI Companion Bot</h3>
+          <p>Custom conversational AI for customer service, sales, and support.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/AICompanionBot" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Marketing -->
+        <article class="solution-card" data-category="marketing">
+          <div class="card-icon">📊</div>
+          <h3>Marketing & Growth Suite</h3>
+          <p>UTM tracking, AI post generator, link-in-bio tools, and campaign analytics.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-marketing-and-growth" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="marketing">
+          <div class="card-icon">✨</div>
+          <h3>Marketing Toolkit</h3>
+          <p>Campaign builder, A/B testing, templates, and multi-channel publishing.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-marketing-toolkit" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Business Tools -->
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">💼</div>
+          <h3>Business Suite</h3>
+          <p>All-in-one: CRM, invoicing, scheduling, and workflow automation.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-business-suite" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">👥</div>
+          <h3>CRM System</h3>
+          <p>Contact & lead management with sales pipeline and nurture sequences.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/SFSAPDemoCRM" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">📋</div>
+          <h3>Project Manager</h3>
+          <p>Task boards, timelines, team collaboration, and progress tracking.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-project-manager" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">💳</div>
+          <h3>Invoice & Billing</h3>
+          <p>Professional invoices, recurring billing, payment tracking, and reminders.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-invoice-billing" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Analytics & Data -->
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">📈</div>
+          <h3>Analytics Engine</h3>
+          <p>Real-time metrics, custom dashboards, and predictive insights.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-analytics-engine" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">🔍</div>
+          <h3>DataLens Analytics</h3>
+          <p>Natural language to SQL, interactive visualizations, real-time dashboards.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/SFSDataQueryEngine" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">📡</div>
+          <h3>DataFlow Insights</h3>
+          <p>Web scraping, social analysis, automated data collection and exports.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/DataScrapeInsights" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Communication -->
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">💬</div>
+          <h3>Communications Hub</h3>
+          <p>Unified messaging: email, SMS, chat integration, automated follow-ups.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-comms-hub" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Websites & Content -->
+        <article class="solution-card" data-category="commerce">
+          <div class="card-icon">🌐</div>
+          <h3>Premium Websites</h3>
+          <p>SEO-ready, lightning-fast sites with SFS branding and lead forms.</p>
+          <a class="card-link" href="projects/websites.html">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="commerce">
+          <div class="card-icon">🏗️</div>
+          <h3>Website Builder</h3>
+          <p>Drag & drop page builder with templates and one-click hosting.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/WebsiteBuilder" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">📚</div>
+          <h3>Knowledge Base</h3>
+          <p>Self-service help center with searchable docs and AI suggestions.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-knowledge-base" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">🎥</div>
+          <h3>Video Platform</h3>
+          <p>Host & stream video content, courses, tutorials with engagement tracking.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-video-platform" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Developer Tools -->
+        <article class="solution-card" data-category="automation">
+          <div class="card-icon">🔌</div>
+          <h3>Embed SDK</h3>
+          <p>Drop-in widgets: booking, forms, chat embeds for any website.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-embed-sdk" target="_blank">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="automation">
+          <div class="card-icon">💻</div>
+          <h3>CodeGPT</h3>
+          <p>AI code assistant: generation, debugging, multi-language support.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/codegpt" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Security -->
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">🔐</div>
+          <h3>SecureAuth Pro</h3>
+          <p>USB cold storage authentication, FIDO-compliant, blockchain credentials.</p>
+          <a class="card-link" href="projects/secure-vault.html">Learn More →</a>
+        </article>
+
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">🛡️</div>
+          <h3>Personal VPN</h3>
+          <p>Secure private network, multi-device support, no-log privacy.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/SFSPersonalVPN" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Utilities -->
+        <article class="solution-card" data-category="marketing">
+          <div class="card-icon">🔗</div>
+          <h3>URL Shortener</h3>
+          <p>Branded short links, click tracking, analytics, QR generation.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-url-shortener" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- Templates -->
+        <article class="solution-card" data-category="automation">
+          <div class="card-icon">✂️</div>
+          <h3>Barber Booking Template</h3>
+          <p>Ready-to-deploy for barbers: services, staff, reminders, reviews.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/Barber-booker-tempate-v1" target="_blank">Learn More →</a>
+        </article>
+
+        <!-- White Label -->
+        <article class="solution-card" data-category="business">
+          <div class="card-icon">🎨</div>
+          <h3>White Label Dashboard</h3>
+          <p>Customizable client portals with your branding and domain.</p>
+          <a class="card-link" href="https://github.com/smartflow-systems/sfs-white-label-dashboard" target="_blank">Learn More →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="section bg-panel">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">From consultation to launch in 3 simple steps</p>
+      </header>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Choose Your Systems</h3>
+          <p>Book a free consultation. We'll discuss your business needs and recommend the right combination of systems.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>We Build & Customize</h3>
+          <p>Our team configures your systems, adds your branding, and integrates with your existing tools (Stripe, Calendar, etc.).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Launch & Optimize</h3>
+          <p>Go live in days. We provide training, 30-day optimization, and ongoing support to ensure success.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section id="proof" class="section">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">Trusted by 500+ Businesses</h2>
+        <p class="section-subtitle">Real results from real businesses</p>
+      </header>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-label">Businesses Automated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="70">0</div>
+          <div class="stat-suffix">%</div>
+          <div class="stat-label">Time Saved</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="2500">0</div>
+          <div class="stat-label">Hours Recovered/Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="98">0</div>
+          <div class="stat-suffix">%</div>
+          <div class="stat-label">Client Satisfaction</div>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <div class="testimonials-carousel">
+        <div class="testimonial-track">
+          <article class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <blockquote>We went from DMs to paid bookings in a day. The bot + booking combo just prints money.</blockquote>
+            <footer>
+              <strong>Jay T.</strong>
+              <span>Barber Studio Owner</span>
+            </footer>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <blockquote>Shop load time dropped under 1s and AOV went up 18% with the upsell preset. Game changer.</blockquote>
+            <footer>
+              <strong>Mo K.</strong>
+              <span>Streetwear Brand Founder</span>
+            </footer>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <blockquote>Gareth built our site, integrated Stripe, and the calendar sync is flawless. Best investment we made.</blockquote>
+            <footer>
+              <strong>Lina M.</strong>
+              <span>Aesthetics Clinic Manager</span>
+            </footer>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <blockquote>ROI in the first month! Our bookings doubled and no-shows dropped 80%. Incredible.</blockquote>
+            <footer>
+              <strong>Sarah M.</strong>
+              <span>Salon Owner</span>
+            </footer>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <blockquote>Best automation platform we've used. Support is incredible, results are real.</blockquote>
+            <footer>
+              <strong>David K.</strong>
+              <span>E-commerce Brand</span>
+            </footer>
+          </article>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <div class="badge-icon">🔒</div>
+          <div class="badge-text">
+            <strong>Bank-Level Security</strong>
+            <span>Encrypted & GDPR Compliant</span>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="badge-icon">⚡</div>
+          <div class="badge-text">
+            <strong>99.9% Uptime</strong>
+            <span>Enterprise-Grade Infrastructure</span>
+          </div>
+        </div>
+        <div class="trust-badge">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-text">
+            <strong>Award Winning</strong>
+            <span>Top-Rated Automation Platform</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section bg-panel">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">One-time setup. No hidden fees. Choose what you need.</p>
+      </header>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-header">
+            <h3>Starter</h3>
+            <p class="price-desc">Perfect for solopreneurs getting started</p>
+          </div>
+          <div class="price-amount">
+            <span class="currency">£</span>
+            <span class="amount">199</span>
+            <span class="period">one-time</span>
+          </div>
+          <ul class="price-features">
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> 1 system setup</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Brand colors & logo integration</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Email support</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> 14-day optimization</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="https://calendly.com/smartflow-systems" target="_blank">Join Waitlist</a>
+        </div>
+
+        <div class="price-card featured">
+          <div class="featured-badge">Most Popular</div>
+          <div class="price-header">
+            <h3>Pro</h3>
+            <p class="price-desc">For businesses ready to scale</p>
+          </div>
+          <div class="price-amount">
+            <span class="currency">£</span>
+            <span class="amount">499</span>
+            <span class="period">one-time</span>
+          </div>
+          <ul class="price-features">
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> 2 systems + integrations</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Stripe + Calendar sync</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Priority support</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> 30-day optimization</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Training included</li>
+          </ul>
+          <a class="btn btn-gold btn-block" href="https://calendly.com/smartflow-systems" target="_blank">Book Build</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-header">
+            <h3>Premium</h3>
+            <p class="price-desc">Complete automation suite for enterprises</p>
+          </div>
+          <div class="price-amount">
+            <span class="currency">£</span>
+            <span class="amount">999</span>
+            <span class="period">one-time</span>
+          </div>
+          <ul class="price-features">
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> All systems + presets</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Advanced analytics & reporting</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> White-label options</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> 60-day optimization & training</li>
+            <li><svg class="check-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 10l3 3L18 3"/></svg> Dedicated account manager</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="https://calendly.com/smartflow-systems" target="_blank">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="pricing-footer">
+        <p><strong>Need a custom solution?</strong> <a href="contact.html">Contact us</a> for enterprise pricing and custom integrations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Automate Your Business?</h2>
+        <p>Join 500+ businesses saving time and increasing revenue with SmartFlow Systems.</p>
+        <div class="cta-actions">
+          <a class="btn btn-gold btn-lg" href="https://calendly.com/smartflow-systems" target="_blank">Book Free Consultation</a>
+          <a class="btn btn-ghost btn-lg" href="contact.html">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>SmartFlow Systems</h3>
+          <p>AI-powered business automation. Build. Automate. Sell.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="#solutions">All Solutions</a></li>
+            <li><a href="projects/ai-bot.html">AI Social Bot</a></li>
+            <li><a href="projects/booking.html">Booking System</a></li>
+            <li><a href="projects/ecom.html">E-Commerce</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="updates.html">Updates</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://github.com/smartflow-systems" target="_blank">GitHub</a></li>
+            <li><a href="https://calendly.com/smartflow-systems" target="_blank">Book a Call</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> SmartFlow Systems. Built by Gareth Bowers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/master-app.js" defer></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

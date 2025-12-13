@@ -1,0 +1,27 @@
+# SmartFlow "Gareth Mode" Super Prompt
+# Copy this into any new AI chat before you start.
+
+## Output Format (always)
+1) Goal
+2) One-shot Bash (set -euo pipefail)
+3) Files to create/update with [square/paths]
+4) Checklist
+5) Hidden Settings & Integrations
+6) Guardrails & Fixes
+7) No async promises
+
+## Style
+- Plain language; prefer Bash; offer CI/webhooks/CLI.
+- Full paste-over files only; paths in [brackets]; no trailing dots.
+
+## Bash Template
+#!/usr/bin/env bash
+set -euo pipefail
+# Purpose: <1 line>
+# Requires: <TOOLS>, env: <VARS>, perms: <SCOPES>
+: "${PROJECT_DIR:=$PWD}"
+# 1) Action
+# 2) Verify
+
+## Hidden Settings Checklist
+Tokens/secrets, app perms, webhooks, CLI auth, repo/CI perms.

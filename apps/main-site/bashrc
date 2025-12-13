@@ -1,0 +1,1 @@
+alias sf-prompt="bash $PWD/scripts/open-gareth-mode.sh"

@@ -1,0 +1,31 @@
+# SmartFlow AI - Node.js Deployment Configuration
+# This file clearly identifies the project as a Node.js application
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smartflow-ai-deployment-config
+  labels:
+    app: smartflow-ai
+    type: nodejs
+    framework: express
+data:
+  # Application Type
+  runtime: "nodejs-20"
+  framework: "express"
+  language: "typescript"
+  
+  # Build Configuration
+  buildCommand: "npm ci && npm run build"
+  startCommand: "npm start"
+  
+  # Environment
+  nodeVersion: "20"
+  port: "3000"
+  
+  # Deployment Settings
+  platform: "node"
+  deployment-type: "nodejs"
+  
+  # Health Check
+  healthCheck: "http://0.0.0.0:3000/health"

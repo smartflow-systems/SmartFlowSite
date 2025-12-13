@@ -1,0 +1,92 @@
+Please find a solution for this failing job. Use the logs, job definition, and any referenced files where the failure occurred. Keep your response focused on the solution and include code suggestions when appropriate.
+
+The failing job is a CodeQL code scanning job. The error is:
+
+    CodeQL detected code written in JavaScript/TypeScript and Python, but not any written in GitHub Actions. Confirm that there is some source code for GitHub Actions in the project. For more information, review our troubleshooting guide at https://gh.io/troubleshooting-code
+
+Root Cause:
+Your CodeQL analysis workflow is set to scan for "actions" language, but your repository does not contain any GitHub Actions source code. Instead, it contains JavaScript/TypeScript and Python code.
+
+Solution:
+You need to update the CodeQL workflow so it scans the actual languages present in your repo (JavaScript, TypeScript, Python), not "actions".
+How to Fix
+
+    Edit the CodeQL workflow file.
+    Find the workflow at: dynamic/github-code-scanning/codeql.
+
+    Locate the languages: section.
+    It likely looks like this:
+    YAML
+
+languages: ['actions']
+
+Change it to the actual languages:
+YAML
+
+    languages: ['javascript', 'python']
+
+    Commit and push the change.
+    This will trigger the workflow again and the CodeQL analysis will run on your real codebase.
+
+Example Code Change
+YAML
+
+# Before
+languages: ['actions']
+
+# After
+languages: ['javascript', 'python']
+
+If you also use TypeScript:
+YAML
+
+languages: ['javascript', 'typescript', 'python']
+
+Summary:
+Update the CodeQL workflow to scan the languages you use (remove 'actions', add 'javascript', 'python', and/or 'typescript'), then rerun the workflow.
+
+If you want a direct link to the file or need help locating/editing, let me know!
+Skip to content
+Navigation Menu
+smartflow-systems
+SmartFlowSite
+
+Code
+Issues
+Pull requests 27
+Actions
+Projects
+Wiki
+Security 2
+Insights
+
+    Settings
+
+This commit does not belong to any branch on this repository, and may belong to a fork outside of the repository.
+Commit 534c736
+boweazy
+boweazy
+committed
+6 minutes ago
+fix(codeql): secure /data route (resolve + descendant + is_file)
+
+1 parent 
+1149f35
+ commit 534c736
+
+1 file changed
++22
+-10
+lines changed
+ 
+‎app.py‎
++22-10Lines changed: 22 additions & 10 deletions
+Original file line number	Diff line number	Diff line change
+@@ -36,13 +36,6 @@ def health():
+    site_name = cfg.get("siteName", "SmartFlow Systems") if cfg else "SmartFlow Systems"
+    return jsonify({"ok": True, "site": site_name})
+
+@app.route("/data/<path:fname>")
+def data_files(fname: str):
+    p = BASE / "data" / fname
+    if not p.exists():

@@ -1,0 +1,550 @@
+You are a senior full-stack builder. Upgrade the SmartFlowSite repo with a mini content system + tools:
+
+GOALS
+- Keep brand (black/brown + shiny gold).
+- Add a simple CMS flow using Markdown + JSON.
+- Generate: Blog (/blog), Updates (/updates.html), RSS (/rss.xml), and auto-sitemap.
+- Add /admin (no backend) to compose posts/updates and export files (user commits them).
+- Add /tools/social.html for AI caption & hashtag ideas (user supplies OpenAI key).
+- Add daily GitHub Action to rebuild static pages from content.
+
+TECH
+- Node build script (no frameworks).
+- Markdown parser: marked@12.
+- Front-matter via simple regex.
+- All pages remain static (no server).
+
+================================
+FILE: package.json
+================================
+{
+  "name": "smartflowsite",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "npm run build && npx live-server --port=3000 --no-browser",
+    "format": "npx prettier -w ."
+  },
+  "devDependencies": {
+    "marked": "12.0.2",
+    "prettier": "3.3.3"
+  }
+}
+
+================================
+FILE: scripts/build.js
+================================
+/* Build: reads content and generates static pages, RSS, sitemap */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { marked } from "marked";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.join(__dirname, "..");
+const CONTENT = path.join(ROOT, "content");
+const BLOG_DIR = path.join(CONTENT, "posts");
+const UPD_DIR = path.join(CONTENT, "updates");
+const DIST_BLOG = path.join(ROOT, "blog");
+
+function readJSON(fp, fallback = []) {
+  try { return JSON.parse(fs.readFileSync(fp, "utf8")); } catch { return fallback; }
+}
+function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
+
+function parseMD(md) {
+  // front-matter: ---\nkey: value\n---
+  let fm = {};
+  let body = md;
+  const m = md.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (m) {
+    const lines = m[1].split("\n");
+    for (const line of lines) {
+      const i = line.indexOf(":");
+      if (i > -1) fm[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+    }
+    body = md.slice(m[0].length);
+  }
+  return { fm, html: marked.parse(body) };
+}
+function slugify(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+function readMDDir(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => {
+      const raw = fs.readFileSync(path.join(dir, f), "utf8");
+      const { fm, html } = parseMD(raw);
+      const title = fm.title || f.replace(/\.md$/, "");
+      const date = fm.date || new Date().toISOString().slice(0, 10);
+      const tags = (fm.tags || "").split(",").map((t) => t.trim()).filter(Boolean);
+      const slug = fm.slug || slugify(title);
+      const excerpt = fm.excerpt || html.replace(/<[^>]+>/g, " ").slice(0, 180).trim() + "…";
+      return { title, date, tags, slug, html, excerpt };
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+function templatePage({ title, body, description = "", extraHead = "" }) {
+  const css = "styles.css";
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${title}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="${description.replace(/"/g, "&quot;")}">
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="/${css}">
+${extraHead}
+</head>
+<body>
+<header class="nav">
+  <div class="brand"><img class="logo" src="/assets/logo.svg" alt=""><span>SmartFlow Systems</span></div>
+  <nav>
+    <a href="/index.html#projects">Projects</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/blog/index.html">Blog</a>
+    <a href="/updates.html">Updates</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+</header>
+${body}
+<footer class="footer">
+  <div>© <span id="year"></span> SmartFlow Systems — Gareth Bowers</div>
+  <div class="links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+</body>
+</html>`;
+}
+
+function writeFileSafe(fp, content) {
+  ensureDir(path.dirname(fp));
+  fs.writeFileSync(fp, content);
+}
+
+/* Build blog list + individual posts */
+function buildBlog() {
+  const posts = readMDDir(BLOG_DIR);
+  // index
+  const items = posts
+    .map(
+      (p) => `<article class="card" style="padding:16px">
+  <h3 style="margin:0"><a href="/blog/${p.slug}.html">${p.title}</a></h3>
+  <div style="color:#cbbf9b;font-size:12px">${p.date} · ${p.tags.join(", ")}</div>
+  <p>${p.excerpt}</p>
+</article>`
+    )
+    .join("\n");
+  const indexHTML = templatePage({
+    title: "Blog — SmartFlow Systems",
+    description: "Tutorials, launches, and growth notes.",
+    body: `<section class="section"><h1 class="section-title">Blog</h1><div class="grid">${items || "<p>No posts yet.</p>"}</div></section>`,
+  });
+  writeFileSafe(path.join(DIST_BLOG, "index.html"), indexHTML);
+
+  // posts
+  for (const p of posts) {
+    const postHTML = templatePage({
+      title: `${p.title} — SmartFlow Blog`,
+      description: p.excerpt,
+      extraHead: `<meta property="og:title" content="${p.title}"><meta property="og:description" content="${p.excerpt}">`,
+      body: `<main class="section" style="max-width:900px;margin:0 auto">
+  <h1 class="section-title">${p.title}</h1>
+  <div style="color:#cbbf9b;margin:6px 0 16px">${p.date} · ${p.tags.join(", ")}</div>
+  <article class="card" style="padding:16px">${p.html}</article>
+  <p style="margin-top:16px"><a class="btn btn-ghost" href="/blog/index.html">← Back to Blog</a></p>
+</main>`,
+    });
+    writeFileSafe(path.join(DIST_BLOG, `${p.slug}.html`), postHTML);
+  }
+  return posts;
+}
+
+/* Build updates/changelog */
+function buildUpdates() {
+  const ups = readMDDir(UPD_DIR);
+  const body = `<section class="section"><h1 class="section-title">Updates & Changelog</h1>
+${ups
+  .map(
+    (u) => `<article class="card" style="padding:16px">
+  <h3 style="margin:0">${u.title}</h3>
+  <div style="color:#cbbf9b;font-size:12px">${u.date}</div>
+  <div style="margin-top:10px">${u.html}</div>
+</article>`
+  )
+  .join("\n")}
+</section>`;
+  const html = templatePage({ title: "Updates — SmartFlow Systems", description: "Latest product changes and releases.", body });
+  writeFileSafe(path.join(ROOT, "updates.html"), html);
+  return ups;
+}
+
+/* Read projects for RSS/links */
+function readProjects() {
+  const file = path.join(ROOT, "data", "projects.json");
+  return readJSON(file, []);
+}
+
+/* RSS & sitemap */
+function buildRSS(posts) {
+  const site = "https://smartflowsite.example"; // replace after deploy
+  const items = posts
+    .slice(0, 15)
+    .map(
+      (p) => `<item>
+<title>${p.title}</title>
+<link>${site}/blog/${p.slug}.html</link>
+<guid>${site}/blog/${p.slug}.html</guid>
+<pubDate>${new Date(p.date).toUTCString()}</pubDate>
+<description><![CDATA[${p.excerpt}]]></description>
+</item>`
+    )
+    .join("\n");
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+<title>SmartFlow Systems Blog</title>
+<link>${site}</link>
+<description>Tutorials, launches, growth notes.</description>
+${items}
+</channel></rss>`;
+  writeFileSafe(path.join(ROOT, "rss.xml"), rss);
+}
+
+function buildSitemap() {
+  const site = "https://smartflowsite.example"; // replace after deploy
+  const base = [
+    "/index.html",
+    "/pricing.html",
+    "/contact.html",
+    "/updates.html",
+    "/privacy.html",
+    "/terms.html"
+  ];
+  const posts = fs.existsSync(DIST_BLOG)
+    ? fs.readdirSync(DIST_BLOG).filter((f) => f.endsWith(".html")).map((f) => `/blog/${f}`)
+    : [];
+  const urls = base.concat(posts);
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((u) => `  <url><loc>${site}${u}</loc></url>`).join("\n")}
+</urlset>`;
+  writeFileSafe(path.join(ROOT, "sitemap.xml"), xml);
+}
+
+/* Build flow */
+ensureDir(DIST_BLOG);
+const posts = buildBlog();
+const ups = buildUpdates();
+buildRSS(posts);
+buildSitemap();
+console.log(`Built: ${posts.length} posts, ${ups.length} updates.`);
+
+================================
+DIR & SEEDS:
+Create folder /content/posts and /content/updates with starter files below.
+================================
+
+================================
+FILE: content/posts/launch-social-bot.md
+================================
+---
+title: Launch — AI Social Bot (v1)
+date: 2025-08-17
+tags: ai,social,instagram
+excerpt: First release of our AI Social Bot with presets for barbers, salons, and fitness.
+---
+We shipped **v1** of the AI Social Bot. Highlights:
+- Preset styles per niche
+- Post scheduler
+- Hashtag helper
+- Quick analytics overview
+
+Try the demo from the Projects section.
+
+================================
+FILE: content/updates/2025-08-17-v0-3.md
+================================
+---
+title: v0.3 — Mini-cart, Testimonials, FAQ
+date: 2025-08-17
+tags: site,upgrade
+---
+- Added mini-cart (test)
+- Testimonials carousel
+- FAQ + JSON-LD product schema
+- Perf & SEO polish
+
+================================
+FILE: admin.html
+================================
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><title>Admin — SmartFlow Systems (No Backend)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="assets/favicon.png"><link rel="stylesheet" href="styles.css">
+<style>
+  .wrap{max-width:980px;margin:24px auto;padding:0 16px}
+  textarea,input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1}
+  label{display:block;margin:10px 0 6px}
+  .grid2{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:860px){.grid2{grid-template-columns:1fr 1fr}}
+  .note{color:#cbbf9b}
+</style>
+</head><body>
+<header class="nav"><div class="brand"><img class="logo" src="assets/logo.svg"><span>SmartFlow Admin</span></div>
+<nav><a href="index.html#projects">Site</a></nav></header>
+<main class="wrap">
+  <h1 class="section-title">Admin (Draft & Export)</h1>
+  <p class="section-sub">This page stores drafts in your browser. Click “Export Files” to download Markdown/JSON you can commit to the repo.</p>
+
+  <section class="card" style="padding:16px">
+    <h2>New Blog Post</h2>
+    <div class="grid2">
+      <div>
+        <label>Title<input id="p-title" placeholder="Post title"></label>
+        <label>Date<input id="p-date" placeholder="YYYY-MM-DD"></label>
+        <label>Tags (comma)<input id="p-tags" placeholder="ai,social"></label>
+      </div>
+      <div>
+        <label>Body (Markdown)<textarea id="p-body" rows="10" placeholder="Write in Markdown…"></textarea></label>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="save-post">Save Draft</button>
+  </section>
+
+  <section class="card" style="padding:16px;margin-top:16px">
+    <h2>New Update</h2>
+    <div class="grid2">
+      <div>
+        <label>Title<input id="u-title" placeholder="Update title"></label>
+        <label>Date<input id="u-date" placeholder="YYYY-MM-DD"></label>
+        <label>Tags (comma)<input id="u-tags" placeholder="site,release"></label>
+      </div>
+      <div>
+        <label>Body (Markdown)<textarea id="u-body" rows="8" placeholder="Changes…"></textarea></label>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="save-upd">Save Draft</button>
+  </section>
+
+  <section class="card" style="padding:16px;margin-top:16px">
+    <h2>Export Files</h2>
+    <p class="note">Exports: <code>/content/posts/{slug}.md</code> and <code>/content/updates/{date}-{slug}.md</code>. Commit and push, the site rebuilds.</p>
+    <button class="btn btn-primary" id="export">Export ZIP</button>
+  </section>
+</main>
+<footer class="footer"><div>© <span id="year"></span> SmartFlow Systems</div></footer>
+
+<script>
+  const drafts = JSON.parse(localStorage.getItem('sfs_drafts')||'{"posts":[],"updates":[]}');
+  const save = ()=>localStorage.setItem('sfs_drafts', JSON.stringify(drafts));
+  const slug = s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+  document.getElementById('save-post').onclick = ()=>{
+    const t = pTitle.value.trim(), d = pDate.value.trim()||new Date().toISOString().slice(0,10), tg = pTags.value.trim(), b = pBody.value.trim();
+    if(!t||!b) return alert('Title and body required.');
+    drafts.posts.push({title:t,date:d,tags:tg,body:b}); save(); alert('Draft post saved.');
+  };
+  document.getElementById('save-upd').onclick = ()=>{
+    const t = uTitle.value.trim(), d = uDate.value.trim()||new Date().toISOString().slice(0,10), tg = uTags.value.trim(), b = uBody.value.trim();
+    if(!t||!b) return alert('Title and body required.');
+    drafts.updates.push({title:t,date:d,tags:tg,body:b}); save(); alert('Draft update saved.');
+  };
+
+  // Export as ZIP (minimal)
+  document.getElementById('export').onclick = async ()=>{
+    const files = [];
+    drafts.posts.forEach(p=>{
+      const fm = `---\\ntitle: ${p.title}\\ndate: ${p.date}\\ntags: ${p.tags}\\n---\\n`;
+      files.push({path:`content/posts/${slug(p.title)}.md`, content: fm + p.body + "\\n"});
+    });
+    drafts.updates.forEach(u=>{
+      const fm = `---\\ntitle: ${u.title}\\ndate: ${u.date}\\ntags: ${u.tags}\\n---\\n`;
+      files.push({path:`content/updates/${u.date}-${slug(u.title)}.md`, content: fm + u.body + "\\n"});
+    });
+    // Build a basic ZIP by hand (store only)
+    const tz = [];
+    let offset = 0, fileRecs = [];
+    const enc = new TextEncoder();
+    function crc32(str){ // tiny CRC32
+      let c = ~0; for (let i=0;i<str.length;i++){ c = (c>>>8) ^ [0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049][(c ^ str.charCodeAt(i)) & 15]; }
+      return ~c >>> 0;
+    }
+    for(const f of files){
+      const data = enc.encode(f.content);
+      const name = enc.encode(f.path);
+      const crc = crc32(f.content);
+      const lfh = new Uint8Array(30 + name.length);
+      const dv = new DataView(lfh.buffer);
+      dv.setUint32(0, 0x04034b50, true); // local file header
+      dv.setUint16(4, 20, true); // version
+      dv.setUint16(6, 0, true); // flags
+      dv.setUint16(8, 0, true); // no compression
+      dv.setUint16(10, 0, true); dv.setUint16(12, 0, true); // time/date
+      dv.setUint32(14, crc, true);
+      dv.setUint32(18, data.length, true);
+      dv.setUint32(22, data.length, true);
+      dv.setUint16(26, name.length, true);
+      dv.setUint16(28, 0, true);
+      lfh.set(name, 30);
+      tz.push(lfh, data);
+      fileRecs.push({name, crc, size: data.length, offset});
+      offset += lfh.length + data.length;
+    }
+    const cd = [];
+    let cdlen = 0;
+    for(const r of fileRecs){
+      const rec = new Uint8Array(46 + r.name.length);
+      const dv = new DataView(rec.buffer);
+      dv.setUint32(0, 0x02014b50, true);
+      dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+      dv.setUint16(8, 0, true); dv.setUint16(10, 0, true);
+      dv.setUint16(12, 0, true); dv.setUint16(14, 0, true); dv.setUint16(16, 0, true);
+      dv.setUint32(16+2, r.crc, true);
+      dv.setUint32(24, r.size, true); dv.setUint32(28, r.size, true);
+      dv.setUint16(32, r.name.length, true); dv.setUint16(34, 0, true); dv.setUint16(36, 0, true);
+      dv.setUint16(38, 0, true); dv.setUint16(40, 0, true); dv.setUint32(42, 0, true);
+      dv.setUint32(46-4, r.offset, true);
+      rec.set(r.name, 46);
+      cd.push(rec); cdlen += rec.length;
+    }
+    const eocd = new Uint8Array(22);
+    const dv2 = new DataView(eocd.buffer);
+    dv2.setUint32(0, 0x06054b50, true);
+    dv2.setUint16(8, fileRecs.length, true);
+    dv2.setUint16(10, fileRecs.length, true);
+    dv2.setUint32(12, cdlen, true);
+    dv2.setUint32(16, offset, true);
+    const blob = new Blob([...tz, ...cd, eocd], {type:"application/zip"});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "sfs-content.zip";
+    a.click();
+  };
+</script>
+</body></html>
+
+================================
+FILE: tools/social.html
+================================
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><title>Social Tools — SmartFlow Systems</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="../assets/favicon.png"><link rel="stylesheet" href="../styles.css">
+<style>.wrap{max-width:900px;margin:24px auto;padding:0 16px} textarea,input{width:100%;padding:10px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1}</style>
+</head><body>
+<header class="nav"><div class="brand"><img class="logo" src="../assets/logo.svg" alt=""><span>SmartFlow Systems</span></div>
+<nav><a href="../index.html#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+<main class="wrap">
+  <h1 class="section-title">Social Tools (AI)</h1>
+  <p class="section-sub">Paste your OpenAI API key (stored only in your browser) to generate captions, hooks & hashtags.</p>
+  <label>OpenAI API Key<input id="key" placeholder="sk-..."></label>
+  <label>Brief<textarea id="brief" rows="6" placeholder="Niche + offer + tone. Example: Barber shop August promo; tone: street-smart, friendly; CTA: book today."></textarea></label>
+  <button class="btn btn-primary" id="gen">Generate</button>
+  <article class="card" style="padding:16px;margin-top:16px">
+    <h3>Output</h3>
+    <pre id="out" style="white-space:pre-wrap"></pre>
+  </article>
+</main>
+<footer class="footer"><div>© <span id="year"></span> SmartFlow Systems</div></footer>
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const system = "You are a marketing assistant. Write punchy Instagram/TikTok captions with 3 hooks, 2 captions (short/long), and 15 niche hashtags.";
+  $("gen").onclick = async ()=>{
+    const key = $("key").value.trim(), brief = $("brief").value.trim();
+    if(!key || !brief) return alert("API key and brief required.");
+    const body = { model:"gpt-4o-mini", messages:[{role:"system",content:system},{role:"user",content:brief}] };
+    try{
+      const r = await fetch("https://api.openai.com/v1/chat/completions",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+key },
+        body: JSON.stringify(body)
+      });
+      const j = await r.json();
+      $("out").textContent = j.choices?.[0]?.message?.content || JSON.stringify(j,null,2);
+    }catch(e){ $("out").textContent = String(e); }
+  };
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body></html>
+
+================================
+FILE: .github/workflows/build.yml
+================================
+name: Build static pages
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: "0 8 * * *" # daily at 08:00 UTC to rebuild (in case content was edited online)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - run: npm run build
+      - name: Commit generated files
+        run: |
+          git config user.name "sfs-bot"
+          git config user.email "bot@smartflow.local"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore(build): refresh blog/updates/rss/sitemap"
+            git push
+          fi
+
+================================
+MODIFY: index.html (small slot to show latest)
+Add this block where you want “Latest” to appear (e.g., under hero, before Projects):
+================================
+<section class="section" id="latest">
+  <h2 class="section-title">Latest from SmartFlow</h2>
+  <div id="latest-box" class="grid"></div>
+</section>
+
+================================
+MODIFY: script.js (append at end; safe to merge)
+================================
+async function fetchText(u){ const r = await fetch(u); return r.text(); }
+// Render “Latest” by reading generated blog index quickly
+document.addEventListener('DOMContentLoaded', async ()=>{
+  const box = document.getElementById('latest-box'); if(!box) return;
+  try{
+    // quick scrape of blog/index.html list items
+    const html = await fetchText('/blog/index.html');
+    const m = html.match(/<div class="grid">([\\s\\S]*?)<\\/div>/);
+    box.innerHTML = m ? m[1].split('</article>').slice(0,3).join('</article>') : '<p>No posts yet.</p>';
+  }catch{ box.innerHTML = '<p>No posts yet.</p>'; }
+});
+
+================================
+UPDATE: README.md (append)
+================================
+## Content Workflow
+- Write posts in `/content/posts/*.md` and updates in `/content/updates/*.md`
+- Run `npm run build` (Replit shell) to generate:
+  - `/blog/index.html` + `/blog/{slug}.html`
+  - `/updates.html`
+  - `/rss.xml`
+  - `/sitemap.xml`
+- Commit & push. GitHub Action also runs daily.
+
+## Admin (no backend)
+Open `/admin.html` → write drafts → Export ZIP → unzip into repo → commit → push → Action builds.
+
+## Social Tools
+Open `/tools/social.html`, paste your OpenAI API key, write your brief → Generate captions & hashtags.
+
+End of instructions.

@@ -1,0 +1,12 @@
+name: sfs-ci-deploy
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        type: string
+        default: "3.11"
+jobs:
+  ci:
+    uses: ./.github/workflows/reuse-sfs-ci.yml
+    with:
+      python_version: ${{ inputs.python_version }}
