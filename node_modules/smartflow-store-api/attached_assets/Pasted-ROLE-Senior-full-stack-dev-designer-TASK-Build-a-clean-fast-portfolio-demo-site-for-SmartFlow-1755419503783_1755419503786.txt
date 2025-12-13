@@ -1,0 +1,626 @@
+ROLE: Senior full-stack dev + designer.
+TASK: Build a clean, fast portfolio/demo site for “SmartFlow Systems” (SFS) that I can run on Replit (static hosting). It should showcase my systems, let visitors open live demos in an embedded UI, show simulated live feeds/metrics, and make it easy for me to add/edit systems via a JSON file. Make it mobile-first and on-brand: dark brown/near-black + shiny gold accents.
+
+REQUIREMENTS
+1) Tech
+   - Plain HTML/CSS/JS (no frameworks). One-page app style with hash routing.
+   - Data-driven: /data/systems.json controls content (systems, links, tags, badges, demo iframe URLs).
+   - No external build step. Everything works on Replit static.
+   - Accessibility: semantic HTML, focus states, readable contrast.
+   - SEO basics + Open Graph/Twitter meta.
+
+2) Brand
+   - Palette: near-black (#0B0B0B), very dark brown (#15100E / #1B140F), gold accent (#C7A740 to #EBCB69 gradient), white text (#F6F6F6).
+   - Typeface: system fonts stack (SF Pro / Inter / Segoe UI / Roboto / Arial / sans-serif).
+   - Style words: Smooth, Street-Smart, Futuristic.
+
+3) Features
+   - Sticky top nav with sections: Home, Systems, Live, Pricing, Case Study, Contact.
+   - Hero section with bold headline, subhead, two CTAs (See Systems, Book Demo).
+   - Systems grid (from systems.json): card per system (logo/icon, name, tags, short pitch, “Open Demo”, “View Details”).
+     • “Open Demo” opens a modal with an iframe to the system URL (I will replace with my Replit links).
+     • “View Details” opens a drawer or modal with feature list, pricing note, and links.
+   - Live section: “SmartFlow Live Board”
+     • Simulated live metrics (active sessions, API calls, bookings, revenue today) that tick up via JS.
+     • A faux event stream list (every few seconds add “New booking”, “Payment succeeded”, etc).
+     • Toggle to switch to “External Feed” mode that pulls JSON from /data/live.json (create this file with sample data).
+   - Pricing section: 3 tiers (Starter, Pro, Premium) with features; “Book a Call” CTA.
+   - Case Study section: one spotlight case (before/after metrics, quotes).
+   - Contact section: simple form (name/email/message). For now, no backend—just console.log and “copied to clipboard” fallback with a mailto link.
+   - Footer with mini links + social icons (placeholders).
+
+4) Admin/Editing
+   - A small “Edit Mode” toggle (top-right; localStorage). When on:
+     • Cards show an “Edit JSON” hint linking to /data/systems.json.
+     • Each system card shows its key JSON snippet (collapsible).
+   - All copy and links editable in /data/site.json (hero text, social links, case study numbers, pricing bullet points).
+
+5) Performance & polish
+   - Lazy-load demo iframes only when modal opens.
+   - Lightweight CSS (no frameworks); utility classes for spacing.
+   - Smooth transitions; accessible modals (ESC to close, focus trap).
+   - Works well on iPhone/iPad.
+
+6) Files to create exactly as below.
+
+========================
+FILE: index.html
+========================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — Portfolio & Live Demos</title>
+  <meta name="description" content="SmartFlow Systems: booking, e-commerce, AI bots, and growth automations. See live demos with our slick UI and simulated live feeds.">
+  <meta name="theme-color" content="#0B0B0B"/>
+  <link rel="icon" href="assets/favicon.png"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SmartFlow Systems — Portfolio"/>
+  <meta property="og:description" content="Promote & demo SmartFlow systems with live UI and feeds."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="assets/og-image.png"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="SmartFlow Systems — Portfolio"/>
+  <meta name="twitter:description" content="Promote & demo SmartFlow systems with live UI and feeds."/>
+  <meta name="twitter:image" content="assets/og-image.png"/>
+
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#home">SmartFlow Systems</a>
+    <nav>
+      <a href="#systems">Systems</a>
+      <a href="#live">Live</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#case">Case Study</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="editToggle" class="btn-ghost" aria-pressed="false" title="Toggle edit mode">✎ Edit</button>
+  </header>
+
+  <main id="app">
+    <!-- Hero -->
+    <section id="home" class="hero container">
+      <div class="hero-copy">
+        <h1><span class="gold">Automation That Sells</span> — Built for Barbers, Salons & Service Brands</h1>
+        <p class="sub">Booking, e-com, AI social bots & websites. Slick UI. Real results.</p>
+        <div class="actions">
+          <a class="btn" href="#systems">See Systems</a>
+          <a class="btn-outline" href="#contact">Book a Demo</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/hero-ui.png" alt="SmartFlow UI preview" loading="lazy"/>
+      </div>
+    </section>
+
+    <!-- Systems -->
+    <section id="systems" class="container">
+      <h2 class="section-title">Systems</h2>
+      <p class="muted">Click “Open Demo” to load a live embed. Manage items in <code>/data/systems.json</code>.</p>
+      <div id="systemsGrid" class="grid"></div>
+    </section>
+
+    <!-- Live -->
+    <section id="live" class="container">
+      <h2 class="section-title">SmartFlow Live Board</h2>
+      <div class="live-controls">
+        <label class="switch">
+          <input id="liveMode" type="checkbox" />
+          <span>External Feed</span>
+        </label>
+      </div>
+      <div class="live-panels">
+        <div class="kpis">
+          <div class="kpi"><span id="kpiSessions">0</span><small>Active Sessions</small></div>
+          <div class="kpi"><span id="kpiApi">0</span><small>API Calls (min)</small></div>
+          <div class="kpi"><span id="kpiBookings">0</span><small>Bookings Today</small></div>
+          <div class="kpi"><span id="kpiRevenue">£0</span><small>Revenue Today</small></div>
+        </div>
+        <div class="events">
+          <h3 class="h3">Event Stream</h3>
+          <ul id="eventList" class="events-list" aria-live="polite"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="container">
+      <h2 class="section-title">Pricing</h2>
+      <div class="pricing-grid" id="pricingGrid"></div>
+    </section>
+
+    <!-- Case Study -->
+    <section id="case" class="container">
+      <h2 class="section-title">Case Study</h2>
+      <div id="caseWrap" class="case-wrap"></div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container">
+      <h2 class="section-title">Contact</h2>
+      <form id="contactForm" class="form" novalidate>
+        <div class="row">
+          <label>Name<input name="name" required/></label>
+          <label>Email<input name="email" type="email" required/></label>
+        </div>
+        <label>Message<textarea name="message" rows="4" required></textarea></label>
+        <div class="actions">
+          <button class="btn" type="submit">Send</button>
+          <a class="btn-outline" href="mailto:garethbowers@hotmail.com?subject=SmartFlow Demo">Email Instead</a>
+        </div>
+        <p id="contactStatus" class="muted" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>© <span id="year"></span> SmartFlow Systems</div>
+    <div class="socials">
+      <a id="xLink" href="#" aria-label="Twitter / X">X</a>
+      <a id="igLink" href="#" aria-label="Instagram">IG</a>
+      <a id="ytLink" href="#" aria-label="YouTube">YT</a>
+    </div>
+  </footer>
+
+  <!-- Demo Modal -->
+  <dialog id="demoModal" class="modal" aria-label="Live Demo">
+    <div class="modal-head">
+      <h3 id="demoTitle" class="h3">Live Demo</h3>
+      <button id="demoClose" class="btn-ghost" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <iframe id="demoFrame" title="System Demo" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    </div>
+  </dialog>
+
+  <!-- Details Drawer -->
+  <dialog id="detailsDrawer" class="drawer" aria-label="System Details">
+    <div class="drawer-head">
+      <h3 id="detailsTitle" class="h3">System Details</h3>
+      <button id="detailsClose" class="btn-ghost" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer-body" id="detailsBody"></div>
+  </dialog>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+
+========================
+FILE: styles.css
+========================
+:root{
+  --bg:#0B0B0B;
+  --brown:#15100E;
+  --brown2:#1B140F;
+  --gold:#D9BF6A;
+  --gold2:#EBCB69;
+  --text:#F6F6F6;
+  --muted:#A6A6A6;
+  --ring: rgba(235,203,105,0.35);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+img{max-width:100%;display:block}
+a{color:var(--text);text-decoration:none}
+.container{max-width:1180px;margin:auto;padding:64px 20px}
+.section-title{font-size:28px;margin:0 0 16px}
+.h3{font-size:20px;margin:0}
+.muted{color:var(--muted)}
+.gold{background:linear-gradient(92deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn,.btn-outline,.btn-ghost{
+  padding:10px 16px;border-radius:12px;border:1px solid transparent;cursor:pointer;display:inline-flex;gap:8px;align-items:center;justify-content:center
+}
+.btn{background:linear-gradient(92deg,var(--gold),var(--gold2));color:#12100A;font-weight:700}
+.btn:hover{filter:brightness(1.05)}
+.btn-outline{border-color:var(--gold2);color:var(--text);background:transparent}
+.btn-outline:hover{background:rgba(235,203,105,0.08)}
+.btn-ghost{background:transparent;border-color:rgba(255,255,255,0.12);color:var(--text)}
+.btn-ghost:hover{background:rgba(255,255,255,0.06)}
+.nav{
+  position:sticky;top:0;z-index:50;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(11,11,11,0.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.06)
+}
+.nav .brand{font-weight:800;letter-spacing:0.2px}
+.hero{display:grid;grid-template-columns:1.2fr 0.8fr;gap:28px;align-items:center}
+.hero .hero-copy h1{font-size:40px;line-height:1.2;margin:0 0 10px}
+.hero .sub{color:var(--muted);margin:0 0 16px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{
+  background:linear-gradient(180deg,var(--brown),var(--bg));border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);
+  padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,0.25)
+}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:12px;padding:4px 8px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:var(--muted)}
+.card .title{font-weight:700;font-size:18px}
+.card .desc{color:var(--muted)}
+.card .footer{display:flex;gap:8px;margin-top:auto}
+.live-controls{display:flex;justify-content:flex-end;margin-bottom:10px}
+.live-panels{display:grid;grid-template-columns:1.1fr 0.9fr;gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:linear-gradient(180deg,var(--brown2),var(--bg));border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;text-align:center}
+.kpi span{display:block;font-size:24px;font-weight:800}
+.events{background:linear-gradient(180deg,var(--brown2),var(--bg));border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;min-height:180px}
+.events-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:280px;overflow:auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price-card{background:linear-gradient(180deg,var(--brown),var(--bg));border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px}
+.price{font-size:32px;font-weight:900}
+.case-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:flex;flex-direction:column;gap:6px}
+input,textarea{
+  background:#0F0D0B;color:var(--text);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px;outline:none
+}
+input:focus,textarea:focus{border-color:var(--gold2);box-shadow:0 0 0 4px var(--ring)}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:20px;border-top:1px solid rgba(255,255,255,0.06)}
+.modal,.drawer{border:none;border-radius:16px;padding:0;background:#0F0D0B;color:var(--text);width:min(1100px,95vw)}
+.modal .modal-head,.drawer .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.modal .modal-body{padding:0}
+.modal iframe{width:100%;height:min(72vh,760px);border:0}
+.drawer .drawer-body{padding:16px}
+.switch{display:flex;align-items:center;gap:10px}
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr 1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .live-panels{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .case-wrap{grid-template-columns:1fr}
+  .form .row{grid-template-columns:1fr}
+}
+
+========================
+FILE: app.js
+========================
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+
+const state = {
+  edit: false,
+  site: null,
+  systems: [],
+  liveTimer: null,
+  externalMode: false,
+  kpis: { sessions: 7, api: 120, bookings: 3, revenue: 180 }
+};
+
+async function loadJSON(path){
+  const res = await fetch(path);
+  if(!res.ok) throw new Error(`Failed to load ${path}`);
+  return res.json();
+}
+
+async function init(){
+  try{
+    state.site = await loadJSON('data/site.json');
+    state.systems = await loadJSON('data/systems.json');
+    renderSite();
+    bindNav();
+    bindEdit();
+    bindContact();
+    setupLive();
+  }catch(err){
+    console.error(err);
+  }
+}
+document.addEventListener('DOMContentLoaded', init);
+
+function renderSite(){
+  // hero text, socials, year
+  $('#year').textContent = new Date().getFullYear();
+  if(state.site?.socials){
+    $('#xLink').href = state.site.socials.x || '#';
+    $('#igLink').href = state.site.socials.ig || '#';
+    $('#ytLink').href = state.site.socials.yt || '#';
+  }
+  // systems
+  const grid = $('#systemsGrid');
+  grid.innerHTML = '';
+  state.systems.forEach((s, idx) => grid.appendChild(systemCard(s, idx)));
+  // pricing
+  renderPricing();
+  // case study
+  renderCase();
+}
+
+function systemCard(s, idx){
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `
+    <div class="head">
+      <div class="title">${s.name}</div>
+      <div class="tags">${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+    <p class="desc">${s.pitch}</p>
+    ${s.badges?.length? `<div class="tags">${s.badges.map(b=>`<span class="tag">${b}</span>`).join('')}</div>`:''}
+    ${s.editHint? `<details class="muted"><summary>JSON</summary><pre>${escapeHTML(JSON.stringify(s,null,2))}</pre></details>`:''}
+    <div class="footer">
+      <button class="btn" data-demo="${idx}">Open Demo</button>
+      <button class="btn-outline" data-details="${idx}">View Details</button>
+      ${s.link ? `<a class="btn-ghost" href="${s.link}" target="_blank" rel="noopener">Open in New Tab</a>`:''}
+    </div>
+  `;
+  // events
+  $('button[data-demo]', el).addEventListener('click', () => openDemo(s));
+  $('button[data-details]', el).addEventListener('click', () => openDetails(s));
+  return el;
+}
+
+function openDemo(s){
+  const dialog = $('#demoModal');
+  $('#demoTitle').textContent = s.name + ' — Live Demo';
+  const frame = $('#demoFrame');
+  frame.src = ''; // reset for lazy-load
+  setTimeout(()=> { frame.src = s.embed || s.link || ''; }, 50);
+  dialog.showModal();
+}
+$('#demoClose').addEventListener('click', ()=> $('#demoModal').close());
+
+function openDetails(s){
+  const d = $('#detailsDrawer');
+  $('#detailsTitle').textContent = s.name;
+  $('#detailsBody').innerHTML = `
+    <p class="muted">${s.desc || s.pitch}</p>
+    <ul>${(s.features||[]).map(f=>`<li>• ${f}</li>`).join('')}</ul>
+    ${s.pricingNote? `<p><strong>Pricing:</strong> ${s.pricingNote}</p>`:''}
+    ${s.docs? `<p><a class="btn-outline" href="${s.docs}" target="_blank" rel="noopener">Docs</a></p>`:''}
+  `;
+  d.showModal();
+}
+$('#detailsClose').addEventListener('click', ()=> $('#detailsDrawer').close());
+
+function bindNav(){
+  // smooth scroll for hash links
+  $$('header nav a').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href').replace('#','');
+      const el = document.getElementById(id);
+      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+  });
+}
+
+function bindEdit(){
+  const btn = $('#editToggle');
+  state.edit = localStorage.getItem('sfs_edit') === '1';
+  btn.setAttribute('aria-pressed', state.edit?'true':'false');
+  btn.addEventListener('click', ()=>{
+    state.edit = !state.edit;
+    localStorage.setItem('sfs_edit', state.edit?'1':'0');
+    // re-render with edit hints
+    state.systems = state.systems.map(s=> ({...s, editHint: state.edit}));
+    renderSite();
+    btn.setAttribute('aria-pressed', state.edit?'true':'false');
+  });
+  // apply current
+  state.systems = state.systems.map(s=> ({...s, editHint: state.edit}));
+}
+
+function setupLive(){
+  // KPI tick simulation
+  const bump = () => {
+    state.kpis.sessions = Math.max(1, state.kpis.sessions + rand(-1, 2));
+    state.kpis.api += rand(5, 18);
+    if(Math.random() < 0.35){ state.kpis.bookings += 1; addEvent('New booking via Booking Pro'); }
+    if(Math.random() < 0.25){ state.kpis.revenue += rand(15, 90); addEvent('Payment succeeded (Stripe)'); }
+    $('#kpiSessions').textContent = state.kpis.sessions;
+    $('#kpiApi').textContent = state.kpis.api;
+    $('#kpiBookings').textContent = state.kpis.bookings;
+    $('#kpiRevenue').textContent = '£' + state.kpis.revenue;
+  };
+  state.liveTimer && clearInterval(state.liveTimer);
+  state.liveTimer = setInterval(bump, 2200);
+  bump();
+
+  // external feed toggle
+  $('#liveMode').addEventListener('change', async (e)=>{
+    state.externalMode = e.target.checked;
+    if(state.externalMode){
+      try{
+        const feed = await loadJSON('data/live.json');
+        $('#eventList').innerHTML = '';
+        (feed.events||[]).forEach(ev=> addEvent(ev, true));
+      }catch(err){ addEvent('Failed to load external feed'); }
+    }else{
+      $('#eventList').innerHTML = '';
+    }
+  });
+}
+
+function addEvent(text, skipPrefix=false){
+  const li = document.createElement('li');
+  const ts = new Date().toLocaleTimeString();
+  li.textContent = skipPrefix ? text : `[${ts}] ${text}`;
+  $('#eventList').prepend(li);
+}
+
+function renderPricing(){
+  const wrap = $('#pricingGrid');
+  wrap.innerHTML = '';
+  const tiers = state.site?.pricing || [];
+  tiers.forEach(t=>{
+    const card = document.createElement('div');
+    card.className = 'price-card';
+    card.innerHTML = `
+      <div class="title">${t.name}</div>
+      <div class="price">£${t.price}<small style="font-size:14px;font-weight:500">/mo</small></div>
+      <ul class="muted">${t.features.map(f=>`<li>• ${f}</li>`).join('')}</ul>
+      <div class="actions">
+        <a class="btn" href="#contact">Choose ${t.name}</a>
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function renderCase(){
+  const c = state.site?.caseStudy;
+  if(!c) return;
+  $('#caseWrap').innerHTML = `
+    <div class="card">
+      <div class="title">${c.client}</div>
+      <p class="muted">${c.summary}</p>
+      <ul>${c.results.map(r=>`<li>• ${r}</li>`).join('')}</ul>
+    </div>
+    <div class="card">
+      <div class="title">Before → After</div>
+      <ul class="muted">${c.beforeAfter.map(r=>`<li>• ${r}</li>`).join('')}</ul>
+    </div>
+  `;
+}
+
+function bindContact(){
+  $('#contactForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    console.log('Contact form:', data);
+    const msg = `Name: ${data.name}\nEmail: ${data.email}\nMessage: ${data.message}`;
+    navigator.clipboard?.writeText(msg).catch(()=>{});
+    $('#contactStatus').textContent = 'Thanks! Your message was copied locally. Email us at garethbowers@hotmail.com.';
+  });
+}
+
+function rand(min, max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function escapeHTML(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
+
+========================
+FILE: data/site.json
+========================
+{
+  "hero": {
+    "headline": "Automation That Sells — Built for Barbers, Salons & Service Brands",
+    "sub": "Booking, e-com, AI social bots & websites. Slick UI. Real results."
+  },
+  "socials": {
+    "x": "https://x.com/yourhandle",
+    "ig": "https://instagram.com/yourhandle",
+    "yt": "https://youtube.com/@yourchannel"
+  },
+  "pricing": [
+    {
+      "name": "Starter",
+      "price": 49,
+      "features": [
+        "Branded landing page",
+        "Booking link or store link",
+        "Basic analytics"
+      ]
+    },
+    {
+      "name": "Pro",
+      "price": 149,
+      "features": [
+        "Booking + Payments (Stripe)",
+        "AI Social Bot presets",
+        "Email capture + automations"
+      ]
+    },
+    {
+      "name": "Premium",
+      "price": 399,
+      "features": [
+        "All Pro features + custom UI",
+        "Multi-location + staff calendars",
+        "Monthly growth playbook"
+      ]
+    }
+  ],
+  "caseStudy": {
+    "client": "Fade Room Barbers",
+    "summary": "We replaced manual DMs with automated booking + payment and boosted social posting.",
+    "results": [
+      "+62% bookings in 30 days",
+      "£2.1k extra revenue in month 1",
+      "Response time down to seconds"
+    ],
+    "beforeAfter": [
+      "Manually chasing DMs → Auto booking + reminders",
+      "Cash only → Online + Apple/Google Pay",
+      "Random posts → Scheduled AI content"
+    ]
+  }
+}
+
+========================
+FILE: data/systems.json
+========================
+[
+  {
+    "name": "Booking Pro",
+    "pitch": "One-tap appointment booking with Stripe + Google Calendar sync.",
+    "desc": "Optimized for barbers/salons. Deposits, no-show protection, reminders, upsells.",
+    "tags": ["Booking", "Stripe", "Calendar"],
+    "badges": ["Live"],
+    "features": ["Deposits", "Reminders", "Upsell add-ons", "Staff rotas"],
+    "pricingNote": "From £49/mo",
+    "link": "https://example-booking.replit.app",
+    "embed": "https://example-booking.replit.app"
+  },
+  {
+    "name": "AI Social Bot",
+    "pitch": "Auto captions, hashtags, schedule & performance insights.",
+    "desc": "Preset styles for barber/salon/fitness. Bulk create + queue posts.",
+    "tags": ["AI", "Social", "Scheduler"],
+    "badges": ["Preset Packs"],
+    "features": ["Caption generator", "Hashtag lists", "Queue to publish", "Analytics"],
+    "pricingNote": "From £49/mo",
+    "link": "https://example-social.replit.app",
+    "embed": "https://example-social.replit.app"
+  },
+  {
+    "name": "Smart Store",
+    "pitch": "Micro-ecom with fast checkout and order notifications.",
+    "desc": "Bundles, discounts, and limited drops. Apple/Google Pay.",
+    "tags": ["E-com", "Stripe"],
+    "badges": ["Fast"],
+    "features": ["Quick checkout", "Discount codes", "Stock alerts"],
+    "pricingNote": "From £49/mo",
+    "link": "https://example-store.replit.app",
+    "embed": "https://example-store.replit.app"
+  }
+]
+
+========================
+FILE: data/live.json
+========================
+{
+  "events": [
+    "New booking: 14:20 Barber — Skin Fade",
+    "Payment succeeded: £35 · Stripe",
+    "Instagram post scheduled: 17:00",
+    "Store order #1823 packed",
+    "Email capture: lead@client.com"
+  ]
+}
+
+========================
+FILE: assets/ (create placeholders)
+========================
+- assets/favicon.png         (simple placeholder)
+- assets/og-image.png        (1200x630 dark bg + gold logo text)
+- assets/hero-ui.png         (UI mock)
+
+========================
+README (short)
+========================
+- Edit /data/site.json for hero text, socials, pricing, case study.
+- Edit /data/systems.json to add/remove systems and demo URLs.
+- Replace example *.replit.app links with my real Replit demos.
+- Toggle “Edit” in the nav to see JSON hints on each card.
+- External Feed: put events in /data/live.json, flip the toggle in Live section.
+- Deploy on Replit static hosting.
+
+ACCEPTANCE CHECKLIST
+- [ ] Loads on mobile and iPad smoothly.
+- [ ] Systems render from JSON; “Open Demo” loads iframe modal.
+- [ ] Live KPIs tick up; External Feed toggle fills event list from data/live.json.
+- [ ] Pricing and Case Study render from site.json.
+- [ ] Contact form copies content to clipboard and shows status message.
+- [ ] No console errors; basic a11y (focusable buttons, ESC closes modals).

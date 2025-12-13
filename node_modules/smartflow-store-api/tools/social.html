@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI Caption Tool — SmartFlow</title>
+<link rel="stylesheet" href="../styles.css"/>
+<script defer src="../assets/circuit-bg.js"></script>
+<style>
+  .tool-box{background:var(--panel);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:22px}
+  textarea{width:100%;padding:12px;border-radius:var(--radius);border:1px solid rgba(212,175,55,.2);background:rgba(26,24,21,.7);backdrop-filter:blur(10px);color:var(--text);min-height:90px;transition:all .3s ease}
+  textarea:focus{outline:none;border-color:rgba(212,175,55,.5);box-shadow:0 0 15px rgba(212,175,55,.2)}
+  button{margin-top:12px}
+  .result{margin-top:16px;padding:12px;border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);background:rgba(24,22,20,.8);backdrop-filter:blur(10px)}
+</style>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+
+<section class="section container">
+  <h1 class="section-title">AI Caption Tool (Demo)</h1>
+  <p>Type a product or topic and generate mock captions + hashtags to show how our AI bot works.</p>
+  <div class="tool-box">
+    <textarea id="topic" placeholder="e.g. Fresh fade Friday or New fitness class..."></textarea>
+    <button class="btn btn-primary" onclick="genCaption()">Generate</button>
+    <div id="output" class="result" style="display:none"></div>
+  </div>
+</section>
+
+<script>
+// Utility to escape HTML in user-provided strings
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function genCaption(){
+  const topic=document.getElementById('topic').value.trim();
+  const out=document.getElementById('output');
+  if(!topic){out.style.display='block';out.innerHTML='⚠️ Please enter a topic.';return;}
+  const safeTopic = escapeHTML(topic);
+  const captions=[
+    `🔥 ${safeTopic} done right. Who's booking next? #SmartFlow #${safeTopic.replace(/\s+/g,'')}`,
+    `💈 ${safeTopic}? We automate the captions so you don't have to. #AutoGrow #${safeTopic.split(' ')[0]}`,
+    `🚀 ${safeTopic} = more reach, more leads. #SellWhileYouSleep #SmartFlow`
+  ];
+  const pick=captions[Math.floor(Math.random()*captions.length)];
+  out.style.display='block';
+  out.innerHTML=`<strong>Generated Caption:</strong><br>${pick}`;
+}
+</script>
+</body></html>

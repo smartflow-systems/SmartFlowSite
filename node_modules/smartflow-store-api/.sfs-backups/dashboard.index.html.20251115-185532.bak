@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SFS Orchestrator Dashboard</title>
+  <style>
+    :root{
+      --black:#0D0D0D; --brown:#3B2F2F; --gold:#FFD700; --gold-hover:#E6C200; --beige:#F5F5DC; --white:#FFFFFF;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--black);color:var(--beige);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    a{color:var(--gold);text-decoration:none}
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #222;background:linear-gradient(180deg, #121212, #0D0D0D)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#B8860B);box-shadow:0 0 24px rgba(255,215,0,.15)}
+    h1{font-size:18px;margin:0;color:var(--white);letter-spacing:.3px}
+    .sub{font-size:12px;color:#bbb}
+    .btn{appearance:none;border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;background:var(--gold);color:#1a1a1a;transition:.2s;box-shadow:0 6px 18px rgba(255,215,0,.15)}
+    .btn:hover{background:var(--gold-hover)}
+    .btn-ghost{background:#1a1a1a;color:var(--beige);border:1px solid #2a2a2a;box-shadow:none}
+    .btn-ghost:hover{border-color:#3a3a3a}
+    main{padding:20px;max-width:1200px;margin:0 auto}
+    .grid{display:grid;gap:16px}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{background:#121212;border:1px solid #1e1e1e;border-radius:16px;padding:16px}
+    .card h3{margin:0 0 6px 0;color:var(--white)}
+    .card p{margin:0;color:#bdbdbd;font-size:14px}
+    .kpi{font-size:28px;font-weight:700;color:var(--gold)}
+    .section{margin-top:20px}
+    .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid #2a2a2a;background:#0f0f0f;color:#cfcfcf}
+    .item{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:16px;padding:14px}
+    .item h4{margin:0 0 8px 0;color:var(--white)}
+    .muted{color:#aaa;font-size:12px}
+    .cap-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .cap{font-size:11px;border:1px dashed #303030;padding:3px 8px;border-radius:999px;color:#cfcfcf}
+    .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .right{margin-left:auto}
+    .pill{padding:3px 8px;border-radius:999px;background:#171717;border:1px solid #272727;color:#cfcfcf;font-size:12px}
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:999}
+    .modal{width:min(720px,92vw);background:#101010;border:1px solid #232323;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.6);padding:16px}
+    .modal header{padding:0;border:0;background:transparent}
+    .modal h2{font-size:16px;margin:0;color:var(--white)}
+    .kv{display:grid;grid-template-columns:160px 1fr;gap:8px;margin-top:12px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,Monaco,monospace;font-size:12px;color:#d7d7d7}
+    .divider{height:1px;background:#222;margin:14px 0}
+    /* tableish */
+    .t{width:100%;border-collapse:collapse}
+    .t th,.t td{padding:8px 10px;border-bottom:1px solid #1e1e1e;font-size:13px}
+    .t th{color:#cfcfcf;text-align:left}
+    .small{font-size:12px;color:#bdbdbd}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>🧠 SFS Orchestrator</h1>
+        <div class="sub">Multi-Agent Control Hub · SmartFlow Systems</div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn-ghost" onclick="window.location.href='/site'">SmartFlowSite</button>
+      <button class="btn" id="statusBtn">System Status</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid stats">
+      <div class="card"><h3>Agents</h3><div class="kpi" id="kpiAgents">—</div><p class="small">Registered agents</p></div>
+      <div class="card"><h3>Packages</h3><div class="kpi" id="kpiPackages">—</div><p class="small">Available bundles</p></div>
+      <div class="card"><h3>Active workflows</h3><div class="kpi" id="kpiWorkflows">0</div><p class="small">Running now</p></div>
+      <div class="card"><h3>Connectors</h3><div class="kpi" id="kpiConnectors">—</div><p class="small">chatgpt · claude · custom</p></div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <h2>📋 Registered Agents</h2>
+        <span class="pill right" id="agentCount">—</span>
+      </div>
+      <div class="list" id="agentsList"></div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <h2>📦 Packages</h2>
+        <span class="pill right" id="packageCount">—</span>
+      </div>
+      <div class="list" id="packagesList"></div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <h2>⚙️ Active Workflows</h2>
+        <button class="btn-ghost right" onclick="refreshAll()">Refresh</button>
+      </div>
+      <div class="card">
+        <table class="t" id="wfTable">
+          <thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Started</th></tr></thead>
+          <tbody id="wfBody"><tr><td colspan="4" class="small">No active workflows</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Status Modal -->
+  <div class="modal-backdrop" id="statusModal">
+    <div class="modal">
+      <header class="row">
+        <h2>🧪 System Status</h2>
+        <button class="btn-ghost right" onclick="closeStatus()">Close</button>
+      </header>
+      <div class="divider"></div>
+      <div id="statusContent" class="mono">Loading…</div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id)=>document.getElementById(id);
+
+    async function jsonOrNull(res){ try { return await res.json(); } catch { return null; } }
+
+    async function fetchJSON(url, options={}){
+      const res = await fetch(url, options);
+      if(!res.ok) throw new Error(url+" -> "+res.status);
+      return res.json();
+    }
+
+    function fmtDate(x){
+      try{ return new Date(x).toLocaleString(); } catch { return x; }
+    }
+
+    async function refreshAll(){
+      try{
+        const [health, agents, packages, wfs] = await Promise.all([
+          fetchJSON('/health'),
+          fetchJSON('/api/agents'),
+          fetchJSON('/api/packages'),
+          fetchJSON('/api/workflows/active')
+        ]);
+
+        // KPIs
+        $('kpiAgents').textContent = agents?.count ?? '—';
+        $('kpiPackages').textContent = packages?.count ?? '—';
+        $('kpiWorkflows').textContent = (wfs?.workflows?.length ?? 0);
+        $('kpiConnectors').textContent = (health?.connectors?.length ?? 3);
+
+        $('agentCount').textContent = `${agents?.count ?? 0} total`;
+        $('packageCount').textContent = `${packages?.count ?? 0} total`;
+
+        // Agents list
+        const aRoot = $('agentsList'); aRoot.innerHTML = '';
+        (agents?.agents || []).forEach(a=>{
+          const div = document.createElement('div');
+          div.className='item';
+          div.innerHTML = `
+            <div class="row">
+              <h4>${a.name || a.agent_id}</h4>
+              <span class="badge">${a.platform || 'custom'}</span>
+              <span class="pill right">invocations: ${a.invocations ?? 0}</span>
+            </div>
+            <div class="muted">${a.description || ''}</div>
+            <div class="cap-list">${(a.capabilities||[]).map(c=>`<span class="cap">${c}</span>`).join('')}</div>
+          `;
+          aRoot.appendChild(div);
+        });
+
+        // Packages list
+        const pRoot = $('packagesList'); pRoot.innerHTML = '';
+        (packages?.packages || []).forEach(p=>{
+          const div = document.createElement('div');
+          div.className='item';
+          div.innerHTML = `
+            <div class="row">
+              <h4>${p.name || p.package_id}</h4>
+              <span class="badge">v${p.version || '1.0.0'}</span>
+              <button class="btn right" onclick="executePackage('${p.package_id}')">Execute Package</button>
+            </div>
+            <div class="muted">${p.description || ''}</div>
+            <div class="cap-list">${(p.capabilities||[]).map(c=>`<span class="cap">${c}</span>`).join('')}</div>
+          `;
+          pRoot.appendChild(div);
+        });
+
+        // Workflows
+        const body=$('wfBody'); body.innerHTML='';
+        const list = (wfs?.workflows || []);
+        if(list.length===0){
+          body.innerHTML='<tr><td colspan="4" class="small">No active workflows</td></tr>';
+        }else{
+          list.forEach(w=>{
+            const tr=document.createElement('tr');
+            tr.innerHTML=`<td class="mono">${w.id || w.workflow_id || '—'}</td>
+                          <td>${w.name || '—'}</td>
+                          <td><span class="badge">${w.status || 'running'}</span></td>
+                          <td class="small">${fmtDate(w.started_at||w.startedAt)}</td>`;
+            body.appendChild(tr);
+          });
+        }
+
+      }catch(err){
+        console.error('refreshAll',err);
+      }
+    }
+
+    async function executePackage(id){
+      const btnText = 'Execute Package';
+      try{
+        const res = await fetch(`/api/packages/${id}/execute`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ context: {} })
+        });
+        const data = await jsonOrNull(res);
+        alert(`Package ${id} started: ${res.ok ? 'OK' : 'Failed'}${data?.workflow_id ? '\nWorkflow: '+data.workflow_id : ''}`);
+        refreshAll();
+      }catch(e){
+        alert('Failed to execute '+id+' → '+e.message);
+      }
+    }
+
+    // Status modal
+    $('statusBtn').addEventListener('click', openStatus);
+    function openStatus(){ $('statusModal').style.display='flex'; renderStatus(); }
+    function closeStatus(){ $('statusModal').style.display='none'; }
+
+    async function renderStatus(){
+      const el = $('statusContent');
+      el.textContent = 'Loading…';
+      try{
+        const [health, agents, packages, active] = await Promise.all([
+          fetchJSON('/health').catch(()=>null),
+          fetchJSON('/api/agents').catch(()=>null),
+          fetchJSON('/api/packages').catch(()=>null),
+          fetchJSON('/api/workflows/active').catch(()=>null),
+        ]);
+        el.innerHTML = `
+          <div class="kv">
+            <div>Service</div><div class="mono">${health?.service ?? 'SFS Orchestrator'}</div>
+            <div>OK</div><div class="mono">${String(!!health?.ok)}</div>
+            <div>Agents</div><div class="mono">${agents?.count ?? '—'}</div>
+            <div>Packages</div><div class="mono">${packages?.count ?? '—'}</div>
+            <div>Active Workflows</div><div class="mono">${active?.workflows?.length ?? 0}</div>
+            <div>Connectors</div><div class="mono">${(health?.connectors||['chatgpt','claude','custom']).join(', ')}</div>
+          </div>
+          <div class="divider"></div>
+          <div><strong>Agents</strong></div>
+          <div class="mono small">${(agents?.agents||[]).map(a=>a.agent_id).join(', ') || '—'}</div>
+          <div class="divider"></div>
+          <div><strong>Packages</strong></div>
+          <div class="mono small">${(packages?.packages||[]).map(p=>p.package_id).join(', ') || '—'}</div>
+        `;
+      }catch(e){
+        el.textContent = 'Unable to load status: '+e.message;
+      }
+    }
+
+    // first load
+    refreshAll();
+    // poll
+    setInterval(refreshAll, 10_000);
+  </script>
+</body>
+</html>

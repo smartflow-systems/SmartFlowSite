@@ -1,0 +1,40 @@
+{
+  "id": "daily-content-generation",
+  "name": "Daily Content Generation Workflow",
+  "description": "Automated daily content generation for social media and blog",
+  "steps": [
+    {
+      "name": "generate-blog-post",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "blog",
+        "topic": "SmartFlow Systems updates",
+        "word_count": 800
+      }
+    },
+    {
+      "name": "generate-social-posts",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-social-posts",
+      "input": {
+        "based_on": "${generate-blog-post.result.content}",
+        "platforms": ["twitter", "linkedin"]
+      },
+      "depends_on": ["generate-blog-post"]
+    },
+    {
+      "name": "store-content",
+      "action": "store-state",
+      "input": {
+        "key": "daily-content-${date}",
+        "value": {
+          "blog": "${generate-blog-post.result}",
+          "social": "${generate-social-posts.result}"
+        },
+        "namespace": "content"
+      },
+      "depends_on": ["generate-social-posts"]
+    }
+  ]
+}

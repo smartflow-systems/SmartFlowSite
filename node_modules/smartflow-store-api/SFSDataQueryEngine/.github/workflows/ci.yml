@@ -1,0 +1,17 @@
+name: SFS CI
+on:
+  push: {branches: ["**"]}
+  pull_request:
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --version || true
+      - run: pnpm -v || npm -v || true
+      - name: Run tests if present
+        run: |
+          if [ -f package.json ]; then
+            npm ci || true
+            npm test || true
+          fi

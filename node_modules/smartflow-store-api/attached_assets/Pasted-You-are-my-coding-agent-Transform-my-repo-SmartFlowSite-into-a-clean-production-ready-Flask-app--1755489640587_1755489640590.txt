@@ -1,0 +1,210 @@
+You are my coding agent. Transform my repo (SmartFlowSite) into a clean, production-ready Flask app deployable on Replit, with full CI/CD and Dependabot.
+
+---
+
+## FILE STRUCTURE
+
+app.py
+requirements.txt
+.replit
+wsgi.py
+.github/dependabot.yml
+.github/workflows/ci.yml
+.github/workflows/cd.yml
+
+---
+
+## FILE CONTENTS
+
+### app.py
+from __future__ import annotations
+import os, time
+from pathlib import Path
+from flask import Flask, jsonify, send_from_directory, Response, request
+
+BASE_DIR = Path(__file__).resolve().parent
+PUBLIC_DIRS = ["", "assets", "static", "blog", "attached_assets"]
+START_TIME = time.time()
+REQUEST_COUNT = 0
+
+def create_app() -> Flask:
+    app = Flask(__name__, static_folder=str(BASE_DIR), static_url_path="")
+
+    @app.before_request
+    def count_request():
+        global REQUEST_COUNT
+        REQUEST_COUNT += 1
+
+    @app.get("/")
+    def root() -> Response:
+        index = BASE_DIR / "index.html"
+        if index.exists():
+            return send_from_directory(index.parent, index.name, mimetype="text/html")
+        return Response("OK", 200, mimetype="text/plain")
+
+    @app.get("/health")
+    def health() -> Response:
+        uptime = round(time.time() - START_TIME, 3)
+        return jsonify({"status": "ok", "uptime_sec": uptime}), 200
+
+    @app.get("/ready")
+    def ready() -> Response:
+        return jsonify({"ready": True}), 200
+
+    @app.get("/metrics")
+    def metrics() -> Response:
+        uptime = round(time.time() - START_TIME, 3)
+        body = (
+            "# HELP smartflow_requests_total Total HTTP requests\n"
+            "# TYPE smartflow_requests_total counter\n"
+            f"smartflow_requests_total {REQUEST_COUNT}\n"
+            "# HELP smartflow_uptime_seconds Uptime in seconds\n"
+            "# TYPE smartflow_uptime_seconds gauge\n"
+            f"smartflow_uptime_seconds {uptime}\n"
+        )
+        return Response(body, mimetype="text/plain")
+
+    for folder in PUBLIC_DIRS:
+        folder_path = (BASE_DIR / folder).resolve()
+        def make_handler(folder_name: str, folder_path: Path):
+            def handler(path: str) -> Response:
+                target = (folder_path / path).resolve()
+                if folder_path in target.parents or target == folder_path:
+                    return send_from_directory(str(folder_path), path)
+                return jsonify({"error": "Not Found"}), 404
+            handler.__name__ = f"serve_{folder_name or 'root'}"
+            return handler
+        route_prefix = f"/{folder}" if folder else ""
+        app.add_url_rule(f"{route_prefix}/<path:path>", view_func=make_handler(folder or "root", folder_path))
+
+    @app.errorhandler(404)
+    def not_found(_err):
+        return jsonify({"error": "Not Found", "path": request.path}), 404
+
+    return app
+
+app = create_app()
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port)
+
+---
+
+### requirements.txt
+flask>=3.0,<4.0
+gunicorn>=22.0,<23.0
+
+---
+
+### .replit
+run = "gunicorn -w 2 -t 60 -b 0.0.0.0:5000 app:app"
+language = "python3"
+entrypoint = "app.py"
+
+---
+
+### wsgi.py
+from app import app as application
+
+---
+
+### .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "direct"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+---
+
+### .github/workflows/ci.yml
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - run: |
+          nohup gunicorn -w 2 -b 0.0.0.0:5000 app:app &
+          sleep 5
+      - run: curl -f http://127.0.0.1:5000/health
+
+---
+
+### .github/workflows/cd.yml
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install replit-cli
+        run: |
+          pip install replit-cli
+      - name: Deploy to Replit
+        env:
+          REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
+        run: |
+          replit deploy --token "$REPLIT_TOKEN"
+
+---
+
+## CLEANUP PLAN
+Delete redundant Node/duplicate server files:
+- package.json, package-lock.json, temp_package_config.json, new_package.json
+- server.js, run, run.sh, start.py, run_server.py
+Keep:
+- index.html, book.html, static pages
+- assets/, static/, blog/, attached_assets/
+
+---
+
+## HOW TO ENABLE DEPLOY
+1. Get a **Replit API token** (from your Replit account).  
+2. Add it to your GitHub repo secrets as `REPLIT_TOKEN`.  
+3. Push to `main` → CI will test, then CD will auto-deploy to Replit.  
+
+---
+
+## EXPECTED RESULT
+- ✅ Replit deployment succeeds (gunicorn listens on 0.0.0.0:5000).  
+- ✅ `/`, `/health`, `/ready`, `/metrics` all work.  
+- ✅ Static site pages and assets are served.  
+- ✅ Dependabot auto-updates Flask/Gunicorn.  
+- ✅ CI blocks broken builds.  
+- ✅ CD auto-deploys to Replit on push.  
+- ✅ Repo is clean, cheap to maintain, business-ready.  

@@ -1,0 +1,305 @@
+## Plan (pseudocode)
+
+1. Add `smartPartUrl` to `site.config.json`.
+2. In `app.js`, after `const cfg=await getConfig();`, set hrefs for `#smart-part-live` and `#smart-part-live-2` using `cfg.smartPartUrl`.
+3. In `index.html`, inject the Smart Part promo block right after the Projects grid closing `</div>` and before that section’s closing `</section>`.
+4. Append minimal Smart Part card styles to the end of `styles.css`.
+5. Create `smart-part.html` explainer with matching header/footer and a quick live `/status` check.
+
+---
+
+### CODE — apply these changes
+
+```txt
+# /site.config.json (add last line exactly; replace URL with your deployed mini-app)
+{
+  "siteUrl": "https://your-domain.com",
+  "siteName": "SmartFlow Systems",
+  "calendlyUrl": "https://calendly.com/your-handle/30min",
+  "leadWebhook": "",
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf",
+  "smartPartUrl": "https://your-smartpart.replit.app"
+}
+
+# /app.js (insert immediately after the existing line: const cfg=await getConfig();)
+// Smart Part links (live microapp)
+const sp1 = document.getElementById('smart-part-live');
+if (sp1 && cfg.smartPartUrl) sp1.href = cfg.smartPartUrl;
+
+const sp2 = document.getElementById('smart-part-live-2');
+if (sp2 && cfg.smartPartUrl) sp2.href = cfg.smartPartUrl;
+
+# /index.html (paste right below the Projects grid closing </div> and before the section's </section>)
+<!-- Smart Part promo (lead capture + admin mini-app) -->
+<div class="smartpart reveal">
+  <div class="smartpart-card">
+    <div class="smartpart-badge">Smart Part</div>
+    <h3 class="smartpart-title">Lead Capture + Admin</h3>
+    <p class="smartpart-sub">Drop-in mini-app: JSONL leads, CSV export, basic auth, email notify.</p>
+    <ul class="smartpart-list">
+      <li>1-file deploy (Flask + Gunicorn)</li>
+      <li>/lead endpoint + Admin table & CSV</li>
+      <li>Works with Replit Deployments & Secrets</li>
+    </ul>
+    <div class="actions">
+      <a id="smart-part-live" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+      <a class="btn btn-ghost" href="smart-part.html">What is this?</a>
+    </div>
+  </div>
+</div>
+
+# /styles.css (append at the very end)
+/* Smart Part promo */
+.smartpart { margin-top: 8px; }
+.smartpart-card{
+  background: linear-gradient(180deg,var(--card),#120f0d);
+  border:1px solid #1d1916;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.02),0 10px 28px rgba(0,0,0,.36);
+  outline:1px solid rgba(212,175,55,.12);
+}
+.smartpart-card:hover{ outline-color: rgba(212,175,55,.28); }
+.smartpart-badge{
+  display:inline-block;
+  font-size:.75rem;
+  color:var(--gold);
+  border:1px solid rgba(212,175,55,.30);
+  background:rgba(212,175,55,.10);
+  padding:4px 8px; border-radius:999px; margin-bottom:8px;
+}
+.smartpart-title{ margin:6px 0 6px; }
+.smartpart-sub{ color:var(--muted); margin:0 0 10px; }
+.smartpart-list{ margin:6px 0 14px 18px; }
+
+# /smart-part.html (new file)
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Smart Part — Lead Capture + Admin</title>
+<link rel="icon" href="static-logo.png"/>
+<link rel="preload" href="styles.css" as="style"/>
+<link rel="stylesheet" href="styles.css"/>
+</head><body>
+<header class="site-header container">
+  <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo"/><span class="brand-name">SmartFlow</span></a>
+  <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+</header>
+
+<main id="main">
+  <section class="hero container">
+    <h1>Smart Part: Lead Capture + Admin</h1>
+    <p class="sub">A tiny Flask app that collects leads, emails you, and gives you a secure admin table & CSV export.</p>
+    <div class="hero-cta">
+      <a id="smart-part-live-2" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+      <a class="btn btn-ghost btn-lg" href="https://github.com/boweazy/SmartFlowSite.git" target="_blank" rel="noopener">View repo</a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card">
+      <h2 class="section-title">What you get</h2>
+      <ul class="ticks">
+        <li><code>/lead</code> endpoint (POST JSON) → appends to <code>data/leads.jsonl</code></li>
+        <li>Optional email notify via <code>SMTP_*</code> secrets</li>
+        <li>Admin page <code>/admin/leads</code> (Basic Auth), plus <code>/admin/leads.csv</code></li>
+        <li>Health & status endpoints for quick checks</li>
+      </ul>
+      <p class="muted small">Set secrets on Replit Deployments → Secrets: <code>ADMIN_USER</code>, <code>ADMIN_PASSWORD</code> (and optional <code>SMTP_*</code>).</p>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card">
+      <h2 class="section-title">Quick status</h2>
+      <p id="sp-status" class="muted">Checking the live app…</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer container"><small>© <span id="y"></span> SmartFlow Systems.</small><a class="link" href="index.html">Home</a></footer>
+<script src="app.js" defer></script>
+<script>
+(async ()=>{
+  try{
+    const cfg = await (await fetch('/site.config.json',{cache:'no-store'})).json();
+    if(!cfg.smartPartUrl){ document.getElementById('sp-status').textContent='smartPartUrl not set in site.config.json'; return; }
+    const r = await fetch(cfg.smartPartUrl.replace(/\/$/,'') + '/status', {mode:'cors'});
+    if(!r.ok){ document.getElementById('sp-status').textContent='Live app reachable but /status not OK.'; return; }
+    const j = await r.json().catch(()=>null);
+    document.getElementById('sp-status').textContent = j && j.ok ? 'Live app is healthy.' : 'Live app reachable.';
+  }catch(e){ document.getElementById('sp-status').textContent='Could not reach the live app yet.'; }
+})();
+</script>
+</body></html>
+```
+
+---
+
+### Replit → Deployments → Secrets (reminder)
+
+```
+ADMIN_USER=admin
+ADMIN_PASSWORD=supersecret
+# optional email:
+SMTP_HOST=...
+SMTP_PORT=587
+SMTP_USER=...
+SMTP_PASS=...
+SMTP_TO=you@example.com
+SMTP_FROM=leads@your-domain.com
+```
+
+---
+
+## Repo audit (SmartFlowSite) — what’s missing & what to change
+
+* **Present:** `site.config.json`, `app.js`, `index.html`, `styles.css` (root). citeturn0view0
+* **Absent:** `smart-part.html` (new page to add). Also `site.config.json` currently shows only the standard keys in README; add `smartPartUrl`. citeturn0view0
+
+### Patch (unified diff)
+
+> Apply with `git apply -p0 <<'PATCH'` … `PATCH`
+
+```diff
+*** a/site.config.json
+--- b/site.config.json
+@@
+   "siteUrl": "https://your-domain.com",
+   "siteName": "SmartFlow Systems",
+   "calendlyUrl": "https://calendly.com/your-handle/30min",
+   "leadWebhook": "",
+   "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf",
++  "smartPartUrl": "https://your-smartpart.replit.app"
+ }
+*** a/app.js
+--- b/app.js
+@@
+-const cfg=await getConfig();
++const cfg=await getConfig();
++// Smart Part links (live microapp)
++const sp1 = document.getElementById('smart-part-live');
++if (sp1 && cfg.smartPartUrl) sp1.href = cfg.smartPartUrl;
++
++const sp2 = document.getElementById('smart-part-live-2');
++if (sp2 && cfg.smartPartUrl) sp2.href = cfg.smartPartUrl;
+*** a/index.html
+--- b/index.html
+@@
+   </div>
++  <!-- Smart Part promo (lead capture + admin mini-app) -->
++  <div class="smartpart reveal">
++    <div class="smartpart-card">
++      <div class="smartpart-badge">Smart Part</div>
++      <h3 class="smartpart-title">Lead Capture + Admin</h3>
++      <p class="smartpart-sub">Drop-in mini-app: JSONL leads, CSV export, basic auth, email notify.</p>
++      <ul class="smartpart-list">
++        <li>1-file deploy (Flask + Gunicorn)</li>
++        <li>/lead endpoint + Admin table & CSV</li>
++        <li>Works with Replit Deployments & Secrets</li>
++      </ul>
++      <div class="actions">
++        <a id="smart-part-live" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
++        <a class="btn btn-ghost" href="smart-part.html">What is this?</a>
++      </div>
++    </div>
++  </div>
+*** a/styles.css
+--- b/styles.css
+@@
++/* Smart Part promo */
++.smartpart { margin-top: 8px; }
++.smartpart-card{
++  background: linear-gradient(180deg,var(--card),#120f0d);
++  border:1px solid #1d1916;
++  border-radius:16px;
++  padding:18px;
++  box-shadow:0 0 0 1px rgba(255,255,255,.02),0 10px 28px rgba(0,0,0,.36);
++  outline:1px solid rgba(212,175,55,.12);
++}
++.smartpart-card:hover{ outline-color: rgba(212,175,55,.28); }
++.smartpart-badge{
++  display:inline-block;
++  font-size:.75rem;
++  color:var(--gold);
++  border:1px solid rgba(212,175,55,.30);
++  background:rgba(212,175,55,.10);
++  padding:4px 8px; border-radius:999px; margin-bottom:8px;
++}
++.smartpart-title{ margin:6px 0 6px; }
++.smartpart-sub{ color:var(--muted); margin:0 0 10px; }
++.smartpart-list{ margin:6px 0 14px 18px; }
+*** /dev/null
+--- b/smart-part.html
+@@
++<!DOCTYPE html><html lang="en"><head>
++<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
++<title>Smart Part — Lead Capture + Admin</title>
++<link rel="icon" href="static-logo.png"/>
++<link rel="preload" href="styles.css" as="style"/>
++<link rel="stylesheet" href="styles.css"/>
++</head><body>
++<header class="site-header container">
++  <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo"/><span class="brand-name">SmartFlow</span></a>
++  <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
++</header>
++
++<main id="main">
++  <section class="hero container">
++    <h1>Smart Part: Lead Capture + Admin</h1>
++    <p class="sub">A tiny Flask app that collects leads, emails you, and gives you a secure admin table & CSV export.</p>
++    <div class="hero-cta">
++      <a id="smart-part-live-2" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
++      <a class="btn btn-ghost btn-lg" href="https://github.com/boweazy/SmartFlowSite.git" target="_blank" rel="noopener">View repo</a>
++    </div>
++  </section>
++
++  <section class="section container">
++    <div class="card">
++      <h2 class="section-title">What you get</h2>
++      <ul class="ticks">
++        <li><code>/lead</code> endpoint (POST JSON) → appends to <code>data/leads.jsonl</code></li>
++        <li>Optional email notify via <code>SMTP_*</code> secrets</li>
++        <li>Admin page <code>/admin/leads</code> (Basic Auth), plus <code>/admin/leads.csv</code></li>
++        <li>Health & status endpoints for quick checks</li>
++      </ul>
++      <p class="muted small">Set secrets on Replit Deployments → Secrets: <code>ADMIN_USER</code>, <code>ADMIN_PASSWORD</code> (and optional <code>SMTP_*</code>).</p>
++    </div>
++  </section>
++
++  <section class="section container">
++    <div class="card">
++      <h2 class="section-title">Quick status</h2>
++      <p id="sp-status" class="muted">Checking the live app…</p>
++    </div>
++  </section>
++</main>
++
++<footer class="site-footer container"><small>© <span id="y"></span> SmartFlow Systems.</small><a class="link" href="index.html">Home</a></footer>
++<script src="app.js" defer></script>
++<script>
++(async ()=>{
++  try{
++    const cfg = await (await fetch('/site.config.json',{cache:'no-store'})).json();
++    if(!cfg.smartPartUrl){ document.getElementById('sp-status').textContent='smartPartUrl not set in site.config.json'; return; }
++    const r = await fetch(cfg.smartPartUrl.replace(/\/$/,'') + '/status', {mode:'cors'});
++    if(!r.ok){ document.getElementById('sp-status').textContent='Live app reachable but /status not OK.'; return; }
++    const j = await r.json().catch(()=>null);
++    document.getElementById('sp-status').textContent = j && j.ok ? 'Live app is healthy.' : 'Live app reachable.';
++  }catch(e){ document.getElementById('sp-status').textContent='Could not reach the live app yet.'; }
++})();
++</script>
++</body></html>
+```
+
+### Deploy steps
+
+```bash
+# 1) set your live Replit URL
+sed -i '' -e 's#"smartPartUrl": ".*"#"smartPartUrl": "https://YOUR-REPLIT-URL"#' site.config.json
+
+# 2) apply patch (if you didn’t paste manually)
+git apply -p0 patch.diff || true
+
+# 3) commit & deploy
+git add -A && git commit -m "Smart Part: config + promo + explainer" && git push origin main
+```
