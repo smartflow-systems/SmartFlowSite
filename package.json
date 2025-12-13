@@ -1,0 +1,56 @@
+{
+  "name": "@smartflow-systems/monorepo",
+  "version": "1.0.0",
+  "description": "SmartFlow Systems - Unified monorepo for all applications and packages",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present && rm -rf node_modules",
+    "install-all": "npm install",
+    "update-deps": "npm update --workspaces",
+    "security-audit": "npm audit --workspaces",
+    "deploy:staging": "bash scripts/deploy/deploy-staging.sh",
+    "deploy:production": "bash scripts/deploy/deploy-production.sh",
+    "health-check": "bash scripts/maintenance/health-check.sh",
+    "backup": "bash scripts/maintenance/backup.sh",
+    "setup:env": "bash scripts/setup/configure-environment.sh",
+    "setup:deps": "bash scripts/setup/install-dependencies.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smartflow-systems/SmartFlowSite.git"
+  },
+  "author": "SmartFlow Systems",
+  "license": "UNLICENSED",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml,yaml}": ["prettier --write"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  }
+}

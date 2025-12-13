@@ -1,0 +1,208 @@
+{
+  "agent_id": "sfs-memory-knowledge-agent",
+  "name": "SFS Memory & Knowledge Agent",
+  "platform": "claude",
+  "capabilities": [
+    "knowledge-management",
+    "context-injection",
+    "repo-mapping",
+    "cross-project-awareness",
+    "ai-memory-sync",
+    "documentation-integration",
+    "agent-coordination"
+  ],
+  "apps": [
+    "SmartFlowSite",
+    "sfs-marketing-and-growth",
+    "SFSDataQueryEngine",
+    "DataScrapeInsights",
+    "SocialScaleBooster",
+    "SocialScaleBoosterAIbot",
+    "Barber-booker-tempate-v1",
+    "SFSAPDemoCRM",
+    "WebsiteBuilder",
+    "codegpt",
+    "sfs-white-label-dashboard",
+    "sfs-core-services",
+    "ALL_SFS_PROJECTS"
+  ],
+  "description": "Central knowledge management agent that maintains comprehensive understanding of all 26 SFS repositories, tech stacks, patterns, and cross-project relationships. Syncs context to Claude.ai, ChatGPT, and other AI platforms. Coordinates with other SFS agents to provide full ecosystem awareness.",
+  "triggers": {
+    "events": [
+      "repo.created",
+      "repo.updated",
+      "knowledge.refresh.requested",
+      "agent.needs.context",
+      "ai.platform.sync.requested",
+      "project.analysis.needed"
+    ],
+    "webhooks": [
+      "/api/agents/sfs-memory/trigger",
+      "/api/agents/sfs-memory/sync",
+      "/api/agents/sfs-memory/query"
+    ]
+  },
+  "context_files": [
+    "/home/garet/.claude/CLAUDE.md",
+    "/home/garet/SFS/sfs-marketing-and-growth/CLAUDE_AI_PROJECT_FULL.md",
+    "/home/garet/SFS/sfs-marketing-and-growth/CLAUDE_AI_PROJECT_QUICK.md",
+    "docs/SmartFlow-Agent-Master.md",
+    "docs/Memory-Baseline.md",
+    "sfs-theme-config.json",
+    ".sfs/agents/*.json"
+  ],
+  "knowledge_base": {
+    "total_repositories": 26,
+    "categories": [
+      "Core Platform & Infrastructure (4)",
+      "Data & Analytics Tools (3)",
+      "Social Media & Marketing (4)",
+      "Business Management Tools (5)",
+      "Content & Media Tools (3)",
+      "Developer Tools & Infrastructure (4)",
+      "AI & Automation (1)",
+      "Branding & Assets (1)",
+      "Demo & Testing (1)"
+    ],
+    "tech_stacks": {
+      "frontend": ["React 18/19", "TypeScript", "Tailwind CSS", "Radix UI"],
+      "backend": ["Node.js (Express)", "Python (FastAPI)", "Prisma ORM"],
+      "databases": ["SQLite (dev)", "PostgreSQL (production)"],
+      "ai_ml": ["OpenAI GPT-4", "LangChain", "ChromaDB"],
+      "payments": ["Stripe", "Stripe Connect"],
+      "deployment": ["Replit", "GitHub Actions CI/CD"],
+      "auth": ["JWT", "OAuth", "RBAC"]
+    },
+    "theme": {
+      "signature_colors": "brown/black/gold",
+      "critical_rule": "ALWAYS maintain brown/black/gold aesthetic in all SFS projects"
+    },
+    "patterns": {
+      "ci_cd": "GitHub Actions workflows with health checks",
+      "deployment": "Replit with SFS_PAT, REPLIT_TOKEN, SFS_SYNC_URL",
+      "auth": "JWT with RBAC (Admin, Staff, Analyst, Owner)",
+      "database": "Prisma ORM with SQLite (dev) → PostgreSQL (prod)"
+    }
+  },
+  "inputs": {
+    "action": "string (sync|query|analyze|inject-context|update-knowledge)",
+    "target_platform": "string (claude-ai|chatgpt|local|all)",
+    "repository": "string (specific repo or 'all')",
+    "query": "string (natural language question about SFS ecosystem)",
+    "update_data": "object (new knowledge to add to the system)"
+  },
+  "outputs": {
+    "format": "json",
+    "schema": {
+      "success": "boolean",
+      "action_performed": "string",
+      "knowledge_updated": "boolean",
+      "platforms_synced": "array<string>",
+      "query_result": "object",
+      "context_provided": "object",
+      "timestamp": "string",
+      "next_sync": "string"
+    }
+  },
+  "integration": {
+    "works_with_agents": [
+      "documentation-writer",
+      "smartflow-theme-enforcer",
+      "ci-setup-agent",
+      "repo-manager",
+      "chatgpt-content-creator"
+    ],
+    "provides_context_to": [
+      "ALL SFS agents",
+      "Claude.ai Projects",
+      "ChatGPT Custom GPTs",
+      "Local development sessions"
+    ],
+    "coordination_patterns": {
+      "on_repo_creation": "Injects full SFS context + specific repo knowledge",
+      "on_theme_request": "Provides brown/black/gold standards to theme-enforcer",
+      "on_documentation": "Supplies repo details to documentation-writer",
+      "on_ci_setup": "Shares deployment patterns to ci-setup-agent",
+      "on_ai_query": "Answers questions about any SFS project with full context"
+    }
+  },
+  "actions": {
+    "sync_to_claude_ai": {
+      "description": "Syncs full knowledge base to Claude.ai Projects",
+      "source": "CLAUDE_AI_PROJECT_FULL.md",
+      "destination": "Claude.ai Project: SmartFlow Systems",
+      "frequency": "on-demand or when knowledge updated"
+    },
+    "sync_to_chatgpt": {
+      "description": "Syncs knowledge to ChatGPT Custom GPT memory",
+      "source": "CLAUDE_AI_PROJECT_QUICK.md",
+      "destination": "ChatGPT Custom Instructions",
+      "frequency": "on-demand"
+    },
+    "inject_context": {
+      "description": "Provides relevant SFS context to other agents when invoked",
+      "triggers": ["agent.needs.context", "workflow.started"],
+      "provides": "Repo details, tech stack, patterns, cross-project links"
+    },
+    "answer_queries": {
+      "description": "Answers natural language questions about SFS ecosystem",
+      "examples": [
+        "What does SFSDataQueryEngine do?",
+        "Which repos use Python?",
+        "What's the brown/black/gold theme?",
+        "How do I deploy to Replit?",
+        "What are the RBAC roles?",
+        "Which projects have Stripe integration?"
+      ]
+    },
+    "update_knowledge": {
+      "description": "Updates the central knowledge base when repos change",
+      "triggers": ["repo.updated", "new.feature.added", "tech.stack.changed"],
+      "syncs_to": ["CLAUDE.md", "CLAUDE_AI_PROJECT_FULL.md", "agent manifests"]
+    }
+  },
+  "workflows": {
+    "new_repo_created": [
+      "1. Analyze new repository structure",
+      "2. Identify tech stack and purpose",
+      "3. Update central knowledge base (CLAUDE.md)",
+      "4. Sync to Claude.ai and ChatGPT",
+      "5. Notify other agents of new repo",
+      "6. Inject SFS patterns (theme, CI/CD, auth)"
+    ],
+    "ai_session_start": [
+      "1. Detect AI platform (Claude/ChatGPT/local)",
+      "2. Load appropriate knowledge format",
+      "3. Inject full SFS context",
+      "4. Enable cross-project awareness",
+      "5. Provide agent coordination info"
+    ],
+    "knowledge_refresh": [
+      "1. Scan all 26 repos for changes",
+      "2. Update tech stack info",
+      "3. Refresh local paths and statuses",
+      "4. Regenerate CLAUDE_AI_PROJECT_FULL.md",
+      "5. Sync to all AI platforms",
+      "6. Notify other agents of updates"
+    ]
+  },
+  "dependencies": [
+    "documentation-writer (for README analysis)",
+    "repo-manager (for repo metadata)",
+    "smartflow-theme-enforcer (for theme standards)"
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "boweazy (Garet) - SmartFlow Systems",
+    "created": "2025-11-19",
+    "last_updated": "2025-11-19",
+    "knowledge_sources": [
+      "/home/garet/.claude/CLAUDE.md",
+      "/home/garet/SFS/sfs-marketing-and-growth/CLAUDE_AI_PROJECT_FULL.md",
+      "/home/garet/SFS/sfs-marketing-and-growth/CLAUDE_AI_PROJECT_QUICK.md",
+      "/home/garet/SFS/sfs-marketing-and-growth/CLAUDE_AI_SETUP_INSTRUCTIONS.md"
+    ],
+    "purpose": "Created during session on 2025-11-19 to enable full SFS ecosystem awareness across all AI platforms and agent systems. This agent ensures that Claude.ai, ChatGPT, local Claude Code, and all SFS agents have comprehensive knowledge of all 26 repositories, tech stacks, patterns, and cross-project relationships.",
+    "notes": "This agent is the central nervous system for SFS knowledge management. It maintains the single source of truth about all SmartFlow Systems projects and ensures that knowledge stays synchronized across all platforms and agents."
+  }
+}

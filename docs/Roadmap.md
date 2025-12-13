@@ -1,0 +1,3 @@
+﻿- [ ] v0.2 ship (/api/boost, CORS, copy button, counter, landing copy, public link)
+- [ ] v0.3 presets + webhook
+- [ ] v0.4 calendar/CSV/analytics/pricing (barber case)

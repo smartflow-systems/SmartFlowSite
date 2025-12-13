@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 5%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(25, 8%, 15%);
+  --muted-foreground: hsl(0, 0%, 50.2%);
+  --popover: hsl(25, 8%, 6%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(25, 8%, 10%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(25, 8%, 14%);
+  --input: hsl(25, 8%, 14%);
+  --primary: hsl(51, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(25, 20%, 18%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(51, 100%, 50%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(51, 100%, 50%);
+  --radius: 1rem;
+
+  /* SmartFlow Systems Official Brand Colors */
+  --sf-black: #0D0D0D;
+  --sf-brown: #3B2F2F;
+  --sf-gold: #FFD700;
+  --sf-gold-2: #E6C200;
+  --sf-beige: #F5F5DC;
+  --sf-white: #FFFFFF;
+
+  /* SFS Gradient */
+  --sf-gold-grad: linear-gradient(90deg, #FFD700 0%, #E6C200 100%);
+
+  /* Convenience HSL versions for Tailwind */
+  --sf-black-hsl: 0, 0%, 5%;
+  --sf-brown-hsl: 25, 20%, 18%;
+  --sf-gold-hsl: 51, 100%, 50%;
+  --sf-gold-2-hsl: 48, 100%, 45%;
+  --sf-beige-hsl: 60, 56%, 91%;
+}
+
+.dark {
+  --background: hsl(0, 0%, 5%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(25, 8%, 15%);
+  --muted-foreground: hsl(0, 0%, 50.2%);
+  --popover: hsl(25, 8%, 6%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(25, 8%, 10%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(25, 8%, 14%);
+  --input: hsl(25, 8%, 14%);
+  --primary: hsl(51, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(25, 20%, 18%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(51, 100%, 50%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(51, 100%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--sf-black);
+  }
+
+  /* Enforce rounded-2xl borders globally per SFS standards */
+  .card, [data-card] {
+    border-radius: 1rem;
+  }
+}
+
+@layer utilities {
+  /* SFS Color Utilities */
+  .bg-sf-black {
+    background-color: var(--sf-black);
+  }
+
+  .bg-sf-brown {
+    background-color: var(--sf-brown);
+  }
+
+  .bg-sf-gold {
+    background-color: var(--sf-gold);
+  }
+
+  .bg-sf-gold-hover:hover {
+    background-color: var(--sf-gold-2);
+  }
+
+  .bg-sf-beige {
+    background-color: var(--sf-beige);
+  }
+
+  .text-sf-gold {
+    color: var(--sf-gold);
+  }
+
+  .text-sf-gold-2 {
+    color: var(--sf-gold-2);
+  }
+
+  .text-sf-beige {
+    color: var(--sf-beige);
+  }
+
+  .text-sf-brown {
+    color: var(--sf-brown);
+  }
+
+  .border-sf-gold {
+    border-color: var(--sf-gold);
+  }
+
+  .border-sf-brown {
+    border-color: var(--sf-brown);
+  }
+
+  /* SFS Gradient */
+  .bg-sf-gold-gradient {
+    background: var(--sf-gold-grad);
+  }
+
+  /* Gold Glow Effects - SFS Standard */
+  .gold-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  .gold-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  }
+
+  .premium-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
+  }
+
+  /* Glass Effect */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(13, 13, 13, 0.8);
+  }
+
+  /* Soft Shadows - SFS Standard */
+  .shadow-sf-soft {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-sf-medium {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .shadow-sf-large {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Scrollbar hiding for mobile navigation */
+  .scrollbar-hide {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar { /* WebKit */
+    display: none;
+  }
+
+  /* Mobile navigation grid layout */
+  @media (max-width: 640px) {
+    [role="tablist"] {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      grid-template-rows: repeat(2, 1fr) !important;
+      gap: 0.25rem !important;
+      width: 100% !important;
+      min-height: 120px !important;
+    }
+
+    /* Mobile tab styling */
+    [role="tab"] {
+      min-height: 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0.5rem 0.25rem !important;
+      font-size: 0.75rem !important;
+      line-height: 1 !important;
+    }
+  }
+
+  /* Desktop and tablet layout */
+  @media (min-width: 641px) {
+    [role="tablist"] {
+      display: flex !important;
+      gap: 2rem !important;
+    }
+  }
+
+  /* Premium animations */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer-effect {
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Chart styling */
+  .chart-gold {
+    --chart-color: #FFD700;
+  }
+
+  /* Mobile tab responsiveness */
+  @media (max-width: 768px) {
+    .tab-scroll {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .tab-scroll::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

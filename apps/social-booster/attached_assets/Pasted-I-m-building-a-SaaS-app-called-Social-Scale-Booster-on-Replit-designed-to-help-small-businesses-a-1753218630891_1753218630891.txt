@@ -1,0 +1,32 @@
+I’m building a SaaS app called “Social Scale Booster” on Replit, designed to help small businesses and influencers schedule social media posts. The current URL is not live, which is blocking progress. I need you to diagnose and fix this issue so the dashboard is accessible.
+
+Project Details:
+
+Purpose: A social media scheduler with a dashboard for managing posts on platforms like Instagram and LinkedIn.
+Tech stack: [Specify, e.g., “Node.js with Express, HTML/CSS for the frontend, or Flask if Python-based”].
+Expected behavior: The URL should load a functional dashboard displaying [e.g., “a login page” or “a post-scheduling interface”].
+Current issue: The URL doesn’t load (e.g., shows an error, times out, or displays a blank page).
+Tasks:
+
+Check the Replit project’s deployment status:
+Confirm the project is running and generating a live URL in the Replit editor.
+Verify the project is set to “Public” in Replit’s settings (not “Private”).
+Output the correct live URL or confirm it matches the provided one.
+Troubleshoot potential issues:
+Check for code errors (e.g., missing index.html, incorrect server port, or dependency issues in package.json).
+If using a backend (e.g., Express or Flask), ensure the server is listening on 0.0.0.0:8080.
+Review error logs in Replit’s console and identify any issues (e.g., “port not bound” or “module not found”).
+Suggest fixes:
+If the project isn’t public, provide steps to make it public.
+If the server configuration is wrong, provide corrected code (e.g., app.listen(8080, '0.0.0.0') for Express).
+If dependencies are missing, list commands to install them (e.g., npm install express).
+Output results:
+Provide the corrected live URL or confirm the app is now accessible.
+If the issue persists, give a detailed error report (e.g., “Error: Port 8080 not bound, fix by updating server.js to include…”).
+Include a step-by-step explanation of what you checked and any changes made.
+Output Format:
+
+Start with: “Diagnosis: [Summary of the issue, e.g., ‘The project is private’ or ‘Server port misconfigured’].”
+Follow with: “Fixes Applied: [List actions taken or suggested].”
+End with: “Current Status: [e.g., ‘App is live at [new URL]’ or ‘Issue persists, see error details’].”
+Please complete this within the next session and provide a clear, actionable response so we can get the app live and proceed with development.

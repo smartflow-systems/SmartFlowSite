@@ -1,0 +1,14 @@
+name: CI Smoke
+on:
+  push:
+    branches: [ main, tune/** ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello from Actions!"

@@ -1,0 +1,13 @@
+name: Bug
+description: Report a bug
+labels: ["type:bug"]
+body:
+  - type: input
+    id: steps
+    attributes: {label: Steps to Reproduce}
+  - type: input
+    id: expected
+    attributes: {label: Expected}
+  - type: input
+    id: actual
+    attributes: {label: Actual}

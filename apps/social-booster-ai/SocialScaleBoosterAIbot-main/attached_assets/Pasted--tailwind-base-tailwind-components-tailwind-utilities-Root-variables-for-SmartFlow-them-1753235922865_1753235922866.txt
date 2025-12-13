@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root variables for SmartFlow theme */
+:root {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(25, 8%, 15%);
+  --muted-foreground: hsl(0, 0%, 50.2%);
+  --popover: hsl(25, 8%, 6%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(25, 8%, 10%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(25, 8%, 14%);
+  --input: hsl(25, 8%, 14%);
+  --primary: hsl(43, 70%, 52%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(25, 40%, 12%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(43, 70%, 52%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(43, 70%, 52%);
+  --radius: 0.5rem;
+
+  /* Custom SmartFlow AI colors */
+  --primary-black: hsl(0, 0%, 0%);
+  --secondary-brown: hsl(25, 40%, 12%);
+  --rich-brown: hsl(25, 30%, 25%);
+  --dark-brown: hsl(25, 20%, 8%);
+  --accent-gold: hsl(43, 70%, 52%);
+  --gold-trim: hsl(51, 100%, 65%);
+  --neutral-gray: hsl(0, 0%, 50%);
+  --dark-bg: hsl(25, 20%, 4%);
+  --card-bg: hsl(25, 25%, 10%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(25, 8%, 15%);
+  --muted-foreground: hsl(0, 0%, 50.2%);
+  --popover: hsl(25, 8%, 6%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(25, 8%, 10%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(25, 8%, 14%);
+  --input: hsl(25, 8%, 14%);
+  --primary: hsl(43, 70%, 52%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(25, 40%, 12%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(43, 70%, 52%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(43, 70%, 52%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .gold-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  .gold-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(26, 26, 26, 0.8);
+  }
+
+  .text-accent-gold {
+    color: var(--accent-gold);
+  }
+
+  .bg-accent-gold {
+    background-color: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  .border-accent-gold {
+    border-color: var(--accent-gold);
+  }
+
+  .bg-primary-black {
+    background-color: var(--primary-black);
+  }
+
+  .bg-secondary-brown {
+    background-color: var(--secondary-brown);
+  }
+
+  .bg-rich-brown {
+    background-color: var(--rich-brown);
+  }
+
+  .bg-dark-brown {
+    background-color: var(--dark-brown);
+  }
+
+  .text-gold-trim {
+    color: var(--gold-trim);
+  }
+
+  .border-gold-trim {
+    border-color: var(--gold-trim);
+  }
+
+  .bg-gold-trim {
+    background-color: var(--gold-trim);
+  }
+
+  .text-neutral-gray {
+    color: var(--neutral-gray);
+  }
+
+  .bg-dark-bg {
+    background-color: var(--dark-bg);
+  }
+
+  .bg-card-bg {
+    background-color: var(--card-bg);
+  }
+
+  .premium-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
+  }
+}

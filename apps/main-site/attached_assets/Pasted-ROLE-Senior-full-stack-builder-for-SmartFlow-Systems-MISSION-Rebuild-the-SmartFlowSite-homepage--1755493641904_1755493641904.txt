@@ -1,0 +1,116 @@
+ROLE: Senior full-stack builder for SmartFlow Systems.
+
+MISSION:
+Rebuild the SmartFlowSite homepage so each project (AI Bot, Booking, E-com, Websites) has its own page, with a premium black/brown + shiny gold theme, latest posts, testimonials, and a clear CTA. 
+Also add /tools/social.html — a demo page that lets a visitor input a topic and get example captions/hashtags (mocked, no API key required).
+
+INSTRUCTIONS:
+- Create or overwrite ONLY the files listed below with EXACT contents.
+- Ensure folders exist before writing files.
+- After writing, run a quick HTML/CSS/JS lint if available.
+- No frameworks.
+
+FILES TO WRITE:
+
+========================
+FILE: index.html
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ]  ✅
+
+========================
+FILE: styles.css
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: app.js
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: data/posts.json
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: projects/ai-bot.html
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT, but keep the "Open caption tool" link to ../tools/social.html ] ✅
+
+========================
+FILE: projects/booking.html
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: projects/ecom.html
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: projects/websites.html
+========================
+[ SAME CONTENT AS PREVIOUS PROMPT ] ✅
+
+========================
+FILE: tools/social.html
+========================
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI Caption Tool — SmartFlow</title>
+<link rel="stylesheet" href="../styles.css"/>
+<style>
+  .tool-box{background:var(--panel);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:22px}
+  textarea{width:100%;padding:12px;border-radius:var(--radius);border:1px solid rgba(212,175,55,.2);background:#1a1815;color:var(--text);min-height:90px}
+  button{margin-top:12px}
+  .result{margin-top:16px;padding:12px;border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);background:#181614}
+</style>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+
+<section class="section container">
+  <h1 class="section-title">AI Caption Tool (Demo)</h1>
+  <p>Type a product or topic and generate mock captions + hashtags to show how our AI bot works.</p>
+  <div class="tool-box">
+    <textarea id="topic" placeholder="e.g. Fresh fade Friday or New fitness class..."></textarea>
+    <button class="btn btn-primary" onclick="genCaption()">Generate</button>
+    <div id="output" class="result" style="display:none"></div>
+  </div>
+</section>
+
+<script>
+function genCaption(){
+  const topic=document.getElementById('topic').value.trim();
+  const out=document.getElementById('output');
+  if(!topic){out.style.display='block';out.innerHTML='⚠️ Please enter a topic.';return;}
+  const captions=[
+    `🔥 ${topic} done right. Who’s booking next? #SmartFlow #${topic.replace(/\\s+/g,'')}`,
+    `💈 ${topic}? We automate the captions so you don’t have to. #AutoGrow #${topic.split(' ')[0]}`,
+    `🚀 ${topic} = more reach, more leads. #SellWhileYouSleep #SmartFlow`
+  ];
+  const pick=captions[Math.floor(Math.random()*captions.length)];
+  out.style.display='block';
+  out.innerHTML=`<strong>Generated Caption:</strong><br>${pick}`;
+}
+</script>
+</body></html>
+
+POST-STEP CHECKS:
+1) Ensure /projects and /tools and /data exist.
+2) Confirm index.html renders Hero, Projects, Latest, Testimonials, CTA.
+3) Confirm /tools/social.html runs JS mock caption generator.
+
+DOCUMENT:
+
+• Tech Change:
+  - Added /tools/social.html — a mock caption generator tool (JS only). All other project & homepage files as before.
+
+• Marketing Insight:
+  - Live tool makes the site interactive → proof your AI bot concept works, boosting trust & demo power.
+
+• Design Tip:
+  - Same premium black/brown + shiny gold theme for consistency; inputs styled in dark espresso panels.
+
+• Next Step (Gareth):
+  - Swap mock generator with real API calls later (OpenAI key input). For now, this demo shows *proof of concept* on your portfolio.
