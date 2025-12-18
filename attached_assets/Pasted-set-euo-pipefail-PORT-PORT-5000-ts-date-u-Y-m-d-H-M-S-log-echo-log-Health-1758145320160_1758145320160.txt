@@ -1,0 +1,53 @@
+set -euo pipefail
+PORT=${PORT:-5000}
+ts=$(date -u +%Y%m%d-%H%M%S)
+log(){ echo "▶ $*"; }
+
+log "Health check"; curl -fsS "http://localhost:$PORT/health" >/dev/null && echo "✓ /health OK" || echo "• /health not found (non-fatal)"
+
+status=$(curl -sI "http://localhost:$PORT/" | awk 'NR==1{print $2}'); ctype=$(curl -sI "http://localhost:$PORT/" | awk 'BEGIN{IGNORECASE=1}/^content-type:/{print $2}')
+if [ "${status:-}" = "200" ] && echo "${ctype:-}" | grep -qi "text/html"; then
+  echo "✓ / serves HTML (SPA)"; ok_root=1
+else
+  echo "• / not serving SPA yet — applying safe static-serve fix"
+  test -f server/index.ts || { echo "❌ server/index.ts missing"; exit 1; }
+  cp server/index.ts "server/index.ts.bak.$ts"
+
+  # Ensure Vite build exists
+  npm --prefix client run build --silent
+
+  # (OVERWRITE) robust static helper
+  cat > server/serve-static.ts <<'TS'
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import type { Express } from "express";
+import express from "express";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
+export function attachStatic(app: Express) {
+  const dist = path.resolve(__dirname, "../client/dist");
+  const index = path.join(dist, "index.html");
+  app.use(express.static(dist, { index: false }));
+  app.get("/", (_req,res)=>res.sendFile(index));
+  app.get(/^(?!\/api\/|\/status(?:\/|$)|\/health(?:\/|$)|\/__diag\/).*/, (_req,res)=>res.sendFile(index));
+}
+TS
+
+  # Import + call (idempotent)
+  f=server/index.ts
+  grep -q 'from "./serve-static' "$f" || awk 'NR==1&&/^import /{print;print "import { attachStatic } from \"./serve-static\";";next}1' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+  grep -q 'attachStatic(app);' "$f" || printf '\nattachStatic(app);\n' >> "$f"
+
+  # Nudge server
+  touch server/index.ts
+fi
+
+# Proxy sanity (optional)
+if [ -n "${DEV_PROXY_TARGET:-}" ]; then
+  log "Proxy check (/status via DEV_PROXY_TARGET)"
+  curl -fsS "http://localhost:$PORT/status" | head -n1 || echo "• Set DEV_PROXY_TARGET correctly to test proxy"
+else
+  echo "ℹ Set DEV_PROXY_TARGET in Replit Secrets to test /status and /data via proxy"
+fi
+
+echo "✅ Done. Backup (if edited): server/index.ts.bak.$ts"

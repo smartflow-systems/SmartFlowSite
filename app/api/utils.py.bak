@@ -1,0 +1,15 @@
+import os
+from flask import abort
+
+def safe_file_access(user_input):
+    # ✅ Validates input to prevent directory traversal
+    safe_root = os.path.abspath("data")
+    target_path = os.path.abspath(os.path.join(safe_root, user_input))
+
+    if not target_path.startswith(safe_root):
+        abort(403)  # Forbidden
+
+    if not os.path.exists(target_path):
+        abort(404)  # Not Found
+
+    return target_path
