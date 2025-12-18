@@ -322,8 +322,18 @@ class WorkflowEngine {
 
   /**
    * Save workflow to file
+   * Security: Path is sanitized via getSafePath() to prevent path traversal
+   * Workflow data is validated and stored as JSON in controlled directory
    */
   async saveWorkflow(workflow) {
+    // Validate workflow structure before writing
+    if (!workflow || typeof workflow !== 'object') {
+      throw new Error('Invalid workflow: must be an object');
+    }
+    if (!workflow.id || typeof workflow.id !== 'string') {
+      throw new Error('Invalid workflow: id is required');
+    }
+
     const workflowPath = this.getSafePath(workflow.id);
     await fs.writeFile(workflowPath, JSON.stringify(workflow, null, 2));
     console.log(`💾 Saved workflow: ${sanitizeForLog(workflow.id)}`);

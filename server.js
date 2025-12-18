@@ -46,6 +46,13 @@ const authLimiter = rateLimit({
   message: "Too many authentication attempts, please try again later."
 });
 
+// Stricter rate limiting for file system operations
+const fileSystemLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50, // Stricter limit for file system operations
+  message: "Too many file system requests, please try again later."
+});
+
 app.use('/api/', limiter);
 
 // Body parsing middleware
@@ -140,7 +147,7 @@ app.get("/api/health", (_req, res) => res.json({
 }));
 
 // API: Submit Lead
-app.post("/api/leads", (req, res) => {
+app.post("/api/leads", fileSystemLimiter, (req, res) => {
   try {
     const { firstName, lastName, email, company, phone, source } = req.body;
 
@@ -196,7 +203,7 @@ app.post("/api/leads", (req, res) => {
       throw new Error("Failed to save lead");
     }
 
-    console.log(`✓ New lead captured: ${email}`);
+    console.log(`✓ New lead captured: ${sanitizeForLog(email)}`);
 
     // Return success
     res.status(201).json({
