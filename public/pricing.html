@@ -1,46 +1,549 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pricing — SmartFlow Systems</title>
-  <meta name="description" content="Transparent pricing for AI bots, booking, ecommerce and high‑converting websites." />
-  <link rel="icon" href="static-logo.png" />
-  <link rel="preload" href="styles.css" as="style" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pricing — SmartFlow Systems | Start Your Digital Transformation</title>
+  <meta name="description" content="Simple, transparent pricing for MarketFlow Pro. Transform your business with AI-powered marketing and booking automation. Start at £49/month."/>
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="icon" href="/static-logo.png"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #0b0b0b;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #B0B0B0;
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #FFD700;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #B0B0B0;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .currency-toggle {
+      display: inline-flex;
+      gap: 0.5rem;
+      background: rgba(255, 215, 0, 0.1);
+      padding: 0.5rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .currency-toggle button {
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      color: #FFD700;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .currency-toggle button.active {
+      background: #FFD700;
+      color: #0b0b0b;
+    }
+
+    /* Pricing Cards */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .pricing-card {
+      background: rgba(26, 20, 16, 0.8);
+      border: 2px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      border-color: #FFD700;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+    }
+
+    .pricing-card.featured {
+      border-color: #FFD700;
+      transform: scale(1.05);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #0b0b0b;
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+
+    .plan-name {
+      font-size: 1.5rem;
+      color: #FFD700;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-description {
+      color: #B0B0B0;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      min-height: 60px;
+    }
+
+    .plan-price {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price .currency {
+      font-size: 1.5rem;
+      vertical-align: super;
+    }
+
+    .plan-price .period {
+      font-size: 1rem;
+      color: #B0B0B0;
+      font-weight: normal;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin: 2rem 0;
+      text-align: left;
+    }
+
+    .plan-features li {
+      padding: 0.75rem 0;
+      color: #E0E0E0;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .plan-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #FFD700;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .cta-button {
+      width: 100%;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #0b0b0b;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.125rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+    }
+
+    .cta-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      margin: 6rem 0 4rem;
+    }
+
+    .faq-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #FFD700;
+    }
+
+    .faq-grid {
+      display: grid;
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    details {
+      background: rgba(26, 20, 16, 0.6);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+    }
+
+    summary {
+      font-weight: bold;
+      color: #FFD700;
+      font-size: 1.125rem;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details p {
+      margin-top: 1rem;
+      color: #B0B0B0;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 215, 0, 0.1);
+      padding: 3rem 0;
+      text-align: center;
+      color: #B0B0B0;
+      margin-top: 6rem;
+    }
+
+    /* Loading State */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header container">
-    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
-    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">SmartFlow Systems</a>
+        <nav>
+          <a href="/#features">Features</a>
+          <a href="/#about">About</a>
+          <a href="/pricing.html">Pricing</a>
+        </nav>
+      </div>
+    </div>
   </header>
 
-  <main id="main">
-    <section class="hero container">
-      <h1>Simple, outcome‑first pricing</h1>
-      <p class="sub">Choose the plan that fits your business goals.</p>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero container">
+    <h1>Simple, Transparent Pricing</h1>
+    <p>Choose the plan that fits your business. Start transforming your operations today with AI-powered marketing and booking automation.</p>
 
-    <section class="section container">
-      <div id="pricing-cards" class="pricing-grid reveal" aria-live="polite"></div>
-      <p class="muted small center">Need a custom scope? <a href="book.html">Book a free call</a>.</p>
-    </section>
+    <div class="currency-toggle">
+      <button class="currency-btn active" data-currency="gbp">GBP (£)</button>
+      <button class="currency-btn" data-currency="usd">USD ($)</button>
+      <button class="currency-btn" data-currency="eur">EUR (€)</button>
+    </div>
+  </section>
 
-    <section class="section container">
-      <h2 class="section-title">FAQs</h2>
-      <div class="faq">
-        <details><summary>How fast can we launch?</summary><p>Starter: ~3–5 days. Pro: ~7–10 days. Premium: ~2–3 weeks.</p></details>
-        <details><summary>What do you need from me?</summary><p>Logo/brand notes, product/services, and access to payment/booking tools.</p></details>
-        <details><summary>Is there a guarantee?</summary><p>We iterate until your system is deployed and working as scoped.</p></details>
+  <!-- Pricing Cards -->
+  <section class="container">
+    <div class="pricing-grid" id="pricing-grid">
+      <!-- Smart Starter -->
+      <div class="pricing-card">
+        <h3 class="plan-name">Smart Starter</h3>
+        <p class="plan-description">Perfect for small businesses getting started with automation</p>
+        <div class="plan-price">
+          <span class="currency">£</span><span class="amount">49</span><span class="period">/month</span>
+        </div>
+        <ul class="plan-features">
+          <li>2 user seats</li>
+          <li>50 bookings per month</li>
+          <li>AI Post Generator (50 posts/month)</li>
+          <li>Email Campaign Builder (500 sends/month)</li>
+          <li>UTM Builder & QR Generator</li>
+          <li>Link-in-Bio page</li>
+          <li>Basic analytics dashboard</li>
+          <li>Email support (48hr response)</li>
+        </ul>
+        <button class="cta-button" onclick="checkout('starter')" data-plan="starter">
+          Start Free Trial
+        </button>
       </div>
-    </section>
-  </main>
 
-  <footer class="site-footer container">
-    <small>© <span id="y"></span> SmartFlow Systems.</small>
-    <a class="link" href="index.html">Home</a>
+      <!-- Flow Kit (Featured) -->
+      <div class="pricing-card featured">
+        <div class="featured-badge">MOST POPULAR</div>
+        <h3 class="plan-name">Flow Kit</h3>
+        <p class="plan-description">For growing businesses ready to scale their operations</p>
+        <div class="plan-price">
+          <span class="currency">£</span><span class="amount">149</span><span class="period">/month</span>
+        </div>
+        <ul class="plan-features">
+          <li><strong>Everything in Smart Starter</strong></li>
+          <li>5 user seats</li>
+          <li>Unlimited bookings</li>
+          <li>AI Post Generator (500 posts/month)</li>
+          <li>Email campaigns (5,000 sends/month)</li>
+          <li>Campaign Calendar & planning tools</li>
+          <li>OG Image Generator (unlimited)</li>
+          <li>5 Link-in-Bio pages</li>
+          <li>Advanced analytics & reporting</li>
+          <li>Google Calendar integration</li>
+          <li>Priority support (24hr response)</li>
+          <li>1 onboarding call</li>
+        </ul>
+        <button class="cta-button" onclick="checkout('pro')" data-plan="pro">
+          Start Free Trial
+        </button>
+      </div>
+
+      <!-- Salon Launch Pack -->
+      <div class="pricing-card">
+        <h3 class="plan-name">Salon Launch Pack</h3>
+        <p class="plan-description">Enterprise solution for multi-location businesses</p>
+        <div class="plan-price">
+          <span class="currency">£</span><span class="amount">299</span><span class="period">/month</span>
+        </div>
+        <ul class="plan-features">
+          <li><strong>Everything in Flow Kit</strong></li>
+          <li>15 user seats (£10/additional seat)</li>
+          <li>Unlimited everything</li>
+          <li>AI content generation (unlimited)</li>
+          <li>Email campaigns (unlimited)</li>
+          <li>Multi-location support (up to 5)</li>
+          <li>White-label branding options</li>
+          <li>Custom domain support</li>
+          <li>Dedicated account manager</li>
+          <li>Priority support (4hr response)</li>
+          <li>Monthly strategy call</li>
+          <li>Custom integrations available</li>
+        </ul>
+        <button class="cta-button" onclick="checkout('premium')" data-plan="premium">
+          Start Free Trial
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+      <details>
+        <summary>How does the free trial work?</summary>
+        <p>All plans come with a 14-day free trial. No credit card required to start. Cancel anytime during the trial period with no charges.</p>
+      </details>
+
+      <details>
+        <summary>Can I change plans later?</summary>
+        <p>Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate the difference.</p>
+      </details>
+
+      <details>
+        <summary>What payment methods do you accept?</summary>
+        <p>We accept all major credit cards (Visa, Mastercard, American Express) and debit cards through Stripe. All payments are secure and encrypted.</p>
+      </details>
+
+      <details>
+        <summary>Is there a setup fee?</summary>
+        <p>No setup fees! Just choose your plan and start using SmartFlow immediately. We include onboarding support with all plans.</p>
+      </details>
+
+      <details>
+        <summary>What happens if I exceed my limits?</summary>
+        <p>We'll notify you when you're approaching your limits. You can either upgrade to a higher plan or purchase additional credits as needed.</p>
+      </details>
+
+      <details>
+        <summary>Can I cancel anytime?</summary>
+        <p>Absolutely. Cancel your subscription at any time with no penalties. You'll retain access until the end of your billing period.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 SmartFlow Systems. All rights reserved.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+        <a href="/" style="color: #FFD700; text-decoration: none;">Home</a> •
+        <a href="/privacy.html" style="color: #FFD700; text-decoration: none;">Privacy</a> •
+        <a href="/terms.html" style="color: #FFD700; text-decoration: none;">Terms</a>
+      </p>
+    </div>
   </footer>
 
-  <script src="app.js" defer></script>
+  <script>
+    // Pricing data
+    const prices = {
+      starter: { gbp: 49, usd: 62, eur: 57 },
+      pro: { gbp: 149, usd: 188, eur: 173 },
+      premium: { gbp: 299, usd: 378, eur: 348 }
+    };
+
+    const currencySymbols = {
+      gbp: '£',
+      usd: '$',
+      eur: '€'
+    };
+
+    let currentCurrency = 'gbp';
+
+    // Currency toggle
+    document.querySelectorAll('.currency-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCurrency = btn.dataset.currency;
+        updatePrices();
+      });
+    });
+
+    function updatePrices() {
+      const symbol = currencySymbols[currentCurrency];
+      document.querySelectorAll('.pricing-card').forEach(card => {
+        const button = card.querySelector('.cta-button');
+        const plan = button.dataset.plan;
+        const amount = prices[plan][currentCurrency];
+
+        card.querySelector('.currency').textContent = symbol;
+        card.querySelector('.amount').textContent = amount;
+      });
+    }
+
+    // Checkout function
+    async function checkout(planId) {
+      const button = event.target;
+      const originalText = button.textContent;
+
+      try {
+        // Disable button and show loading state
+        button.disabled = true;
+        button.textContent = 'Creating checkout...';
+        button.classList.add('loading');
+
+        // Create checkout session
+        const response = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            planId: planId,
+            successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancelUrl: window.location.href
+          })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.message || 'Failed to create checkout session');
+        }
+
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+
+      } catch (error) {
+        console.error('Checkout error:', error);
+        alert('Unable to process checkout. Please try again or contact support.');
+
+        // Reset button
+        button.disabled = false;
+        button.textContent = originalText;
+        button.classList.remove('loading');
+      }
+    }
+
+    // Track page view (optional - add your analytics here)
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'page_view', {
+        page_title: 'Pricing',
+        page_location: window.location.href
+      });
+    }
+  </script>
 </body>
 </html>

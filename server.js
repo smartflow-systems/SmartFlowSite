@@ -5,6 +5,14 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
+import Stripe from "stripe";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
@@ -239,48 +247,148 @@ app.get("/api/leads", requireAuth, (_req, res) => {
   }
 });
 
-// API: Stripe Checkout (placeholder - requires Stripe configuration)
+// Price ID mapping for SmartFlow MarketFlow tiers
+const pricingMap = {
+  starter: process.env.STRIPE_STARTER_PRICE_ID,
+  pro: process.env.STRIPE_PRO_PRICE_ID,
+  premium: process.env.STRIPE_PREMIUM_PRICE_ID,
+  // Alias mappings
+  smart_starter: process.env.STRIPE_STARTER_PRICE_ID,
+  flow_kit: process.env.STRIPE_PRO_PRICE_ID,
+  salon_launch: process.env.STRIPE_PREMIUM_PRICE_ID
+};
+
+// API: Stripe Checkout - Create checkout session
 app.post("/api/stripe/checkout", async (req, res) => {
   try {
-    const { planId } = req.body;
+    const { planId, successUrl, cancelUrl, customerEmail } = req.body;
 
-    // Load pricing data
-    const pricingData = JSON.parse(readFileSync("./public/pricing.json", "utf-8"));
-    const plan = pricingData.plans.find(p => p.id === planId);
-
-    if (!plan) {
+    // Validate plan exists
+    if (!pricingMap[planId]) {
       return res.status(404).json({
         success: false,
-        message: "Plan not found"
+        message: "Plan not found. Valid plans: starter, pro, premium"
       });
     }
 
-    // TODO: Implement Stripe checkout session
-    // For now, return a placeholder response
-    // You'll need to:
-    // 1. Install stripe package: npm install stripe
-    // 2. Add STRIPE_SECRET_KEY to .env
-    // 3. Create Stripe checkout session
+    // Default URLs if not provided
+    const baseUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+    const finalSuccessUrl = successUrl || `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`;
+    const finalCancelUrl = cancelUrl || `${baseUrl}/pricing.html`;
 
-    console.log(`Checkout requested for plan: ${sanitizeForLog(planId)}`);
+    // Create Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription', // Recurring subscription
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: pricingMap[planId],
+          quantity: 1,
+        },
+      ],
+      success_url: finalSuccessUrl,
+      cancel_url: finalCancelUrl,
+      customer_email: customerEmail || undefined,
+      allow_promotion_codes: true,
+      billing_address_collection: 'required',
+      metadata: {
+        planId: planId,
+        source: 'smartflowsite'
+      },
+      subscription_data: {
+        metadata: {
+          planId: planId,
+          source: 'smartflowsite'
+        }
+      }
+    });
 
-    // Placeholder response
+    console.log(`✓ Checkout session created: ${session.id} for plan: ${sanitizeForLog(planId)}`);
+
     res.json({
       success: true,
-      message: "Stripe integration pending",
-      planId,
-      plan: plan.name,
-      price: plan.price,
-      // In production, return: url: session.url
-      url: `/contact.html?plan=${planId}` // Temporary redirect to contact
+      url: session.url,
+      sessionId: session.id
     });
 
   } catch (error) {
-    console.error("Checkout error:", error);
+    console.error("Stripe checkout error:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to create checkout session"
+      message: "Failed to create checkout session",
+      error: process.env.NODE_ENV === 'production' ? undefined : error.message
     });
+  }
+});
+
+// API: Stripe Webhook - Handle Stripe events
+app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    // Verify webhook signature
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('⚠️ Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        console.log(`✓ Checkout completed: ${session.id}`);
+        console.log(`  Customer: ${session.customer_email}`);
+        console.log(`  Plan: ${session.metadata?.planId}`);
+        console.log(`  Amount: ${session.amount_total / 100} ${session.currency.toUpperCase()}`);
+
+        // TODO: Save subscription to database
+        // TODO: Send welcome email
+        // TODO: Provision user account
+        break;
+
+      case 'customer.subscription.created':
+        const subscription = event.data.object;
+        console.log(`✓ Subscription created: ${subscription.id}`);
+        // TODO: Update user subscription status in database
+        break;
+
+      case 'customer.subscription.updated':
+        const updatedSubscription = event.data.object;
+        console.log(`✓ Subscription updated: ${updatedSubscription.id}`);
+        // TODO: Update user subscription in database
+        break;
+
+      case 'customer.subscription.deleted':
+        const canceledSubscription = event.data.object;
+        console.log(`✓ Subscription canceled: ${canceledSubscription.id}`);
+        // TODO: Update user subscription status to canceled
+        break;
+
+      case 'invoice.payment_succeeded':
+        const invoice = event.data.object;
+        console.log(`✓ Payment succeeded: ${invoice.id}`);
+        // TODO: Update payment records
+        break;
+
+      case 'invoice.payment_failed':
+        const failedInvoice = event.data.object;
+        console.log(`⚠️ Payment failed: ${failedInvoice.id}`);
+        // TODO: Send payment failed notification
+        break;
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    res.status(500).json({ error: 'Webhook processing failed' });
   }
 });
 
