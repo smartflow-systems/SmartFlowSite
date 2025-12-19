@@ -1,46 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — SmartFlow Systems</title>
-  <meta name="description" content="Transparent pricing for AI bots, booking, ecommerce and high‑converting websites." />
-  <link rel="icon" href="static-logo.png" />
-  <link rel="preload" href="styles.css" as="style" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto; padding: 0 1rem; }
+    .pricing-card { background: #fff; border: 2px solid #0D0D0D; border-radius: 8px; padding: 2rem; text-align: center; }
+    .pricing-card.featured { border-color: #FFD700; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3); }
+    .price { font-size: 3rem; font-weight: bold; color: #0D0D0D; margin: 1rem 0; }
+    .price span { font-size: 1.2rem; color: #666; }
+    .features { list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; }
+    .features li { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+    .btn-buy { background: #FFD700; color: #0D0D0D; padding: 1rem 2rem; border: none; border-radius: 4px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 1rem; cursor: pointer; }
+    .btn-buy:hover { background: #E6C200; }
+  </style>
 </head>
 <body>
-  <header class="site-header container">
-    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
-    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  <header style="background: #0D0D0D; color: #fff; padding: 2rem; text-align: center;">
+    <h1>SmartFlow Systems Pricing</h1>
+    <p>Launch your business with professional automation tools</p>
   </header>
 
-  <main id="main">
-    <section class="hero container">
-      <h1>Simple, outcome‑first pricing</h1>
-      <p class="sub">Choose the plan that fits your business goals.</p>
-    </section>
+  <main class="pricing-grid">
+    
+    <!-- White Label Dashboard -->
+    <div class="pricing-card featured">
+      <h2>White Label Dashboard</h2>
+      <div class="price">£159<span>/mo</span></div>
+      <p>Rebrand & resell to clients</p>
+      <ul class="features">
+        <li>✓ Full white-label branding</li>
+        <li>✓ Multi-tenant architecture</li>
+        <li>✓ Client management portal</li>
+        <li>✓ Revenue share ready</li>
+      </ul>
+      <a href="mailto:sales@smartflowsystems.com?subject=White Label Inquiry" class="btn-buy">Contact Sales</a>
+    </div>
 
-    <section class="section container">
-      <div id="pricing-cards" class="pricing-grid reveal" aria-live="polite"></div>
-      <p class="muted small center">Need a custom scope? <a href="book.html">Book a free call</a>.</p>
-    </section>
+    <!-- Social Scale Booster -->
+    <div class="pricing-card">
+      <h2>Social Scale Booster</h2>
+      <div class="price">£39<span>/mo</span></div>
+      <p>AI-powered social media automation</p>
+      <ul class="features">
+        <li>✓ Auto-post scheduling</li>
+        <li>✓ Content generation AI</li>
+        <li>✓ Analytics dashboard</li>
+        <li>✓ Multi-platform support</li>
+      </ul>
+      <a href="mailto:sales@smartflowsystems.com?subject=Social Booster" class="btn-buy">Get Started</a>
+    </div>
 
-    <section class="section container">
-      <h2 class="section-title">FAQs</h2>
-      <div class="faq">
-        <details><summary>How fast can we launch?</summary><p>Starter: ~3–5 days. Pro: ~7–10 days. Premium: ~2–3 weeks.</p></details>
-        <details><summary>What do you need from me?</summary><p>Logo/brand notes, product/services, and access to payment/booking tools.</p></details>
-        <details><summary>Is there a guarantee?</summary><p>We iterate until your system is deployed and working as scoped.</p></details>
-      </div>
-    </section>
+    <!-- Invoice & Billing -->
+    <div class="pricing-card">
+      <h2>Invoice & Billing</h2>
+      <div class="price">£25<span>/mo</span></div>
+      <p>Professional invoicing made simple</p>
+      <ul class="features">
+        <li>✓ Unlimited invoices</li>
+        <li>✓ Payment tracking</li>
+        <li>✓ Client portal</li>
+        <li>✓ Tax calculations</li>
+      </ul>
+      <a href="mailto:sales@smartflowsystems.com?subject=Invoice System" class="btn-buy">Start Free Trial</a>
+    </div>
+
+    <!-- Barber Booker -->
+    <div class="pricing-card">
+      <h2>Barber Booker</h2>
+      <div class="price">£65<span>/mo</span></div>
+      <p>Booking system for salons & barbershops</p>
+      <ul class="features">
+        <li>✓ Online booking calendar</li>
+        <li>✓ SMS reminders</li>
+        <li>✓ Customer database</li>
+        <li>✓ Payment processing</li>
+      </ul>
+      <a href="mailto:sales@smartflowsystems.com?subject=Barber Booker" class="btn-buy">Book Demo</a>
+    </div>
+
+    <!-- Data Query Engine -->
+    <div class="pricing-card">
+      <h2>Data Query Engine</h2>
+      <div class="price">£79<span>/mo</span></div>
+      <p>Enterprise data insights platform</p>
+      <ul class="features">
+        <li>✓ Natural language queries</li>
+        <li>✓ Real-time analytics</li>
+        <li>✓ Custom dashboards</li>
+        <li>✓ API access</li>
+      </ul>
+      <a href="mailto:sales@smartflowsystems.com?subject=Data Engine" class="btn-buy">Enterprise Quote</a>
+    </div>
+
   </main>
 
-  <footer class="site-footer container">
-    <small>© <span id="y"></span> SmartFlow Systems.</small>
-    <a class="link" href="index.html">Home</a>
+  <footer style="background: #3B2F2F; color: #F5F5DC; text-align: center; padding: 2rem; margin-top: 4rem;">
+    <p>All plans include email support • 30-day money-back guarantee</p>
+    <p><a href="contact.html" style="color: #FFD700;">Contact us</a> for custom enterprise solutions</p>
   </footer>
-
-  <script src="app.js" defer></script>
 </body>
 </html>
