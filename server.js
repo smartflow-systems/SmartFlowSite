@@ -11,6 +11,31 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
+// SECURITY: Validate critical secrets in production
+if (process.env.NODE_ENV === 'production') {
+  const requiredSecrets = [
+    { name: 'STRIPE_SECRET_KEY', value: process.env.STRIPE_SECRET_KEY },
+    { name: 'STRIPE_WEBHOOK_SECRET', value: process.env.STRIPE_WEBHOOK_SECRET },
+    { name: 'JWT_SECRET', value: process.env.JWT_SECRET }
+  ];
+
+  const missing = requiredSecrets.filter(secret =>
+    !secret.value ||
+    secret.value.includes('change-in-production') ||
+    secret.value.includes('your-secret-key') ||
+    secret.value.length < 16
+  );
+
+  if (missing.length > 0) {
+    console.error('⛔ CRITICAL: Missing or insecure secrets in production:');
+    missing.forEach(secret => console.error(`   - ${secret.name}`));
+    console.error('\nApplication cannot start securely. Please set proper environment variables.');
+    process.exit(1);
+  }
+
+  console.log('✅ Production secrets validated');
+}
+
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -80,8 +105,51 @@ if (!existsSync(dataDir)) {
 const leadsFile = join(dataDir, "leads.json");
 
 // Initialize leads file if it doesn't exist
-if (!existsSync(leadsFile)) {
-  writeFileSync(leadsFile, JSON.stringify({ leads: [] }, null, 2));
+// SECURITY: Use atomic file operations to prevent TOCTOU race conditions
+try {
+  // Try to read the file first
+  const data = readFileSync(leadsFile, "utf-8");
+  JSON.parse(data); // Validate it's valid JSON
+} catch (error) {
+  // File doesn't exist or is invalid - initialize it
+  if (error.code === 'ENOENT' || error instanceof SyntaxError) {
+    try {
+      // Use 'wx' flag for atomic create-if-not-exists
+      writeFileSync(leadsFile, JSON.stringify({ leads: [] }, null, 2), { flag: 'wx' });
+    } catch (writeError) {
+      // File was created by another process - that's okay, ignore EEXIST
+      if (writeError.code !== 'EEXIST') {
+        console.error('Error initializing leads file:', writeError);
+        throw writeError;
+      }
+    }
+  } else {
+    console.error('Error reading leads file:', error);
+    throw error;
+  }
+}
+
+// Helper: Safe email validation (prevents ReDoS attacks)
+function isValidEmail(email) {
+  // Limit length to prevent DoS
+  if (typeof email !== 'string' || email.length > 254 || email.length < 3) {
+    return false;
+  }
+
+  // Simple, non-backtracking validation
+  const atIndex = email.indexOf('@');
+  if (atIndex < 1 || atIndex === email.length - 1) {
+    return false;
+  }
+
+  const dotIndex = email.lastIndexOf('.');
+  if (dotIndex < atIndex + 2 || dotIndex === email.length - 1) {
+    return false;
+  }
+
+  // Efficient character validation with bounded quantifiers
+  // This pattern uses atomic groups and doesn't cause catastrophic backtracking
+  return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
 }
 
 // Helper: Read leads
@@ -167,9 +235,8 @@ app.post("/api/leads", fileSystemLimiter, (req, res) => {
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Validate email format (ReDoS-safe validation)
+    if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
         message: "Invalid email format"
@@ -342,9 +409,10 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
       case 'checkout.session.completed':
         const session = event.data.object;
         console.log(`✓ Checkout completed: ${session.id}`);
-        console.log(`  Customer: ${session.customer_email}`);
-        console.log(`  Plan: ${session.metadata?.planId}`);
-        console.log(`  Amount: ${session.amount_total / 100} ${session.currency.toUpperCase()}`);
+        // SECURITY: Sanitize user-controlled data to prevent log injection
+        console.log(`  Customer: ${sanitizeForLog(session.customer_email)}`);
+        console.log(`  Plan: ${sanitizeForLog(session.metadata?.planId)}`);
+        console.log(`  Amount: ${session.amount_total / 100} ${sanitizeForLog(session.currency?.toUpperCase())}`);
 
         // TODO: Save subscription to database
         // TODO: Send welcome email

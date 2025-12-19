@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const AgentRegistry = require('./registry');
 const StateStore = require('./state-store');
 const WorkflowEngine = require('./workflow-engine');
@@ -98,6 +99,23 @@ class SFSOrchestrator {
    * Setup API routes
    */
   setupRoutes() {
+    // SECURITY: Rate limiters to prevent abuse and DoS attacks
+    const dashboardLimiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Max 100 requests per window per IP
+      message: 'Too many requests to dashboard, please try again later.',
+      standardHeaders: true,
+      legacyHeaders: false,
+    });
+
+    const apiLimiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 200, // Max 200 API requests per window per IP
+      message: 'Too many API requests, please try again later.',
+      standardHeaders: true,
+      legacyHeaders: false,
+    });
+
     // Health check
     this.app.get('/health', (req, res) => {
       res.json({
@@ -343,12 +361,14 @@ class SFSOrchestrator {
     });
 
     // Orchestrator Dashboard (root)
-    this.app.get('/', (req, res) => {
+    // SECURITY: Rate limiting applied to prevent abuse
+    this.app.get('/', dashboardLimiter, (req, res) => {
       res.sendFile('dashboard/index.html', { root: './public' });
     });
 
     // SmartFlowSite website (at /site)
-    this.app.get('/site', (req, res) => {
+    // SECURITY: Rate limiting applied to prevent abuse
+    this.app.get('/site', dashboardLimiter, (req, res) => {
       res.sendFile('index.html', { root: './public' });
     });
 

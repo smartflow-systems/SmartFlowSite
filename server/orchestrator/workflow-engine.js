@@ -47,6 +47,39 @@ class WorkflowEngine {
   }
 
   /**
+   * Safely set object property, preventing prototype pollution
+   * SECURITY: Rejects dangerous property names that could modify prototypes
+   * @param {object} obj - The object to set property on
+   * @param {string} key - The property name
+   * @param {*} value - The value to set
+   */
+  safeSetProperty(obj, key, value) {
+    // Reject dangerous property names
+    const dangerousProps = ['__proto__', 'constructor', 'prototype'];
+    if (dangerousProps.includes(key)) {
+      throw new Error(`Forbidden property name: ${key}`);
+    }
+
+    // Validate key is a string and not empty
+    if (typeof key !== 'string' || key.length === 0) {
+      throw new Error('Property key must be a non-empty string');
+    }
+
+    // Validate key format (alphanumeric, dash, underscore only)
+    if (!/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(key)) {
+      throw new Error(`Invalid property name: ${key}`);
+    }
+
+    // Use Object.defineProperty for safer assignment
+    Object.defineProperty(obj, key, {
+      value: value,
+      writable: true,
+      enumerable: true,
+      configurable: true
+    });
+  }
+
+  /**
    * Initialize workflow engine
    */
   async initialize() {
@@ -83,7 +116,8 @@ class WorkflowEngine {
         const step = workflow.steps[i];
         state.current_step = i;
 
-        console.log(`📍 Step ${i + 1}/${workflow.steps.length}: ${step.agent || step.action}`);
+        // SECURITY: Sanitize step name to prevent log injection
+        console.log(`📍 Step ${i + 1}/${workflow.steps.length}: ${sanitizeForLog(step.agent || step.action)}`);
 
         // Check dependencies
         if (!await this.checkDependencies(step, state)) {
@@ -103,8 +137,9 @@ class WorkflowEngine {
         });
 
         // Update workflow context with step outputs
-        if (step.output_to) {
-          state.context[step.output_to] = stepResult;
+        // SECURITY: Use safeSetProperty to prevent prototype pollution
+        if (step.output_to && typeof step.output_to === 'string') {
+          this.safeSetProperty(state.context, step.output_to, stepResult);
         }
 
         // Save state after each step
@@ -113,7 +148,8 @@ class WorkflowEngine {
         // Check if step failed
         if (stepResult.status === 'failed') {
           if (step.continue_on_error) {
-            console.warn(`⚠️  Step ${i} failed but continuing: ${stepResult.error}`);
+            // SECURITY: Sanitize error message to prevent log injection
+            console.warn(`⚠️  Step ${i} failed but continuing: ${sanitizeForLog(stepResult.error)}`);
           } else {
             throw new Error(`Step ${i} failed: ${stepResult.error}`);
           }
@@ -207,26 +243,70 @@ class WorkflowEngine {
 
   /**
    * Execute an action step (built-in actions)
+   * SECURITY: Validates action whitelist and protects against injection attacks
    */
   async executeActionStep(step, workflowState) {
+    // SECURITY: Whitelist of allowed actions
+    const ALLOWED_ACTIONS = ['set-context', 'wait', 'log', 'store-state'];
+
+    // SECURITY: Validate action before execution
+    if (!step.action || typeof step.action !== 'string') {
+      throw new Error('Invalid action: must be a string');
+    }
+
+    // SECURITY: Strict whitelist check
+    if (!ALLOWED_ACTIONS.includes(step.action)) {
+      throw new Error(`Unauthorized action: ${step.action}. Allowed: ${ALLOWED_ACTIONS.join(', ')}`);
+    }
+
     const actions = {
       'set-context': async (input) => {
+        // SECURITY: Validate input is an object
+        if (typeof input !== 'object' || input === null) {
+          throw new Error('set-context requires object input');
+        }
         for (const [key, value] of Object.entries(input)) {
-          workflowState.context[key] = this.resolveVariables(value, workflowState.context);
+          // SECURITY: Only process own properties to prevent prototype pollution
+          if (!Object.prototype.hasOwnProperty.call(input, key)) continue;
+
+          // SECURITY: Use safeSetProperty to prevent prototype pollution
+          this.safeSetProperty(
+            workflowState.context,
+            key,
+            this.resolveVariables(value, workflowState.context)
+          );
         }
         return { context_updated: true };
       },
       'wait': async (input) => {
-        const ms = input.duration || 1000;
+        // SECURITY: Limit max wait time to prevent resource exhaustion
+        const MAX_WAIT = 60000; // 60 seconds
+        const MIN_WAIT = 0;
+        const requestedMs = parseInt(input.duration) || 1000;
+        const ms = Math.min(Math.max(MIN_WAIT, requestedMs), MAX_WAIT);
+
+        if (requestedMs > MAX_WAIT) {
+          console.warn(`⚠️  Wait duration capped at ${MAX_WAIT}ms (requested: ${requestedMs}ms)`);
+        }
+
         await new Promise(resolve => setTimeout(resolve, ms));
         return { waited: ms };
       },
       'log': async (input) => {
         const message = this.resolveVariables(input.message || '', workflowState.context);
-        console.log(`📝 Workflow log: ${sanitizeForLog(message)}`);
-        return { logged: true, message };
+        const sanitized = sanitizeForLog(message);
+        console.log(`📝 Workflow log: ${sanitized}`);
+        return { logged: true, message: sanitized };
       },
       'store-state': async (input) => {
+        // SECURITY: Validate key and namespace
+        if (!input.key || typeof input.key !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(input.key)) {
+          throw new Error('Invalid state key: must be alphanumeric with dash/underscore');
+        }
+        if (input.key.length > 100) {
+          throw new Error('State key too long (max 100 characters)');
+        }
+
         await this.stateStore.set(input.key, input.value, {
           namespace: input.namespace || 'workflow-data'
         });
@@ -235,11 +315,6 @@ class WorkflowEngine {
     };
 
     const actionFn = actions[step.action];
-
-    if (!actionFn) {
-      throw new Error(`Unknown action: ${step.action}`);
-    }
-
     const result = await actionFn(step.input || {});
 
     return {
@@ -292,17 +367,25 @@ class WorkflowEngine {
 
   /**
    * Resolve variables in input (e.g., ${VAR_NAME})
+   * SECURITY: Uses bounded quantifiers to prevent ReDoS attacks
    */
   resolveVariables(input, context) {
     if (typeof input === 'string') {
-      return input.replace(/\${([^}]+)}/g, (match, varName) => {
-        return context[varName] || match;
+      // SECURITY: Non-backtracking pattern with strict length limit (max 100 chars)
+      // Only allows alphanumeric and underscore in variable names
+      return input.replace(/\$\{([a-zA-Z0-9_]{1,100})\}/g, (match, varName) => {
+        return context.hasOwnProperty(varName) ? context[varName] : match;
       });
     } else if (Array.isArray(input)) {
       return input.map(item => this.resolveVariables(item, context));
     } else if (typeof input === 'object' && input !== null) {
       const resolved = {};
       for (const [key, value] of Object.entries(input)) {
+        // SECURITY: Only process own properties to prevent prototype pollution
+        if (!Object.prototype.hasOwnProperty.call(input, key)) continue;
+        if (['__proto__', 'constructor', 'prototype'].includes(key)) {
+          throw new Error(`Forbidden property: ${key}`);
+        }
         resolved[key] = this.resolveVariables(value, context);
       }
       return resolved;
@@ -321,21 +404,101 @@ class WorkflowEngine {
   }
 
   /**
-   * Save workflow to file
-   * Security: Path is sanitized via getSafePath() to prevent path traversal
-   * Workflow data is validated and stored as JSON in controlled directory
+   * Validate workflow structure before saving
+   * SECURITY: Comprehensive validation to prevent malicious data and DoS attacks
    */
-  async saveWorkflow(workflow) {
-    // Validate workflow structure before writing
+  validateWorkflow(workflow) {
+    // Type checks
     if (!workflow || typeof workflow !== 'object') {
       throw new Error('Invalid workflow: must be an object');
     }
+
     if (!workflow.id || typeof workflow.id !== 'string') {
       throw new Error('Invalid workflow: id is required');
     }
 
+    // Length validation to prevent DoS
+    if (workflow.id.length > 100) {
+      throw new Error('Workflow id too long (max 100 characters)');
+    }
+
+    // Validate id format (alphanumeric, dash, underscore only)
+    if (!/^[a-zA-Z0-9_-]+$/.test(workflow.id)) {
+      throw new Error('Invalid workflow id format: only alphanumeric, dash, and underscore allowed');
+    }
+
+    // Validate steps array
+    if (workflow.steps && !Array.isArray(workflow.steps)) {
+      throw new Error('Invalid workflow: steps must be an array');
+    }
+
+    if (workflow.steps && workflow.steps.length > 100) {
+      throw new Error('Too many workflow steps (max 100)');
+    }
+
+    // Validate each step
+    if (workflow.steps) {
+      for (const step of workflow.steps) {
+        if (!step || typeof step !== 'object') {
+          throw new Error('Invalid step: must be an object');
+        }
+
+        // Each step must have exactly one of: agent, action, or workflow
+        const hasAgent = !!step.agent;
+        const hasAction = !!step.action;
+        const hasWorkflow = !!step.workflow;
+        const count = [hasAgent, hasAction, hasWorkflow].filter(Boolean).length;
+
+        if (count !== 1) {
+          throw new Error('Each step must have exactly one of: agent, action, or workflow');
+        }
+
+        // Validate step name if provided
+        if (step.name && typeof step.name !== 'string') {
+          throw new Error('Step name must be a string');
+        }
+        if (step.name && step.name.length > 100) {
+          throw new Error('Step name too long (max 100 characters)');
+        }
+
+        // Validate output_to if provided
+        if (step.output_to) {
+          if (typeof step.output_to !== 'string') {
+            throw new Error('Step output_to must be a string');
+          }
+          if (!/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(step.output_to)) {
+            throw new Error('Invalid output_to format');
+          }
+        }
+      }
+    }
+
+    // Size limit: Prevent large workflows from exhausting disk space
+    const workflowJson = JSON.stringify(workflow);
+    const MAX_SIZE = 1024 * 1024; // 1MB
+    if (workflowJson.length > MAX_SIZE) {
+      throw new Error(`Workflow too large (max ${MAX_SIZE} bytes)`);
+    }
+
+    return true;
+  }
+
+  /**
+   * Save workflow to file
+   * SECURITY: Path is sanitized via getSafePath() to prevent path traversal
+   * SECURITY: Workflow data is validated before writing to prevent malicious content
+   */
+  async saveWorkflow(workflow) {
+    // SECURITY: Comprehensive validation before writing to disk
+    this.validateWorkflow(workflow);
+
     const workflowPath = this.getSafePath(workflow.id);
-    await fs.writeFile(workflowPath, JSON.stringify(workflow, null, 2));
+
+    // Write atomically to prevent partial writes
+    const tempPath = `${workflowPath}.tmp`;
+    await fs.writeFile(tempPath, JSON.stringify(workflow, null, 2), { mode: 0o600 });
+    await fs.rename(tempPath, workflowPath);
+
     console.log(`💾 Saved workflow: ${sanitizeForLog(workflow.id)}`);
   }
 
