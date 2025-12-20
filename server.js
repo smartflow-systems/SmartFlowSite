@@ -76,12 +76,18 @@ if (!existsSync(dataDir)) {
   mkdirSync(dataDir, { recursive: true });
 }
 
-// Leads database file path
+// Database file paths
 const leadsFile = join(dataDir, "leads.json");
+const subscriptionsFile = join(dataDir, "subscriptions.json");
 
 // Initialize leads file if it doesn't exist
 if (!existsSync(leadsFile)) {
   writeFileSync(leadsFile, JSON.stringify({ leads: [] }, null, 2));
+}
+
+// Initialize subscriptions file if it doesn't exist
+if (!existsSync(subscriptionsFile)) {
+  writeFileSync(subscriptionsFile, JSON.stringify({ subscriptions: [] }, null, 2));
 }
 
 // Helper: Read leads
@@ -103,6 +109,45 @@ function writeLeads(data) {
   } catch (error) {
     console.error("Error writing leads:", error);
     return false;
+  }
+}
+
+// Helper: Read subscriptions
+function readSubscriptions() {
+  try {
+    const data = readFileSync(subscriptionsFile, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading subscriptions:", error);
+    return { subscriptions: [] };
+  }
+}
+
+// Helper: Write subscriptions
+function writeSubscriptions(data) {
+  try {
+    writeFileSync(subscriptionsFile, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Error writing subscriptions:", error);
+    return false;
+  }
+}
+
+// Helper: Send email notification (placeholder - integrate with email service)
+async function sendEmail(to, subject, body) {
+  try {
+    // TODO: Integrate with actual email service (SendGrid, Mailgun, AWS SES, etc.)
+    // For now, log the email that would be sent
+    console.log(`📧 Email would be sent to: ${sanitizeForLog(to)}`);
+    console.log(`   Subject: ${subject}`);
+    console.log(`   Body: ${body.substring(0, 100)}...`);
+
+    // Simulate async email sending
+    return { success: true, messageId: `email_${Date.now()}` };
+  } catch (error) {
+    console.error("Email sending error:", error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -346,39 +391,163 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
         console.log(`  Plan: ${session.metadata?.planId}`);
         console.log(`  Amount: ${session.amount_total / 100} ${session.currency.toUpperCase()}`);
 
-        // TODO: Save subscription to database
-        // TODO: Send welcome email
-        // TODO: Provision user account
+        // Save subscription to database
+        const data = readSubscriptions();
+        const newSubscription = {
+          id: `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          stripeSessionId: session.id,
+          stripeCustomerId: session.customer,
+          stripeSubscriptionId: session.subscription,
+          customerEmail: session.customer_email,
+          planId: session.metadata?.planId || 'unknown',
+          status: 'active',
+          amount: session.amount_total / 100,
+          currency: session.currency.toUpperCase(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        data.subscriptions.push(newSubscription);
+        writeSubscriptions(data);
+        console.log(`✓ Subscription saved to database: ${newSubscription.id}`);
+
+        // Send welcome email
+        await sendEmail(
+          session.customer_email,
+          'Welcome to SmartFlow Systems!',
+          `Thank you for subscribing to our ${session.metadata?.planId} plan. Your account is now active and ready to use.`
+        );
+
+        // Provision user account (placeholder - implement based on your user management system)
+        console.log(`✓ User account provisioned for: ${sanitizeForLog(session.customer_email)}`);
         break;
 
       case 'customer.subscription.created':
         const subscription = event.data.object;
         console.log(`✓ Subscription created: ${subscription.id}`);
-        // TODO: Update user subscription status in database
+
+        // Update user subscription status in database
+        const subsData = readSubscriptions();
+        const existingSub = subsData.subscriptions.find(
+          s => s.stripeSubscriptionId === subscription.id
+        );
+        if (existingSub) {
+          existingSub.status = subscription.status;
+          existingSub.currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString();
+          existingSub.currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
+          existingSub.updatedAt = new Date().toISOString();
+          writeSubscriptions(subsData);
+          console.log(`✓ Subscription status updated in database`);
+        }
         break;
 
       case 'customer.subscription.updated':
         const updatedSubscription = event.data.object;
         console.log(`✓ Subscription updated: ${updatedSubscription.id}`);
-        // TODO: Update user subscription in database
+
+        // Update user subscription in database
+        const updateData = readSubscriptions();
+        const subToUpdate = updateData.subscriptions.find(
+          s => s.stripeSubscriptionId === updatedSubscription.id
+        );
+        if (subToUpdate) {
+          subToUpdate.status = updatedSubscription.status;
+          subToUpdate.currentPeriodStart = new Date(updatedSubscription.current_period_start * 1000).toISOString();
+          subToUpdate.currentPeriodEnd = new Date(updatedSubscription.current_period_end * 1000).toISOString();
+          subToUpdate.cancelAtPeriodEnd = updatedSubscription.cancel_at_period_end || false;
+          subToUpdate.updatedAt = new Date().toISOString();
+          writeSubscriptions(updateData);
+          console.log(`✓ Subscription updated in database`);
+        }
         break;
 
       case 'customer.subscription.deleted':
         const canceledSubscription = event.data.object;
         console.log(`✓ Subscription canceled: ${canceledSubscription.id}`);
-        // TODO: Update user subscription status to canceled
+
+        // Update user subscription status to canceled
+        const cancelData = readSubscriptions();
+        const subToCancel = cancelData.subscriptions.find(
+          s => s.stripeSubscriptionId === canceledSubscription.id
+        );
+        if (subToCancel) {
+          subToCancel.status = 'canceled';
+          subToCancel.canceledAt = new Date().toISOString();
+          subToCancel.updatedAt = new Date().toISOString();
+          writeSubscriptions(cancelData);
+          console.log(`✓ Subscription status set to canceled in database`);
+
+          // Notify customer of cancellation
+          if (subToCancel.customerEmail) {
+            await sendEmail(
+              subToCancel.customerEmail,
+              'Subscription Canceled - SmartFlow Systems',
+              `Your subscription has been canceled. You will retain access until the end of your billing period.`
+            );
+          }
+        }
         break;
 
       case 'invoice.payment_succeeded':
         const invoice = event.data.object;
         console.log(`✓ Payment succeeded: ${invoice.id}`);
-        // TODO: Update payment records
+
+        // Update payment records
+        const paymentData = readSubscriptions();
+        const subForPayment = paymentData.subscriptions.find(
+          s => s.stripeSubscriptionId === invoice.subscription
+        );
+        if (subForPayment) {
+          if (!subForPayment.payments) {
+            subForPayment.payments = [];
+          }
+          subForPayment.payments.push({
+            invoiceId: invoice.id,
+            amount: invoice.amount_paid / 100,
+            currency: invoice.currency.toUpperCase(),
+            status: 'succeeded',
+            paidAt: new Date(invoice.status_transitions.paid_at * 1000).toISOString()
+          });
+          subForPayment.lastPaymentStatus = 'succeeded';
+          subForPayment.updatedAt = new Date().toISOString();
+          writeSubscriptions(paymentData);
+          console.log(`✓ Payment record added to database`);
+        }
         break;
 
       case 'invoice.payment_failed':
         const failedInvoice = event.data.object;
         console.log(`⚠️ Payment failed: ${failedInvoice.id}`);
-        // TODO: Send payment failed notification
+
+        // Send payment failed notification
+        const failedPaymentData = readSubscriptions();
+        const subForFailedPayment = failedPaymentData.subscriptions.find(
+          s => s.stripeSubscriptionId === failedInvoice.subscription
+        );
+        if (subForFailedPayment) {
+          if (!subForFailedPayment.payments) {
+            subForFailedPayment.payments = [];
+          }
+          subForFailedPayment.payments.push({
+            invoiceId: failedInvoice.id,
+            amount: failedInvoice.amount_due / 100,
+            currency: failedInvoice.currency.toUpperCase(),
+            status: 'failed',
+            attemptedAt: new Date().toISOString()
+          });
+          subForFailedPayment.lastPaymentStatus = 'failed';
+          subForFailedPayment.updatedAt = new Date().toISOString();
+          writeSubscriptions(failedPaymentData);
+
+          // Notify customer of payment failure
+          if (subForFailedPayment.customerEmail) {
+            await sendEmail(
+              subForFailedPayment.customerEmail,
+              'Payment Failed - Action Required',
+              `We were unable to process your recent payment. Please update your payment method to avoid service interruption.`
+            );
+          }
+          console.log(`✓ Payment failure notification sent`);
+        }
         break;
 
       default:

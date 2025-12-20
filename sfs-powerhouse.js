@@ -609,7 +609,7 @@ window.openRecommendationQuiz = openRecommendationQuiz;
 // INITIALIZE ALL FEATURES
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 SmartFlow Powerhouse Features Loading...');
+  // Powerhouse features initializing
 
   initScrollAnimations();
   initStatsCounters();
@@ -618,5 +618,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   addFloatingButtons();
 
-  console.log('✅ Powerhouse Features Active!');
+  // Powerhouse features activated
 });
