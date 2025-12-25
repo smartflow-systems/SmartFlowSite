@@ -372,21 +372,15 @@ class CircuitBoardAnimation {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, screen width:', window.innerWidth);
     // Only initialize if we're not on a mobile device (performance consideration)
     if (window.innerWidth > 768) {
-        console.log('Initializing circuit board animation...');
         try {
             window.circuitAnimation = new CircuitBoardAnimation();
-            console.log('Circuit animation created successfully');
-            console.log('Generated nodes:', window.circuitAnimation.nodes.length);
-            console.log('Generated connections:', window.circuitAnimation.connections.length);
-            console.log('Generated stars:', window.circuitAnimation.stars.length);
         } catch (error) {
             console.error('Error creating circuit animation:', error);
         }
     } else {
-        console.log('Skipping animation on mobile device');
+        // Skipping animation on mobile device
     }
 });
 

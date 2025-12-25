@@ -623,7 +623,7 @@ const checkAchievements = () => {
 // INITIALIZE ALL ULTIMATE FEATURES
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🔥 ULTIMATE SICK FEATURES LOADING...');
+  // Ultimate features initializing
 
   // Show loading screen
   if (document.body.dataset.showLoader !== 'false') {
@@ -654,6 +654,6 @@ document.addEventListener('DOMContentLoaded', () => {
       'Scale Without Limits'
     ]);
 
-    console.log('✅ ULTIMATE FEATURES ACTIVE!');
+    // Ultimate features activated
   }, 100);
 });
