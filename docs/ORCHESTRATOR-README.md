@@ -534,7 +534,7 @@ ORCHESTRATOR_PORT=5001
 ORCHESTRATOR_URL=http://localhost:5001
 
 # Optional
-SFS_PAT=github_pat_xxx
+SFS_PAT=YOUR_GITHUB_PAT_HERE
 REPLIT_TOKEN=xxx
 ```
 
