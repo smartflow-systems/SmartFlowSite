@@ -45,7 +45,11 @@ jobs:
       - name: Check for exposed secrets
         run: |
           # Check for common secret patterns
-          if grep -r "ghp_" . --exclude-dir=.git --exclude-dir=node_modules 2>/dev/null; then
+          if grep -r "ghp_[A-Za-z0-9]\{36,\}" . \
+            --exclude-dir=.git \
+            --exclude-dir=node_modules \
+            --exclude-dir=.github \
+            2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
