@@ -1,0 +1,47 @@
+{
+  "agent_id": "smartflow-theme-enforcer",
+  "name": "SmartFlow Theme Enforcer",
+  "platform": "claude",
+  "capabilities": [
+    "theme-application",
+    "branding",
+    "css-generation",
+    "ui-consistency"
+  ],
+  "apps": [
+    "SmartFlowSite",
+    "SFSAPDemoCRM",
+    "SFSDataQueryEngine",
+    "SocialScaleBoosterAIbot"
+  ],
+  "description": "Applies SmartFlow black-brown-gold theme to web applications",
+  "triggers": {
+    "events": ["app.created", "theme.update.requested"],
+    "webhooks": ["/api/agents/theme-enforcer/trigger"]
+  },
+  "context_files": [
+    "sfs-theme-config.json",
+    "SFS-DESIGN-SYSTEM.md",
+    "sfs-complete-theme.css",
+    "sfs-globals.css"
+  ],
+  "inputs": {
+    "repo_path": "string",
+    "target_files": "array<string>",
+    "theme_variant": "string (default: 'standard')"
+  },
+  "outputs": {
+    "format": "json",
+    "schema": {
+      "applied_files": "array<string>",
+      "theme_version": "string",
+      "warnings": "array<string>"
+    }
+  },
+  "dependencies": [],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "SFS Core Team",
+    "last_updated": "2025-01-15"
+  }
+}

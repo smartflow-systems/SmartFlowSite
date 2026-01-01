@@ -1,0 +1,10 @@
+node_modules
+.git
+.env
+*.log
+__pycache__
+.venv
+server
+gateway
+*.py
+*.pyc

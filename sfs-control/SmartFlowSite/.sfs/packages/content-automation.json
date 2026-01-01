@@ -1,0 +1,67 @@
+{
+  "package_id": "content-automation",
+  "name": "Content Automation Package",
+  "version": "1.0.0",
+  "description": "Automated content generation for marketing campaigns",
+  "capabilities": [
+    "content-generation",
+    "seo-optimization",
+    "social-media",
+    "campaign-automation"
+  ],
+  "agents": [
+    "chatgpt-content-creator"
+  ],
+  "workflow": [
+    {
+      "name": "generate-blog-post",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "blog",
+        "topic": "${TOPIC}",
+        "target_audience": "${AUDIENCE}",
+        "tone": "professional",
+        "word_count": 1200
+      },
+      "output_to": "blog_content"
+    },
+    {
+      "name": "generate-social-posts",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "social",
+        "topic": "${TOPIC}",
+        "platforms": ["twitter", "linkedin", "instagram"],
+        "based_on": "${blog_content}"
+      },
+      "depends_on": ["generate-blog-post"],
+      "output_to": "social_content"
+    },
+    {
+      "name": "generate-email",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "email",
+        "topic": "${TOPIC}",
+        "tone": "engaging",
+        "call_to_action": "${CTA}"
+      },
+      "depends_on": ["generate-blog-post"],
+      "output_to": "email_content"
+    }
+  ],
+  "required_context": [
+    "TOPIC",
+    "AUDIENCE",
+    "CTA"
+  ],
+  "metadata": {
+    "author": "SFS Marketing Team",
+    "created": "2025-01-15",
+    "tags": ["marketing", "content", "automation"],
+    "estimated_duration": "5-10 minutes"
+  }
+}
