@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pricing — SmartFlow Systems</title>
+  <meta name="description" content="Simple, transparent pricing for MarketFlow Pro, BookFlow, and SocialScale AI. Start free or choose a plan that fits your business."/>
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="/css/sfs-complete-theme.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .pricing-hero {
+      padding: 120px 20px 80px;
+      text-align: center;
+      background: linear-gradient(135deg, #0b0b0b 0%, #1a1410 100%);
+    }
+
+    .pricing-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pricing-hero p {
+      font-size: 1.25rem;
+      color: #B0B0B0;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .currency-selector {
+      display: inline-flex;
+      gap: 0.5rem;
+      background: rgba(255, 215, 0, 0.1);
+      padding: 0.5rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .currency-selector button {
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      color: #FFD700;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .currency-selector button.active {
+      background: rgba(255, 215, 0, 0.2);
+      border-color: #FFD700;
+    }
+
+    .product-section {
+      padding: 60px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .product-section:nth-child(even) {
+      background: rgba(255, 215, 0, 0.02);
+    }
+
+    .product-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .product-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #FFD700;
+    }
+
+    .product-header p {
+      font-size: 1.1rem;
+      color: #B0B0B0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: linear-gradient(135deg, rgba(26, 20, 16, 0.95) 0%, rgba(11, 11, 11, 0.95) 100%);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .price-card:hover {
+      transform: translateY(-8px);
+      border-color: #FFD700;
+      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+    }
+
+    .price-card.featured {
+      border-color: #FFD700;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    }
+
+    .price-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #0b0b0b;
+      padding: 0.4rem 1.5rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .price-card h3 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: #FFD700;
+    }
+
+    .price-card .price {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      color: #ffffff;
+    }
+
+    .price-card .price small {
+      font-size: 1.25rem;
+      color: #B0B0B0;
+      font-weight: 400;
+    }
+
+    .price-card .trial-badge {
+      display: inline-block;
+      background: rgba(76, 175, 80, 0.2);
+      color: #4CAF50;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
+    }
+
+    .price-card ul li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      display: flex;
+      align-items: flex-start;
+      color: #E0E0E0;
+    }
+
+    .price-card ul li::before {
+      content: '✓';
+      color: #FFD700;
+      font-weight: bold;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .price-card .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+    }
+
+    .free-tier {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(11, 11, 11, 0.95) 100%);
+    }
+
+    .cta-section {
+      padding: 80px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1410 0%, #0b0b0b 100%);
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #FFD700;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: #B0B0B0;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .faq-section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #FFD700;
+    }
+
+    .faq-item {
+      background: rgba(26, 20, 16, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-item h3 {
+      color: #FFD700;
+      margin-bottom: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    .faq-item p {
+      color: #E0E0E0;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .pricing-hero h1 {
+        font-size: 2rem;
+      }
+
+      .product-header h2 {
+        font-size: 2rem;
+      }
+
+      .pricing-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SFS Circuit Flow Background -->
+  <canvas id="circuit-canvas"></canvas>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a class="brand" href="/">SmartFlow Systems</a>
+    <nav>
+      <a href="/#projects">Products</a>
+      <a href="/products-pricing.html">Pricing</a>
+      <a href="/#testimonials">Proof</a>
+      <a href="/contact.html">Contact</a>
+      <a class="btn btn-gold" href="#marketflow">Get Started</a>
+    </nav>
+  </header>
+
+  <!-- Pricing Hero -->
+  <section class="pricing-hero">
+    <h1>Simple, Transparent Pricing</h1>
+    <p>Choose the plan that fits your business. Start free or upgrade anytime. No hidden fees, cancel anytime.</p>
+
+    <div class="currency-selector">
+      <button class="active" onclick="setCurrency('gbp')">£ GBP</button>
+      <button onclick="setCurrency('usd')">$ USD</button>
+      <button onclick="setCurrency('eur')">€ EUR</button>
+    </div>
+  </section>
+
+  <!-- MarketFlow Pro Pricing -->
+  <section id="marketflow" class="product-section">
+    <div class="product-header">
+      <h2>🎯 MarketFlow Pro</h2>
+      <p>All-in-one booking and marketing automation for service businesses. Perfect for salons, consultants, and coaches.</p>
+    </div>
+
+    <div class="pricing-cards">
+      <!-- Smart Starter -->
+      <div class="price-card">
+        <h3>Smart Starter</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="49" data-usd="62" data-eur="56">49</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>2 user seats</li>
+          <li>50 bookings per month</li>
+          <li>AI Post Generator (50 posts/month)</li>
+          <li>Email campaigns (500 sends/month)</li>
+          <li>UTM Builder & QR Generator</li>
+          <li>Link-in-Bio page (1 page)</li>
+          <li>Basic analytics</li>
+          <li>Email support (48hr)</li>
+        </ul>
+        <a class="btn btn-gold" href="https://marketflow.smartflow.systems/signup?tier=smart_starter" target="_blank">Start Free Trial</a>
+      </div>
+
+      <!-- Flow Kit -->
+      <div class="price-card featured">
+        <h3>Flow Kit</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="149" data-usd="188" data-eur="170">149</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>5 user seats</li>
+          <li>Unlimited bookings</li>
+          <li>AI Post Generator (500 posts/month)</li>
+          <li>Email campaigns (5,000 sends/month)</li>
+          <li>Campaign Calendar</li>
+          <li>5 Link-in-Bio pages</li>
+          <li>Advanced analytics</li>
+          <li>Google Calendar integration</li>
+          <li>Priority support (24hr)</li>
+          <li>1 onboarding call</li>
+        </ul>
+        <a class="btn btn-gold" href="https://marketflow.smartflow.systems/signup?tier=flow_kit" target="_blank">Start Free Trial</a>
+      </div>
+
+      <!-- Salon Launch Pack -->
+      <div class="price-card">
+        <h3>Salon Launch Pack</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="299" data-usd="377" data-eur="340">299</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>15 user seats (£10/extra)</li>
+          <li>Unlimited everything</li>
+          <li>Multi-location (up to 5)</li>
+          <li>White-label branding</li>
+          <li>Custom domain support</li>
+          <li>Dedicated account manager</li>
+          <li>Priority support (4hr)</li>
+          <li>Monthly strategy call</li>
+          <li>Custom integrations</li>
+        </ul>
+        <a class="btn btn-gold" href="https://marketflow.smartflow.systems/signup?tier=salon_launch" target="_blank">Start Free Trial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BookFlow Pricing -->
+  <section id="bookflow" class="product-section">
+    <div class="product-header">
+      <h2>💇 BookFlow</h2>
+      <p>Professional booking system for barbershops, salons, and spas. Accept payments, sync calendars, and automate reminders.</p>
+    </div>
+
+    <div class="pricing-cards">
+      <!-- BookFlow Starter -->
+      <div class="price-card">
+        <h3>BookFlow Starter</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="49" data-usd="62" data-eur="56">49</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>1 business location</li>
+          <li>3 staff members</li>
+          <li>Unlimited bookings</li>
+          <li>Google Calendar sync</li>
+          <li>Stripe payment processing</li>
+          <li>Email notifications (500/month)</li>
+          <li>Customer portal</li>
+          <li>Basic analytics</li>
+          <li>Email support (48hr)</li>
+        </ul>
+        <a class="btn btn-gold" href="https://bookflow.smartflow.systems/signup?tier=starter" target="_blank">Start Free Trial</a>
+      </div>
+
+      <!-- BookFlow Pro -->
+      <div class="price-card featured">
+        <h3>BookFlow Pro</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="99" data-usd="125" data-eur="113">99</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>10 staff members</li>
+          <li>SMS notifications (100/month)</li>
+          <li>Email notifications (unlimited)</li>
+          <li>Waitlist management</li>
+          <li>No-show protection</li>
+          <li>Advanced scheduling rules</li>
+          <li>Staff performance analytics</li>
+          <li>Custom booking forms</li>
+          <li>Priority support (24hr)</li>
+        </ul>
+        <a class="btn btn-gold" href="https://bookflow.smartflow.systems/signup?tier=pro" target="_blank">Start Free Trial</a>
+      </div>
+
+      <!-- BookFlow Enterprise -->
+      <div class="price-card">
+        <h3>BookFlow Enterprise</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="149" data-usd="188" data-eur="170">149</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>Unlimited staff</li>
+          <li>Multi-location (up to 10)</li>
+          <li>White-label branding</li>
+          <li>Custom domain</li>
+          <li>API access</li>
+          <li>Advanced reporting</li>
+          <li>Customer review management</li>
+          <li>Loyalty program integration</li>
+          <li>Dedicated account manager</li>
+          <li>Priority support (4hr)</li>
+        </ul>
+        <a class="btn btn-gold" href="https://bookflow.smartflow.systems/signup?tier=enterprise" target="_blank">Start Free Trial</a>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <p style="color: #B0B0B0;">+ One-time setup fee: £299 (includes 2hr onboarding, custom configuration, and staff training)</p>
+    </div>
+  </section>
+
+  <!-- SocialScale AI Pricing -->
+  <section id="socialscale" class="product-section">
+    <div class="product-header">
+      <h2>🤖 SocialScale AI</h2>
+      <p>No-code AI bot builder for social media automation. Create unlimited bots for Instagram, TikTok, Facebook, and more.</p>
+    </div>
+
+    <div class="pricing-cards">
+      <!-- Free Tier -->
+      <div class="price-card free-tier">
+        <h3>Free Forever</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount">0</span>
+          <small>/month</small>
+        </div>
+        <ul>
+          <li>3 bots maximum</li>
+          <li>1 platform per bot</li>
+          <li>AI content (25 posts/month)</li>
+          <li>Basic templates (5 free)</li>
+          <li>Standard scheduling</li>
+          <li>Basic analytics</li>
+          <li>Community support</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://socialscale.smartflow.systems/signup" target="_blank">Start Free</a>
+      </div>
+
+      <!-- SocialScale Pro -->
+      <div class="price-card featured">
+        <h3>SocialScale Pro</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="39" data-usd="49" data-eur="44">39</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">7-day free trial</span>
+        <ul>
+          <li>Unlimited bots</li>
+          <li>5 platforms per bot</li>
+          <li>AI content (500 posts/month)</li>
+          <li>All premium templates (50+)</li>
+          <li>Advanced scheduling</li>
+          <li>Personality designer</li>
+          <li>Advanced analytics & ROI</li>
+          <li>Export capabilities</li>
+          <li>Email support (48hr)</li>
+        </ul>
+        <a class="btn btn-gold" href="https://socialscale.smartflow.systems/signup?tier=pro" target="_blank">Start Free Trial</a>
+      </div>
+
+      <!-- SocialScale Agency -->
+      <div class="price-card">
+        <h3>SocialScale Agency</h3>
+        <div class="price">
+          <span class="currency-symbol">£</span><span class="amount" data-gbp="149" data-usd="188" data-eur="170">149</span>
+          <small>/month</small>
+        </div>
+        <span class="trial-badge">14-day free trial</span>
+        <ul>
+          <li>Unlimited everything</li>
+          <li>AI content (unlimited)</li>
+          <li>White-label dashboard</li>
+          <li>Client management (25 clients)</li>
+          <li>Multi-workspace support</li>
+          <li>Custom branding</li>
+          <li>API access</li>
+          <li>Priority support (24hr)</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <a class="btn btn-gold" href="https://socialscale.smartflow.systems/signup?tier=agency" target="_blank">Start Free Trial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Not sure which plan is right?</h2>
+    <p>Book a free 15-minute consultation and we'll help you choose the perfect plan for your business.</p>
+    <a class="btn btn-gold btn-lg" href="/contact.html">Book Free Consultation</a>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Can I switch plans anytime?</h3>
+      <p>Yes! Upgrade or downgrade anytime. Changes take effect immediately, and we'll prorate charges automatically.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What payment methods do you accept?</h3>
+      <p>We accept all major credit cards (Visa, Mastercard, Amex) via Stripe. All payments are secure and PCI-compliant.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do you offer refunds?</h3>
+      <p>Yes, we offer a 30-day money-back guarantee on all annual plans. Monthly plans can be canceled anytime.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What happens if I cancel?</h3>
+      <p>You can cancel anytime. Your service will continue until the end of your billing period. We'll help you export your data.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do you offer custom enterprise plans?</h3>
+      <p>Yes! For teams with special requirements, we offer custom enterprise plans with dedicated support, SLAs, and custom integrations. Contact us for details.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is there a setup fee?</h3>
+      <p>BookFlow has an optional £299 setup fee for full onboarding and training. All other products have no setup fees.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
+  </footer>
+
+  <script src="/js/sfs-circuit-flow.js"></script>
+  <script>
+    // Currency conversion rates (approximate)
+    const rates = {
+      gbp: 1,
+      usd: 1.26,
+      eur: 1.14
+    };
+
+    const symbols = {
+      gbp: '£',
+      usd: '$',
+      eur: '€'
+    };
+
+    let currentCurrency = 'gbp';
+
+    function setCurrency(currency) {
+      currentCurrency = currency;
+
+      // Update button states
+      document.querySelectorAll('.currency-selector button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      // Update all prices
+      document.querySelectorAll('.amount').forEach(el => {
+        const gbpPrice = parseInt(el.dataset.gbp);
+        const newPrice = Math.round(gbpPrice * rates[currency]);
+        el.textContent = newPrice;
+      });
+
+      // Update currency symbols
+      document.querySelectorAll('.currency-symbol').forEach(el => {
+        el.textContent = symbols[currency];
+      });
+    }
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

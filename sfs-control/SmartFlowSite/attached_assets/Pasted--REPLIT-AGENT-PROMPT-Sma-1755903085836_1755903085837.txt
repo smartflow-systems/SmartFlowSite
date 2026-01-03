@@ -1,0 +1,165 @@
+────────────────────────────────────────────────────────────────────────
+REPLIT AGENT PROMPT — “Smart Part” Integration for SmartFlowSite
+────────────────────────────────────────────────────────────────────────
+What this project does (short):
+- Adds a small “Smart Part” promo on your homepage that links to your deployed Flask mini-app demo.
+- Includes a dedicated info page (smart-part.html) and wires the live link via site.config.json so you can change the URL without touching HTML.
+
+Files required & where they go:
+1) Update `site.config.json` (add "smartPartUrl")
+2) Update `app.js` (wire buttons to config URL)
+3) Update `index.html` (add the Smart Part promo block inside Projects section)
+4) Update `styles.css` (add small styles at the end)
+5) Create new file `smart-part.html` (explainer page)
+
+Setup needed:
+- No new packages for the main site.
+- The Flask mini-app itself is deployed separately (Replit Deployments) and exposes `/status`. Put its live URL into `smartPartUrl`.
+
+How to run in Replit:
+- If this repo is HTML-only: open `index.html` in the webview.
+- If you already serve the site with Python: `python3 app.py`
+- For Node projects: `npm start`
+- For PHP: `php index.php`
+
+Deploy steps:
+1) Deploy the Flask mini-app and copy its public URL.
+2) Paste that URL into `site.config.json` as `smartPartUrl`.
+3) Commit & push: `git add -A && git commit -m "Add Smart Part promo + page" && git push origin main`
+4) Deploy your site; verify the “Open Live Mini-App” button works on the homepage and smart-part.html.
+
+Reminder for ENV (for the mini-app, in Replit → Deployments → Secrets):
+ADMIN_USER=admin
+ADMIN_PASSWORD=supersecret
+# optional email:
+SMTP_HOST=...
+SMTP_PORT=587
+SMTP_USER=...
+SMTP_PASS=...
+SMTP_TO=you@example.com
+SMTP_FROM=leads@your-domain.com
+
+────────────────────────────────────────────────────────────────────────
+CODE FILES (exactly as provided)
+────────────────────────────────────────────────────────────────────────
+
+# 1) site.config.json — add the Smart Part URL
+{
+  "siteUrl": "https://your-domain.com",
+  "siteName": "SmartFlow Systems",
+  "calendlyUrl": "https://calendly.com/your-handle/30min",
+  "leadWebhook": "",
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf",
+  "smartPartUrl": "https://your-smartpart.replit.app"
+}
+
+# 2) app.js — wire the config value to the buttons
+// Smart Part links (live microapp)
+const sp1 = document.getElementById('smart-part-live');
+if (sp1 && cfg.smartPartUrl) sp1.href = cfg.smartPartUrl;
+
+const sp2 = document.getElementById('smart-part-live-2');
+if (sp2 && cfg.smartPartUrl) sp2.href = cfg.smartPartUrl;
+
+# 3) index.html — Smart Part promo block
+<!-- Smart Part promo (lead capture + admin mini-app) -->
+<div class="smartpart reveal">
+  <div class="smartpart-card">
+    <div class="smartpart-badge">Smart Part</div>
+    <h3 class="smartpart-title">Lead Capture + Admin</h3>
+    <p class="smartpart-sub">Drop-in mini-app: JSONL leads, CSV export, basic auth, email notify.</p>
+    <ul class="smartpart-list">
+      <li>1-file deploy (Flask + Gunicorn)</li>
+      <li>/lead endpoint + Admin table & CSV</li>
+      <li>Works with Replit Deployments & Secrets</li>
+    </ul>
+    <div class="actions">
+      <a id="smart-part-live" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+      <a class="btn btn-ghost" href="smart-part.html">What is this?</a>
+    </div>
+  </div>
+</div>
+
+# 4) styles.css — tiny styles (append at end)
+/* Smart Part promo */
+.smartpart { margin-top: 8px; }
+.smartpart-card{
+  background: linear-gradient(180deg,var(--card),#120f0d);
+  border:1px solid #1d1916;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.02),0 10px 28px rgba(0,0,0,.36);
+  outline:1px solid rgba(212,175,55,.12);
+}
+.smartpart-card:hover{ outline-color: rgba(212,175,55,.28); }
+.smartpart-badge{
+  display:inline-block;
+  font-size:.75rem;
+  color:var(--gold);
+  border:1px solid rgba(212,175,55,.30);
+  background:rgba(212,175,55,.10);
+  padding:4px 8px; border-radius:999px; margin-bottom:8px;
+}
+.smartpart-title{ margin:6px 0 6px; }
+.smartpart-sub{ color:var(--muted); margin:0 0 10px; }
+.smartpart-list{ margin:6px 0 14px 18px; }
+
+# 5) smart-part.html — new file
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Smart Part — Lead Capture + Admin</title>
+<link rel="icon" href="static-logo.png"/>
+<link rel="preload" href="styles.css" as="style"/>
+<link rel="stylesheet" href="styles.css"/>
+</head><body>
+<header class="site-header container">
+  <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo"/><span class="brand-name">SmartFlow</span></a>
+  <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+</header>
+
+<main id="main">
+  <section class="hero container">
+    <h1>Smart Part: Lead Capture + Admin</h1>
+    <p class="sub">A tiny Flask app that collects leads, emails you, and gives you a secure admin table & CSV export.</p>
+    <div class="hero-cta">
+      <a id="smart-part-live-2" class="btn btn-gold btn-lg" href="#" target="_blank" rel="noopener">Open Live Mini-App</a>
+      <a class="btn btn-ghost btn-lg" href="https://github.com/boweazy/SmartFlowSite.git" target="_blank" rel="noopener">View repo</a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card">
+      <h2 class="section-title">What you get</h2>
+      <ul class="ticks">
+        <li><code>/lead</code> endpoint (POST JSON) → appends to <code>data/leads.jsonl</code></li>
+        <li>Optional email notify via <code>SMTP_*</code> secrets</li>
+        <li>Admin page <code>/admin/leads</code> (Basic Auth), plus <code>/admin/leads.csv</code></li>
+        <li>Health & status endpoints for quick checks</li>
+      </ul>
+      <p class="muted small">Set secrets on Replit Deployments → Secrets: <code>ADMIN_USER</code>, <code>ADMIN_PASSWORD</code> (and optional <code>SMTP_*</code>).</p>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="card">
+      <h2 class="section-title">Quick status</h2>
+      <p id="sp-status" class="muted">Checking the live app…</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer container"><small>© <span id="y"></span> SmartFlow Systems.</small><a class="link" href="index.html">Home</a></footer>
+<script src="app.js" defer></script>
+<script>
+(async ()=>{
+  try{
+    const cfg = await (await fetch('/site.config.json',{cache:'no-store'})).json();
+    if(!cfg.smartPartUrl){ document.getElementById('sp-status').textContent='smartPartUrl not set in site.config.json'; return; }
+    const r = await fetch(cfg.smartPartUrl.replace(/\/$/,'') + '/status', {mode:'cors'});
+    if(!r.ok){ document.getElementById('sp-status').textContent='Live app reachable but /status not OK.'; return; }
+    const j = await r.json().catch(()=>null);
+    document.getElementById('sp-status').textContent = j && j.ok ? 'Live app is healthy.' : 'Live app reachable.';
+  }catch(e){ document.getElementById('sp-status').textContent='Could not reach the live app yet.'; }
+})();
+</script>
+</body></html>

@@ -1,0 +1,46 @@
+{
+  "agent_id": "repo-manager",
+  "name": "Repository Manager",
+  "platform": "custom",
+  "capabilities": [
+    "repo-creation",
+    "github-integration",
+    "ci-cd-setup",
+    "branch-protection"
+  ],
+  "apps": [
+    "SmartFlowSite"
+  ],
+  "description": "Manages GitHub repository setup, configuration, and CI/CD pipelines",
+  "triggers": {
+    "events": ["repo.created", "client.onboarded"],
+    "webhooks": ["/api/agents/repo-manager/trigger"]
+  },
+  "context_files": [
+    ".github/workflows/sfs-ci-deploy.yml",
+    "docs/CI-HowTo.md",
+    "docs/Secrets-Checklist.md"
+  ],
+  "inputs": {
+    "repo_name": "string",
+    "template_repo": "string",
+    "enable_ci": "boolean",
+    "branch_protection": "boolean",
+    "secrets": "object"
+  },
+  "outputs": {
+    "format": "json",
+    "schema": {
+      "repo_url": "string",
+      "clone_url": "string",
+      "ci_status": "string",
+      "secrets_configured": "array<string>"
+    }
+  },
+  "dependencies": [],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "SFS DevOps Team",
+    "last_updated": "2025-01-15"
+  }
+}

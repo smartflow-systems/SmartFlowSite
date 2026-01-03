@@ -212,7 +212,7 @@ async function setupLeadForm() {
     // Basic validation
     if (!payload.name?.trim() || !payload.email?.includes('@')) {
       note.textContent = 'Please fill in name and valid email.';
-      note.style.color = '#d4af37';
+      note.style.color = '#FFD700';
       return;
     }
 
@@ -262,7 +262,7 @@ async function setupLeadForm() {
       btn.disabled = false;
       btn.textContent = 'Send brief';
       note.textContent = 'Something went wrong. Please try again or email us directly.';
-      note.style.color = '#d4af37';
+      note.style.color = '#FFD700';
       console.error('Lead submission error:', e);
     }
   });

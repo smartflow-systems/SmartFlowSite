@@ -1,0 +1,21 @@
+app.post(
+  "/api/stripe/webhook",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const sig = req.headers["stripe-signature"];
+
+    try {
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+
+      console.log("Stripe event:", event.type);
+      res.json({ received: true });
+    } catch (err) {
+      console.error("Webhook error:", err.message);
+      res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+  }
+);

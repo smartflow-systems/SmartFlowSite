@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFlow Systems - Automate Your Business with AI</title>
+  <meta name="description" content="Transform your business with AI-powered automation. 26 integrated tools, real-time analytics, and multi-platform integration.">
+
+  <!-- SFS Theme & Circuit Flow -->
+  <link rel="stylesheet" href="sfs-complete-theme.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Landing Page Specific Styles */
+    body {
+      padding-top: 80px;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 4rem 0;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      min-width: 200px;
+    }
+
+    .trust-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .trust-indicator {
+      text-align: center;
+    }
+
+    .trust-indicator-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--sf-gold);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .trust-indicator-label {
+      font-size: 0.875rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* Features Section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: var(--sf-gold-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--sf-white);
+    }
+
+    .feature-card p {
+      color: hsl(var(--muted-foreground));
+      line-height: 1.7;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pricing-card {
+      position: relative;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .pricing-card.popular {
+      border-color: var(--sf-gold);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+    }
+
+    .pricing-card.popular::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--sf-gold-grad);
+      color: var(--sf-black);
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .pricing-header {
+      padding: 2rem 1.5rem 1rem;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+      margin-bottom: 2rem;
+    }
+
+    .pricing-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-subtitle {
+      font-size: 0.9rem;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--sf-gold);
+      margin-bottom: 0.25rem;
+    }
+
+    .pricing-period {
+      font-size: 0.9rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .pricing-features {
+      list-style: none;
+      padding: 0 1.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      padding: 0.75rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--sf-gold);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .pricing-cta {
+      padding: 0 1.5rem 2rem;
+    }
+
+    .pricing-cta .btn {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    /* Social Proof Section */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .testimonial-card {
+      position: relative;
+    }
+
+    .testimonial-quote {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      color: hsl(var(--foreground));
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--sf-gold-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--sf-black);
+      font-size: 1.2rem;
+    }
+
+    .testimonial-info h4 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: var(--sf-white);
+    }
+
+    .testimonial-info p {
+      font-size: 0.875rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+
+    .stat-card {
+      padding: 2rem 1rem;
+    }
+
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--sf-gold);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* Lead Capture Section */
+    .lead-form {
+      max-width: 600px;
+      margin: 3rem auto 0;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--sf-white);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .lead-form .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
+
+    .success-message {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(74, 124, 74, 0.2);
+      border: 2px solid rgba(74, 124, 74, 0.5);
+      border-radius: var(--sf-radius);
+      margin-top: 2rem;
+    }
+
+    .success-message h3 {
+      color: #90EE90;
+      margin-bottom: 1rem;
+    }
+
+    .error-message {
+      background: rgba(221, 60, 60, 0.1);
+      border: 1px solid rgba(221, 60, 60, 0.3);
+      color: #FF6B6B;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      padding: 3rem 0;
+      text-align: left;
+    }
+
+    .footer-section h4 {
+      color: var(--sf-gold);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: hsl(var(--muted-foreground));
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--sf-gold);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 215, 0, 0.15);
+      color: hsl(var(--muted-foreground));
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 215, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sf-gold);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--sf-gold);
+      color: var(--sf-black);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+      }
+
+      .hero-cta .btn {
+        width: 100%;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid,
+      .pricing-grid,
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Circuit Flow Background -->
+  <canvas id="circuit-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <div class="navbar-logo">SF</div>
+        <span>SmartFlow Systems</span>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="/admin.html" class="btn btn-ghost" style="padding: 0.5rem 1rem;">Dashboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content fade-in-up">
+        <div class="badge" style="margin-bottom: 2rem;">
+          AI-Powered Business Automation
+        </div>
+        <h1>
+          <span class="text-gold-gradient">Automate Your Business</span><br>
+          with AI-Powered SmartFlow Systems
+        </h1>
+        <p>
+          Transform your operations with 26 integrated tools for social media automation,
+          data analytics, AI workflows, and real-time monitoring. Join 5000+ businesses
+          scaling effortlessly.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-gold pulse-on-hover">Start Free Trial</a>
+          <a href="#features" class="btn btn-ghost">Explore Features</a>
+        </div>
+
+        <div class="trust-indicators">
+          <div class="trust-indicator">
+            <span class="trust-indicator-value">26</span>
+            <span class="trust-indicator-label">Integrated Tools</span>
+          </div>
+          <div class="trust-indicator">
+            <span class="trust-indicator-value">5000+</span>
+            <span class="trust-indicator-label">Automations</span>
+          </div>
+          <div class="trust-indicator">
+            <span class="trust-indicator-value">99.9%</span>
+            <span class="trust-indicator-label">Uptime</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <h2><span class="text-gold-gradient">Powerful Features</span></h2>
+        <p style="color: hsl(var(--muted-foreground)); font-size: 1.1rem; max-width: 700px; margin: 1rem auto 0;">
+          Everything you need to automate, analyze, and scale your business operations with AI-powered intelligence.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="glass-card feature-card fade-in-up stagger-1">
+          <div class="feature-icon">🚀</div>
+          <h3>Social Media Automation</h3>
+          <p>
+            Schedule, publish, and manage content across all major platforms.
+            AI-powered content creation and optimal timing recommendations for maximum engagement.
+          </p>
+        </div>
+
+        <div class="glass-card feature-card fade-in-up stagger-2">
+          <div class="feature-icon">📊</div>
+          <h3>Data Analytics & Insights</h3>
+          <p>
+            Natural language queries transform into actionable insights.
+            Real-time dashboards, custom reports, and predictive analytics powered by AI.
+          </p>
+        </div>
+
+        <div class="glass-card feature-card fade-in-up stagger-3">
+          <div class="feature-icon">🤖</div>
+          <h3>AI-Powered Workflows</h3>
+          <p>
+            Intelligent automation that learns from your patterns.
+            GPT-4 integration for content generation, customer support, and decision-making.
+          </p>
+        </div>
+
+        <div class="glass-card feature-card fade-in-up stagger-4">
+          <div class="feature-icon">🔗</div>
+          <h3>Multi-Platform Integration</h3>
+          <p>
+            Connect with 100+ services including Stripe, Google Calendar, Mailchimp, and more.
+            Seamless data synchronization across your entire tech stack.
+          </p>
+        </div>
+
+        <div class="glass-card feature-card fade-in-up stagger-5">
+          <div class="feature-icon">⚡</div>
+          <h3>Real-Time Monitoring</h3>
+          <p>
+            Live performance tracking with instant alerts.
+            Monitor KPIs, system health, and business metrics from a unified dashboard.
+          </p>
+        </div>
+
+        <div class="glass-card feature-card fade-in-up stagger-6">
+          <div class="feature-icon">🎨</div>
+          <h3>Custom Branding</h3>
+          <p>
+            White-label solutions with your brand identity.
+            Custom domains, branded interfaces, and personalized customer experiences.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <h2><span class="text-gold-gradient">Simple, Transparent Pricing</span></h2>
+        <p style="color: hsl(var(--muted-foreground)); font-size: 1.1rem; max-width: 700px; margin: 1rem auto 0;">
+          Choose the perfect plan for your business. All plans include 30-day money-back guarantee.
+        </p>
+        <div class="badge" style="margin-top: 1rem;">
+          💰 Save 20% with Annual Billing
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="glass-card pricing-card">
+          <div class="pricing-header">
+            <h3>Starter</h3>
+            <p class="pricing-subtitle">Perfect for getting started</p>
+            <div class="pricing-price">£199</div>
+            <div class="pricing-period">one-time setup</div>
+          </div>
+          <ul class="pricing-features">
+            <li>1 system setup</li>
+            <li>Brand colours & logo</li>
+            <li>Email support</li>
+            <li>Basic documentation</li>
+            <li>30-day setup support</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-ghost" onclick="handleCheckout('starter')">Get Started</button>
+          </div>
+        </div>
+
+        <div class="glass-card pricing-card popular">
+          <div class="pricing-header">
+            <h3>Pro</h3>
+            <p class="pricing-subtitle">Most popular for small businesses</p>
+            <div class="pricing-price">£499</div>
+            <div class="pricing-period">one-time setup</div>
+          </div>
+          <ul class="pricing-features">
+            <li>2 systems + integrations</li>
+            <li>Stripe + Calendar sync</li>
+            <li>Priority support</li>
+            <li>Advanced customization</li>
+            <li>60-day optimization support</li>
+            <li>Training session included</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-gold pulse-on-hover" onclick="handleCheckout('pro')">Get Started</button>
+          </div>
+        </div>
+
+        <div class="glass-card pricing-card">
+          <div class="pricing-header">
+            <h3>Premium</h3>
+            <p class="pricing-subtitle">Full automation package</p>
+            <div class="pricing-price">£999</div>
+            <div class="pricing-period">one-time setup</div>
+          </div>
+          <ul class="pricing-features">
+            <li>All systems + presets</li>
+            <li>Analytics + training</li>
+            <li>30-day optimization</li>
+            <li>Custom integrations</li>
+            <li>Dedicated support</li>
+            <li>Monthly strategy calls</li>
+          </ul>
+          <div class="pricing-cta">
+            <button class="btn btn-ghost" onclick="handleCheckout('premium')">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section id="testimonials" class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <h2><span class="text-gold-gradient">Trusted by Industry Leaders</span></h2>
+        <p style="color: hsl(var(--muted-foreground)); font-size: 1.1rem; max-width: 700px; margin: 1rem auto 0;">
+          See what our customers are saying about SmartFlow Systems.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="glass-card testimonial-card">
+          <p class="testimonial-quote">
+            "SmartFlow Systems transformed our social media presence. We've seen a 300%
+            increase in engagement and saved 20 hours per week on content management."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SM</div>
+            <div class="testimonial-info">
+              <h4>Sarah Mitchell</h4>
+              <p>Marketing Director, TechCorp</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card testimonial-card">
+          <p class="testimonial-quote">
+            "The AI-powered analytics are game-changing. We make data-driven decisions
+            faster than ever, and the natural language queries make it accessible to everyone."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JD</div>
+            <div class="testimonial-info">
+              <h4>James Davidson</h4>
+              <p>CEO, DataFlow Inc</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card testimonial-card">
+          <p class="testimonial-quote">
+            "Incredible ROI. The automation tools alone saved us over £50K annually in
+            operational costs. The support team is also phenomenal - always there when we need them."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">LK</div>
+            <div class="testimonial-info">
+              <h4>Lisa Kowalski</h4>
+              <p>Operations Manager, GrowthHub</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="glass-card stat-card">
+          <span class="stat-value">5000+</span>
+          <span class="stat-label">Active Users</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value">99.9%</span>
+          <span class="stat-label">Uptime Guarantee</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">Support Available</span>
+        </div>
+        <div class="glass-card stat-card">
+          <span class="stat-value">150K+</span>
+          <span class="stat-label">Tasks Automated</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Capture Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="text-center">
+        <h2><span class="text-gold-gradient">Start Your Free Trial</span></h2>
+        <p style="color: hsl(var(--muted-foreground)); font-size: 1.1rem; max-width: 700px; margin: 1rem auto 0;">
+          No credit card required. Get started in minutes with full access to all features for 14 days.
+        </p>
+      </div>
+
+      <div class="glass-card lead-form">
+        <form id="leadForm" onsubmit="handleLeadSubmit(event)">
+          <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" name="firstName" class="input" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" class="input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" class="input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="company">Company Name</label>
+            <input type="text" id="company" name="company" class="input">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" class="input">
+          </div>
+
+          <button type="submit" class="btn btn-gold pulse-on-hover">
+            Start Free Trial
+          </button>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+          <h3>Thank You!</h3>
+          <p>We've received your information and will be in touch shortly to set up your free trial.</p>
+          <p style="margin-top: 1rem; color: var(--sf-gold);">Check your email for next steps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>SmartFlow Systems</h4>
+          <p style="color: hsl(var(--muted-foreground)); line-height: 1.7;">
+            AI-powered business automation platform helping companies scale efficiently
+            with intelligent workflows and integrated tools.
+          </p>
+          <div class="social-links">
+            <a href="https://twitter.com/smartflowsys" class="social-link" aria-label="Twitter">𝕏</a>
+            <a href="https://linkedin.com/company/smartflow-systems" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="https://github.com/smartflow-systems" class="social-link" aria-label="GitHub">⚡</a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4>Products</h4>
+          <ul class="footer-links">
+            <li><a href="/apps.html">Social Media Automation</a></li>
+            <li><a href="/apps.html">Data Analytics</a></li>
+            <li><a href="/apps.html">AI Workflows</a></li>
+            <li><a href="/apps.html">CRM System</a></li>
+            <li><a href="/apps.html">Booking Platform</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/case-study.html">Case Studies</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/updates.html">Updates</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Service</a></li>
+            <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+            <li><a href="/gdpr.html">GDPR Compliance</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 <span class="text-gold">SmartFlow Systems</span>. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+          Empowering businesses with AI-driven automation since 2023.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Circuit Flow Script -->
+  <script src="sfs-circuit-flow.js"></script>
+
+  <!-- Landing Page Scripts -->
+  <script>
+    // Lead Form Submission
+    async function handleLeadSubmit(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = {
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        email: form.email.value,
+        company: form.company.value,
+        phone: form.phone.value,
+        source: 'landing_page',
+        timestamp: new Date().toISOString()
+      };
+
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = 'Submitting...';
+      submitButton.disabled = true;
+
+      try {
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Hide form and show success message
+          form.style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('errorMessage').style.display = 'none';
+
+          // Track conversion (optional - integrate with analytics)
+          if (window.gtag) {
+            gtag('event', 'conversion', {
+              'send_to': 'AW-CONVERSION_ID',
+              'value': 1.0,
+              'currency': 'GBP'
+            });
+          }
+        } else {
+          throw new Error(data.message || 'Failed to submit form');
+        }
+      } catch (error) {
+        console.error('Lead submission error:', error);
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = 'Something went wrong. Please try again or contact us directly.';
+        errorDiv.style.display = 'block';
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+    }
+
+    // Stripe Checkout Handler
+    async function handleCheckout(planId) {
+      try {
+        const response = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            planId,
+            successUrl: window.location.origin + '/success.html',
+            cancelUrl: window.location.origin + '/landing.html#pricing'
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.url) {
+          // Redirect to Stripe Checkout
+          window.location.href = data.url;
+        } else {
+          throw new Error(data.message || 'Failed to create checkout session');
+        }
+      } catch (error) {
+        console.error('Checkout error:', error);
+        alert('Unable to process checkout. Please try again or contact support.');
+      }
+    }
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards
+    document.querySelectorAll('.glass-card').forEach(card => {
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>

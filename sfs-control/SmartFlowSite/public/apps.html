@@ -1,0 +1,103 @@
+import React, { useState, useEffect } from 'react';
+import './App.css';
+
+function App() {
+  const [apps, setApps] = useState([]);
+
+  useEffect(() => {
+    // In a real app, you would fetch this data from an API
+    const fetchedApps = [
+      { name: 'App 1', description: 'This is the first app.', link: '#app1' },
+      { name: 'App 2', description: 'This is the second app.', link: '#app2' },
+      { name: 'App 3', description: 'This is the third app.', link: '#app3' },
+      { name: 'App 4', description: 'This is the fourth app.', link: '#app4' },
+      { name: 'App 5', description: 'This is the fifth app.', link: '#app5' },
+      { name: 'App 6', description: 'This is the sixth app.', link: '#app6' },
+    ];
+    setApps(fetchedApps);
+  }, []);
+
+  return (
+    <div class="apps-container">
+        <div class="apps-grid" id="appsGrid">
+            {apps.map((app, index) => (
+                <div class="app-card" key={index}>
+                    <a href={app.link}>
+                        <h3>{app.name}</h3>
+                        <p>{app.description}</p>
+                    </a>
+                </div>
+            ))}
+        </div>
+        <div class="apps-header">
+            <h1>SFS Apps</h1>
+        </div>
+    </div>
+  );
+}
+
+export default App;
+</original>
+<style>
+        .apps-container {
+            min-height: 100vh;
+            background: var(--color-background, #0D0D0D);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .apps-header {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+        .apps-header h1 {
+            font-size: 1rem;
+            font-weight: normal;
+            color: rgba(255, 215, 0, 0.8);
+            margin-bottom: 1rem;
+        }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            flex-grow: 1;
+        }
+        .app-card {
+            background: var(--color-card-background, #1A1A1A);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .app-card a {
+            text-decoration: none;
+            color: var(--color-text, #FFFFFF);
+            display: block;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary, #FFD700);
+        }
+        .app-card p {
+            font-size: 1rem;
+            color: var(--color-secondary-text, #B0B0B0);
+            line-height: 1.5;
+        }
+
+        /* Default color for paragraph text if not specified */
+        p {
+            color: var(--color-text, #FFFFFF);
+        }
+    </style>

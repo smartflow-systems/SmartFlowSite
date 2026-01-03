@@ -1,0 +1,61 @@
+╔════════════════════════════════════════════════════════════╗
+║           REPLIT GIT ISSUE - QUICK FIX                     ║
+╚════════════════════════════════════════════════════════════╝
+
+PROBLEM:
+  • Branch diverged (6 local vs 4 remote commits)
+  • Permission denied for user 'boweazy'
+  • Merge conflicts in .github/workflows/ci.yml
+
+QUICK FIX (Copy & Paste in Replit Shell):
+────────────────────────────────────────────────────────────
+
+cd ~/workspace
+git pull origin main
+bash auto-fix-replit.sh
+
+────────────────────────────────────────────────────────────
+
+This will:
+  ✓ Remove git lock files
+  ✓ Abort pending merges
+  ✓ Stash your local changes
+  ✓ Reset to match GitHub
+  ✓ Clean untracked files
+
+THEN FIX AUTHENTICATION:
+────────────────────────────────────────────────────────────
+
+# Option 1: Use SSH (Best)
+git remote set-url origin git@github.com:smartflow-systems/SmartFlowSite.git
+
+# Generate SSH key
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Copy public key
+cat ~/.ssh/id_ed25519.pub
+
+# Add to GitHub: https://github.com/settings/keys
+
+────────────────────────────────────────────────────────────
+
+# Option 2: Use Personal Access Token
+# Create token at: https://github.com/settings/tokens
+git remote set-url origin https://YOUR_TOKEN@github.com/smartflow-systems/SmartFlowSite.git
+
+────────────────────────────────────────────────────────────
+
+VERIFY IT WORKS:
+────────────────────────────────────────────────────────────
+
+git status
+git fetch origin
+# Should show: "Your branch is up to date with 'origin/main'"
+
+────────────────────────────────────────────────────────────
+
+MORE HELP:
+  • Read: REPLIT-GIT-FIX-GUIDE.md (full instructions)
+  • Run: bash fix-replit-git.sh (diagnostic tool)
+
+╚════════════════════════════════════════════════════════════╝

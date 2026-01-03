@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Get the Free Pack — SmartFlow Systems</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Grab our free SmartFlow launch pack and see how we build booking, ecom, and AI social systems.">
+<link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="styles.css">
+<script defer>
+async function submitLead(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const note = document.getElementById('note').value.trim();
+  if(!email) return alert('Email required');
+  let endpoint = '';
+  try{
+    const cfg = await (await fetch('site.config.json',{cache:'no-store'})).json();
+    endpoint = cfg.leadWebhook || '';
+  }catch(e){}
+  const payload = {name,email,note,source:'lead-magnet',ts:new Date().toISOString()};
+  const btn = document.getElementById('btn'); btn.disabled = true; btn.textContent = 'Sending…';
+  try{
+    if(endpoint){
+      await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    } else {
+      localStorage.setItem('sfs_lead_backup', JSON.stringify(payload));
+    }
+    // deliver file
+    let fileUrl = 'assets/lead-magnet-smartflow.pdf';
+    try{
+      const cfg = await (await fetch('site.config.json',{cache:'no-store'})).json();
+      if(cfg.leadMagnetUrl) fileUrl = cfg.leadMagnetUrl;
+    }catch(e){}
+    window.location.href = fileUrl;
+  }catch(err){
+    alert('Saved locally. Downloading the pack now.'); 
+    window.location.href = 'assets/lead-magnet-smartflow.pdf';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Get the Free Pack';
+  }
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('form').addEventListener('submit', submitLead);
+  const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+});
+</script>
+</head><body>
+<header class="nav">
+  <a class="brand" href="#home">
+    <img src="assets/smartflow-logo.png" alt="SmartFlow Systems" class="brand-logo">
+  </a>
+  <nav><a href="index.html#systems">Systems</a><a href="#pricing">Pricing</a><a href="book.html">Book</a></nav>
+</header>
+<main class="section container" style="max-width:860px;margin:0 auto">
+  <h1 class="section-title">Get the Free Launch Pack</h1>
+  <p class="section-sub">Includes: 5-block landing wireframe, copy cheatsheet, IG/TikTok caption prompts, and a pre-launch checklist.</p>
+  <form id="form" class="card" style="padding:32px">
+    <label style="display:block;margin-bottom:16px">Name<br><input id="name" placeholder="Your name" style="width:100%;padding:12px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1;margin-top:8px"></label>
+    <label style="display:block;margin-bottom:16px">Email*<br><input id="email" type="email" required placeholder="you@example.com" style="width:100%;padding:12px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1;margin-top:8px"></label>
+    <label style="display:block;margin-bottom:24px">Your niche / need<br><input id="note" placeholder="Barbershop bookings, salon AI, ecom starter…" style="width:100%;padding:12px;border-radius:8px;border:1px solid #2d241e;background:#0f0c0a;color:#e9e6e1;margin-top:8px"></label>
+    <div style="display:flex;gap:16px">
+      <button id="btn" class="btn" type="submit">Get the Free Pack</button>
+      <a class="btn-outline" href="index.html">Back</a>
+    </div>
+  </form>
+</main>
+<footer class="footer"><div>© <span id="year"></span> SmartFlow Systems</div></footer>
+</body></html>
