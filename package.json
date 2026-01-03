@@ -13,7 +13,9 @@
     "sync": "bash scripts/auto-sync.sh",
     "sync:watch": "node scripts/sync-chatgpt-claude.js watch",
     "build": "echo 'build complete' && exit 0",
-    "test": "echo 'no tests configured' && exit 0",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "migrate": "prisma migrate dev --name init",
     "studio": "prisma studio",
     "dev:5100": "PORT=5100 node server.js",
@@ -29,7 +31,9 @@
     "@types/jsonwebtoken": "^9.0.10",
     "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "csrf-csrf": "^4.0.3",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "express-rate-limit": "^8.2.1",
@@ -39,6 +43,8 @@
     "stripe": "^20.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
     "prisma": "^5.22.0"
   },
   "engines": {

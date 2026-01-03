@@ -1,12 +1,16 @@
 import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import crypto from "crypto";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
+import { doubleCsrf } from "csrf-csrf";
 import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
 import Stripe from "stripe";
 import dotenv from "dotenv";
+import { handleGitHubWebhook, handlePing } from "./replit-webhook-receiver.mjs";
 
 // Load environment variables
 dotenv.config();
@@ -41,23 +45,53 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
-// Security Middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'self'"]
+// CSP Nonce middleware - generates unique nonce for each request
+app.use((req, res, next) => {
+  res.locals.cspNonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  next();
+});
+
+// Security Middleware with nonce-based CSP
+app.use((req, res, next) => {
+  const nonce = res.locals.cspNonce;
+
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: [
+          "'self'",
+          `'nonce-${nonce}'`,
+          "https://fonts.googleapis.com"
+        ],
+        scriptSrc: [
+          "'self'",
+          `'nonce-${nonce}'`,
+          "https://js.stripe.com"
+        ],
+        imgSrc: ["'self'", "data:", "https:", "https://*.stripe.com"],
+        connectSrc: [
+          "'self'",
+          "https://api.stripe.com",
+          process.env.NODE_ENV === 'development' ? 'http://localhost:*' : ''
+        ].filter(Boolean),
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        frameAncestors: ["'none'"]
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
     }
-  },
-  crossOriginEmbedderPolicy: false
-}));
+  })(req, res, next);
+});
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
@@ -88,9 +122,39 @@ const fileSystemLimiter = rateLimit({
 
 app.use('/api/', limiter);
 
-// Body parsing middleware
+// IMPORTANT: Webhook routes with raw body MUST come before express.json()
+// GitHub webhook endpoint - requires raw body for signature verification
+app.post('/api/webhook/github-deploy', express.raw({ type: 'application/json' }), handleGitHubWebhook);
+app.get('/api/webhook/ping', handlePing);
+
+// Body parsing middleware (for other routes)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// CSRF Protection Configuration
+const {
+  generateToken,    // Used to provide a CSRF token
+  doubleCsrfProtection // Used to protect routes
+} = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || process.env.SESSION_SECRET,
+  cookieName: '__Host-psifi.x-csrf-token',
+  cookieOptions: {
+    sameSite: 'strict',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true
+  },
+  size: 64,
+  ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+  getTokenFromRequest: (req) => req.headers['x-csrf-token'] || req.body._csrf
+});
+
+// CSRF Token endpoint - frontend can fetch this to get a token
+app.get('/api/csrf-token', (req, res) => {
+  const csrfToken = generateToken(req, res);
+  res.json({ csrfToken });
+});
 
 // Load config once at startup
 const config = JSON.parse(readFileSync("./public/site.config.json", "utf-8"));
@@ -222,8 +286,8 @@ app.get("/api/health", (_req, res) => res.json({
   version: config.version
 }));
 
-// API: Submit Lead
-app.post("/api/leads", fileSystemLimiter, (req, res) => {
+// API: Submit Lead (CSRF protected)
+app.post("/api/leads", fileSystemLimiter, doubleCsrfProtection, (req, res) => {
   try {
     const { firstName, lastName, email, company, phone, source } = req.body;
 
@@ -325,8 +389,8 @@ const pricingMap = {
   salon_launch: process.env.STRIPE_PREMIUM_PRICE_ID
 };
 
-// API: Stripe Checkout - Create checkout session
-app.post("/api/stripe/checkout", async (req, res) => {
+// API: Stripe Checkout - Create checkout session (CSRF protected)
+app.post("/api/stripe/checkout", doubleCsrfProtection, async (req, res) => {
   try {
     const { planId, successUrl, cancelUrl, customerEmail } = req.body;
 
