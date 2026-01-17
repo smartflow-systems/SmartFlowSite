@@ -1,7 +1,7 @@
 // SmartFlow Service Worker
-// Version: 2026-01-17T19:56:31.179Z
+// Version: 2026-01-17T20:22:47.767Z
 
-const CACHE_NAME = 'smartflow-v1-1768679791180';
+const CACHE_NAME = 'smartflow-v1-1768681367768';
 const RUNTIME_CACHE = 'smartflow-runtime';
 
 // Files to cache immediately
