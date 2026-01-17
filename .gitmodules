@@ -18,10 +18,6 @@
   path = sfs-org/SFS-SocialPowerhouse
   url = https://github.com/smartflow-systems/SFS-SocialPowerhouse.git
 
-[submodule "sfs-org/SFS-SocialPowerhouseB"]
-  path = sfs-org/SFS-SocialPowerhouseB
-  url = https://github.com/smartflow-systems/SFS-SocialPowerhouseB.git
-
 [submodule "sfs-org/SFS-SocialPowerhouseS"]
   path = sfs-org/SFS-SocialPowerhouseS
   url = https://github.com/smartflow-systems/SFS-SocialPowerhouseS.git
@@ -45,10 +41,6 @@
 [submodule "sfs-org/SmartFlowSite"]
   path = sfs-org/SmartFlowSite
   url = https://github.com/smartflow-systems/SmartFlowSite.git
-
-[submodule "sfs-org/SmartFlowSite-v2"]
-  path = sfs-org/SmartFlowSite-v2
-  url = https://github.com/smartflow-systems/SmartFlowSite-v2.git
 
 [submodule "sfs-org/WebsiteBuilder"]
   path = sfs-org/WebsiteBuilder
