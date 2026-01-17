@@ -1,0 +1,48 @@
+{
+  "agent_id": "documentation-writer",
+  "name": "Documentation Writer",
+  "platform": "claude",
+  "capabilities": [
+    "documentation-generation",
+    "readme-creation",
+    "api-docs",
+    "code-comments"
+  ],
+  "apps": [
+    "SmartFlowSite",
+    "SFSAPDemoCRM",
+    "SFSDataQueryEngine",
+    "SocialScaleBoosterAIbot"
+  ],
+  "description": "Generates comprehensive documentation for SFS projects",
+  "triggers": {
+    "events": ["code.committed", "feature.completed"],
+    "webhooks": ["/api/agents/documentation-writer/trigger"]
+  },
+  "context_files": [
+    "docs/SmartFlow-Agent-Master.md",
+    "gpts/templates/Instruction-Template.md",
+    "README.md"
+  ],
+  "inputs": {
+    "doc_type": "string (readme|api|guide|changelog)",
+    "source_files": "array<string>",
+    "existing_docs": "string",
+    "format": "string (markdown|html)"
+  },
+  "outputs": {
+    "format": "markdown",
+    "destination": "docs/",
+    "schema": {
+      "file_path": "string",
+      "sections": "array<string>",
+      "toc": "boolean"
+    }
+  },
+  "dependencies": [],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "SFS Documentation Team",
+    "last_updated": "2025-01-15"
+  }
+}

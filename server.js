@@ -1,42 +1,160 @@
 import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
-import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
+import crypto from "crypto";
+import helmet from "helmet";
+import cors from "cors";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
+import { doubleCsrf } from "csrf-csrf";
+import { sanitizeForLog } from "./server/utils/log-sanitizer.mjs";
+import Stripe from "stripe";
+import dotenv from "dotenv";
+import { handleGitHubWebhook, handlePing } from "./replit-webhook-receiver.mjs";
+
+// Load environment variables
+dotenv.config();
+
+// SECURITY: Validate critical secrets in production
+if (process.env.NODE_ENV === 'production') {
+  const requiredSecrets = [
+    { name: 'STRIPE_SECRET_KEY', value: process.env.STRIPE_SECRET_KEY },
+    { name: 'STRIPE_WEBHOOK_SECRET', value: process.env.STRIPE_WEBHOOK_SECRET },
+    { name: 'JWT_SECRET', value: process.env.JWT_SECRET }
+  ];
+
+  const missing = requiredSecrets.filter(secret =>
+    !secret.value ||
+    secret.value.includes('change-in-production') ||
+    secret.value.includes('your-secret-key') ||
+    secret.value.length < 16
+  );
+
+  if (missing.length > 0) {
+    console.error('⛔ CRITICAL: Missing or insecure secrets in production:');
+    missing.forEach(secret => console.error(`   - ${secret.name}`));
+    console.error('\nApplication cannot start securely. Please set proper environment variables.');
+    process.exit(1);
+  }
+
+  console.log('✅ Production secrets validated');
+}
+
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
-// Rate limiting configuration
-const apiLimiter = rateLimit({
+// CSP Nonce middleware - generates unique nonce for each request
+app.use((req, res, next) => {
+  res.locals.cspNonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  next();
+});
+
+// Security Middleware with nonce-based CSP
+app.use((req, res, next) => {
+  const nonce = res.locals.cspNonce;
+
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: [
+          "'self'",
+          `'nonce-${nonce}'`,
+          "https://fonts.googleapis.com"
+        ],
+        scriptSrc: [
+          "'self'",
+          `'nonce-${nonce}'`,
+          "https://js.stripe.com"
+        ],
+        imgSrc: ["'self'", "data:", "https:", "https://*.stripe.com"],
+        connectSrc: [
+          "'self'",
+          "https://api.stripe.com",
+          process.env.NODE_ENV === 'development' ? 'http://localhost:*' : ''
+        ].filter(Boolean),
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        frameAncestors: ["'none'"]
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
+    }
+  })(req, res, next);
+});
+
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://smartflowsite.com', 'https://www.smartflowsite.com']
+    : '*',
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later."
 });
 
-const leadLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // Limit each IP to 5 lead submissions per hour
-  message: "Too many lead submissions, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5, // Limit auth attempts
+  message: "Too many authentication attempts, please try again later."
 });
 
-const checkoutLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Limit each IP to 10 checkout requests per 15 minutes
-  message: "Too many checkout requests, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
+// Stricter rate limiting for file system operations
+const fileSystemLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50, // Stricter limit for file system operations
+  message: "Too many file system requests, please try again later."
 });
 
-// Middleware
+app.use('/api/', limiter);
+
+// IMPORTANT: Webhook routes with raw body MUST come before express.json()
+// GitHub webhook endpoint - requires raw body for signature verification
+app.post('/api/webhook/github-deploy', express.raw({ type: 'application/json' }), handleGitHubWebhook);
+app.get('/api/webhook/ping', handlePing);
+
+// Body parsing middleware (for other routes)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Apply rate limiting to all API routes
-app.use("/api/", apiLimiter);
+// CSRF Protection Configuration
+const {
+  generateToken,    // Used to provide a CSRF token
+  doubleCsrfProtection // Used to protect routes
+} = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || process.env.SESSION_SECRET,
+  cookieName: '__Host-psifi.x-csrf-token',
+  cookieOptions: {
+    sameSite: 'strict',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true
+  },
+  size: 64,
+  ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+  getTokenFromRequest: (req) => req.headers['x-csrf-token'] || req.body._csrf
+});
+
+// CSRF Token endpoint - frontend can fetch this to get a token
+app.get('/api/csrf-token', (req, res) => {
+  const csrfToken = generateToken(req, res);
+  res.json({ csrfToken });
+});
 
 // Load config once at startup
 const config = JSON.parse(readFileSync("./public/site.config.json", "utf-8"));
@@ -51,8 +169,51 @@ if (!existsSync(dataDir)) {
 const leadsFile = join(dataDir, "leads.json");
 
 // Initialize leads file if it doesn't exist
-if (!existsSync(leadsFile)) {
-  writeFileSync(leadsFile, JSON.stringify({ leads: [] }, null, 2));
+// SECURITY: Use atomic file operations to prevent TOCTOU race conditions
+try {
+  // Try to read the file first
+  const data = readFileSync(leadsFile, "utf-8");
+  JSON.parse(data); // Validate it's valid JSON
+} catch (error) {
+  // File doesn't exist or is invalid - initialize it
+  if (error.code === 'ENOENT' || error instanceof SyntaxError) {
+    try {
+      // Use 'wx' flag for atomic create-if-not-exists
+      writeFileSync(leadsFile, JSON.stringify({ leads: [] }, null, 2), { flag: 'wx' });
+    } catch (writeError) {
+      // File was created by another process - that's okay, ignore EEXIST
+      if (writeError.code !== 'EEXIST') {
+        console.error('Error initializing leads file:', writeError);
+        throw writeError;
+      }
+    }
+  } else {
+    console.error('Error reading leads file:', error);
+    throw error;
+  }
+}
+
+// Helper: Safe email validation (prevents ReDoS attacks)
+function isValidEmail(email) {
+  // Limit length to prevent DoS
+  if (typeof email !== 'string' || email.length > 254 || email.length < 3) {
+    return false;
+  }
+
+  // Simple, non-backtracking validation
+  const atIndex = email.indexOf('@');
+  if (atIndex < 1 || atIndex === email.length - 1) {
+    return false;
+  }
+
+  const dotIndex = email.lastIndexOf('.');
+  if (dotIndex < atIndex + 2 || dotIndex === email.length - 1) {
+    return false;
+  }
+
+  // Efficient character validation with bounded quantifiers
+  // This pattern uses atomic groups and doesn't cause catastrophic backtracking
+  return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
 }
 
 // Helper: Read leads
@@ -77,6 +238,39 @@ function writeLeads(data) {
   }
 }
 
+// Authentication middleware for admin endpoints
+function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  const apiKey = process.env.ADMIN_API_KEY || process.env.SYNC_TOKEN;
+
+  if (!apiKey || apiKey === 'your-sync-token-change-in-production') {
+    return res.status(500).json({
+      success: false,
+      message: "Server configuration error: Admin API key not configured"
+    });
+  }
+
+  if (!authHeader) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required"
+    });
+  }
+
+  const token = authHeader.startsWith('Bearer ')
+    ? authHeader.slice(7)
+    : authHeader;
+
+  if (token !== apiKey) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid credentials"
+    });
+  }
+
+  next();
+}
+
 // serve everything from /public
 app.use(express.static("public"));
 
@@ -92,8 +286,8 @@ app.get("/api/health", (_req, res) => res.json({
   version: config.version
 }));
 
-// API: Submit Lead
-app.post("/api/leads", leadLimiter, (req, res) => {
+// API: Submit Lead (CSRF protected)
+app.post("/api/leads", fileSystemLimiter, doubleCsrfProtection, (req, res) => {
   try {
     const { firstName, lastName, email, company, phone, source } = req.body;
 
@@ -105,9 +299,8 @@ app.post("/api/leads", leadLimiter, (req, res) => {
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Validate email format (ReDoS-safe validation)
+    if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
         message: "Invalid email format"
@@ -167,8 +360,8 @@ app.post("/api/leads", leadLimiter, (req, res) => {
   }
 });
 
-// API: Get All Leads (admin only - no auth for now, add later)
-app.get("/api/leads", (_req, res) => {
+// API: Get All Leads (admin only - requires authentication)
+app.get("/api/leads", requireAuth, (_req, res) => {
   try {
     const data = readLeads();
     res.json({
@@ -185,48 +378,149 @@ app.get("/api/leads", (_req, res) => {
   }
 });
 
-// API: Stripe Checkout (placeholder - requires Stripe configuration)
-app.post("/api/stripe/checkout", checkoutLimiter, async (req, res) => {
+// Price ID mapping for SmartFlow MarketFlow tiers
+const pricingMap = {
+  starter: process.env.STRIPE_STARTER_PRICE_ID,
+  pro: process.env.STRIPE_PRO_PRICE_ID,
+  premium: process.env.STRIPE_PREMIUM_PRICE_ID,
+  // Alias mappings
+  smart_starter: process.env.STRIPE_STARTER_PRICE_ID,
+  flow_kit: process.env.STRIPE_PRO_PRICE_ID,
+  salon_launch: process.env.STRIPE_PREMIUM_PRICE_ID
+};
+
+// API: Stripe Checkout - Create checkout session (CSRF protected)
+app.post("/api/stripe/checkout", doubleCsrfProtection, async (req, res) => {
   try {
-    const { planId } = req.body;
+    const { planId, successUrl, cancelUrl, customerEmail } = req.body;
 
-    // Load pricing data
-    const pricingData = JSON.parse(readFileSync("./public/pricing.json", "utf-8"));
-    const plan = pricingData.plans.find(p => p.id === planId);
-
-    if (!plan) {
+    // Validate plan exists
+    if (!pricingMap[planId]) {
       return res.status(404).json({
         success: false,
-        message: "Plan not found"
+        message: "Plan not found. Valid plans: starter, pro, premium"
       });
     }
 
-    // TODO: Implement Stripe checkout session
-    // For now, return a placeholder response
-    // You'll need to:
-    // 1. Install stripe package: npm install stripe
-    // 2. Add STRIPE_SECRET_KEY to .env
-    // 3. Create Stripe checkout session
+    // Default URLs if not provided
+    const baseUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+    const finalSuccessUrl = successUrl || `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`;
+    const finalCancelUrl = cancelUrl || `${baseUrl}/pricing.html`;
 
-    console.log(`Checkout requested for plan: ${sanitizeForLog(planId)}`);
+    // Create Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription', // Recurring subscription
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: pricingMap[planId],
+          quantity: 1,
+        },
+      ],
+      success_url: finalSuccessUrl,
+      cancel_url: finalCancelUrl,
+      customer_email: customerEmail || undefined,
+      allow_promotion_codes: true,
+      billing_address_collection: 'required',
+      metadata: {
+        planId: planId,
+        source: 'smartflowsite'
+      },
+      subscription_data: {
+        metadata: {
+          planId: planId,
+          source: 'smartflowsite'
+        }
+      }
+    });
 
-    // Placeholder response
+    console.log(`✓ Checkout session created: ${session.id} for plan: ${sanitizeForLog(planId)}`);
+
     res.json({
       success: true,
-      message: "Stripe integration pending",
-      planId,
-      plan: plan.name,
-      price: plan.price,
-      // In production, return: url: session.url
-      url: `/contact.html?plan=${planId}` // Temporary redirect to contact
+      url: session.url,
+      sessionId: session.id
     });
 
   } catch (error) {
-    console.error("Checkout error:", error);
+    console.error("Stripe checkout error:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to create checkout session"
+      message: "Failed to create checkout session",
+      error: process.env.NODE_ENV === 'production' ? undefined : error.message
     });
+  }
+});
+
+// API: Stripe Webhook - Handle Stripe events
+app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    // Verify webhook signature
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('⚠️ Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        console.log(`✓ Checkout completed: ${session.id}`);
+        // SECURITY: Sanitize user-controlled data to prevent log injection
+        console.log(`  Customer: ${sanitizeForLog(session.customer_email)}`);
+        console.log(`  Plan: ${sanitizeForLog(session.metadata?.planId)}`);
+        console.log(`  Amount: ${session.amount_total / 100} ${sanitizeForLog(session.currency?.toUpperCase())}`);
+
+        // TODO: Save subscription to database
+        // TODO: Send welcome email
+        // TODO: Provision user account
+        break;
+
+      case 'customer.subscription.created':
+        const subscription = event.data.object;
+        console.log(`✓ Subscription created: ${subscription.id}`);
+        // TODO: Update user subscription status in database
+        break;
+
+      case 'customer.subscription.updated':
+        const updatedSubscription = event.data.object;
+        console.log(`✓ Subscription updated: ${updatedSubscription.id}`);
+        // TODO: Update user subscription in database
+        break;
+
+      case 'customer.subscription.deleted':
+        const canceledSubscription = event.data.object;
+        console.log(`✓ Subscription canceled: ${canceledSubscription.id}`);
+        // TODO: Update user subscription status to canceled
+        break;
+
+      case 'invoice.payment_succeeded':
+        const invoice = event.data.object;
+        console.log(`✓ Payment succeeded: ${invoice.id}`);
+        // TODO: Update payment records
+        break;
+
+      case 'invoice.payment_failed':
+        const failedInvoice = event.data.object;
+        console.log(`⚠️ Payment failed: ${failedInvoice.id}`);
+        // TODO: Send payment failed notification
+        break;
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    res.status(500).json({ error: 'Webhook processing failed' });
   }
 });
 

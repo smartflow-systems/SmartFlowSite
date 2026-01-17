@@ -1,10 +1,10 @@
 const BaseConnector = require('./base');
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const { promisify } = require('util');
 const fs = require('fs').promises;
 const path = require('path');
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 /**
  * Claude Connector - Integrates with Claude via API or CLI
@@ -102,9 +102,10 @@ class ClaudeConnector extends BaseConnector {
       const taskFile = path.join('/tmp', `claude-task-${Date.now()}.json`);
       await fs.writeFile(taskFile, JSON.stringify(task, null, 2));
 
-      // Execute Claude CLI command
-      const { stdout, stderr } = await execAsync(
-        `claude --task-file ${taskFile}`,
+      // Execute Claude CLI command (using execFile for security)
+      const { stdout, stderr } = await execFileAsync(
+        'claude',
+        ['--task-file', taskFile],
         { timeout: 60000 }
       );
 

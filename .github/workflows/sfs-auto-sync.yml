@@ -1,0 +1,10 @@
+name: SFS Auto Sync
+on:
+  push:
+    branches: [main]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "CI sync confirmed"

@@ -1,0 +1,158 @@
+[submodule "sfs-org/Barber-booker-tempate-v1"]
+  path = sfs-org/Barber-booker-tempate-v1
+  url = https://github.com/smartflow-systems/Barber-booker-tempate-v1.git
+
+[submodule "sfs-org/DataScrapeInsights"]
+  path = sfs-org/DataScrapeInsights
+  url = https://github.com/smartflow-systems/DataScrapeInsights.git
+
+[submodule "sfs-org/SFS-AIbofs-social-media"]
+  path = sfs-org/SFS-AIbofs-social-media
+  url = https://github.com/smartflow-systems/SFS-AIbofs-social-media.git
+
+[submodule "sfs-org/SFS-Backend"]
+  path = sfs-org/SFS-Backend
+  url = https://github.com/smartflow-systems/SFS-Backend.git
+
+[submodule "sfs-org/SFS-SocialPowerhouse"]
+  path = sfs-org/SFS-SocialPowerhouse
+  url = https://github.com/smartflow-systems/SFS-SocialPowerhouse.git
+
+[submodule "sfs-org/SFS-SocialPowerhouseS"]
+  path = sfs-org/SFS-SocialPowerhouseS
+  url = https://github.com/smartflow-systems/SFS-SocialPowerhouseS.git
+
+[submodule "sfs-org/SFSAPDemoCRM"]
+  path = sfs-org/SFSAPDemoCRM
+  url = https://github.com/smartflow-systems/SFSAPDemoCRM.git
+
+[submodule "sfs-org/SFSDataQueryEngine"]
+  path = sfs-org/SFSDataQueryEngine
+  url = https://github.com/smartflow-systems/SFSDataQueryEngine.git
+
+[submodule "sfs-org/SFSPersonalVPN"]
+  path = sfs-org/SFSPersonalVPN
+  url = https://github.com/smartflow-systems/SFSPersonalVPN.git
+
+[submodule "sfs-org/SmartFloiwSystems"]
+  path = sfs-org/SmartFloiwSystems
+  url = https://github.com/smartflow-systems/SmartFloiwSystems.git
+
+[submodule "sfs-org/SmartFlowSite"]
+  path = sfs-org/SmartFlowSite
+  url = https://github.com/smartflow-systems/SmartFlowSite.git
+
+[submodule "sfs-org/WebsiteBuilder"]
+  path = sfs-org/WebsiteBuilder
+  url = https://github.com/smartflow-systems/WebsiteBuilder.git
+
+[submodule "sfs-org/codegpt"]
+  path = sfs-org/codegpt
+  url = https://github.com/smartflow-systems/codegpt.git
+
+[submodule "sfs-org/demo-repository"]
+  path = sfs-org/demo-repository
+  url = https://github.com/smartflow-systems/demo-repository.git
+
+[submodule "sfs-org/sfs-analytics-engine"]
+  path = sfs-org/sfs-analytics-engine
+  url = https://github.com/smartflow-systems/sfs-analytics-engine.git
+
+[submodule "sfs-org/sfs-brand-assets"]
+  path = sfs-org/sfs-brand-assets
+  url = https://github.com/smartflow-systems/sfs-brand-assets.git
+
+[submodule "sfs-org/sfs-business-suite"]
+  path = sfs-org/sfs-business-suite
+  url = https://github.com/smartflow-systems/sfs-business-suite.git
+
+[submodule "sfs-org/sfs-claude-skills"]
+  path = sfs-org/sfs-claude-skills
+  url = https://github.com/smartflow-systems/sfs-claude-skills.git
+
+[submodule "sfs-org/sfs-comms-hub"]
+  path = sfs-org/sfs-comms-hub
+  url = https://github.com/smartflow-systems/sfs-comms-hub.git
+
+[submodule "sfs-org/sfs-control-center"]
+  path = sfs-org/sfs-control-center
+  url = https://github.com/smartflow-systems/sfs-control-center.git
+
+[submodule "sfs-org/sfs-control-tower"]
+  path = sfs-org/sfs-control-tower
+  url = https://github.com/smartflow-systems/sfs-control-tower.git
+
+[submodule "sfs-org/sfs-core-services"]
+  path = sfs-org/sfs-core-services
+  url = https://github.com/smartflow-systems/sfs-core-services.git
+
+[submodule "sfs-org/sfs-deploy-hub"]
+  path = sfs-org/sfs-deploy-hub
+  url = https://github.com/smartflow-systems/sfs-deploy-hub.git
+
+[submodule "sfs-org/sfs-design-system"]
+  path = sfs-org/sfs-design-system
+  url = https://github.com/smartflow-systems/sfs-design-system.git
+
+[submodule "sfs-org/sfs-embed-sdk"]
+  path = sfs-org/sfs-embed-sdk
+  url = https://github.com/smartflow-systems/sfs-embed-sdk.git
+
+[submodule "sfs-org/sfs-genesis-template"]
+  path = sfs-org/sfs-genesis-template
+  url = https://github.com/smartflow-systems/sfs-genesis-template.git
+
+[submodule "sfs-org/sfs-invoice-billing"]
+  path = sfs-org/sfs-invoice-billing
+  url = https://github.com/smartflow-systems/sfs-invoice-billing.git
+
+[submodule "sfs-org/sfs-knowledge-base"]
+  path = sfs-org/sfs-knowledge-base
+  url = https://github.com/smartflow-systems/sfs-knowledge-base.git
+
+[submodule "sfs-org/sfs-marketing-and-growth"]
+  path = sfs-org/sfs-marketing-and-growth
+  url = https://github.com/smartflow-systems/sfs-marketing-and-growth.git
+
+[submodule "sfs-org/sfs-marketing-toolkit"]
+  path = sfs-org/sfs-marketing-toolkit
+  url = https://github.com/smartflow-systems/sfs-marketing-toolkit.git
+
+[submodule "sfs-org/sfs-mobile-app"]
+  path = sfs-org/sfs-mobile-app
+  url = https://github.com/smartflow-systems/sfs-mobile-app.git
+
+[submodule "sfs-org/sfs-project-manager"]
+  path = sfs-org/sfs-project-manager
+  url = https://github.com/smartflow-systems/sfs-project-manager.git
+
+[submodule "sfs-org/sfs-revenue-analytics"]
+  path = sfs-org/sfs-revenue-analytics
+  url = https://github.com/smartflow-systems/sfs-revenue-analytics.git
+
+[submodule "sfs-org/sfs-theme-package"]
+  path = sfs-org/sfs-theme-package
+  url = https://github.com/smartflow-systems/sfs-theme-package.git
+
+[submodule "sfs-org/sfs-url-shortener"]
+  path = sfs-org/sfs-url-shortener
+  url = https://github.com/smartflow-systems/sfs-url-shortener.git
+
+[submodule "sfs-org/sfs-video-platform"]
+  path = sfs-org/sfs-video-platform
+  url = https://github.com/smartflow-systems/sfs-video-platform.git
+
+[submodule "sfs-org/sfs-white-label-dashboard"]
+  path = sfs-org/sfs-white-label-dashboard
+  url = https://github.com/smartflow-systems/sfs-white-label-dashboard.git
+
+[submodule "sfs-org/smartflow-theme-package"]
+  path = sfs-org/smartflow-theme-package
+  url = https://github.com/smartflow-systems/smartflow-theme-package.git
+
+[submodule "SmartFlowSite"]
+	path = SmartFlowSite
+	url = https://github.com/smartflow-systems/SmartFlowSite.git
+[submodule "SocialScaleBooster"]
+	path = SocialScaleBooster
+	url = https://github.com/smartflow-systems/SocialScaleBooster.git

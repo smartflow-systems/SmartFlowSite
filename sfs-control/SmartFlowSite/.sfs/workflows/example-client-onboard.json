@@ -1,0 +1,73 @@
+{
+  "id": "example-client-onboard",
+  "name": "Example Client Onboarding Workflow",
+  "description": "Template for onboarding new clients with custom branding",
+  "steps": [
+    {
+      "name": "log-start",
+      "action": "log",
+      "input": {
+        "message": "Starting client onboarding for ${CLIENT_NAME}"
+      }
+    },
+    {
+      "name": "set-client-context",
+      "action": "set-context",
+      "input": {
+        "client_id": "${CLIENT_NAME}",
+        "start_time": "${timestamp}",
+        "status": "in_progress"
+      }
+    },
+    {
+      "name": "create-repository",
+      "agent": "repo-manager",
+      "action": "create-from-template",
+      "input": {
+        "repo_name": "${CLIENT_NAME}-app",
+        "template_repo": "SmartFlowSite"
+      },
+      "depends_on": ["set-client-context"]
+    },
+    {
+      "name": "apply-theme",
+      "agent": "smartflow-theme-enforcer",
+      "action": "apply-theme",
+      "input": {
+        "repo_path": "${create-repository.result.clone_url}"
+      },
+      "depends_on": ["create-repository"]
+    },
+    {
+      "name": "generate-content",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-homepage",
+      "input": {
+        "client_name": "${CLIENT_NAME}",
+        "industry": "${INDUSTRY}"
+      },
+      "depends_on": ["create-repository"]
+    },
+    {
+      "name": "setup-ci",
+      "agent": "ci-setup-agent",
+      "action": "configure-ci",
+      "input": {
+        "repo_path": "${create-repository.result.clone_url}"
+      },
+      "depends_on": ["apply-theme", "generate-content"]
+    },
+    {
+      "name": "log-completion",
+      "action": "log",
+      "input": {
+        "message": "Client onboarding completed for ${CLIENT_NAME}"
+      },
+      "depends_on": ["setup-ci"]
+    }
+  ],
+  "required_variables": [
+    "CLIENT_NAME",
+    "INDUSTRY"
+  ]
+}

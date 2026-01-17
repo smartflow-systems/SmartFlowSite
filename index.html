@@ -8,7 +8,8 @@
   <meta name="theme-color" content="#0b0b0b"/>
   <link rel="icon" href="assets/favicon.png"/>
   <link rel="preload" href="assets/hero-bg.jpg" as="image"/>
-  <link rel="stylesheet" href="sfs-complete-theme.css"/>
+  <!-- SmartFlow Brown/Black/Gold Theme -->
+  <link rel="stylesheet" href="/public/styles/smartflow-theme.css"/>
   <link rel="stylesheet" href="styles.css"/>
   <link rel="stylesheet" href="sfs-powerhouse.css"/>
   <link rel="stylesheet" href="sfs-ultimate.css"/>
@@ -27,7 +28,22 @@
       <a href="contact.html">Contact</a>
       <a class="btn btn-gold" href="#pricing">Get Started</a>
     </nav>
+    <!-- Burger Menu Button -->
+    <button class="burger-menu" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu">
+    <a href="#projects">Projects</a>
+    <a href="#latest">Latest</a>
+    <a href="#testimonials">Proof</a>
+    <a href="contact.html">Contact</a>
+    <a href="#pricing" class="btn btn-gold btn-lg">Get Started</a>
+  </div>
 
   <!-- Hero -->
   <section id="hero" class="hero">
@@ -542,6 +558,8 @@
     <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
   </footer>
 
+  <!-- SmartFlow Theme Animations -->
+  <script src="/public/scripts/theme-animations.js" defer></script>
   <script src="app.js" defer></script>
   <script src="sfs-powerhouse.js" defer></script>
   <script src="sfs-ultimate.js" defer></script>
@@ -587,9 +605,10 @@
   </script>
 
   <!-- SFS Circuit Flow Animation -->
-  <script src="sfs-circuit-flow.js"></script>
+  <script src="/js/sfs-circuit-flow.js"></script>
 
   <!-- SFS Hamburger Menu -->
-  <script src="sfs-hamburger-menu.js"></script>
+  <script src="/js/sfs-hamburger-menu.js"></script>
+  <script src="/js/sfs-currency.js"></script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+{
+  "package_id": "full-client-onboard",
+  "name": "Full Client Onboarding Package",
+  "version": "1.0.0",
+  "description": "Complete client onboarding workflow: repo setup + branding + content + CI/CD",
+  "capabilities": [
+    "client-onboarding",
+    "repository-setup",
+    "branding",
+    "content-generation",
+    "deployment"
+  ],
+  "agents": [
+    "repo-manager",
+    "smartflow-theme-enforcer",
+    "chatgpt-content-creator",
+    "documentation-writer",
+    "ci-setup-agent"
+  ],
+  "workflow": [
+    {
+      "name": "create-repo",
+      "agent": "repo-manager",
+      "action": "create-from-template",
+      "input": {
+        "repo_name": "${CLIENT_NAME}-app",
+        "template_repo": "SmartFlowSite",
+        "enable_ci": true,
+        "branch_protection": true
+      },
+      "output_to": "repo_info"
+    },
+    {
+      "name": "apply-branding",
+      "agent": "smartflow-theme-enforcer",
+      "action": "apply-theme",
+      "input": {
+        "repo_path": "${repo_info.clone_url}",
+        "theme_variant": "client-custom"
+      },
+      "depends_on": ["create-repo"],
+      "output_to": "branding_result"
+    },
+    {
+      "name": "generate-homepage",
+      "agent": "chatgpt-content-creator",
+      "action": "generate-content",
+      "input": {
+        "content_type": "landing-page",
+        "topic": "${CLIENT_NAME} - ${CLIENT_DESCRIPTION}",
+        "target_audience": "${TARGET_AUDIENCE}",
+        "tone": "professional"
+      },
+      "depends_on": ["create-repo"],
+      "output_to": "homepage_content"
+    },
+    {
+      "name": "create-documentation",
+      "agent": "documentation-writer",
+      "action": "generate-docs",
+      "input": {
+        "doc_type": "readme",
+        "repo_path": "${repo_info.clone_url}"
+      },
+      "depends_on": ["apply-branding", "generate-homepage"],
+      "output_to": "docs_result"
+    },
+    {
+      "name": "setup-deployment",
+      "agent": "ci-setup-agent",
+      "action": "configure-ci",
+      "input": {
+        "repo_path": "${repo_info.clone_url}",
+        "workflow_type": "node",
+        "deploy_target": "vercel"
+      },
+      "depends_on": ["create-documentation"],
+      "output_to": "deployment_result"
+    }
+  ],
+  "required_context": [
+    "CLIENT_NAME",
+    "CLIENT_DESCRIPTION",
+    "TARGET_AUDIENCE"
+  ],
+  "metadata": {
+    "author": "SFS Core Team",
+    "created": "2025-01-15",
+    "tags": ["client", "onboarding", "full-stack"],
+    "estimated_duration": "15-20 minutes"
+  }
+}

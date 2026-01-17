@@ -1,0 +1,21 @@
+name: Deploy to Replit
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Replit
+    uses: smartflow-systems/.github/.github/workflows/sfs-github-replit-deploy.yml@main
+    with:
+      replit_app_name: 'smartflowsite'
+      node_version: '20'
+      run_tests: true
+    secrets:
+      REPLIT_WEBHOOK_URL: ${{ secrets.REPLIT_WEBHOOK_URL }}
+      SFS_WEBHOOK_SECRET: ${{ secrets.SFS_WEBHOOK_SECRET }}
+      SFS_PAT: ${{ secrets.SFS_PAT }}
