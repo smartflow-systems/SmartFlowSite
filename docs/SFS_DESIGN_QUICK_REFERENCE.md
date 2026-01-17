@@ -1,242 +1,232 @@
-# Design Guidelines: SecureAuth Pro - SmartFlow Luxurious Dark Gold Theme
+# SFS Design System Quick Reference
 
-## Design Approach
+**Print this. Tape it to your desk. Live by it.**
 
-**Theme:** SmartFlow - Luxurious Dark Gold Aesthetic
-**Primary References:** Premium financial tech + Luxury brand aesthetics + Modern glass-morphism
-**Design Principle:** High-end, sophisticated investor presentation emphasizing exclusivity, precision, and technical excellence through a dark gold palette
+---
 
-## Core Color Palette
+## 🎨 COLORS (Use ONLY These)
 
-### Primary Colors (SmartFlow Tokens)
-- **SF Black:** `#0D0D0D` (0 0% 5%) - Deep black background
-- **SF Gold:** `#FFD700` (51 100% 50%) - Primary gold accent
-- **SF Gold-2:** `#E6C200` (51 91% 45%) - Secondary gold, slightly darker
-- **SF Brown:** `#3B2F2F` - Warm brown accents
-- **SF Beige:** `#F5F5DC` - Soft beige for subtle highlights
-- **SF White:** `#FFFFFF` - Pure white text
-
-### Usage Guidelines
-- **Backgrounds:** Dark black (#0D0D0D) creates premium, focused atmosphere
-- **Primary Actions:** Gold (#FFD700) for CTAs, highlights, and interactive elements
-- **Text:** White/beige for maximum readability on dark backgrounds
-- **Borders/Accents:** Gold at 22-35% opacity for glass-morphism effects
-- **Gradients:** Linear gold gradient (Gold → Gold-2) for premium elements
-
-## Typography System
-
-- **Primary Font:** Inter or system-ui for body text
-- **Code Font:** JetBrains Mono for technical elements
-- **Heading Hierarchy:**
-  - H1: Bold, 3xl to 6xl, gold gradient effect for impact
-  - H2: Semibold, 2xl to 4xl, white with subtle gold underline
-  - H3: Medium, xl to 2xl, white text
-  - Body: Regular, base to lg, beige/white (48 10% 98%)
-- **Emphasis:** Gold text color for key metrics and value propositions
-
-## Glass-Morphism System
-
-### Glass Card Component
-```css
-.glass-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 215, 0, 0.22);
-  backdrop-filter: saturate(140%) blur(12px);
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: clamp(16px, 2vw, 32px);
-}
-
-.glass-card:hover {
-  border-color: rgba(230, 194, 0, 0.35);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
-}
+```
+Primary Gold      #FFD700  →  bg-sfs-gold
+Gold Hover        #E6C200  →  hover:bg-sfs-gold-hover
+Primary Black     #0D0D0D  →  text-sfs-black bg-sfs-black
+Primary Brown     #3B2F2F  →  bg-sfs-brown text-sfs-brown
+Light Beige       #F5F5DC  →  bg-sfs-beige
+White             #FFFFFF  →  bg-white
 ```
 
-### Usage
-- Apply to all card components for consistent premium feel
-- Use for feature cards, pricing tiers, testimonials
-- Maintains visibility over circuit background animation
+**Semantic:**
+- Success: `text-green-600`
+- Error: `text-red-600`
+- Warning: `text-yellow-600`
+- Info: `text-blue-600`
 
-## Circuit Background Animation
+---
 
-### Implementation
-- Animated canvas with 60 moving circuit lines
-- Gold wires (rgba(230, 194, 0, 0.28)) for subtle tech aesthetic
-- 25% opacity, fixed position behind all content
-- Reinforces high-tech authentication theme
+## 📐 SPACING (4px Grid)
 
-### Integration
-```tsx
-<CircuitBackground />
-// Renders as fixed canvas layer at z-0
-// All content at z-10 or higher
+```
+4px   = p-1, m-1
+8px   = p-2, m-2
+12px  = p-3, m-3
+16px  = p-4, m-4
+24px  = p-6, m-6
+32px  = p-8, m-8
+48px  = p-12, m-12
+64px  = p-16, m-16
 ```
 
-## Layout System
+**Quick pattern:** `gap-4 sm:gap-6 lg:gap-8`
 
-### Spacing Primitives
-- **Section Padding:** py-20 to py-32 (desktop), py-12 to py-16 (mobile)
-- **Component Gap:** gap-8 for grids, gap-6 for cards
-- **Border Radius:** 16px (--sf-radius) for premium rounded corners
-- **Blur Intensity:** 12px (--sf-blur) for glass effects
+---
 
-### Container Widths
-- Full sections: max-w-7xl
-- Text-heavy content: max-w-4xl
-- Responsive with px-4 to px-8 horizontal padding
+## 🔤 TYPOGRAPHY
 
-## Component Patterns
+| Type | Size | Weight | Class |
+|---|---|---|---|
+| H1 | 3.5rem | 700 | font-bold text-4xl |
+| H2 | 2.5rem | 700 | font-bold text-3xl |
+| H3 | 1.875rem | 600 | font-semibold text-2xl |
+| Body | 1rem | 400 | text-base |
+| Small | 0.875rem | 400 | text-sm |
+| Caption | 0.75rem | 400 | text-xs |
 
-### Navigation
-- Fixed header with enhanced glass-morphism
-- Gold accent on hover for nav links
-- Black background with gold border-bottom
-- Mobile: Dark overlay with gold-accented hamburger menu
+**Font:** Inter (sans) or Monaco (mono)
 
-### Hero Section
-- Dark background with circuit animation visible
-- Gold gradient headline text
-- Dual CTAs: Gold primary button + ghost outline button
-- Product image with subtle gold glow effect
+---
 
-### Cards
-- All use glass-card styling by default
-- Gold borders become brighter on hover (22% → 35%)
-- Subtle lift animation (translateY(-2px))
-- Inner shadow for depth
+## ⚡ COMPONENT TEMPLATE
 
-### Buttons
-**Gold Primary:**
-```css
-.btn--gold {
-  color: #0D0D0D;
-  background: linear-gradient(90deg, #FFD700, #E6C200);
-  border: 1px solid rgba(230, 194, 0, 0.6);
-}
-.btn--gold:hover {
-  background: #E6C200;
-}
+```typescript
+import { cva } from 'class-variance-authority';
+import { cn } from '@/utils/cn';
+
+const componentVariants = cva('base classes', {
+  variants: {
+    variant: { primary: 'bg-sfs-gold', secondary: 'bg-sfs-brown' },
+    size: { sm: 'p-2', md: 'p-4', lg: 'p-6' },
+  },
+  defaultVariants: { variant: 'primary', size: 'md' },
+});
+
+export const Component = React.forwardRef(
+  ({ className, variant, size, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(componentVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+);
 ```
 
-**Ghost/Outline:**
-```css
-.btn--ghost {
-  color: white;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 215, 0, 0.18);
-}
-.btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.07);
-}
+---
+
+## 📱 RESPONSIVE BREAKPOINTS
+
+```
+Mobile (xs)    ← DESIGN HERE FIRST
+  ↓ 640px
+Tablet (sm)
+  ↓ 768px
+Tablet L (md)
+  ↓ 1024px
+Desktop (lg)
+  ↓ 1280px
+Wide (xl)
+  ↓ 1536px
+Ultra-wide (2xl)
 ```
 
-### Badges & Tags
-- Dark background (rgba(0,0,0,0.3))
-- Gold border and text
-- Backdrop blur for glass effect
+**Pattern:** `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
 
-## Interactive States
+---
 
-### Hover Effects
-- **Cards:** Border brightens, shadow deepens, subtle lift
-- **Buttons:** Background shifts to Gold-2, slight scale
-- **Links:** Gold underline appears with transition
+## 🧩 ICON USAGE
 
-### Focus States
-- Gold ring (ring-gold) at 2px width
-- Visible on all interactive elements
-- WCAG AA compliant contrast
+```typescript
+import { CheckCircle, AlertTriangle, Calendar } from 'lucide-react';
 
-### Elevation System
-- Uses gold tints instead of white overlays
-- `--elevate-1`: rgba(255, 215, 0, 0.06)
-- `--elevate-2`: rgba(255, 215, 0, 0.14)
+// Default size: 24px
+<CheckCircle size={24} className="text-sfs-gold" />
 
-## Accessibility
-
-- **Contrast Ratios:** All text meets WCAG AA standards
-- **Gold on Dark:** 7:1+ contrast ratio
-- **Beige on Dark:** 16:1+ contrast ratio
-- **Focus Indicators:** Always visible gold rings
-- **Keyboard Navigation:** Full support with skip links
-
-## Animations
-
-**Strategic Use:**
-- Circuit background: Continuous subtle motion
-- Section reveals: Fade-in with framer-motion
-- Card hovers: 200ms transform transitions
-- Stat counters: Count-up on viewport enter
-- No excessive motion, respects prefers-reduced-motion
-
-## Dark Mode
-
-**Unified Theme:**
-- Same palette in light and dark modes
-- Dark is the primary aesthetic
-- No significant color shifts between modes
-- Maintains premium dark gold feel consistently
-
-## Images & Media
-
-### Product Images
-- High-quality renders with gold accent lighting
-- Subtle glow effects using box-shadow
-- PNG with transparency for overlay on dark backgrounds
-
-### Icons
-- Lucide React icons in gold color
-- 20-24px default size
-- Consistent stroke-width across set
-
-### Video Placeholders
-- Gold gradient backgrounds
-- Play buttons with gold primary color
-- Category badges with glass-card styling
-
-## Best Practices
-
-1. **Always use glass-card for containers** over solid backgrounds
-2. **Gold sparingly** - Primary actions and key highlights only
-3. **Circuit animation** must remain at 25% opacity maximum
-4. **Maintain dark aesthetic** - Avoid introducing bright colors
-5. **Consistent blur** - 12px backdrop-filter across components
-6. **Rounded corners** - 16px border-radius for premium feel
-7. **Gold borders** - Use 22-35% opacity for subtle emphasis
-
-## Technical Implementation
-
-### CSS Variables
-All colors use HSL format without `hsl()` wrapper:
-```css
---primary: 51 100% 50%;
---accent: 51 91% 45%;
---background: 0 0% 5%;
---foreground: 48 10% 98%;
+// In container (for emphasis):
+<div className="flex items-center justify-center w-12 h-12 rounded-lg bg-sfs-gold">
+  <CheckCircle size={24} className="text-sfs-black" />
+</div>
 ```
 
-### Tailwind Usage
-```tsx
-<Card className="glass-card hover-elevate">
-<Button className="gold-gradient">
-<Badge className="bg-card border-gold">
+**Sizes:** sm(16) md(24) lg(32) xl(48)
+
+---
+
+## ✨ GLASSMORPHISM CARD
+
+```typescript
+<div className="
+  bg-white/70
+  backdrop-blur-glass
+  border border-sfs-gold/10
+  rounded-lg
+  shadow-glass
+  hover:shadow-glass-lg
+  transition-all
+">
+  {/* Content */}
+</div>
 ```
 
-### Framer Motion
-```tsx
-<motion.div
-  initial={{ opacity: 0 }}
-  whileInView={{ opacity: 1 }}
-  viewport={{ once: true }}
->
+---
+
+## ✅ BEFORE YOU COMMIT
+
+- [ ] No hardcoded colors (use Tailwind classes)
+- [ ] No inline styles (use Tailwind utilities)
+- [ ] Responsive design works (test on mobile/tablet/desktop)
+- [ ] Accessibility: keyboard nav, focus states, ARIA labels
+- [ ] TypeScript: no `any` types
+- [ ] Tests written (>80% coverage)
+- [ ] `npm run build` passes
+- [ ] No console errors
+- [ ] Component documented with JSDoc
+
+---
+
+## 🚀 COMMON COMMANDS
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run test         # Run tests
+npm run lint         # Check code quality
+npm run health       # Health check
+npm run figma:sync   # Sync with Figma
+git push origin main # Deploy via CI/CD
 ```
 
-## Design Evolution
+---
 
-**From:** Security-focused blue/teal enterprise theme
-**To:** Luxurious dark gold premium aesthetic
-**Rationale:** Elevated positioning for high-value investor audience, emphasizing exclusivity and sophistication while maintaining technical credibility
+## 🔗 KEYBOARD SHORTCUTS
+
+| Action | Keys |
+|---|---|
+| Focus next | Tab |
+| Focus prev | Shift + Tab |
+| Activate button | Enter / Space |
+| Close dialog | Escape |
+| Submit form | Enter |
+
+---
+
+## 💾 FILE NAMING
+
+```
+Components:   PascalCase.tsx     (Button.tsx)
+Hooks:        camelCase.ts       (useAuth.ts)
+Utilities:    camelCase.ts       (formatDate.ts)
+Types:        PascalCase.ts      (User.ts)
+Tests:        *.test.tsx         (Button.test.tsx)
+Styles:       globals.css        (global entry)
+```
+
+---
+
+## 🐛 QUICK FIXES
+
+**Colors not showing?**
+```bash
+npm run build  # Rebuild Tailwind
+```
+
+**Build failing?**
+```bash
+npm run lint  # Fix linting
+npx tsc --noEmit  # Check types
+```
+
+**Component not responsive?**
+```
+Add: sm:class md:class lg:class
+```
+
+**Focus visible off?**
+```
+Add: focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sfs-gold
+```
+
+---
+
+## 📞 QUICK LINKS
+
+- **Design System Docs:** SFS_DESIGN_SYSTEM_RULES.md
+- **Cursor Rules:** SFS_CURSOR_RULES.md
+- **Figma Integration:** SFS_FIGMA_MCP_INTEGRATION.md
+- **Tailwind Docs:** https://tailwindcss.com/docs
+- **Radix UI:** https://www.radix-ui.com/
+- **Lucide Icons:** https://lucide.dev/
+
+---
+
+**Version 1.0 | Last Updated: Jan 16, 2025**
+
+*Keep this in your IDE. Reference it. Learn it. Live it.*
