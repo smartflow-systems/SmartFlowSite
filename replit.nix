@@ -1,5 +1,7 @@
 { pkgs }: {
   deps = [
+    pkgs.gh
+    pkgs.unzipNLS
     pkgs.stripe-cli
     pkgs.psmisc
     pkgs.imagemagick
