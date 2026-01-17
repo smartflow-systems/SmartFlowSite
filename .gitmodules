@@ -150,3 +150,9 @@
   path = sfs-org/smartflow-theme-package
   url = https://github.com/smartflow-systems/smartflow-theme-package.git
 
+[submodule "SmartFlowSite"]
+	path = SmartFlowSite
+	url = https://github.com/smartflow-systems/SmartFlowSite.git
+[submodule "SocialScaleBooster"]
+	path = SocialScaleBooster
+	url = https://github.com/smartflow-systems/SocialScaleBooster.git
