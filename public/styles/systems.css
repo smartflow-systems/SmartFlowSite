@@ -98,3 +98,11 @@ a { color: #FFD700; text-decoration: none; }
 }
 
 .sys-detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+/* Golden-brown emoji tint */
+.sys-cat-section-icon,
+.sys-detail-icon,
+.sfs-emoji {
+  filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.05);
+  display: inline-block;
+}

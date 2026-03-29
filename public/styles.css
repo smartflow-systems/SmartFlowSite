@@ -1112,3 +1112,23 @@ body {
   transition: background .15s, color .15s;
 }
 .menu-static-link:hover { background: rgba(255,215,0,.08); color: #FFD700; }
+
+/* ===================================================
+   GOLDEN-BROWN EMOJI TINT
+   Applies a warm sepia-gold filter to all emoji icons
+   =================================================== */
+.sys-cat-icon,
+.sys-card-icon,
+.sys-detail-icon,
+.sys-cat-section-icon,
+.menu-sys-icon,
+.sfs-emoji {
+  filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.05);
+  display: inline-block;
+}
+
+/* Category toggle icons inside buttons */
+.menu-cat-toggle > span:first-child,
+.menu-group-toggle > span:first-child {
+  filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.05);
+}
