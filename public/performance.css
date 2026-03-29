@@ -1,0 +1,234 @@
+/*
+ * SmartFlow Performance Enhancements
+ * GPU-accelerated animations and optimizations
+ */
+
+/* GPU Acceleration for animated elements */
+.menu-sidebar,
+.menu-close,
+.menu-links a,
+.nav,
+.hero,
+.btn,
+.card,
+.price-card,
+.testimonial,
+.project-card {
+  will-change: auto;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimize transitions with GPU */
+.menu-sidebar {
+  transform: translate3d(-100%, 0, 0);
+}
+
+.menu-sidebar.open {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize images for performance */
+img {
+  content-visibility: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Lazy loading optimization */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimize hover states with GPU */
+.btn:hover,
+.menu-links a:hover,
+.menu-close:hover,
+.card:hover,
+.project-card:hover {
+  transform: translate3d(0, -2px, 0);
+}
+
+/* Optimize transforms for better performance */
+@media (hover: hover) {
+  .card,
+  .price-card,
+  .testimonial {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Passive event listener hint */
+* {
+  touch-action: manipulation;
+}
+
+/* Optimize backdrop filter */
+.menu-sidebar,
+.nav,
+.card {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Contain layout for better performance */
+.section {
+  contain: layout style paint;
+}
+
+.card,
+.price-card,
+.project-card {
+  contain: layout style paint;
+}
+
+/* Optimize animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Optimize hero section */
+.hero {
+  contain: layout style;
+  background-attachment: scroll; /* Better mobile performance */
+}
+
+/* Optimize grid layouts */
+.projects-grid,
+.pricing-grid,
+.latest-grid {
+  contain: layout;
+}
+
+/* Performance-optimized shadows */
+.card,
+.price-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Reduce paint area on hover */
+.btn {
+  isolation: isolate;
+}
+
+/* Optimize text rendering */
+body {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility;
+}
+
+/* Layer promotion for smooth animations */
+.animated,
+[data-animate] {
+  will-change: transform, opacity;
+}
+
+/* Reset will-change after animation */
+.animated.complete,
+[data-animate].complete {
+  will-change: auto;
+}
+
+/* Optimize canvas elements */
+canvas {
+  transform: translateZ(0);
+  image-rendering: crisp-edges;
+}
+
+/* Reduce repaints on scroll */
+.nav {
+  contain: layout style;
+}
+
+/* Optimize focus states */
+:focus-visible {
+  outline: 2px solid var(--gold, #FFD700);
+  outline-offset: 2px;
+  transition: outline-offset 0.1s ease;
+}
+
+/* Optimize button interactions */
+button,
+.btn {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Font loading optimization */
+@font-face {
+  font-display: swap;
+}
+
+/* Optimize video elements if any */
+video {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Critical CSS containment */
+main,
+header,
+footer,
+section {
+  contain: layout;
+}
+
+/* Optimize flexbox performance */
+.flex {
+  contain: layout;
+}
+
+/* Optimize position sticky */
+[style*="position: sticky"],
+[style*="position:sticky"],
+.sticky {
+  will-change: transform;
+}
+
+/* Performance hint for fixed elements */
+[style*="position: fixed"],
+[style*="position:fixed"],
+.fixed {
+  transform: translateZ(0);
+  will-change: transform;
+}

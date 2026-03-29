@@ -316,6 +316,24 @@ function requireAuth(req, res, next) {
   next();
 }
 
+// Performance: Add caching headers for static assets
+app.use((req, res, next) => {
+  // Cache static assets for 1 year (immutable files with version hashes)
+  if (req.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp)$/)) {
+    // Minified files and images - cache for 1 year
+    if (req.url.includes('.min.') || req.url.match(/\.(png|jpg|jpeg|gif|webp|svg|woff|woff2)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else {
+      // Regular JS/CSS - cache for 1 week
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    }
+  } else if (req.url.match(/\.(html)$/)) {
+    // HTML files - cache for 1 hour, must revalidate
+    res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
+  }
+  next();
+});
+
 // serve everything from /public
 app.use(express.static("public"));
 
