@@ -1,0 +1,798 @@
+/**
+ * SmartFlow Powerhouse Styles
+ * Advanced UI components and animations
+ */
+
+/* ==========================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card,
+.price-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.project-card.reveal-active,
+.price-card.reveal-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered animation delay */
+.project-card:nth-child(1) { transition-delay: 0.1s; }
+.project-card:nth-child(2) { transition-delay: 0.2s; }
+.project-card:nth-child(3) { transition-delay: 0.3s; }
+.project-card:nth-child(4) { transition-delay: 0.4s; }
+
+/* ==========================================
+   SOCIAL PROOF NOTIFICATIONS
+   ========================================== */
+.social-proof-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateX(-100%) scale(0.8);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.social-proof-popup.show {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.social-proof-content {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1a1a1a 100%);
+  border: 2px solid #FFD700;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+  min-width: 320px;
+  max-width: 400px;
+}
+
+.social-proof-icon {
+  background: #FFD700;
+  color: #0D0D0D;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.social-proof-text {
+  flex: 1;
+  color: #F5F5DC;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.social-proof-text strong {
+  color: #FFD700;
+  font-weight: 600;
+}
+
+.social-proof-text span {
+  color: #9a8f80;
+}
+
+.social-proof-close {
+  background: none;
+  border: none;
+  color: #9a8f80;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.social-proof-close:hover {
+  color: #FFD700;
+}
+
+/* ==========================================
+   MODAL SYSTEM
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1a1a1a 100%);
+  border: 2px solid #FFD700;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+}
+
+.modal-overlay.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #FFD700;
+  font-size: 32px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 215, 0, 0.1);
+  transform: rotate(90deg);
+}
+
+.modal-content h2 {
+  color: #FFD700;
+  font-size: 32px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.modal-subtitle {
+  color: #9a8f80;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+/* ==========================================
+   ROI CALCULATOR
+   ========================================== */
+.roi-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.roi-input-group {
+  margin-bottom: 20px;
+}
+
+.roi-input-group label {
+  display: block;
+  color: #F5F5DC;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.roi-input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(59, 47, 47, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  color: #F5F5DC;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.roi-input-group input:focus {
+  outline: none;
+  border-color: #FFD700;
+  background: rgba(59, 47, 47, 0.5);
+}
+
+.roi-results {
+  margin-top: 30px;
+  padding: 30px;
+  background: rgba(59, 47, 47, 0.3);
+  border-radius: 12px;
+  border: 2px solid #FFD700;
+}
+
+.roi-results h3 {
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.roi-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.roi-stat:last-of-type {
+  border-bottom: none;
+}
+
+.roi-label {
+  color: #9a8f80;
+  font-size: 15px;
+}
+
+.roi-value {
+  color: #F5F5DC;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.roi-value.roi-highlight {
+  color: #FFD700;
+  font-size: 24px;
+}
+
+.roi-total {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #FFD700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+.roi-total strong {
+  color: #F5F5DC;
+}
+
+.roi-total span {
+  color: #FFD700;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.roi-note {
+  color: #9a8f80;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* ==========================================
+   COMPARISON TOOL
+   ========================================== */
+.comparison-tool {
+  max-width: 900px;
+}
+
+.comparison-grid {
+  display: grid;
+  gap: 1px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.comparison-header,
+.comparison-row,
+.comparison-footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(255, 215, 0, 0.2);
+}
+
+.comparison-cell {
+  background: #0D0D0D;
+  padding: 15px;
+  color: #F5F5DC;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.comparison-header .comparison-cell {
+  background: linear-gradient(135deg, #3B2F2F 0%, #2a2020 100%);
+  color: #FFD700;
+  font-weight: 700;
+  padding: 20px 15px;
+}
+
+.comparison-row .comparison-cell:first-child {
+  justify-content: flex-start;
+  text-align: left;
+  background: rgba(59, 47, 47, 0.3);
+}
+
+.comparison-footer .comparison-cell {
+  padding: 20px 15px;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.comparison-cta {
+  text-align: center;
+  padding: 30px;
+  background: rgba(59, 47, 47, 0.2);
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 215, 0, 0.3);
+}
+
+.comparison-cta p {
+  color: #9a8f80;
+  margin-bottom: 15px;
+}
+
+/* ==========================================
+   RECOMMENDATION QUIZ
+   ========================================== */
+.quiz-modal {
+  max-width: 600px;
+}
+
+.quiz-container {
+  position: relative;
+  min-height: 300px;
+}
+
+.quiz-question {
+  opacity: 0;
+  transform: translateX(50px);
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quiz-question.active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+  pointer-events: all;
+}
+
+.quiz-question h3 {
+  color: #F5F5DC;
+  font-size: 22px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-option {
+  background: rgba(59, 47, 47, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 18px 20px;
+  color: #F5F5DC;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quiz-option:hover {
+  background: rgba(59, 47, 47, 0.5);
+  border-color: #FFD700;
+  transform: translateX(5px);
+}
+
+.quiz-progress {
+  margin-top: 30px;
+  height: 6px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #FFD700, #E6C200);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quiz-result {
+  text-align: center;
+}
+
+.quiz-result h3 {
+  color: #FFD700;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.recommendation-card {
+  background: rgba(59, 47, 47, 0.3);
+  border: 2px solid #FFD700;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.recommendation-card h4 {
+  color: #FFD700;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.recommendation-card p {
+  color: #F5F5DC;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.recommendation-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.recommendation-card li {
+  color: #9a8f80;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.recommendation-card strong {
+  color: #FFD700;
+  display: block;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* ==========================================
+   EXIT INTENT
+   ========================================== */
+.exit-intent-content {
+  max-width: 500px;
+  text-align: center;
+}
+
+.exit-intent-form {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.exit-intent-form input {
+  flex: 1;
+  padding: 14px 18px;
+  background: rgba(59, 47, 47, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  color: #F5F5DC;
+  font-size: 16px;
+}
+
+.exit-intent-form input:focus {
+  outline: none;
+  border-color: #FFD700;
+}
+
+.exit-intent-note {
+  color: #9a8f80;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.exit-intent-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.benefit {
+  background: rgba(59, 47, 47, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+  color: #F5F5DC;
+  font-size: 13px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.success-message {
+  padding: 30px;
+}
+
+.success-message h3 {
+  color: #4CAF50;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.success-message p {
+  color: #F5F5DC;
+  margin: 8px 0;
+}
+
+/* ==========================================
+   MOBILE HAMBURGER MENU
+   ========================================== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #FFD700;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 80%;
+    max-width: 300px;
+    background: #0D0D0D;
+    flex-direction: column;
+    padding: 80px 30px 30px;
+    border-left: 2px solid #FFD700;
+    transition: right 0.3s ease;
+    z-index: 1000;
+  }
+
+  .nav nav.active {
+    right: 0;
+  }
+
+  .nav nav a {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  body.menu-open::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+  }
+}
+
+/* ==========================================
+   FLOATING ACTION BUTTONS
+   ========================================== */
+.floating-actions {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.fab-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #E6C200);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.6);
+}
+
+.fab-btn:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .floating-actions {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .fab-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .social-proof-popup {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .social-proof-content {
+    min-width: 280px;
+    padding: 12px 16px;
+  }
+
+  .modal-content {
+    padding: 25px 20px;
+  }
+
+  .exit-intent-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-header,
+  .comparison-row,
+  .comparison-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-cell {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .comparison-cell:first-child {
+    font-weight: bold;
+    background: rgba(59, 47, 47, 0.5);
+  }
+}
+
+/* ==========================================
+   STATS ANIMATION
+   ========================================== */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin: 60px 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 30px;
+  background: rgba(59, 47, 47, 0.3);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  border-color: #FFD700;
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  color: #FFD700;
+  font-size: 48px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  color: #9a8f80;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ==========================================
+   SMOOTH SCROLLING
+   ========================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+   ========================================== */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #FFD700, #E6C200);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD700;
+}

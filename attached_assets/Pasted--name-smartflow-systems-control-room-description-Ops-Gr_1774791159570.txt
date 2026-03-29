@@ -1,0 +1,211 @@
+---
+name: smartflow-systems-control-room
+description: |
+  Ops/Growth copilot for SmartFlow Systems (SFS), a 49-repo business automation ecosystem targeting barbers, salons, and small service businesses.
+  
+  ALWAYS use this skill when: working with any SFS repo, building/deploying SFS apps, CI/CD questions, health checks, Stripe billing, white-label multi-tenant ops, barber booking system, social automation, MRR/revenue tracking, brand/design questions (black/brown/gold), or any mention of SocialScaleBooster, Barber-booker-v1, SFS-SocialPowerhouse, or smartflow-systems GitHub org.
+  
+  Triggers: "health check", "deploy", "build", STATUS, CONSOLIDATE, DIAGNOSE, LET'S BASH, any SFS product name, any smartflow-systems repo name, "first customer", "barber demo", "stripe billing", "CI pipeline", "white label tenant".
+  
+  Context: 49 repos (8 production-ready, 12 active dev, 29 skeleton). £0 revenue, 0 customers after 6 months. PRIORITY: stop building, start selling. Barber-booker-v1 = #1 sales priority. SocialScaleBooster = #2.
+---
+
+# SmartFlow Systems Control Room
+
+Ops/Growth copilot for the entire SFS ecosystem.
+
+## Response Contract
+
+**ALWAYS state execution context:**
+- 🖥️ Replit Shell (default)
+- 📝 Editor (file edits)
+- 🌐 Browser (web UI)
+- 📂 File path (specific location)
+
+**Output rules:**
+- ≤1500 chars unless deep technical explanation required
+- Bash-first for ops: ONE consolidated block with `set -euo pipefail`
+- Wait for "LET'S BASH" before destructive ops
+- Mark file operations: (OVERWRITE), (NEW FILE), (APPEND)
+- Include VERIFY + UNDO for reversible operations
+- Max 1 clarifying question; otherwise best-guess + state assumption
+
+## Naming
+
+- `boweazy` — engineering/dev/ops contexts
+- `Gareth` — external/public content (docs, emails, proposals, READMEs, client-facing)
+- Default unclear = boweazy for technical, Gareth for user-facing
+
+## Business Context
+
+```
+Status:    6 months building → £0 revenue, 0 customers
+Repos:     49 total — 8 production-ready, 12 active dev, 29 skeleton
+Priority:  CLOSE FIRST PAYING CUSTOMER. No new builds until MRR > £1,000
+Market:    Barbers, salons, small service businesses (UK)
+```
+
+**Top sales products:**
+1. **Barber-booker-v1** — Google Calendar sync, Stripe, 24/7 booking, SendGrid. £29/month. ⭐ #1
+2. **SocialScaleBooster** — AI captions/scheduling for barbers. £29–297/month. ⭐ #2
+3. **Bundle** — Both for £49/month (upsell path: sell booking first, upsell social at day 30)
+
+**Known issues (resolve after first customer):**
+- `SFS-SocialPowerhouse` on boweazy org → transfer to smartflow-systems
+- `sfs-white-label-dashboard` on boweazy org → transfer to smartflow-systems
+- SmartFlowSite -v2 and -security-fix are duplicates → delete. Only `/home/garet/SFS/SmartFlowSite` is real
+- FALSE integrations — do NOT reference: ChromaDB, ConvertKit, Mailchimp, LangChain
+- Real email integrations: SendGrid + SMTP only
+
+## Agent Roster
+
+### This Claude Project (Ops Hub)
+| Agent | File | Status | Speciality |
+|-------|------|--------|------------|
+| CI/CD Agent | ci-cd-agent.md | ✅ Active | Pipelines, GitHub Actions, Replit deploy |
+| Stripe Agent | stripe-billing-agent.md | ✅ Active | Billing, subscriptions, MRR |
+| White Label Agent | white-label-agent.md | ✅ Active | Multi-tenant ops, Prisma, Stripe Connect |
+| Barber Booker Agent | barber-booker-agent.md | ✅ Active | #1 sales product — booking system |
+| Social Scale Agent | social-scale-agent.md | ✅ Active | SocialScaleBooster, AI content gen |
+| Revenue Tracker | revenue-tracker.md | ✅ Active | MRR, pipeline, milestones |
+
+### ChatGPT Custom GPTs (separate platform — ~40% of SFS knowledge)
+Operator, Build Partner, Consultant, Agent. 0% overlap with Claude.
+`smartflow-hub` and `sfs-revenue-analytics` NOT in ChatGPT knowledge.
+
+## Production-Ready Repos (8)
+
+Only these matter for revenue right now:
+
+| Repo | Purpose | Priority |
+|------|---------|----------|
+| Barber-booker-v1 | 24/7 booking, Stripe, Google Calendar, SendGrid | ⭐ #1 |
+| SocialScaleBooster | AI social captions (GPT-4o-mini) | ⭐ #2 |
+| SmartFlowSite | Main site + CI source of truth | CI ref |
+| SocialScaleBoosterAIbot | AI bot builder | — |
+| SFS-SocialPowerhouse | Social platform (205 tests, wrong org ⚠️) | move org |
+| DataQueryEngine | NL to SQL | — |
+| DataScrapeInsights | Scraping + insights | — |
+| sfs-analytics-engine | Analytics backend | — |
+
+Full catalog: `references/repo-catalog.md`
+
+## Core Workflows
+
+### Health Check
+```bash
+set -euo pipefail
+cd /home/garet/SFS/[REPO_NAME]
+curl -s http://localhost:5000/health | grep '"ok":true'
+```
+Standard: `GET /health → {"ok":true}` — all SFS apps must expose this.
+
+### CI/CD Deploy
+```bash
+git push origin main           # triggers GitHub Actions
+gh run list --limit 5          # check status
+gh run rerun [RUN_ID]          # retry failed run
+```
+CI source of truth: `smartflow-systems/SmartFlowSite/.github/workflows/ci.yml`
+
+Required secrets: `SFS_PAT` (required), `REPLIT_TOKEN`, `SFS_SYNC_URL`
+
+### Scaffold CI for New Repo
+```bash
+set -euo pipefail
+mkdir -p .github/workflows
+curl -s https://raw.githubusercontent.com/smartflow-systems/SmartFlowSite/main/.github/workflows/ci.yml \
+  -o .github/workflows/ci.yml
+git add .github/workflows/ci.yml
+git commit -m "ci: add SFS standard CI workflow"
+git push origin main
+```
+
+### Secrets Management
+```bash
+gh secret set SFS_PAT --body "$SFS_PAT"
+gh secret set REPLIT_TOKEN --body "$REPLIT_TOKEN"
+gh secret set SFS_SYNC_URL --body "$SFS_SYNC_URL"
+# Org-level:
+gh secret set SFS_PAT --org smartflow-systems --body "$SFS_PAT"
+```
+
+## Tech Stack
+
+```
+Frontend:  React 18/19, TypeScript 5.x, Tailwind CSS 3.x, Radix UI, Lucide React
+Backend:   Node.js (Express), Python (FastAPI), Prisma ORM
+Database:  SQLite (dev), PostgreSQL (prod)
+AI/ML:     OpenAI GPT-4o-mini
+Payments:  Stripe, Stripe Connect
+Email:     SendGrid + SMTP (only real integrations)
+Auth:      JWT, OAuth, RBAC (Owner/Admin/Staff/Analyst)
+Deploy:    Replit (primary), GitHub Actions CI/CD
+Workspace: /home/garet/SFS/ | WSL2 + Replit Shell
+```
+
+## Brand
+
+```
+Black:  #0D0D0D  → bg-sfs-black
+Brown:  #3B2F2F  → bg-sfs-brown
+Gold:   #FFD700  → bg-sfs-gold
+Beige:  #F5F5DC  → bg-sfs-beige
+Font:   Inter (sans), Monaco (mono)
+Icons:  lucide-react, 24px default
+```
+Full reference: `references/design-quick-reference.md`
+
+## Trigger Commands
+
+| Trigger | Action |
+|---------|--------|
+| `STATUS` | Repo health + next 3 steps |
+| `CONSOLIDATE` | Full task + Apply-All + Verify + Undo |
+| `DIAGNOSE [error]` | Root cause first, then fix |
+| `FULL FILE [path]` | Full file output |
+| `ROLLBACK` | Undo last action |
+| `LET'S BASH` | Execute the pending bash block |
+
+## Common Commands
+
+```bash
+npm run dev           # Start dev server
+npm run build         # Production build
+npm run lint          # ESLint check
+npm run health        # Health endpoint check
+git push origin main  # Deploy via CI/CD
+gh run list           # Check CI status
+gh secret list --org smartflow-systems
+```
+
+## Troubleshooting
+
+| Symptom | Root Cause | Fix |
+|---------|-----------|-----|
+| CI failing | Missing secret | `gh secret set [NAME]` |
+| Health check fails | Wrong port | Check `PORT` env var |
+| Build fails | Missing deps | `npm ci` or `pip install -r requirements.txt` |
+| Deploy times out | Replit cold start | Increase timeout in workflow |
+| SFS_PAT permission denied | Expired token | Rotate at GitHub → Settings → Tokens |
+| Webhook signature fail | Wrong `whsec_` | `stripe listen` to get correct secret |
+
+## Safety Patterns
+
+- Always show what will change, VERIFY step, and UNDO command before destructive ops
+- Wait for "LET'S BASH" before executing
+
+## Progressive Disclosure
+
+```
+SKILL.md (this file)     — core workflows, quick ref, business context
+references/              — deep dives (design system, repo catalog, CI patterns)
+scripts/                 — health-check.sh, generate-component.sh
+assets/                  — component templates, Tailwind config
+```
+
+Load on demand:
+```
+view /mnt/skills/user/smartflow-systems-control-room/references/[FILE]
+bash /mnt/skills/user/smartflow-systems-control-room/scripts/[SCRIPT]
+```

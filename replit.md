@@ -1,7 +1,14 @@
 # SmartFlow Systems Portfolio App
 
 ## Overview
-SmartFlow Systems is a single-page application (SPA) portfolio site showcasing 30+ automation systems for service businesses like barbers and salons. It demonstrates booking systems, e-commerce solutions, AI bots, and other business automation tools through interactive demo cards. Built as a static site optimized for Replit hosting, it serves as both a marketing tool and a platform for showcasing SmartFlow's next-generation AI automation products.
+SmartFlow Systems is a multi-page marketing site showcasing 31 prebuilt automation systems for service businesses (salons, clinics, e-commerce, etc.). Systems are organised into 7 categories: Booking & Scheduling, Commerce & Payments, AI & Automation, Marketing & Growth, Websites & Branding, Analytics & Insights, and Business Management. Each system has a full feature list, settings breakdown, and demo link.
+
+## Key Pages
+- `/` — Homepage: hero + compact cards grouped by category
+- `/systems.html?cat=<id>` — Category/system browser with filter pills and detailed feature+settings cards
+- `/pricing.html` — Pricing plans
+- `/checkout.html` — Multi-step Stripe checkout
+- `/success.html` — Post-payment confirmation
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -21,10 +28,16 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Layer
 - JSON-based configuration system:
-    - `systems.json`: 30+ automation systems with descriptions, tags, icons, and links
+    - `systems.json`: 31 systems with id, name, icon, category, tagline, description, features[], settings[], tags[], demoUrl
+    - `categories.json`: 7 category definitions with id, name, icon, description, slug
     - `posts.json`: Latest updates from SmartFlow
-    - `live.json`: Simulated live metrics (deprecated)
 - All data is stored as static JSON files in `/public/data/`
+
+### Key JS Files
+- `projects.js` — Renders compact category cards on the homepage
+- `systems-page.js` — Full systems browser with filter pills and detail cards
+- `menu.js` — Async tree menu: loads categories+systems, builds collapsible tree
+- `friendly-ux.js` — CSP-compliant UX (ripple, scroll-reveal, scroll-to-top, perf badge)
 
 ### UI/UX Design System
 - Dark theme (#0D0D0D) with gold accents (#FFD700) following brand guidelines

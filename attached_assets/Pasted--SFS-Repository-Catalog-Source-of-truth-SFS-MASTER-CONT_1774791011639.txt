@@ -1,0 +1,93 @@
+# SFS Repository Catalog
+
+**Source of truth:** SFS-MASTER-CONTEXT.md  
+**Last updated:** 2026-03-28  
+**Total:** 49 repos across smartflow-systems org (+ 2 on boweazy org pending transfer)
+
+**Status legend:** ✅ Production-ready · 🚧 Active dev · 📋 Skeleton/planned · ⚠️ Issue
+
+---
+
+## Production-Ready Repos (8) — Revenue focus only
+
+These are the only repos that matter until MRR > £1,000.
+
+| Repo | GitHub | Local | Purpose | Priority |
+|------|--------|-------|---------|----------|
+| SmartFlowSite | smartflow-systems/SmartFlowSite | /home/garet/SFS/SmartFlowSite | Main site + CI source of truth | CI ref |
+| Barber-booker-v1 ✅ | smartflow-systems/Barber-booker-v1 | /home/garet/SFS/Barber-booker-v1 | 24/7 booking, Stripe, Google Calendar, SendGrid | ⭐ #1 |
+| SocialScaleBooster ✅ | smartflow-systems/SocialScaleBooster | /home/garet/SFS/SocialScaleBooster | AI captions (GPT-4o-mini), barbers/salons | ⭐ #2 |
+| SocialScaleBoosterAIbot ✅ | smartflow-systems/SocialScaleBoosterAIbot | — | AI bot builder | — |
+| SFS-SocialPowerhouse ✅ ⚠️ | **boweazy**/SFS-SocialPowerhouse | — | Social platform (205 tests) | Move to smartflow-systems |
+| DataQueryEngine ✅ | smartflow-systems/DataQueryEngine | — | NL to SQL | — |
+| DataScrapeInsights ✅ | smartflow-systems/DataScrapeInsights | — | Data scraping + insights | — |
+| sfs-analytics-engine ✅ | smartflow-systems/sfs-analytics-engine | — | Analytics backend | — |
+
+---
+
+## Active Development Repos (12)
+
+Do not prioritise these until first customer is closed.
+
+| Repo | GitHub | Purpose | Notes |
+|------|--------|---------|-------|
+| sfs-white-label-dashboard 🚧 ⚠️ | **boweazy**/sfs-white-label-dashboard | Multi-tenant admin | Move to smartflow-systems |
+| smartflow-hub 🚧 | smartflow-systems/smartflow-hub | Unified Next.js dashboard + Claude integration | NOT in ChatGPT knowledge |
+| sfs-revenue-analytics 🚧 | smartflow-systems/sfs-revenue-analytics | Revenue optimization | NOT in ChatGPT knowledge |
+| SFS-Backend 🚧 | smartflow-systems/SFS-Backend | Centralised API | — |
+| SFSAPDemoCRM 🚧 | smartflow-systems/SFSAPDemoCRM | CRM + lead management | — |
+| sfs-marketing-and-growth 🚧 | smartflow-systems/sfs-marketing-and-growth | Marketing + booking | — |
+| sfs-core-utils 🚧 | smartflow-systems/sfs-core-utils | Shared utilities | — |
+| sfs-intelligence-engine 🚧 | smartflow-systems/sfs-intelligence-engine | FastAPI AI: sentiment, intent, risk | — |
+| AP-CRM 🚧 | smartflow-systems/AP-CRM | CRM | £29+/month planned |
+| sfs-social-content-generator 🚧 | smartflow-systems/sfs-social-content-generator | Barber demo tool (FastAPI + Replicate) | — |
+| smartflow-systems-control-room 🚧 | smartflow-systems/smartflow-systems-control-room | Skill package: CI/CD, brand, workflows | 104KB, 10 files |
+| SmartFlowSite (real only) | — | /home/garet/SFS/SmartFlowSite | -v2 and -security-fix are duplicates — delete |
+
+---
+
+## Skeleton / Planned (29)
+
+Placeholder repos. Zero investment until MRR > £1,000. Not listed individually.
+
+---
+
+## Known Issues
+
+| Issue | Action | Priority |
+|-------|--------|----------|
+| SFS-SocialPowerhouse on boweazy org | Transfer to smartflow-systems | After first customer |
+| sfs-white-label-dashboard on boweazy org | Transfer to smartflow-systems | After first customer |
+| SmartFlowSite -v2 and -security-fix duplicates | Delete — only /home/garet/SFS/SmartFlowSite is real | After first customer |
+| FALSE integrations documented (ChromaDB, ConvertKit, Mailchimp, LangChain) | Remove all references — NOT implemented | Now — don't spread misinformation |
+| 95% of repos <5 tests | SFS-SocialPowerhouse (205 tests) is the only outlier | After £1k MRR |
+
+---
+
+## AI Platform Knowledge Split
+
+| Platform | Coverage | Notes |
+|----------|----------|-------|
+| Claude (this) | ~60% | Technical, git ops, CI/CD |
+| ChatGPT | ~40% | Business context, GPT agents |
+| Overlap | 0% | No sync between platforms |
+| Grok / Replit AI | Unknown | — |
+
+`smartflow-hub` and `sfs-revenue-analytics` are NOT in ChatGPT knowledge.
+
+---
+
+## Real Stack (reference)
+
+```
+Frontend:  React 18/19, TypeScript 5.x, Tailwind CSS 3.x, Radix UI, Lucide React
+Backend:   Node.js (Express), Python (FastAPI), Prisma ORM
+DB:        SQLite (dev), PostgreSQL (prod)
+AI/ML:     OpenAI GPT-4o-mini
+Payments:  Stripe, Stripe Connect
+Email:     SendGrid + SMTP ONLY
+Auth:      JWT, OAuth, RBAC
+Deploy:    Replit + GitHub Actions
+```
+
+**NOT in the stack (do not reference):** ChromaDB · ConvertKit · Mailchimp · LangChain

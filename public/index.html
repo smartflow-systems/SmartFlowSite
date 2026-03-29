@@ -10,10 +10,9 @@
 
   <!-- Performance optimizations -->
   <link rel="preload" href="assets/hero-bg-1024w.webp" as="image" fetchpriority="high" type="image/webp"/>
-  <link rel="preload" href="app.min.js" as="script"/>
   <link rel="dns-prefetch" href="https://js.stripe.com"/>
-  <link rel="stylesheet" href="styles.min.css"/>
-  <link rel="stylesheet" href="performance.css"/>
+  <link rel="stylesheet" href="styles.css?v=20260329"/>
+  <link rel="stylesheet" href="performance.css?v=20260329"/>
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="site.webmanifest"/>
@@ -25,15 +24,7 @@
   <!-- Hamburger Menu Sidebar -->
   <div id="menu-sidebar" class="menu-sidebar">
     <button id="menu-close" class="menu-close">&times;</button>
-    <nav class="menu-links">
-      <a href="#projects">Projects</a>
-      <a href="#latest">Latest Updates</a>
-      <a href="#testimonials">Social Proof</a>
-      <a href="#pricing">Pricing</a>
-      <a href="contact.html">Contact</a>
-      <a href="https://github.com/smartflow-systems" target="_blank">GitHub</a>
-      <a href="https://calendly.com/smartflow-systems" target="_blank">Book Demo</a>
-    </nav>
+    <nav class="menu-links"></nav>
   </div>
 
   <!-- Nav -->
@@ -57,8 +48,8 @@
 
   <!-- Projects -->
   <section id="projects" class="section container">
-    <h2 class="section-title">30 SmartFlow Systems</h2>
-    <div id="projects-grid" class="projects-grid"></div>
+    <h2 class="section-title">31 Systems Across 7 Categories</h2>
+    <div id="projects-grid"></div>
   </section>
 
   <!-- Latest -->
@@ -101,7 +92,7 @@
           <li>Brand colours & logo</li>
           <li>Email support</li>
         </ul>
-        <a class="btn btn-gold" href="contact.html?plan=starter">Join Waitlist</a>
+        <a class="btn btn-gold" href="/checkout.html?plan=starter_build">Get Started</a>
       </div>
       <div class="price-card featured">
         <h3>Pro</h3>
@@ -111,7 +102,7 @@
           <li>Stripe + Calendar</li>
           <li>Priority support</li>
         </ul>
-        <a class="btn btn-gold" href="contact.html?plan=pro">Book Build</a>
+        <a class="btn btn-gold" href="/checkout.html?plan=pro_build">Book Build</a>
       </div>
       <div class="price-card">
         <h3>Premium</h3>
@@ -121,7 +112,7 @@
           <li>Analytics + training</li>
           <li>30-day optimisation</li>
         </ul>
-        <a class="btn btn-gold" href="contact.html?plan=premium">Apply</a>
+        <a class="btn btn-gold" href="/checkout.html?plan=premium_build">Apply</a>
       </div>
     </div>
   </section>
@@ -131,24 +122,10 @@
   </footer>
 
   <!-- Optimized scripts -->
-  <script src="assets/circuit-bg.js"></script>
-  <script src="app.min.js" defer></script>
-  <script src="projects.js" defer></script>
-  <script src="menu.js" defer></script>
-  <script src="friendly-ux.js" defer></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    // Register service worker for PWA capabilities
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('✓ Service Worker registered'))
-          .catch(err => console.log('Service Worker registration failed:', err));
-      });
-    }
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="sfs-kit/sfs-bg.js?v=20260329" defer></script>
+  <script src="projects.js?v=20260329" defer></script>
+  <script src="menu.js?v=20260329" defer></script>
+  <script src="friendly-ux.js?v=20260329" defer></script>
+  <script src="app-init.js?v=20260329" defer></script>
 </body>
 </html>

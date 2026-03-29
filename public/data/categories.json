@@ -1,0 +1,58 @@
+[
+  {
+    "id": "booking",
+    "name": "Booking & Scheduling",
+    "icon": "📅",
+    "colour": "#FFD700",
+    "description": "Appointment booking, calendar sync, queue management and staff rotas — end-to-end scheduling automation for service businesses.",
+    "slug": "booking"
+  },
+  {
+    "id": "commerce",
+    "name": "Commerce & Payments",
+    "icon": "🛒",
+    "colour": "#FFD700",
+    "description": "E-commerce storefronts, Stripe payment gateways, invoicing, and live inventory tracking — sell smarter, get paid faster.",
+    "slug": "commerce"
+  },
+  {
+    "id": "ai",
+    "name": "AI & Automation",
+    "icon": "🤖",
+    "colour": "#FFD700",
+    "description": "AI social bots, smart chatbots, email sequences, SMS automation, and no-code integration hubs — run on autopilot.",
+    "slug": "ai"
+  },
+  {
+    "id": "marketing",
+    "name": "Marketing & Growth",
+    "icon": "📣",
+    "colour": "#FFD700",
+    "description": "SEO tools, affiliate programs, video marketing, webinars, review management, loyalty schemes, and form builders — grow your audience.",
+    "slug": "marketing"
+  },
+  {
+    "id": "web",
+    "name": "Websites & Branding",
+    "icon": "🌐",
+    "colour": "#FFD700",
+    "description": "Drag-and-drop site builders and AR product try-on — launch a professional web presence in hours, not weeks.",
+    "slug": "web"
+  },
+  {
+    "id": "analytics",
+    "name": "Analytics & Insights",
+    "icon": "📊",
+    "colour": "#FFD700",
+    "description": "Real-time dashboards, KPI tracking, NPS surveys and automated reports — always know what's working.",
+    "slug": "analytics"
+  },
+  {
+    "id": "management",
+    "name": "Business Management",
+    "icon": "🏢",
+    "colour": "#FFD700",
+    "description": "Client portals, document e-signing, staff training, community hubs, and helpdesk ticketing — run the whole operation from one place.",
+    "slug": "management"
+  }
+]
