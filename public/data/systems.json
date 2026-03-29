@@ -1,32 +1,812 @@
 [
-  {"id":"bookflow","name":"BookFlow Pro","icon":"📅","description":"Advanced booking with calendar sync, automated reminders, and Stripe payments. Perfect for salons and services.","tags":["Booking","Payments","Calendar"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"smartcommerce","name":"SmartCommerce Suite","icon":"🛍️","description":"Complete e-commerce with inventory management, order tracking, smart upsells, and customer analytics.","tags":["E-commerce","Inventory","Analytics"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"aibot","name":"AI Social Bot Pro","icon":"🤖","description":"AI-powered social media automation with review management, smart upselling, and voice assistant capabilities.","tags":["AI","Social Media","Reviews","Voice AI"],"link":"https://socialscalebooster.replit.app"},
-  {"id":"growthflow","name":"GrowthFlow Analytics","icon":"📊","description":"Real-time business intelligence with predictive analytics, funnel tracking, and growth optimization.","tags":["Analytics","Growth","BI"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"webbuilder","name":"WebBuilder Pro","icon":"🌐","description":"Drag-and-drop website builder with SEO optimization, conversion tools, and 100+ responsive templates.","tags":["Website","SEO","Conversion"],"link":"https://github.com/smartflow-systems/SmartFlowSite"},
-  {"id":"paymentflow","name":"PaymentFlow Gateway","icon":"💳","description":"Secure payment processing with fraud detection, subscriptions, and multi-currency support for 135+ currencies.","tags":["Payments","Security","Subscriptions"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"queuepro","name":"Virtual Queue Pro","icon":"📱","description":"Smart queue management with SMS updates, real-time wait predictions, and location-based notifications.","tags":["Queue","SMS","Location","Predictions"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"artryon","name":"AR Try-On Studio","icon":"🕶️","description":"Augmented reality for virtual hair/makeup previews, style visualization, and service demonstrations.","tags":["AR","Virtual Try-On","Visualization"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"reviewflow","name":"Review Flow Manager","icon":"⭐","description":"Automated review collection, response management, and sentiment analysis across Google, Yelp, and Facebook.","tags":["Reviews","Reputation","Automation"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"emailflow","name":"EmailFlow Pro","icon":"📧","description":"Powerful email marketing with automation sequences, segmentation, A/B testing, and detailed analytics.","tags":["Email","Marketing","Automation"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"smsflow","name":"SMSFlow Messaging","icon":"💬","description":"Two-way SMS marketing with campaigns, appointment reminders, and customer engagement automation.","tags":["SMS","Marketing","Engagement"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"invoiceflow","name":"InvoiceFlow Pro","icon":"📄","description":"Invoice generation, payment tracking, automated reminders, and comprehensive financial reporting.","tags":["Invoicing","Payments","Finance"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"inventoryflow","name":"InventoryFlow Manager","icon":"📦","description":"Real-time inventory tracking, low-stock alerts, multi-warehouse management, and demand forecasting.","tags":["Inventory","Tracking","Forecasting"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"staffflow","name":"StaffFlow Scheduler","icon":"👥","description":"Staff scheduling, shift management, time tracking, and automated payroll integration.","tags":["Scheduling","HR","Payroll"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"loyaltyflow","name":"LoyaltyFlow Rewards","icon":"🎁","description":"Customer loyalty programs with points, tiered rewards, referral bonuses, and automated redemption.","tags":["Loyalty","Rewards","CRM"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"chatflow","name":"ChatFlow AI Bot","icon":"🤖","description":"AI-powered chatbots for WhatsApp, Facebook Messenger, and Instagram with instant customer support.","tags":["AI","Chatbot","Support"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"formflow","name":"FormFlow Builder","icon":"📋","description":"Drag-and-drop form builder with conditional logic, integrations, and lead capture automation.","tags":["Forms","Lead Capture","Automation"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"videoflow","name":"VideoFlow Studio","icon":"🎥","description":"Video hosting, streaming, and marketing automation with viewer analytics and engagement tracking.","tags":["Video","Streaming","Marketing"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"webinarflow","name":"WebinarFlow Pro","icon":"🎤","description":"Webinar hosting with automation, registration, email sequences, and attendee engagement tools.","tags":["Webinars","Events","Marketing"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"affiliateflow","name":"AffiliateFlow Platform","icon":"🔗","description":"Affiliate management system with commissions, tracking, payouts, and partner portal.","tags":["Affiliate","Commissions","Partnerships"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"clientportal","name":"Client Portal Pro","icon":"🔐","description":"White-label client portal with file sharing, messaging, invoicing, and project management.","tags":["Portal","Collaboration","File Sharing"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"feedbackflow","name":"FeedbackFlow Survey","icon":"📊","description":"Survey builder with NPS tracking, sentiment analysis, and automated follow-up actions.","tags":["Surveys","Feedback","Analytics"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"appointmentflow","name":"AppointmentFlow Plus","icon":"🗓️","description":"Complete appointment management with reminders, confirmations, no-show tracking, and rescheduling.","tags":["Appointments","Reminders","Tracking"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"searchflow","name":"SearchFlow SEO Tool","icon":"🔍","description":"SEO optimization with keyword research, rank tracking, backlink analysis, and competitor monitoring.","tags":["SEO","Marketing","Analytics"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"reportflow","name":"ReportFlow Analytics","icon":"📈","description":"Automated reporting dashboard with real-time metrics, custom KPIs, and executive summaries.","tags":["Reports","Analytics","BI"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"integrationflow","name":"IntegrationFlow Hub","icon":"🔗","description":"Zapier-like automation connecting 500+ apps with custom workflows and no-code logic.","tags":["Integrations","Automation","Workflows"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"documentflow","name":"DocumentFlow Manager","icon":"📁","description":"Document management with templates, e-signature, version control, and secure storage.","tags":["Documents","Signatures","Storage"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"trainingflow","name":"TrainingFlow Academy","icon":"🎓","description":"Online training platform with courses, certifications, progress tracking, and student analytics.","tags":["Training","Education","Courses"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"communityflow","name":"CommunityFlow Hub","icon":"👫","description":"Community building with forums, member profiles, messaging, and engagement gamification.","tags":["Community","Engagement","Social"],"link":"https://calendly.com/smartflow-systems"},
-  {"id":"supportflow","name":"SupportFlow Helpdesk","icon":"🆘","description":"Full-featured helpdesk with ticketing, knowledge base, AI suggestions, and multi-channel support.","tags":["Support","Ticketing","Helpdesk"],"link":"https://calendly.com/smartflow-systems"}
+  {
+    "id": "bookflow",
+    "name": "BookFlow Pro",
+    "icon": "📅",
+    "category": "booking",
+    "tagline": "Bookings on autopilot with calendar sync and Stripe.",
+    "description": "Advanced appointment booking with real-time calendar sync, automated SMS/email reminders, no-show follow-ups, and integrated Stripe payments. Perfect for salons, clinics, and service businesses.",
+    "tags": ["Booking", "Payments", "Calendar"],
+    "features": [
+      "Real-time Google & iCal calendar sync",
+      "Automated SMS & email reminders",
+      "Stripe deposit & full-payment checkout",
+      "No-show & late-cancel automation",
+      "Multi-staff booking & room allocation",
+      "Customer self-reschedule portal"
+    ],
+    "settings": [
+      "Booking window (days ahead)",
+      "Deposit % or fixed amount",
+      "Reminder timing (24h, 2h, custom)",
+      "Buffer time between appointments",
+      "Service duration templates",
+      "Staff availability rules"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "appointmentflow",
+    "name": "AppointmentFlow Plus",
+    "icon": "🗓️",
+    "category": "booking",
+    "tagline": "Complete appointment lifecycle management.",
+    "description": "End-to-end appointment management with confirmation flows, automated reminders, no-show tracking, and one-click rescheduling for service-based businesses.",
+    "tags": ["Appointments", "Reminders", "Tracking"],
+    "features": [
+      "Confirmation, reminder & follow-up sequences",
+      "No-show tracking & automated follow-up",
+      "One-click rescheduling for clients",
+      "Waitlist management",
+      "Group appointment & class booking",
+      "Custom intake forms per service"
+    ],
+    "settings": [
+      "Confirmation email/SMS templates",
+      "Waitlist auto-fill rules",
+      "Maximum bookings per slot",
+      "Intake form fields & required fields",
+      "Cancellation policy text",
+      "Follow-up timing after appointment"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "staffflow",
+    "name": "StaffFlow Scheduler",
+    "icon": "👥",
+    "category": "booking",
+    "tagline": "Rotas, shifts, and payroll in one place.",
+    "description": "Full staff scheduling with drag-and-drop rota builder, availability management, shift swap requests, time tracking, and automated payroll integration.",
+    "tags": ["Scheduling", "HR", "Payroll"],
+    "features": [
+      "Drag-and-drop rota builder",
+      "Staff availability & leave management",
+      "Shift swap request & approval flow",
+      "Time clock with GPS check-in",
+      "Overtime alerts & labour cost view",
+      "Payroll export (Xero, QuickBooks)"
+    ],
+    "settings": [
+      "Working hours & days per staff member",
+      "Holiday allowance per year",
+      "Overtime threshold (hours)",
+      "Pay rate per staff member",
+      "Shift swap approval rules",
+      "Payroll export format"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "queuepro",
+    "name": "Virtual Queue Pro",
+    "icon": "📱",
+    "category": "booking",
+    "tagline": "Smart waitlist with SMS updates and wait predictions.",
+    "description": "Eliminate physical queues with a smart virtual waitlist. Customers join via QR code, get real-time SMS wait-time updates, and are notified when it's their turn.",
+    "tags": ["Queue", "SMS", "Location", "Predictions"],
+    "features": [
+      "QR code queue join — no app needed",
+      "Real-time SMS wait-time notifications",
+      "AI wait-time prediction engine",
+      "Location-based push notifications",
+      "Walk-in + pre-booked queue merge",
+      "Live dashboard for staff"
+    ],
+    "settings": [
+      "Average service time per slot",
+      "Max queue length",
+      "SMS notification triggers",
+      "Location radius for notifications",
+      "Queue opening & closing times",
+      "Priority customer rules"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "smartcommerce",
+    "name": "SmartCommerce Suite",
+    "icon": "🛍️",
+    "category": "commerce",
+    "tagline": "Full e-commerce with inventory, upsells, and analytics.",
+    "description": "Complete e-commerce platform with inventory management, order tracking, AI-powered upsell prompts, abandoned cart recovery, and detailed customer analytics.",
+    "tags": ["E-commerce", "Inventory", "Analytics"],
+    "features": [
+      "Product catalogue with variants",
+      "Smart upsell & cross-sell prompts",
+      "Abandoned cart recovery emails/SMS",
+      "Order tracking & fulfilment status",
+      "Customer purchase history & segments",
+      "Discount codes & flash sale scheduler"
+    ],
+    "settings": [
+      "Upsell trigger rules (cart value, product)",
+      "Abandoned cart delay timing",
+      "Shipping zones & rates",
+      "Tax rules per region",
+      "Low-stock alert threshold",
+      "Currency display settings"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "paymentflow",
+    "name": "PaymentFlow Gateway",
+    "icon": "💳",
+    "category": "commerce",
+    "tagline": "Secure Stripe payments with subscriptions and fraud checks.",
+    "description": "Enterprise-grade payment processing built on Stripe — one-off payments, subscriptions, instalment plans, fraud detection, and 135+ currency support.",
+    "tags": ["Payments", "Security", "Subscriptions"],
+    "features": [
+      "Stripe-powered checkout",
+      "Recurring subscription billing",
+      "Instalment plan builder",
+      "Fraud detection & 3DS2 support",
+      "135+ currency support",
+      "Refund & dispute management"
+    ],
+    "settings": [
+      "Payment capture mode (instant/manual)",
+      "Subscription billing cycle",
+      "Instalment schedule template",
+      "Fraud filter sensitivity",
+      "Currency display & conversion",
+      "Refund window (days)"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "invoiceflow",
+    "name": "InvoiceFlow Pro",
+    "icon": "📄",
+    "category": "commerce",
+    "tagline": "Invoices, payment chasing, and financial reports.",
+    "description": "Professional invoice generation with automatic payment-chasing sequences, VAT/tax handling, partial payments, and a comprehensive financial reporting dashboard.",
+    "tags": ["Invoicing", "Payments", "Finance"],
+    "features": [
+      "Branded invoice & quote generator",
+      "Automatic overdue payment chasing",
+      "Partial payment & deposit tracking",
+      "VAT, tax, and multi-currency support",
+      "P&L and cash-flow reports",
+      "Xero & QuickBooks sync"
+    ],
+    "settings": [
+      "Invoice numbering prefix & format",
+      "Payment terms (7, 14, 30 days)",
+      "Overdue chase timing & tone",
+      "VAT rate & number",
+      "Default currency",
+      "Logo & brand colours on invoice"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "inventoryflow",
+    "name": "InventoryFlow Manager",
+    "icon": "📦",
+    "category": "commerce",
+    "tagline": "Live stock tracking, alerts, and demand forecasting.",
+    "description": "Real-time inventory across multiple locations with low-stock alerts, supplier reorder automation, demand forecasting, and barcode/QR scanning.",
+    "tags": ["Inventory", "Tracking", "Forecasting"],
+    "features": [
+      "Real-time multi-location stock levels",
+      "Barcode & QR code scanning",
+      "Automated supplier reorder emails",
+      "AI demand forecasting",
+      "Expiry date & batch tracking",
+      "Shrinkage & wastage logging"
+    ],
+    "settings": [
+      "Low-stock alert threshold per SKU",
+      "Reorder quantity per supplier",
+      "Warehouse/location labels",
+      "Demand forecast period (weeks)",
+      "Expiry warning window (days)",
+      "Shrinkage reporting frequency"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "aibot",
+    "name": "AI Social Bot Pro",
+    "icon": "🤖",
+    "category": "ai",
+    "tagline": "AI-powered social automation with voice assistant.",
+    "description": "AI social media bot that auto-replies to DMs, comments, and reviews across Instagram, Facebook, and TikTok with smart upselling, sentiment detection, and voice assistant capabilities.",
+    "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
+    "features": [
+      "Auto-reply to DMs & comments",
+      "Smart upsell triggers via DM",
+      "Review monitoring & AI response",
+      "Voice assistant for business info",
+      "Sentiment analysis on all messages",
+      "Lead capture from social conversations"
+    ],
+    "settings": [
+      "Reply tone (friendly, professional, custom)",
+      "Upsell trigger keywords",
+      "Platforms connected (IG, FB, TikTok)",
+      "Escalation rules (handoff to human)",
+      "Voice assistant business info",
+      "Working hours for auto-replies"
+    ],
+    "demoUrl": "https://socialscalebooster.replit.app",
+    "link": "https://socialscalebooster.replit.app"
+  },
+  {
+    "id": "chatflow",
+    "name": "ChatFlow AI Bot",
+    "icon": "💬",
+    "category": "ai",
+    "tagline": "AI chatbots for WhatsApp, Messenger, and Instagram.",
+    "description": "Deploy AI-powered chatbots on WhatsApp, Facebook Messenger, and Instagram with instant answers, lead capture, booking links, and seamless human handoff.",
+    "tags": ["AI", "Chatbot", "Support"],
+    "features": [
+      "WhatsApp, Messenger, Instagram deployment",
+      "Natural language understanding",
+      "FAQ knowledge base",
+      "Booking & payment links in chat",
+      "Lead capture & CRM sync",
+      "Human handoff with context transfer"
+    ],
+    "settings": [
+      "Bot persona name & avatar",
+      "FAQ knowledge base content",
+      "Booking link to embed",
+      "Handoff trigger phrases",
+      "CRM integration (HubSpot, etc.)",
+      "Language & response style"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "emailflow",
+    "name": "EmailFlow Pro",
+    "icon": "📧",
+    "category": "ai",
+    "tagline": "Email automation with sequences, segmentation, and A/B tests.",
+    "description": "Full email marketing suite with visual sequence builder, audience segmentation, A/B testing, send-time optimisation, and deep analytics on opens, clicks, and revenue.",
+    "tags": ["Email", "Marketing", "Automation"],
+    "features": [
+      "Visual email sequence builder",
+      "Smart audience segmentation",
+      "A/B split testing",
+      "AI send-time optimisation",
+      "Revenue attribution per campaign",
+      "Unsubscribe & GDPR compliance tools"
+    ],
+    "settings": [
+      "From name & reply-to address",
+      "Sending domain (DKIM/SPF)",
+      "Sequence trigger events",
+      "Segment rules (tags, purchase, activity)",
+      "A/B test split percentage",
+      "Daily send limit"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "smsflow",
+    "name": "SMSFlow Messaging",
+    "icon": "📱",
+    "category": "ai",
+    "tagline": "Two-way SMS campaigns with appointment reminders.",
+    "description": "Two-way SMS marketing platform with bulk campaigns, automated appointment reminders, keyword-triggered replies, and customer engagement scoring.",
+    "tags": ["SMS", "Marketing", "Engagement"],
+    "features": [
+      "Bulk SMS campaigns with personalisation",
+      "Appointment reminder sequences",
+      "Keyword-triggered auto-replies",
+      "Two-way conversation inbox",
+      "Opt-in / opt-out compliance",
+      "Engagement scoring per contact"
+    ],
+    "settings": [
+      "Sender name / long code",
+      "Campaign send schedule",
+      "Keyword reply rules",
+      "Opt-out keyword (STOP)",
+      "Reminder timing (hours before)",
+      "Message templates library"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "integrationflow",
+    "name": "IntegrationFlow Hub",
+    "icon": "🔗",
+    "category": "ai",
+    "tagline": "Connect 500+ apps with no-code automation workflows.",
+    "description": "Zapier-style automation hub connecting 500+ apps with a visual no-code workflow builder, conditional logic, filters, and error-handling retries.",
+    "tags": ["Integrations", "Automation", "Workflows"],
+    "features": [
+      "500+ app connectors",
+      "Visual drag-and-drop workflow builder",
+      "Conditional logic & branching",
+      "Error handling & retry queue",
+      "Webhook trigger & action support",
+      "Workflow version history"
+    ],
+    "settings": [
+      "API keys per connected app",
+      "Trigger event per workflow",
+      "Filter conditions",
+      "Retry attempts on failure",
+      "Workflow run frequency",
+      "Error notification email"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "growthflow",
+    "name": "GrowthFlow Analytics",
+    "icon": "📊",
+    "category": "marketing",
+    "tagline": "Real-time BI, funnel tracking, and growth predictions.",
+    "description": "Real-time business intelligence with funnel tracking, cohort analysis, churn prediction, LTV modelling, and AI-generated growth recommendations.",
+    "tags": ["Analytics", "Growth", "BI"],
+    "features": [
+      "Live revenue & bookings dashboard",
+      "Customer funnel & drop-off tracking",
+      "Cohort analysis & LTV modelling",
+      "Churn prediction alerts",
+      "AI growth recommendations",
+      "White-label reporting exports"
+    ],
+    "settings": [
+      "KPI targets per metric",
+      "Funnel stage definitions",
+      "Cohort grouping period",
+      "Churn alert threshold",
+      "Report export format (PDF/CSV)",
+      "Dashboard refresh interval"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "searchflow",
+    "name": "SearchFlow SEO Tool",
+    "icon": "🔍",
+    "category": "marketing",
+    "tagline": "Keyword research, rank tracking, and competitor monitoring.",
+    "description": "All-in-one SEO suite with keyword research, daily rank tracking, technical site audits, backlink analysis, and competitor gap reporting.",
+    "tags": ["SEO", "Marketing", "Analytics"],
+    "features": [
+      "Keyword research & volume data",
+      "Daily rank tracking per keyword",
+      "Technical site audit with fixes",
+      "Backlink profile & disavow tool",
+      "Competitor keyword gap report",
+      "Content brief generator"
+    ],
+    "settings": [
+      "Target keywords list",
+      "Competitor domains to track",
+      "Audit crawl frequency",
+      "Rank tracking location & device",
+      "Alert threshold (rank drop)",
+      "Content brief template style"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "affiliateflow",
+    "name": "AffiliateFlow Platform",
+    "icon": "🔗",
+    "category": "marketing",
+    "tagline": "Affiliate commissions, tracking, and partner portal.",
+    "description": "Full affiliate management with unique tracking links, tiered commission structures, automated payouts, a self-serve partner portal, and creative asset library.",
+    "tags": ["Affiliate", "Commissions", "Partnerships"],
+    "features": [
+      "Unique affiliate tracking links",
+      "Tiered commission structures",
+      "Automated payout via Stripe",
+      "Self-serve partner dashboard",
+      "Creative & banner asset library",
+      "Fraud click & conversion detection"
+    ],
+    "settings": [
+      "Commission rate (% or fixed)",
+      "Tiered threshold amounts",
+      "Payout schedule (monthly/weekly)",
+      "Cookie window (days)",
+      "Minimum payout amount",
+      "Allowed traffic sources"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "videoflow",
+    "name": "VideoFlow Studio",
+    "icon": "🎥",
+    "category": "marketing",
+    "tagline": "Video hosting, streaming, and marketing automation.",
+    "description": "Video marketing platform with adaptive streaming, gated content, engagement heatmaps, CTA overlays, and automated follow-up based on watch behaviour.",
+    "tags": ["Video", "Streaming", "Marketing"],
+    "features": [
+      "Adaptive bitrate video hosting",
+      "Email gate & lead capture on video",
+      "Engagement heatmap per viewer",
+      "CTA overlay buttons on video",
+      "Watch-trigger email automation",
+      "Embed on any site or funnel page"
+    ],
+    "settings": [
+      "Video privacy (public/private/gated)",
+      "Email gate timing (% watched)",
+      "CTA button text & link",
+      "Automation trigger (% watched)",
+      "Player colour & brand",
+      "Thumbnail image"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "webinarflow",
+    "name": "WebinarFlow Pro",
+    "icon": "🎤",
+    "category": "marketing",
+    "tagline": "Webinar hosting with automated registration and replays.",
+    "description": "Full webinar platform with live streaming, automated registration sequences, in-webinar polls & offers, replay hosting, and attendee engagement scoring.",
+    "tags": ["Webinars", "Events", "Marketing"],
+    "features": [
+      "Live & automated (evergreen) webinars",
+      "Branded registration pages",
+      "Pre-webinar email & SMS reminders",
+      "In-webinar polls, Q&A & chat",
+      "Offer presentation with Stripe link",
+      "Replay with time-limited access"
+    ],
+    "settings": [
+      "Webinar schedule (live or automated)",
+      "Registration page template",
+      "Reminder sequence timing",
+      "Replay access window (days)",
+      "Stripe offer link & timing",
+      "Attendee follow-up sequence"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "reviewflow",
+    "name": "Review Flow Manager",
+    "icon": "⭐",
+    "category": "marketing",
+    "tagline": "Auto-collect reviews and manage your reputation.",
+    "description": "Automated review collection via SMS/email post-appointment, sentiment filtering, AI-drafted responses, and unified monitoring across Google, Yelp, and Facebook.",
+    "tags": ["Reviews", "Reputation", "Automation"],
+    "features": [
+      "Post-appointment review request sequences",
+      "Sentiment filter (only sends happy customers)",
+      "AI-drafted review response suggestions",
+      "Google, Yelp & Facebook monitoring",
+      "Negative review alert & escalation",
+      "Review count & rating dashboard"
+    ],
+    "settings": [
+      "Review request timing (hours after service)",
+      "Sentiment threshold (NPS filter)",
+      "Reply tone (formal, friendly)",
+      "Platforms to monitor",
+      "Alert email for negative reviews",
+      "Review request template"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "loyaltyflow",
+    "name": "LoyaltyFlow Rewards",
+    "icon": "🎁",
+    "category": "marketing",
+    "tagline": "Points, tiers, and referral bonuses to keep customers coming back.",
+    "description": "Customer loyalty platform with points-per-purchase, tiered VIP levels, referral bonuses, birthday rewards, and automated reactivation campaigns for lapsed customers.",
+    "tags": ["Loyalty", "Rewards", "CRM"],
+    "features": [
+      "Points-per-purchase & per-visit",
+      "Tiered VIP levels (Bronze, Gold, Platinum)",
+      "Referral code bonuses",
+      "Birthday & anniversary rewards",
+      "Automated lapsed-customer reactivation",
+      "Branded digital loyalty card"
+    ],
+    "settings": [
+      "Points per £ spent",
+      "Tier thresholds (points or visits)",
+      "Referral bonus amount",
+      "Birthday reward type & value",
+      "Lapsed trigger (days since visit)",
+      "Points expiry window"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "formflow",
+    "name": "FormFlow Builder",
+    "icon": "📋",
+    "category": "marketing",
+    "tagline": "Smart forms with conditional logic and lead capture.",
+    "description": "Drag-and-drop form builder with conditional logic, multi-step flows, file uploads, payment collection, and automatic CRM lead routing.",
+    "tags": ["Forms", "Lead Capture", "Automation"],
+    "features": [
+      "Drag-and-drop form designer",
+      "Conditional logic & branching fields",
+      "Multi-step progress forms",
+      "File upload fields",
+      "Stripe payment fields on forms",
+      "Auto-route leads to CRM or email"
+    ],
+    "settings": [
+      "Form fields & field types",
+      "Conditional logic rules",
+      "Success redirect URL",
+      "Notification email on submit",
+      "CRM mapping (field → contact field)",
+      "GDPR consent text"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "webbuilder",
+    "name": "WebBuilder Pro",
+    "icon": "🌐",
+    "category": "web",
+    "tagline": "100+ templates, SEO-ready, live in hours.",
+    "description": "Drag-and-drop website builder with 100+ responsive templates, built-in SEO tools, conversion pop-ups, speed optimisation, and hosting included.",
+    "tags": ["Website", "SEO", "Conversion"],
+    "features": [
+      "100+ responsive templates",
+      "Built-in SEO meta & schema editor",
+      "Conversion pop-ups & exit intent",
+      "Image & script optimisation",
+      "Custom domain & SSL included",
+      "Google Analytics & Pixel integration"
+    ],
+    "settings": [
+      "Template selection",
+      "Brand colours & fonts",
+      "Custom domain",
+      "SEO title, meta description templates",
+      "Pop-up trigger (time, scroll, exit)",
+      "Analytics tracking IDs"
+    ],
+    "demoUrl": "https://github.com/smartflow-systems/SmartFlowSite",
+    "link": "https://github.com/smartflow-systems/SmartFlowSite"
+  },
+  {
+    "id": "artryon",
+    "name": "AR Try-On Studio",
+    "icon": "🕶️",
+    "category": "web",
+    "tagline": "Let customers try before they buy with augmented reality.",
+    "description": "Augmented reality overlay for virtual hair colour, makeup, glasses, and style previews — embeds on any website or runs as a standalone link.",
+    "tags": ["AR", "Virtual Try-On", "Visualization"],
+    "features": [
+      "Live camera AR overlay",
+      "Hair colour & style visualisation",
+      "Makeup & skincare preview",
+      "Glasses & accessory try-on",
+      "Shareable before/after image",
+      "Embed widget for any website"
+    ],
+    "settings": [
+      "AR categories to enable",
+      "Product catalogue for try-on",
+      "Brand watermark on shared image",
+      "Embed widget colours",
+      "Camera access prompt text",
+      "Mobile vs desktop mode"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "reportflow",
+    "name": "ReportFlow Analytics",
+    "icon": "📈",
+    "category": "analytics",
+    "tagline": "Automated dashboards with custom KPIs and exec summaries.",
+    "description": "Real-time reporting dashboard with drag-and-drop KPI widgets, automated weekly/monthly email summaries, custom date ranges, and white-label PDF export.",
+    "tags": ["Reports", "Analytics", "BI"],
+    "features": [
+      "Drag-and-drop KPI widget dashboard",
+      "Automated weekly & monthly email digest",
+      "Custom date range comparisons",
+      "Revenue, bookings & marketing metrics",
+      "White-label PDF export",
+      "Multi-location / multi-brand views"
+    ],
+    "settings": [
+      "KPI widgets to show",
+      "Report email recipients",
+      "Email digest frequency (weekly/monthly)",
+      "Date comparison period",
+      "PDF logo & brand colour",
+      "Location filter defaults"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "feedbackflow",
+    "name": "FeedbackFlow Survey",
+    "icon": "📊",
+    "category": "analytics",
+    "tagline": "NPS surveys, sentiment tracking, and automated actions.",
+    "description": "Survey builder with NPS, CSAT, and custom question types, sentiment analysis, real-time results dashboard, and automated follow-up actions based on scores.",
+    "tags": ["Surveys", "Feedback", "Analytics"],
+    "features": [
+      "NPS, CSAT & star-rating question types",
+      "Conditional follow-up questions",
+      "Real-time results & trend charts",
+      "Sentiment analysis on open text",
+      "Automated actions on score (email, tag)",
+      "Survey embed & link share"
+    ],
+    "settings": [
+      "Survey question types & order",
+      "NPS promoter/detractor thresholds",
+      "Sentiment analysis language",
+      "Auto-action rules per score range",
+      "Survey branding (logo, colours)",
+      "Results visibility (private/shared)"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "clientportal",
+    "name": "Client Portal Pro",
+    "icon": "🔐",
+    "category": "management",
+    "tagline": "White-label client portal with files, invoices, and messaging.",
+    "description": "Branded client portal where customers can view proposals, sign contracts, pay invoices, share files, send messages, and track project progress in one secure place.",
+    "tags": ["Portal", "Collaboration", "File Sharing"],
+    "features": [
+      "Branded login portal with your domain",
+      "Proposal & contract e-signing",
+      "Invoice payment within portal",
+      "Secure file upload & sharing",
+      "Project progress tracking",
+      "Internal & client messaging"
+    ],
+    "settings": [
+      "Portal domain & logo",
+      "Client access permissions",
+      "Contract template",
+      "Notification triggers (new file, message)",
+      "Payment gateway (Stripe link)",
+      "Two-factor authentication toggle"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "documentflow",
+    "name": "DocumentFlow Manager",
+    "icon": "📁",
+    "category": "management",
+    "tagline": "Templates, e-signatures, version control, and secure storage.",
+    "description": "Document management system with branded template library, legally binding e-signature, version history, folder organisation, and secure encrypted cloud storage.",
+    "tags": ["Documents", "Signatures", "Storage"],
+    "features": [
+      "Branded document template library",
+      "Legally binding e-signature",
+      "Version history & rollback",
+      "Folder & tag organisation",
+      "AES-256 encrypted cloud storage",
+      "Document expiry & renewal alerts"
+    ],
+    "settings": [
+      "Storage limit & retention period",
+      "Signature certificate provider",
+      "Document expiry alert timing",
+      "Folder structure template",
+      "Access permissions per user",
+      "Watermark on sensitive docs"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "trainingflow",
+    "name": "TrainingFlow Academy",
+    "icon": "🎓",
+    "category": "management",
+    "tagline": "Staff and client training with courses, certs, and tracking.",
+    "description": "Online training platform with course builder, video lessons, quizzes, completion certificates, progress tracking, and group enrolment for staff or clients.",
+    "tags": ["Training", "Education", "Courses"],
+    "features": [
+      "Drag-and-drop course builder",
+      "Video, PDF & quiz lesson types",
+      "Completion certificates with branding",
+      "Group enrolment & cohorts",
+      "Progress tracking per learner",
+      "Drip content scheduling"
+    ],
+    "settings": [
+      "Course sections & lesson order",
+      "Quiz pass score threshold",
+      "Certificate template & logo",
+      "Drip release schedule",
+      "Enrolment rules (manual/auto)",
+      "Course access expiry (days)"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "communityflow",
+    "name": "CommunityFlow Hub",
+    "icon": "👫",
+    "category": "management",
+    "tagline": "Members, forums, messaging, and gamification.",
+    "description": "Community platform with member profiles, discussion forums, direct messaging, event hosting, and points-based gamification to drive engagement.",
+    "tags": ["Community", "Engagement", "Social"],
+    "features": [
+      "Member profile pages",
+      "Threaded discussion forums",
+      "Direct & group messaging",
+      "Virtual events & meetups",
+      "Points & leaderboard gamification",
+      "Content moderation & reporting"
+    ],
+    "settings": [
+      "Community name & branding",
+      "Forum categories & permissions",
+      "Moderation rules",
+      "Points awarded per action",
+      "Event RSVP settings",
+      "Private vs public community toggle"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  },
+  {
+    "id": "supportflow",
+    "name": "SupportFlow Helpdesk",
+    "icon": "🆘",
+    "category": "management",
+    "tagline": "Ticketing, knowledge base, and AI-suggested replies.",
+    "description": "Full helpdesk with multi-channel ticket inbox (email, chat, WhatsApp), AI-suggested replies from your knowledge base, SLA tracking, and satisfaction ratings.",
+    "tags": ["Support", "Ticketing", "Helpdesk"],
+    "features": [
+      "Unified email, chat & WhatsApp inbox",
+      "AI-suggested replies from knowledge base",
+      "SLA tracking & escalation alerts",
+      "Canned reply library",
+      "Customer satisfaction (CSAT) ratings",
+      "Team assignment & workload view"
+    ],
+    "settings": [
+      "SLA response time targets",
+      "Escalation rules (time-based)",
+      "Knowledge base articles",
+      "Canned reply templates",
+      "Team member roles & permissions",
+      "CSAT survey timing (on resolve)"
+    ],
+    "demoUrl": "https://calendly.com/smartflow-systems",
+    "link": "https://calendly.com/smartflow-systems"
+  }
 ]

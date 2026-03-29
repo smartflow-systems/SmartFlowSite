@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — All Systems</title>
+  <meta name="description" content="Browse all SmartFlow Systems by category. Booking, commerce, AI automation, marketing, web, analytics, and business management tools."/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles/systems.css"/>
+</head>
+<body>
+  <div id="menu-sidebar" class="menu-sidebar">
+    <button id="menu-close" class="menu-close">&times;</button>
+    <nav class="menu-links"></nav>
+  </div>
+
+  <header class="nav">
+    <button id="menu-btn" class="menu-btn">☰</button>
+    <a class="brand" href="/">SmartFlow Systems</a>
+    <a class="btn btn-gold" href="/pricing.html">Get Started</a>
+  </header>
+
+  <section class="sys-hero">
+    <div class="container">
+      <h1>All <span class="gold">SmartFlow</span> Systems</h1>
+      <p>31 prebuilt systems organised across 7 categories. Click any system to see its full feature set, settings, and pricing.</p>
+    </div>
+  </section>
+
+  <section class="sys-filter-bar">
+    <div class="container">
+      <div id="cat-filter" class="cat-filter-pills"></div>
+    </div>
+  </section>
+
+  <main class="container sys-main" id="sys-main"></main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> SmartFlow Systems — Built by Gareth Bowers</p>
+  </footer>
+
+  <script src="sfs-kit/sfs-bg.js" defer></script>
+  <script src="menu.js" defer></script>
+  <script src="friendly-ux.js" defer></script>
+  <script src="app-init.js" defer></script>
+  <script src="systems-page.js" defer></script>
+</body>
+</html>
