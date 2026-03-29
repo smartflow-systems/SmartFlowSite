@@ -1,27 +1,15 @@
 // SmartFlow Service Worker
-// Version: 2026-01-17T20:22:47.767Z
+// Version: 2026-03-29
 
-const CACHE_NAME = 'smartflow-v1-1768681367768';
-const RUNTIME_CACHE = 'smartflow-runtime';
+const CACHE_NAME    = 'smartflow-v3-20260329';
+const RUNTIME_CACHE = 'smartflow-runtime-v3';
 
-// Files to cache immediately
+// Only pre-cache truly static assets (images, fonts)
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/styles.min.css',
-  '/sfs-components.min.css',
-  '/sfs-powerhouse.min.css',
-  '/sfs-responsive.min.css',
-  '/sfs-ultimate.min.css',
-  '/app.min.js',
-  '/sfs-powerhouse.min.js',
-  '/sfs-ultimate.min.js',
-  '/assets/hero-bg-1024w.webp',
-  '/assets/smartflow-logo-200w.webp',
   '/assets/favicon.png'
 ];
 
-// Install event - cache essential files
+// Install — cache static assets only
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -30,7 +18,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - clean up old caches
+// Activate — delete ALL old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -43,49 +31,47 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch strategy:
+//   JS / JSON / HTML → network-first (always fresh)
+//   Images           → cache-first (fast repeat loads)
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
+  if (!event.request.url.startsWith(self.location.origin)) return;
+  if (event.request.method !== 'GET') return;
+
+  const url = event.request.url;
+  const isScript  = url.match(/\.js(\?|$)/);
+  const isData    = url.match(/\.json(\?|$)/);
+  const isHtml    = url.match(/\.html(\?|$)/) || url.endsWith('/');
+  const isImage   = url.match(/\.(jpg|jpeg|png|webp|gif|svg|ico)(\?|$)/);
+
+  // JS, JSON, HTML → network first, no caching
+  if (isScript || isData || isHtml) {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    );
     return;
   }
 
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
-
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request).then((response) => {
-        // Don't cache non-successful responses
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+  // Images → cache first, fallback network, then cache result
+  if (isImage) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
+          if (!response || response.status !== 200) return response;
+          const clone = response.clone();
+          caches.open(RUNTIME_CACHE).then((c) => c.put(event.request, clone));
           return response;
-        }
+        });
+      })
+    );
+    return;
+  }
 
-        // Clone the response
-        const responseToCache = response.clone();
-
-        // Cache images and static assets
-        if (event.request.url.match(/\.(jpg|jpeg|png|webp|gif|css|js)$/)) {
-          caches.open(RUNTIME_CACHE).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-
-        return response;
-      });
-    })
-  );
+  // Everything else → network
+  event.respondWith(fetch(event.request));
 });
 
-// Message event - handle skip waiting
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
