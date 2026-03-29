@@ -131,24 +131,11 @@
   </footer>
 
   <!-- Optimized scripts -->
-  <script src="assets/circuit-bg.js"></script>
+  <script src="sfs-kit/sfs-bg.js" defer></script>
   <script src="app.min.js" defer></script>
   <script src="projects.js" defer></script>
   <script src="menu.js" defer></script>
   <script src="friendly-ux.js" defer></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    // Register service worker for PWA capabilities
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('✓ Service Worker registered'))
-          .catch(err => console.log('Service Worker registration failed:', err));
-      });
-    }
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="app-init.js" defer></script>
 </body>
 </html>

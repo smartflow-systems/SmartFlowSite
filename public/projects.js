@@ -18,7 +18,7 @@ async function loadProjects() {
       card.title = p.description;
       
       const iconDiv = document.createElement('div');
-      iconDiv.style.cssText = 'font-size:1.8rem;margin-bottom:6px';
+      iconDiv.className = 'project-icon';
       iconDiv.textContent = p.icon;
       
       const nameH3 = document.createElement('h3');
@@ -28,11 +28,11 @@ async function loadProjects() {
       descP.textContent = p.description;
       
       const tagsDiv = document.createElement('div');
-      tagsDiv.style.cssText = 'display:flex;gap:4px;flex-wrap:wrap;margin-top:8px';
+      tagsDiv.className = 'project-tags';
       
       p.tags.forEach(t => {
         const tagSpan = document.createElement('span');
-        tagSpan.style.cssText = 'font-size:.7rem;background:rgba(212,175,55,.2);padding:3px 8px;border-radius:3px;color:var(--gold);white-space:nowrap';
+        tagSpan.className = 'project-tag';
         tagSpan.textContent = t;
         tagsDiv.appendChild(tagSpan);
       });

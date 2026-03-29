@@ -38,6 +38,7 @@
     canvas = document.createElement('canvas');
     canvas.id = 'sfs-bg-canvas';
     canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
     document.body.insertBefore(canvas, document.body.firstChild);
     ctx = canvas.getContext('2d');
 

@@ -11,7 +11,8 @@
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+html{margin:0;padding:0;background:var(--bg)}
+body{margin:0;padding:0;background:transparent;color:var(--text);font-family:'Inter','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
 a{color:var(--gold);text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -216,6 +217,9 @@ img{max-width:100%;display:block}
 }
 .project-card h3{margin:0 0 6px 0;font-size:1.05rem;font-weight:600}
 .project-card p{margin:0 0 8px 0;font-size:.8rem;opacity:.85;line-height:1.35}
+.project-icon{font-size:1.8rem;margin-bottom:6px}
+.project-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.project-tag{font-size:.7rem;background:rgba(255,215,0,.18);padding:3px 8px;border-radius:4px;color:var(--gold);white-space:nowrap;border:1px solid rgba(255,215,0,.25)}
 .project-card::before{
   content:'';
   position:absolute;
@@ -323,8 +327,8 @@ img{max-width:100%;display:block}
 .t-item.active{display:block}
 .t-item cite{display:block;color:var(--muted);margin-top:8px}
 
-/* Circuit Board Animation Canvas */
-#circuit-canvas {
+/* SFS Background Animation Canvas */
+#sfs-bg-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -332,7 +336,11 @@ img{max-width:100%;display:block}
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.8;
+}
+
+/* Legacy circuit canvas (kept for back-compat) */
+#circuit-canvas {
+  display: none;
 }
 
 /* Enhanced background for animation support */
@@ -829,3 +837,107 @@ body {
 .text-sfs-gold { color: #FFD700; }
 .text-sfs-beige { color: #F5F5DC; }
 .border-sfs-gold { border-color: #FFD700; }
+
+/* === FRIENDLY-UX EXTERNAL STYLES (moved from inline to fix CSP) === */
+
+/* Ripple click effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.30);
+  transform: scale(0);
+  animation: ripple-animation 0.6s ease-out forwards;
+  pointer-events: none;
+  width: var(--ripple-size, 100px);
+  height: var(--ripple-size, 100px);
+}
+
+@keyframes ripple-animation {
+  to { transform: scale(2.5); opacity: 0; }
+}
+
+/* Scroll-to-top button */
+.sfs-scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #E6C200);
+  color: #0D0D0D;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.30);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  font-weight: bold;
+  line-height: 1;
+}
+.sfs-scroll-top.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Page-load progress bar */
+.sfs-page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #FFD700, #E6C200);
+  z-index: 9999;
+  animation: sfs-loader-slide 1s ease-in-out infinite;
+}
+@keyframes sfs-loader-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Lightning Fast badge */
+.sfs-perf-badge {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.30);
+  z-index: 1000;
+  animation: sfs-slide-in-right 0.5s ease-out;
+}
+.sfs-perf-badge.exiting {
+  animation: sfs-slide-out-right 0.5s ease-in forwards;
+}
+
+@keyframes sfs-slide-in-right {
+  from { transform: translateX(400px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes sfs-slide-out-right {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(400px); opacity: 0; }
+}
+
+/* Section scroll-reveal (CSS-driven — no opacity:0 set via JS) */
+@keyframes sfs-reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sfs-revealed {
+  animation: sfs-reveal 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Menu active link */
+.menu-links a.active {
+  background: rgba(255, 215, 0, 0.12);
+  border-left-color: #FFD700;
+  color: #FFD700;
+}
