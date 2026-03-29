@@ -347,7 +347,7 @@
           <li>Basic analytics dashboard</li>
           <li>Email support (48hr response)</li>
         </ul>
-        <button class="cta-button" onclick="checkout('starter')" data-plan="starter">
+        <button class="cta-button" onclick="goToCheckout('starter')" data-plan="starter">
           Start Free Trial
         </button>
       </div>
@@ -374,7 +374,7 @@
           <li>Priority support (24hr response)</li>
           <li>1 onboarding call</li>
         </ul>
-        <button class="cta-button" onclick="checkout('pro')" data-plan="pro">
+        <button class="cta-button" onclick="goToCheckout('pro')" data-plan="pro">
           Start Free Trial
         </button>
       </div>
@@ -400,7 +400,7 @@
           <li>Monthly strategy call</li>
           <li>Custom integrations available</li>
         </ul>
-        <button class="cta-button" onclick="checkout('premium')" data-plan="premium">
+        <button class="cta-button" onclick="goToCheckout('premium')" data-plan="premium">
           Start Free Trial
         </button>
       </div>
@@ -493,48 +493,9 @@
       });
     }
 
-    // Checkout function
-    async function checkout(planId) {
-      const button = event.target;
-      const originalText = button.textContent;
-
-      try {
-        // Disable button and show loading state
-        button.disabled = true;
-        button.textContent = 'Creating checkout...';
-        button.classList.add('loading');
-
-        // Create checkout session
-        const response = await fetch('/api/stripe/checkout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            planId: planId,
-            successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancelUrl: window.location.href
-          })
-        });
-
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error(data.message || 'Failed to create checkout session');
-        }
-
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
-
-      } catch (error) {
-        console.error('Checkout error:', error);
-        alert('Unable to process checkout. Please try again or contact support.');
-
-        // Reset button
-        button.disabled = false;
-        button.textContent = originalText;
-        button.classList.remove('loading');
-      }
+    // Navigate to the checkout page with the selected plan
+    function goToCheckout(planId) {
+      window.location.href = '/checkout.html?plan=' + encodeURIComponent(planId);
     }
 
     // Track page view (optional - add your analytics here)

@@ -134,11 +134,12 @@ app.use(cookieParser());
 
 // CSRF Protection Configuration
 const {
-  generateToken,    // Used to provide a CSRF token
+  generateCsrfToken,   // Used to provide a CSRF token
   doubleCsrfProtection // Used to protect routes
 } = doubleCsrf({
-  getSecret: () => process.env.CSRF_SECRET || process.env.SESSION_SECRET,
-  cookieName: '__Host-psifi.x-csrf-token',
+  getSecret: () => process.env.CSRF_SECRET || process.env.SESSION_SECRET || 'csrf-fallback-dev-secret',
+  getSessionIdentifier: (req) => req.ip || req.socket?.remoteAddress || 'anonymous',
+  cookieName: process.env.NODE_ENV === 'production' ? '__Host-psifi.x-csrf-token' : 'psifi.x-csrf-token',
   cookieOptions: {
     sameSite: 'strict',
     path: '/',
@@ -147,12 +148,12 @@ const {
   },
   size: 64,
   ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
-  getTokenFromRequest: (req) => req.headers['x-csrf-token'] || req.body._csrf
+  getTokenFromRequest: (req) => req.headers['x-csrf-token'] || req.body?._csrf
 });
 
 // CSRF Token endpoint - frontend can fetch this to get a token
 app.get('/api/csrf-token', (req, res) => {
-  const csrfToken = generateToken(req, res);
+  const csrfToken = generateCsrfToken(req, res);
   res.json({ csrfToken });
 });
 
@@ -441,27 +442,77 @@ app.get("/api/leads", requireAuth, (_req, res) => {
   }
 });
 
-// Price ID mapping for SmartFlow MarketFlow tiers
-const pricingMap = {
-  starter: process.env.STRIPE_STARTER_PRICE_ID,
-  pro: process.env.STRIPE_PRO_PRICE_ID,
-  premium: process.env.STRIPE_PREMIUM_PRICE_ID,
-  // Alias mappings
-  smart_starter: process.env.STRIPE_STARTER_PRICE_ID,
-  flow_kit: process.env.STRIPE_PRO_PRICE_ID,
-  salon_launch: process.env.STRIPE_PREMIUM_PRICE_ID
+// Plan catalogue — source of truth for pricing and Stripe product data
+const planCatalogue = {
+  // Monthly subscription plans
+  starter: {
+    name: 'Smart Starter',
+    description: 'Perfect for small businesses getting started with automation',
+    unitAmount: 4900,       // £49.00 in pence
+    currency: 'gbp',
+    billingType: 'subscription',
+    interval: 'month',
+    trialDays: 14,
+    priceIdEnv: 'STRIPE_STARTER_PRICE_ID'
+  },
+  pro: {
+    name: 'Flow Kit',
+    description: 'For growing businesses ready to scale their operations',
+    unitAmount: 14900,      // £149.00
+    currency: 'gbp',
+    billingType: 'subscription',
+    interval: 'month',
+    trialDays: 14,
+    priceIdEnv: 'STRIPE_PRO_PRICE_ID'
+  },
+  premium: {
+    name: 'Salon Launch Pack',
+    description: 'Enterprise solution for multi-location businesses',
+    unitAmount: 29900,      // £299.00
+    currency: 'gbp',
+    billingType: 'subscription',
+    interval: 'month',
+    trialDays: 14,
+    priceIdEnv: 'STRIPE_PREMIUM_PRICE_ID'
+  },
+  // One-time build/setup fees
+  starter_build: {
+    name: 'Starter Build',
+    description: '1 system setup, brand colours & logo, email support',
+    unitAmount: 19900,      // £199.00
+    currency: 'gbp',
+    billingType: 'onetime',
+    priceIdEnv: null
+  },
+  pro_build: {
+    name: 'Pro Build',
+    description: '2 systems + integrations, Stripe + Calendar, priority support',
+    unitAmount: 49900,      // £499.00
+    currency: 'gbp',
+    billingType: 'onetime',
+    priceIdEnv: null
+  },
+  premium_build: {
+    name: 'Premium Build',
+    description: 'All systems + presets, analytics + training, 30-day optimisation',
+    unitAmount: 99900,      // £999.00
+    currency: 'gbp',
+    billingType: 'onetime',
+    priceIdEnv: null
+  }
 };
 
 // API: Stripe Checkout - Create checkout session (CSRF protected)
 app.post("/api/stripe/checkout", doubleCsrfProtection, async (req, res) => {
   try {
-    const { planId, successUrl, cancelUrl, customerEmail } = req.body;
+    const { planId, successUrl, cancelUrl, customerEmail, customerName, company, phone } = req.body;
 
     // Validate plan exists
-    if (!pricingMap[planId]) {
+    const plan = planCatalogue[planId];
+    if (!plan) {
       return res.status(404).json({
         success: false,
-        message: "Plan not found. Valid plans: starter, pro, premium"
+        message: `Plan not found. Valid plans: ${Object.keys(planCatalogue).join(', ')}`
       });
     }
 
@@ -470,32 +521,70 @@ app.post("/api/stripe/checkout", doubleCsrfProtection, async (req, res) => {
     const finalSuccessUrl = successUrl || `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancelUrl || `${baseUrl}/pricing.html`;
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription', // Recurring subscription
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price: pricingMap[planId],
-          quantity: 1,
+    // Use a pre-configured Stripe Price ID if available, otherwise build line item dynamically
+    const savedPriceId = plan.priceIdEnv ? process.env[plan.priceIdEnv] : null;
+
+    let lineItem;
+    if (savedPriceId) {
+      lineItem = { price: savedPriceId, quantity: 1 };
+    } else if (plan.billingType === 'subscription') {
+      lineItem = {
+        price_data: {
+          currency: plan.currency,
+          product_data: {
+            name: plan.name,
+            description: plan.description
+          },
+          unit_amount: plan.unitAmount,
+          recurring: { interval: plan.interval }
         },
-      ],
+        quantity: 1
+      };
+    } else {
+      lineItem = {
+        price_data: {
+          currency: plan.currency,
+          product_data: {
+            name: plan.name,
+            description: plan.description
+          },
+          unit_amount: plan.unitAmount
+        },
+        quantity: 1
+      };
+    }
+
+    const sessionParams = {
+      mode: plan.billingType === 'subscription' ? 'subscription' : 'payment',
+      payment_method_types: ['card'],
+      line_items: [lineItem],
       success_url: finalSuccessUrl,
       cancel_url: finalCancelUrl,
-      customer_email: customerEmail || undefined,
       allow_promotion_codes: true,
       billing_address_collection: 'required',
       metadata: {
-        planId: planId,
-        source: 'smartflowsite'
-      },
-      subscription_data: {
-        metadata: {
-          planId: planId,
-          source: 'smartflowsite'
-        }
+        planId,
+        source: 'smartflowsite',
+        customerName: customerName || '',
+        company: company || '',
+        phone: phone || ''
       }
-    });
+    };
+
+    // Pre-fill customer email if provided
+    if (customerEmail) {
+      sessionParams.customer_email = customerEmail;
+    }
+
+    // Add free trial for subscription plans
+    if (plan.billingType === 'subscription' && plan.trialDays) {
+      sessionParams.subscription_data = {
+        trial_period_days: plan.trialDays,
+        metadata: { planId, source: 'smartflowsite' }
+      };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     console.log(`✓ Checkout session created: ${session.id} for plan: ${sanitizeForLog(planId)}`);
 
