@@ -1,9 +1,9 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: #0b0b0b;
-  color: #ffffff;
+  font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #0D0D0D;
+  color: #F5F5DC;
   min-height: 100vh;
 }
 
@@ -20,7 +20,7 @@ header {
 .logo {
   font-size: 1.25rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #FFD700, #E6C200);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -66,9 +66,9 @@ header {
   transition: all 0.3s;
 }
 .step.active .step-circle {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #FFD700, #E6C200);
   border-color: #FFD700;
-  color: #0b0b0b;
+  color: #0D0D0D;
 }
 .step.done .step-circle {
   background: #4CAF50;
@@ -109,7 +109,7 @@ header {
 .plan-banner-price span { font-size: 0.9rem; color: #999; font-weight: 400; }
 
 .card {
-  background: rgba(26,20,16,0.7);
+  background: rgba(59,47,47,0.7);
   border: 1px solid rgba(255,215,0,0.2);
   border-radius: 16px;
   padding: 32px;
@@ -158,7 +158,7 @@ input:focus, select:focus, textarea:focus {
   background: rgba(255,215,0,0.05);
 }
 input::placeholder { color: #555; }
-select option { background: #1a1410; }
+select option { background: #3B2F2F; }
 
 .field-error {
   font-size: 0.8rem;
@@ -172,8 +172,8 @@ select option { background: #1a1410; }
 .btn-primary {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #0b0b0b;
+  background: linear-gradient(135deg, #FFD700, #E6C200);
+  color: #0D0D0D;
   border: none;
   border-radius: 12px;
   font-size: 1.05rem;
@@ -267,7 +267,7 @@ select option { background: #1a1410; }
   width: 18px;
   height: 18px;
   border: 2px solid rgba(0,0,0,0.3);
-  border-top-color: #0b0b0b;
+  border-top-color: #0D0D0D;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   display: inline-block;
