@@ -313,9 +313,7 @@ class CircuitAnimation {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Initializing SmartFlow circuit animation...');
     window.circuitAnimation = new CircuitAnimation();
-    console.log('Circuit animation now flowing throughout the site!');
 });
 
 // Handle page visibility to pause/resume animation

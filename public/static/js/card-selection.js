@@ -10,7 +10,6 @@ class SFCardSelection {
         this.loadSelections();
         this.setupEventListeners();
         this.restoreSelections();
-        console.log('Card selection system initialized with persistence');
     }
     
     // Load selections from localStorage
@@ -62,21 +61,21 @@ class SFCardSelection {
     // Setup click event listeners for all selectable cards
     setupEventListeners() {
         document.addEventListener('click', (e) => {
-            console.log('Click detected on:', e.target);
+            // Click detected on card
             
             const card = e.target.closest('.project-card, .latest-card, .price-card, .sf-glass, article');
             if (!card) {
-                console.log('No card found for click');
+                // No card found for click
                 return;
             }
             
             // Don't interfere with buttons or links
             if (e.target.closest('button, a, input, select, textarea')) {
-                console.log('Click was on button/link, ignoring');
+                // Click was on button/link, ignoring
                 return;
             }
             
-            console.log('Card clicked:', card.textContent.slice(0, 50));
+            // Card clicked
             this.toggleCard(card);
         });
         
@@ -88,11 +87,11 @@ class SFCardSelection {
                 card.addEventListener('click', (e) => {
                     if (e.target.closest('button, a')) return;
                     e.stopPropagation();
-                    console.log('Direct card click:', card.textContent.slice(0, 30));
+                    // Direct card click
                     this.toggleCard(card);
                 });
             });
-            console.log(`Added direct click handlers to ${cards.length} cards`);
+            // Added direct click handlers to cards
         }, 1000);
     }
     
@@ -104,14 +103,12 @@ class SFCardSelection {
             // Deselect
             this.selectedCards.delete(cardId);
             cardElement.classList.remove('selected');
-            console.log('Card deselected:', cardId);
-            console.log('Classes after deselect:', cardElement.className);
+            // Card deselected
         } else {
             // Select
             this.selectedCards.add(cardId);
             cardElement.classList.add('selected');
-            console.log('Card selected:', cardId);
-            console.log('Classes after select:', cardElement.className);
+            // Card selected
             
             // Force golden border effect immediately
             cardElement.style.outline = '2px solid rgba(212,175,55,.6)';
@@ -143,7 +140,7 @@ class SFCardSelection {
         });
         
         if (this.selectedCards.size > 0) {
-            console.log(`Restored ${this.selectedCards.size} selected cards from storage`);
+            // Restored selected cards from storage
         }
     }
     
