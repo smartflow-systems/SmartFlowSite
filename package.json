@@ -12,7 +12,10 @@
     "agent": "node scripts/sfs-agent-cli.js",
     "sync": "bash scripts/auto-sync.sh",
     "sync:watch": "node scripts/sync-chatgpt-claude.js watch",
-    "build": "echo 'build complete' && exit 0",
+    "build": "node scripts/build.js",
+    "build:prod": "npm run optimize:build && npm run optimize:images",
+    "optimize:build": "node scripts/optimize-build.js",
+    "optimize:images": "node scripts/optimize-images.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
@@ -44,8 +47,12 @@
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "clean-css-cli": "^5.6.3",
+    "html-minifier-terser": "^7.2.0",
     "jest": "^30.2.0",
-    "prisma": "^5.22.0"
+    "prisma": "^5.22.0",
+    "sharp": "^0.34.5",
+    "terser": "^5.46.0"
   },
   "engines": {
     "node": ">=18"

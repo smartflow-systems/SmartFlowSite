@@ -43,8 +43,6 @@ async function loadProjects() {
       card.appendChild(tagsDiv);
       grid.appendChild(card);
     });
-    
-    console.log('✅ Loaded', projects.length, 'apps');
   } catch (err) {
     console.error('❌ Failed to load projects:', err);
   }

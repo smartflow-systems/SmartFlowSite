@@ -28,8 +28,6 @@ function initMenu() {
   menuLinks.forEach(link => {
     link.addEventListener('click', closeMenu);
   });
-
-  console.log('✅ Menu initialized');
 }
 
 if (document.readyState === 'loading') {
