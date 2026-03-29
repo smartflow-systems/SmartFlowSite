@@ -1,0 +1,82 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        // SFS Brand Colors
+        'sfs-gold': '#FFD700',
+        'sfs-gold-hover': '#E6C200',
+        'sfs-black': '#0D0D0D',
+        'sfs-brown': '#3B2F2F',
+        'sfs-beige': '#F5F5DC',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['Monaco', 'Courier New', 'monospace'],
+      },
+      spacing: {
+        // 4px grid system
+        // Already included: 1 (4px), 2 (8px), 3 (12px), 4 (16px), etc.
+        // Add custom if needed
+      },
+      backdropBlur: {
+        'glass': '10px',
+      },
+      boxShadow: {
+        'glass': '0 8px 32px 0 rgba(13, 13, 13, 0.1)',
+        'glass-lg': '0 12px 48px 0 rgba(13, 13, 13, 0.15)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-in-out',
+        'slide-up': 'slideUp 0.3s ease-out',
+        'slide-down': 'slideDown 0.3s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+/**
+ * USAGE EXAMPLES
+ * 
+ * Colors:
+ * - bg-sfs-gold
+ * - text-sfs-black
+ * - border-sfs-brown
+ * - hover:bg-sfs-gold-hover
+ * 
+ * Glassmorphism:
+ * - bg-white/70 backdrop-blur-glass border border-sfs-gold/10 shadow-glass
+ * 
+ * Animations:
+ * - animate-fade-in
+ * - animate-slide-up
+ * - animate-slide-down
+ * 
+ * Spacing (4px grid):
+ * - p-1 (4px), p-2 (8px), p-4 (16px), p-6 (24px), p-8 (32px)
+ * - gap-4, gap-6, gap-8
+ * 
+ * Responsive:
+ * - sm:text-lg (640px+)
+ * - md:grid-cols-2 (768px+)
+ * - lg:px-8 (1024px+)
+ */

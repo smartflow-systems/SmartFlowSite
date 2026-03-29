@@ -1,0 +1,512 @@
+# SFS CI/CD Patterns
+
+GitHub Actions workflows and deployment patterns for the SFS ecosystem.
+
+---
+
+## Pattern 1: Reusable Workflow (Recommended)
+
+All SFS repos use the centralized workflow from SmartFlowSite.
+
+### Setup
+
+**In target repo:** `.github/workflows/deploy.yml`
+
+```yaml
+name: CI/CD Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main
+    secrets:
+      SFS_PAT: ${{ secrets.SFS_PAT }}
+      REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
+      SFS_SYNC_URL: ${{ secrets.SFS_SYNC_URL }}
+```
+
+### Required Secrets
+
+**Set in GitHub repo:** Settings > Secrets and variables > Actions
+
+1. **SFS_PAT** (REQUIRED)
+   - GitHub Personal Access Token
+   - Permissions: `repo`, `workflow`, `read:org`
+   - Generate: https://github.com/settings/tokens/new
+   - Scope: `smartflow-systems` organization
+
+2. **REPLIT_TOKEN** (Optional but recommended)
+   - Replit deployment token
+   - Get from: https://replit.com/account
+   - Enables auto-deploy to Replit
+
+3. **SFS_SYNC_URL** (Optional)
+   - Cross-repo sync webhook URL
+   - Format: `https://api.smartflowsystems.com/sync/webhook`
+   - Triggers updates in dependent repos
+
+### Verification
+
+```bash
+# Check workflow exists
+gh workflow list
+
+# Trigger manual run
+gh workflow run deploy.yml
+
+# Check run status
+gh run list --workflow=deploy.yml
+
+# View logs
+gh run view [RUN_ID] --log
+```
+
+---
+
+## Pattern 2: Custom Workflow (For special cases)
+
+Use when repo needs custom build steps or deployment targets.
+
+### Example: React + TypeScript + Vite
+
+```yaml
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linter
+        run: npm run lint
+      
+      - name: Run tests
+        run: npm test -- --coverage
+      
+      - name: Build production
+        run: npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Health check
+        run: |
+          npm run health || echo "Health check not available"
+      
+      - name: Deploy to Replit
+        if: success()
+        run: |
+          # Custom deploy script
+          ./scripts/deploy.sh
+        env:
+          REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
+```
+
+### Example: Python FastAPI
+
+```yaml
+name: Build and Deploy FastAPI
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install --break-system-packages -r requirements.txt
+      
+      - name: Run tests
+        run: |
+          pytest --cov=. --cov-report=xml
+      
+      - name: Run linter
+        run: |
+          ruff check .
+          black --check .
+      
+      - name: Deploy
+        if: success()
+        run: |
+          python deploy.py
+        env:
+          REPLIT_TOKEN: ${{ secrets.REPLIT_TOKEN }}
+```
+
+---
+
+## Health Check Pattern
+
+Every SFS app must expose a `/health` endpoint.
+
+### Implementation
+
+**Node.js / Express:**
+
+```typescript
+// src/routes/health.ts
+import express from 'express';
+
+const router = express.Router();
+
+router.get('/health', (req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    service: 'SocialScaleBooster',
+    version: process.env.npm_package_version,
+  });
+});
+
+export default router;
+```
+
+**Python / FastAPI:**
+
+```python
+# app/routes/health.py
+from fastapi import APIRouter
+from datetime import datetime
+
+router = APIRouter()
+
+@router.get("/health")
+async def health_check():
+    return {
+        "ok": True,
+        "timestamp": datetime.utcnow().isoformat(),
+        "service": "sfs-core-services",
+        "version": "1.0.0",
+    }
+```
+
+### Testing Health Check
+
+```bash
+# Local
+curl http://localhost:3000/health
+
+# Production
+curl https://your-app.replit.app/health
+
+# Expected response:
+# {"ok": true, "timestamp": "2025-01-16T12:00:00Z", "service": "..."}
+```
+
+### CI/CD Integration
+
+```yaml
+- name: Health check after deploy
+  run: |
+    sleep 10  # Wait for app to start
+    response=$(curl -s https://your-app.replit.app/health)
+    echo "$response" | jq -e '.ok == true'
+```
+
+---
+
+## Secret Management
+
+### GitHub Secrets Setup
+
+```bash
+# Using GitHub CLI
+gh secret set SFS_PAT --body "ghp_YOUR_TOKEN_HERE"
+gh secret set REPLIT_TOKEN --body "YOUR_REPLIT_TOKEN"
+
+# Verify
+gh secret list
+```
+
+### Organization-Level Secrets
+
+For secrets shared across all repos:
+
+1. Go to: https://github.com/organizations/smartflow-systems/settings/secrets/actions
+2. Add secret: `SFS_PAT`, `REPLIT_TOKEN`
+3. Select repos: "All repositories" or specific ones
+
+### Environment-Specific Secrets
+
+```yaml
+# Use GitHub Environments for staging/production
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production  # or staging
+    steps:
+      - name: Deploy
+        env:
+          API_KEY: ${{ secrets.PROD_API_KEY }}  # Different per environment
+```
+
+---
+
+## Branch Protection Rules
+
+**Required for all production repos:**
+
+Settings > Branches > Add branch protection rule
+
+**Branch name pattern:** `main`
+
+**Rules:**
+- [x] Require a pull request before merging
+- [x] Require approvals: 1
+- [x] Require status checks to pass before merging
+  - [x] build
+  - [x] test
+- [x] Require branches to be up to date before merging
+- [x] Do not allow bypassing the above settings
+
+**Exception:** For solo development, can disable PR requirement temporarily.
+
+---
+
+## Monorepo Pattern (Future)
+
+Not currently used, but planned for consolidating related repos.
+
+### Structure
+
+```
+sfs-monorepo/
+├── apps/
+│   ├── social-scale-booster/
+│   ├── ap-crm/
+│   └── barber-booker/
+├── packages/
+│   ├── ui-components/
+│   ├── auth/
+│   └── api-client/
+├── .github/
+│   └── workflows/
+│       └── monorepo-ci.yml
+└── turbo.json
+```
+
+### Advantages
+
+- Shared dependencies
+- Unified versioning
+- Atomic commits across related changes
+- Simplified CI/CD
+
+### Tooling
+
+- **Turborepo** (recommended)
+- **Nx** (alternative)
+- **Lerna** (legacy)
+
+---
+
+## Deployment Targets
+
+### Replit (Primary)
+
+**Pros:**
+- Fast deploys
+- Built-in hosting
+- Free tier available
+
+**Cons:**
+- Limited resources on free tier
+- Proprietary platform
+
+**Deploy command:**
+```bash
+# Via GitHub Actions
+curl -X POST https://replit.com/deploy \
+  -H "Authorization: Bearer $REPLIT_TOKEN" \
+  -d '{"repl": "your-repl-name"}'
+```
+
+### Vercel (Alternative)
+
+For Next.js / React apps only.
+
+```yaml
+# .github/workflows/deploy-vercel.yml
+- name: Deploy to Vercel
+  uses: amondnet/vercel-action@v25
+  with:
+    vercel-token: ${{ secrets.VERCEL_TOKEN }}
+    vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+    vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+```
+
+### AWS (Future)
+
+Planned for production-grade deployments.
+
+- **ECS** for containerized apps
+- **Lambda** for serverless functions
+- **S3 + CloudFront** for static sites
+
+---
+
+## Rollback Strategy
+
+### Manual Rollback
+
+```bash
+# Revert last commit
+git revert HEAD
+git push origin main
+
+# CI/CD will automatically deploy previous version
+```
+
+### GitHub Releases
+
+Tag stable versions for easy rollback:
+
+```bash
+# Create release
+git tag v1.0.0
+git push origin v1.0.0
+
+# Rollback to release
+git checkout v1.0.0
+git checkout -b hotfix/rollback
+git push origin hotfix/rollback
+```
+
+### Replit Rollback
+
+Use Replit's built-in version history:
+
+1. Go to Repl > History
+2. Select previous working version
+3. Click "Restore"
+
+---
+
+## Troubleshooting
+
+### Issue: "Workflow not found"
+
+**Solution:**
+```bash
+# Check workflow exists
+ls -la .github/workflows/
+
+# Validate YAML syntax
+yamllint .github/workflows/deploy.yml
+
+# Push workflow file if missing
+git add .github/workflows/deploy.yml
+git commit -m "chore: add CI/CD workflow"
+git push origin main
+```
+
+### Issue: "Secret not found"
+
+**Solution:**
+```bash
+# List secrets
+gh secret list
+
+# Set missing secret
+gh secret set SFS_PAT
+
+# For org-level secrets, check:
+# https://github.com/organizations/smartflow-systems/settings/secrets/actions
+```
+
+### Issue: "Build failing"
+
+**Check logs:**
+```bash
+gh run list --workflow=deploy.yml
+gh run view [RUN_ID] --log
+```
+
+**Common causes:**
+- Missing dependencies (`npm ci` vs `npm install`)
+- TypeScript errors (`npx tsc --noEmit`)
+- Test failures (`npm test`)
+- Linting errors (`npm run lint`)
+
+### Issue: "Deploy successful but app not working"
+
+**Debug steps:**
+```bash
+# Check health endpoint
+curl https://your-app.replit.app/health
+
+# Check Replit logs
+# Go to: Repl > Shell > View logs
+
+# Check environment variables
+# Repl > Secrets > Verify all required secrets set
+```
+
+---
+
+## Best Practices
+
+1. **Always use reusable workflow** unless special requirements
+2. **Set up branch protection** on `main` branch
+3. **Test locally first** before pushing to main
+4. **Use semantic versioning** for releases
+5. **Tag stable versions** for easy rollback
+6. **Monitor deployments** via GitHub Actions logs
+7. **Keep secrets secure** - never commit to repo
+8. **Use health checks** to verify successful deploy
+9. **Document custom workflows** in repo README
+10. **Review failed builds** immediately
+
+---
+
+## Quick Reference
+
+```bash
+# List workflows
+gh workflow list
+
+# Trigger deploy
+gh workflow run deploy.yml
+
+# Check status
+gh run list
+
+# View logs
+gh run view --log
+
+# Set secret
+gh secret set SECRET_NAME
+
+# List secrets
+gh secret list
+```
+
+---
+
+**Last Updated:** January 16, 2025  
+**Maintained By:** SFS Engineering
