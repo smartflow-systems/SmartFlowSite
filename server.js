@@ -533,7 +533,7 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
   // Handle the event
   try {
     switch (event.type) {
-      case 'checkout.session.completed':
+      case 'checkout.session.completed': {
         const session = event.data.object;
         console.log(`✓ Checkout completed: ${session.id}`);
         // SECURITY: Sanitize user-controlled data to prevent log injection
@@ -570,8 +570,9 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
         // Provision user account (placeholder - implement based on your user management system)
         console.log(`✓ User account provisioned for: ${sanitizeForLog(session.customer_email)}`);
         break;
+      }
 
-      case 'customer.subscription.created':
+      case 'customer.subscription.created': {
         const subscription = event.data.object;
         console.log(`✓ Subscription created: ${subscription.id}`);
 
@@ -589,8 +590,9 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
           console.log(`✓ Subscription status updated in database`);
         }
         break;
+      }
 
-      case 'customer.subscription.updated':
+      case 'customer.subscription.updated': {
         const updatedSubscription = event.data.object;
         console.log(`✓ Subscription updated: ${updatedSubscription.id}`);
 
@@ -609,8 +611,9 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
           console.log(`✓ Subscription updated in database`);
         }
         break;
+      }
 
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.deleted': {
         const canceledSubscription = event.data.object;
         console.log(`✓ Subscription canceled: ${canceledSubscription.id}`);
 
@@ -636,8 +639,9 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
           }
         }
         break;
+      }
 
-      case 'invoice.payment_succeeded':
+      case 'invoice.payment_succeeded': {
         const invoice = event.data.object;
         console.log(`✓ Payment succeeded: ${invoice.id}`);
 
@@ -663,8 +667,9 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
           console.log(`✓ Payment record added to database`);
         }
         break;
+      }
 
-      case 'invoice.payment_failed':
+      case 'invoice.payment_failed': {
         const failedInvoice = event.data.object;
         console.log(`⚠️ Payment failed: ${failedInvoice.id}`);
 
@@ -699,6 +704,7 @@ app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (
           console.log(`✓ Payment failure notification sent`);
         }
         break;
+      }
 
       default:
         console.log(`Unhandled event type: ${event.type}`);

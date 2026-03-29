@@ -21,7 +21,12 @@ import { existsSync, readFileSync } from 'fs';
 function verifyGitHubSignature(payload, signature, secret) {
   const hmac = crypto.createHmac('sha256', secret);
   const digest = 'sha256=' + hmac.update(payload).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest));
+  const sigBuffer = Buffer.from(signature);
+  const digestBuffer = Buffer.from(digest);
+  if (sigBuffer.length !== digestBuffer.length) {
+    return false;
+  }
+  return crypto.timingSafeEqual(sigBuffer, digestBuffer);
 }
 
 /**
@@ -33,9 +38,14 @@ async function deploy(repoName, branch, sha) {
   try {
     // Step 1: Pull latest code
     console.log('📥 Pulling latest code from GitHub...');
+    // Sanitize branch name to prevent command injection
+    const safeBranch = branch.replace(/[^a-zA-Z0-9\-_.\/]/g, '');
+    if (safeBranch !== branch) {
+      throw new Error(`Invalid branch name: ${branch}`);
+    }
     execSync('git fetch origin', { stdio: 'inherit' });
-    execSync(`git checkout ${branch}`, { stdio: 'inherit' });
-    execSync('git pull origin ' + branch, { stdio: 'inherit' });
+    execSync(`git checkout ${safeBranch}`, { stdio: 'inherit' });
+    execSync(`git pull origin ${safeBranch}`, { stdio: 'inherit' });
     steps.push({ step: 'git_pull', status: 'success' });
 
     // Step 2: Install dependencies
