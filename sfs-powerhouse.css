@@ -744,15 +744,19 @@
 .stat-card {
   text-align: center;
   padding: 30px;
-  background: rgba(59, 47, 47, 0.3);
-  border-radius: 12px;
-  border: 2px solid rgba(255, 215, 0, 0.2);
-  transition: all 0.3s;
+  background: linear-gradient(145deg, rgba(212,175,55,.07), rgba(20,17,15,.75), rgba(11,11,11,.6));
+  backdrop-filter: saturate(180%) blur(14px);
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-top: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-card:hover {
-  border-color: #FFD700;
+  border-color: rgba(212,175,55,.55);
   transform: translateY(-5px);
+  box-shadow: 0 0 24px rgba(212,175,55,.35), 0 16px 48px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18);
 }
 
 .stat-number {

@@ -750,6 +750,15 @@ input:checked + .toggle-slider:before {
 }
 
 .trust-badge-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 14px;
+  color: #D4AF37;
   font-size: 40px;
   filter: grayscale(0.3);
 }
