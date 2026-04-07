@@ -1,6 +1,6 @@
 # Repo-Map.md
 # SmartFlow Systems — Full Repo Map
-# Last updated: 2026-03-29
+# Last updated: 2026-04-07
 
 Org: https://github.com/smartflow-systems
 Local workspace: /home/garet/SFS/
@@ -18,7 +18,7 @@ These are the only repos that matter for revenue right now.
 | Barber-booker-v1 | https://github.com/smartflow-systems/Barber-booker-v1 | /home/garet/SFS/Barber-booker-v1 | 24/7 booking system, Google Cal, Stripe | ⭐ #1 sales priority |
 | SocialScaleBooster | https://github.com/smartflow-systems/SocialScaleBooster | /home/garet/SFS/SocialScaleBooster | AI social captions + scheduling | ⭐ #2 sales priority |
 | SocialScaleBoosterAIbot | https://github.com/smartflow-systems/SocialScaleBoosterAIbot | /home/garet/SFS/SocialScaleBoosterAIbot | AI bot builder | — |
-| SFS-SocialPowerhouse | https://github.com/boweazy/SFS-SocialPowerhouse | /home/garet/SFS/SFS-SocialPowerhouse | Social platform (205 tests) | ⚠️ Wrong org — transfer to smartflow-systems |
+| SFS-SocialPowerhouse | https://github.com/smartflow-systems/SFS-SocialPowerhouse | /home/garet/SFS/SFS-SocialPowerhouse | Social platform (205 tests) | — |
 | DataQueryEngine | https://github.com/smartflow-systems/DataQueryEngine | /home/garet/SFS/DataQueryEngine | NL to SQL analytics | — |
 | DataScrapeInsights | https://github.com/smartflow-systems/DataScrapeInsights | /home/garet/SFS/DataScrapeInsights | Data scraping + insights | — |
 | sfs-analytics-engine | https://github.com/smartflow-systems/sfs-analytics-engine | /home/garet/SFS/sfs-analytics-engine | Analytics backend | — |
@@ -29,7 +29,7 @@ These are the only repos that matter for revenue right now.
 
 | Repo | GitHub URL | Local Path | Purpose | Notes |
 |------|-----------|------------|---------|-------|
-| sfs-white-label-dashboard | https://github.com/boweazy/sfs-white-label-dashboard | /home/garet/SFS/sfs-white-label-dashboard | Multi-tenant admin | ⚠️ Wrong org — transfer to smartflow-systems |
+| sfs-white-label-dashboard | https://github.com/smartflow-systems/sfs-white-label-dashboard | /home/garet/SFS/sfs-white-label-dashboard | Multi-tenant admin | — |
 | smartflow-hub | https://github.com/smartflow-systems/smartflow-hub | /home/garet/SFS/smartflow-hub | Unified Next.js dashboard + Claude integration | Not in ChatGPT knowledge |
 | sfs-revenue-analytics | https://github.com/smartflow-systems/sfs-revenue-analytics | /home/garet/SFS/sfs-revenue-analytics | Revenue optimization | Not in ChatGPT knowledge |
 | SFS-Backend | https://github.com/smartflow-systems/SFS-Backend | /home/garet/SFS/SFS-Backend | Centralised API | — |
@@ -55,8 +55,6 @@ These are placeholder repos with no active development.
 
 | Issue | Action | Status |
 |-------|--------|--------|
-| SFS-SocialPowerhouse on boweazy org | Transfer to smartflow-systems | ⏳ Pending |
-| sfs-white-label-dashboard on boweazy org | Transfer to smartflow-systems | ⏳ Pending |
 | SmartFlowSite -v2 and -security-fix duplicates | Delete — /home/garet/SFS/SmartFlowSite is the only real one | ⏳ Pending |
 
 ---
@@ -102,5 +100,5 @@ CI file:  .github/workflows/ci.yml
 
 ---
 
-*Repo-Map v1.0 — SmartFlow Systems*
-*Last updated: 2026-03-29*
+*Repo-Map v1.1 — SmartFlow Systems*
+*Last updated: 2026-04-07*
