@@ -53,9 +53,7 @@ These are placeholder repos with no active development.
 
 ## GitHub Issues to Resolve
 
-| Issue | Action | Status |
-|-------|--------|--------|
-| SmartFlowSite -v2 and -security-fix duplicates | Delete — /home/garet/SFS/SmartFlowSite is the only real one | ⏳ Pending |
+None. All known issues resolved as of 2026-04-07.
 
 ---
 
@@ -100,5 +98,5 @@ CI file:  .github/workflows/ci.yml
 
 ---
 
-*Repo-Map v1.1 — SmartFlow Systems*
+*Repo-Map v1.2 — SmartFlow Systems*
 *Last updated: 2026-04-07*
