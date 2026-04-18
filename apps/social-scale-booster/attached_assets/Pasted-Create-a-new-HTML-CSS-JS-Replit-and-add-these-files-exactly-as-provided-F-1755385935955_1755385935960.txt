@@ -1,0 +1,263 @@
+Create a new HTML/CSS/JS Replit and add these files exactly as provided.
+
+========================
+FILE: index.html
+========================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- created by agent: SmartFlow safe build -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartFlow Systems — Gareth Bowers</title>
+  <meta name="description" content="Premium AI automation for small businesses: booking systems, ecommerce, social media bots, websites. Fast delivery, niche presets, black & gold design.">
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="icon" href="assets/favicon.png"/>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#systems">Systems</a>
+    <a href="#case-study">Case Study</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="btn">Book a Demo</a>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero" class="section reveal center">
+    <h1>SmartFlow Systems</h1>
+    <p>Smarter Booking, Ecom, AI Bots & Websites for Small Businesses.</p>
+    <p><strong>Built by Gareth Bowers</strong></p>
+    <div class="flex-center" style="margin-top:12px;">
+      <a href="#contact" class="btn">Book a Demo</a>
+      <a href="#systems" class="btn">See Systems</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section reveal center">
+    <h2>About Me</h2>
+    <p>Hi, I’m Gareth — founder of <strong>SmartFlow Systems</strong>. I help barbers, salons, and small businesses grow using AI and smart automation.</p>
+    <div class="flex-center" style="margin-top:30px;">
+      <div class="card gold-border glow"><h3>⚡ Speed</h3><p>Live in days, not weeks.</p></div>
+      <div class="card gold-border glow"><h3>🤖 Smarter AI</h3><p>Niche-tuned presets.</p></div>
+      <div class="card gold-border glow"><h3>✨ Premium Look</h3><p>Black + Gold, futuristic.</p></div>
+    </div>
+    <div class="flex-center" style="margin-top:18px; opacity:.85; font-size:.95rem;">
+      <span>Works with: Stripe • Google Calendar • Buffer • Shopify • Twilio</span>
+    </div>
+  </section>
+
+  <!-- Systems -->
+  <section id="systems" class="section reveal">
+    <h2 class="center">SmartFlow Systems</h2>
+    <div class="grid" style="margin-top:30px;">
+      <div class="card gold-border glow">
+        <h3>🤖 AI Social Media Bot</h3>
+        <ul>
+          <li>Generate & schedule IG/TikTok posts</li>
+          <li>Niche presets (barber, salon, fitness)</li>
+          <li>Analytics & growth tips</li>
+        </ul>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>📅 Booking System</h3>
+        <ul>
+          <li>Stripe + Google Calendar sync</li>
+          <li>SMS reminders (Twilio)</li>
+          <li>Deposits & upsells</li>
+        </ul>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>🛒 Ecom Shop Setups</h3>
+        <ul>
+          <li>Shopify/Wix launch in 48h</li>
+          <li>AI product descriptions</li>
+          <li>SEO-ready templates</li>
+        </ul>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>🌐 Websites Hub</h3>
+        <ul>
+          <li>Premium one-page designs</li>
+          <li>Case studies & testimonials</li>
+          <li>SEO for service niches</li>
+        </ul>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>📈 Marketing & Growth</h3>
+        <ul>
+          <li>SEO content + blog calendar</li>
+          <li>Email funnels (ConvertKit)</li>
+          <li>TikTok/IG ad campaigns</li>
+        </ul>
+        <a href="#contact" class="btn">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Study -->
+  <section id="case-study" class="section reveal center">
+    <h2>Case Study: Barber Shop</h2>
+    <p><strong>20 Bookings in 7 Days</strong></p>
+    <p>We implemented SmartFlow Booking + AI Social Media Bot. Result: 35% fewer no-shows, 2.4x add-on revenue, and viral local exposure.</p>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section reveal center">
+    <h2>Pricing Plans</h2>
+    <div class="flex-center" style="margin-top:30px;">
+      <div class="card gold-border glow">
+        <h3>Starter</h3>
+        <p>£99 setup / £29 pm</p>
+        <p>1 System (Booking or AI Bot)</p>
+        <a href="#contact" class="btn">Choose Plan</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>Pro</h3>
+        <p>£199 setup / £79 pm</p>
+        <p>Any 2 Systems</p>
+        <a href="#contact" class="btn">Choose Plan</a>
+      </div>
+      <div class="card gold-border glow">
+        <h3>Ultimate</h3>
+        <p>£399 setup / £149 pm</p>
+        <p>All Systems + Priority Support</p>
+        <a href="#contact" class="btn">Choose Plan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section reveal center">
+    <h2>Contact Me</h2>
+    <p>Ready to grow with SmartFlow? Let’s talk.</p>
+    <form style="max-width:500px; margin:auto;" action="mailto:garethbowers@hotmail.com" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:10px; margin:10px 0;">
+      <input type="email" name="email" placeholder="Your Email" required style="width:100%; padding:10px; margin:10px 0;">
+      <textarea name="message" placeholder="Your Message" required style="width:100%; padding:10px; margin:10px 0;"></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 SmartFlow Systems | Built by Gareth Bowers</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+========================
+FILE: styles.css
+========================
+:root {
+  --bg:#0b0b0b; --brown:#1a120e;
+  --gold:#d4af37; --gold-light:#f5e6a1;
+  --text:#e9e9e9; --muted:#9a9a9a;
+  --radius:8px; --transition:.3s ease;
+}
+*{box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;margin:0;line-height:1.6;}
+h1,h2,h3{color:var(--gold);text-transform:uppercase;letter-spacing:1px;}
+
+/* Nav */
+nav{background:rgba(11,11,11,.9);border-bottom:1px solid var(--gold);padding:10px 20px;
+position:sticky;top:0;z-index:1000;display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+nav a{color:var(--gold);text-decoration:none;font-weight:500;}
+nav a:hover{color:var(--gold-light);}
+.nav-shadow{box-shadow:0 6px 18px rgba(0,0,0,.35);}
+
+/* Buttons */
+.btn{display:inline-block;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-light));
+color:#000;font-weight:600;border:none;border-radius:var(--radius);cursor:pointer;
+transition:transform var(--transition),box-shadow var(--transition);text-decoration:none;
+position:relative;overflow:hidden;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(212,175,55,.4);}
+
+/* Ripple */
+.ripple{position:absolute;width:8px;height:8px;border-radius:50%;
+transform:translate(-50%,-50%);background:rgba(0,0,0,.15);animation:ripple .45s ease-out forwards;}
+@keyframes ripple{to{width:280px;height:280px;opacity:0;}}
+
+/* Cards */
+.card{background:var(--brown);border:1px solid var(--gold);border-radius:var(--radius);padding:20px;
+transition:transform var(--transition),box-shadow var(--transition);}
+.card:hover{transform:translateY(-4px);}
+.glow:hover{box-shadow:0 14px 32px rgba(212,175,55,.22),0 0 20px rgba(212,175,55,.24) inset;}
+.gold-border{position:relative;border:1px solid var(--gold);border-radius:var(--radius);overflow:hidden;}
+.gold-border::after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0 330deg,rgba(245,230,161,.35) 360deg);
+filter:blur(8px);opacity:.35;animation:spin 6s linear infinite;pointer-events:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Sections */
+.section{padding:80px 20px;}
+.center{text-align:center;}
+.flex-center{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px) scale(.98);transition:opacity .6s,transform .6s;}
+.reveal.in{opacity:1;transform:translateY(0) scale(1);}
+
+/* Footer */
+footer{background:var(--brown);color:var(--muted);text-align:center;
+padding:30px 15px;border-top:1px solid var(--gold);}
+
+========================
+FILE: app.js
+========================
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    const el=document.querySelector(id);
+    if(!el) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior:'smooth'});
+    history.pushState(null,'',id); // why: keep URL hash in sync for sharing
+  });
+});
+
+// Reveal-on-scroll
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      io.unobserve(entry.target); // why: one-time reveal for perf
+    }
+  });
+},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Sticky nav shadow
+const nav=document.querySelector('nav');
+const toggleNavShadow=()=>{
+  if(window.scrollY>8) nav.classList.add('nav-shadow');
+  else nav.classList.remove('nav-shadow');
+};
+toggleNavShadow();
+window.addEventListener('scroll',toggleNavShadow,{passive:true});
+
+// Ripple
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.btn');
+  if(!btn) return;
+  const circle=document.createElement('span');
+  circle.className='ripple';
+  const rect=btn.getBoundingClientRect();
+  circle.style.left=`${e.clientX-rect.left}px`;
+  circle.style.top=`${e.clientY-rect.top}px`;
+  btn.appendChild(circle);
+  setTimeout(()=>circle.remove(),450);
+});

@@ -1,0 +1,109 @@
+0) Repo & Safety
+	•	If index.html exists, create index-smartflow.html instead and leave a note at top: <!-- created by agent: safe build -->.
+	•	Create new files only; do not delete or overwrite existing ones without explicit comments.
+
+1) Tech + Files
+	•	Plain HTML/CSS/JS (no frameworks) + semantic, accessible markup.
+	•	Files:
+	•	index-smartflow.html
+	•	styles.css (import in head)
+	•	app.js
+	•	/assets/ placeholders: logo.svg, hero-bg.jpg, avatar.jpg, favicon.png
+	•	Performance: lazy-load images, compress where possible, preconnect to fonts.
+
+2) Brand (Smart, Street-Smart, Futuristic)
+	•	Colors:
+	•	--bg:#0b0b0b; --brown:#1a120e;
+	•	--gold:#d4af37; (use gradients for “shiny” effect)
+	•	--text:#e9e9e9; --muted:#9a9a9a;
+	•	Typography: Headings = bold geometric sans; Body = clean sans.
+	•	Use subtle gold borders, glow on buttons, smooth scroll.
+
+3) Page Structure (sections with IDs for nav)
+	1.	#nav (sticky)
+	•	Logo (SmartFlow), right-side links: About, Systems, Case Study, Pricing, FAQ, Contact.
+	•	CTA button “Book a Demo”.
+	2.	#hero
+	•	H1: “SmartFlow Systems — Smarter Booking, Ecom, AI Bots & Websites.”
+	•	Sub: “Built by Gareth Bowers. AI automation that makes small businesses grow faster.”
+	•	CTAs: “Book a Demo” (scroll to #contact) + “See Systems” (scroll to #systems).
+	•	Background: dark with subtle gold gradient lines.
+	3.	#about
+	•	Mini bio + avatar. 3 bullets: Speed (days not weeks), Smarter AI (niche presets), Premium Look (black+gold).
+	•	Social proof strip: logos/placeholder of tools (Stripe, Google, Buffer, Shopify, Twilio).
+	4.	#systems (cards grid, each with Learn More anchor)
+	•	AI Social Media Bot
+	•	One-liner: “Generate → Schedule → Analyze (IG/TikTok).”
+	•	3 bullets: Niche presets (barber/salon/fitness), Buffer API scheduling, analytics tips.
+	•	Booking System
+	•	One-liner: “Stripe + Calendar + SMS + Upsells.”
+	•	3 bullets: Deposits, no-show reminders (Twilio), white-label branding.
+	•	Ecom 48-Hour Shops
+	•	One-liner: “Shopify/Wix launched in 48h.”
+	•	3 bullets: AI descriptions, SEO tags, niche templates.
+	•	Websites / Packages Hub
+	•	One-liner: “Premium one-pagers that convert.”
+	•	3 bullets: Case studies, testimonials, SEO for ‘barber booking system’.
+	•	Marketing & Growth
+	•	One-liner: “SEO + Reels + Email + Paid.”
+	•	3 bullets: Content calendar, ConvertKit funnel, TikTok/IG ads.
+	•	Each card: CTA “Book a Demo”.
+	5.	#case-study
+	•	Title: “Barber Shop: 20 Bookings in 7 Days.”
+	•	Metrics row (large numbers): +20 bookings, 35% no-show drop, 2.4x revenue on add-ons.
+	•	3-step story: Problem → SmartFlow Setup → Outcome.
+	•	Embed placeholder video / image.
+	6.	#pricing
+	•	3 tiers (cards):
+	•	Starter (Booking or AI Bot) — from £99 setup / £29 pm.
+	•	Pro (Any 2 systems) — from £199 setup / £79 pm.
+	•	Ultimate (All systems + priority) — from £399 setup / £149 pm.
+	•	Feature ticks; CTA buttons “Choose Plan”.
+	7.	#faq
+	•	6 questions (what’s included, timeline, integrations, cancel anytime, ownership, support).
+	8.	#contact
+	•	Short pitch + form (Name, Email, Business, What you need [select], Message).
+	•	Action options: use mailto:garethbowers@hotmail.com and a Formspree fallback.
+	•	Secondary CTA: WhatsApp link placeholder.
+	9.	#footer
+	•	Copyright, quick links, small trust badges.
+
+4) Copy & CTAs (fill with polished defaults)
+	•	Keep copy punchy, benefits-first. Use “You get” language.
+	•	Primary CTA: “Book a Demo”.
+	•	Secondary CTA: “Get Price Sheet”.
+
+5) SEO + Meta + Analytics
+	•	Title: “SmartFlow Systems — Booking, Ecom, AI Bots & Websites | Gareth Bowers”
+	•	Meta description: “Premium AI automation for small businesses: booking systems, ecommerce, social media bots, websites. Fast delivery, niche presets, black & gold design.”
+	•	OG tags (image placeholder), favicon.
+	•	JSON-LD Organization + Product for SmartFlow packages.
+	•	Add simple pageview script placeholder (swap with GA later).
+
+6) Accessibility & UX
+	•	Semantic headings, aria-labels, focus states.
+	•	Min 16px body, 44px tap targets, high contrast.
+	•	Keyboard-navigable, skip-to-content link.
+
+7) Interactions (in app.js)
+	•	Smooth scroll for nav anchors.
+	•	Sticky nav shadow on scroll.
+	•	FAQ accordion.
+	•	Pricing card hover lift.
+	•	Form validation + success/error toasts.
+
+8) Acceptance Criteria (must pass before done)
+	•	Lighthouse: Performance ≥ 90, Accessibility ≥ 90, SEO ≥ 90.
+	•	Mobile-first layout with no horizontal scroll at 360px width.
+	•	All nav links scroll to correct IDs.
+	•	All CTAs visible above the fold and in systems/pricing/contact.
+	•	No console errors; images lazy-loaded; CSS under 50KB.
+
+9) Handover
+	•	Add README.md with:
+	•	How to edit copy, colors, pricing.
+	•	Where to replace assets.
+	•	How to switch contact form from mailto to Formspree/ConvertKit.
+	•	Comment top of each file with edit pointers.
+
+Deliver the files now with placeholder images/text where needed, keeping the brand (black/brown + shiny gold) and premium look.
