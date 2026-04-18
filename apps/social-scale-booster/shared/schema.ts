@@ -2,17 +2,6 @@ import { pgTable, text, serial, integer, boolean, timestamp, decimal, jsonb } fr
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const oauthSessions = pgTable("oauth_sessions", {
-  id: serial("id").primaryKey(),
-  state: text("state").notNull().unique(),
-  codeVerifier: text("code_verifier").notNull(),
-  botId: integer("bot_id").notNull(),
-  userId: integer("user_id").notNull(),
-  provider: text("provider").notNull().default("twitter"),
-  expiresAt: timestamp("expires_at").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
@@ -84,8 +73,6 @@ export const insertAnalyticsSchema = createInsertSchema(analytics).omit({
   date: true,
 });
 
-export const insertOAuthSessionSchema = createInsertSchema(oauthSessions).omit({ id: true, createdAt: true });
-
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertBot = z.infer<typeof insertBotSchema>;
@@ -94,5 +81,3 @@ export type InsertBotTemplate = z.infer<typeof insertBotTemplateSchema>;
 export type BotTemplate = typeof botTemplates.$inferSelect;
 export type InsertAnalytics = z.infer<typeof insertAnalyticsSchema>;
 export type Analytics = typeof analytics.$inferSelect;
-export type InsertOAuthSession = z.infer<typeof insertOAuthSessionSchema>;
-export type OAuthSession = typeof oauthSessions.$inferSelect;
