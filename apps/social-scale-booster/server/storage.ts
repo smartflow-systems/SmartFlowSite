@@ -1,6 +1,6 @@
-import { users, bots, botTemplates, analytics, type User, type InsertUser, type Bot, type InsertBot, type BotTemplate, type InsertBotTemplate, type Analytics, type InsertAnalytics } from "@shared/schema";
+import { users, bots, botTemplates, analytics, oauthSessions, type User, type InsertUser, type Bot, type InsertBot, type BotTemplate, type InsertBotTemplate, type Analytics, type InsertAnalytics, type OAuthSession, type InsertOAuthSession } from "@shared/schema";
 import { db } from "./db";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, lt } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -32,6 +32,11 @@ export interface IStorage {
   createAnalytics(analytics: InsertAnalytics): Promise<Analytics>;
   getRevenueMetrics(userId: number): Promise<{ totalRevenue: number; monthlyGrowth: number }>;
   getEngagementMetrics(userId: number): Promise<{ avgEngagement: number; totalPosts: number }>;
+
+  // OAuth session methods
+  createOAuthSession(session: InsertOAuthSession): Promise<OAuthSession>;
+  getAndDeleteOAuthSession(state: string): Promise<OAuthSession | undefined>;
+  deleteExpiredOAuthSessions(): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -173,8 +178,27 @@ export class DatabaseStorage implements IStorage {
       })
       .from(analytics)
       .where(eq(analytics.userId, userId));
-    
+
     return result[0] || { avgEngagement: 0, totalPosts: 0 };
+  }
+
+  // OAuth session methods
+  async createOAuthSession(session: InsertOAuthSession): Promise<OAuthSession> {
+    const [row] = await db.insert(oauthSessions).values(session).returning();
+    return row;
+  }
+
+  async getAndDeleteOAuthSession(state: string): Promise<OAuthSession | undefined> {
+    return db.transaction(async (tx) => {
+      const [row] = await tx.select().from(oauthSessions).where(eq(oauthSessions.state, state));
+      if (!row) return undefined;
+      await tx.delete(oauthSessions).where(eq(oauthSessions.state, state));
+      return row;
+    });
+  }
+
+  async deleteExpiredOAuthSessions(): Promise<void> {
+    await db.delete(oauthSessions).where(lt(oauthSessions.expiresAt, new Date()));
   }
 }
 
@@ -183,20 +207,24 @@ export class MemStorage implements IStorage {
   private bots: Map<number, Bot>;
   private botTemplates: Map<number, BotTemplate>;
   private analytics: Map<number, Analytics>;
+  private oauthSessionStore: Map<string, OAuthSession>;
   private currentUserId: number;
   private currentBotId: number;
   private currentTemplateId: number;
   private currentAnalyticsId: number;
+  private currentOAuthSessionId: number;
 
   constructor() {
     this.users = new Map();
     this.bots = new Map();
     this.botTemplates = new Map();
     this.analytics = new Map();
+    this.oauthSessionStore = new Map();
     this.currentUserId = 1;
     this.currentBotId = 1;
     this.currentTemplateId = 1;
     this.currentAnalyticsId = 1;
+    this.currentOAuthSessionId = 1;
 
     // Initialize with sample data
     this.initializeSampleTemplates();
@@ -509,10 +537,35 @@ export class MemStorage implements IStorage {
   async getEngagementMetrics(userId: number): Promise<{ avgEngagement: number; totalPosts: number }> {
     const userAnalytics = await this.getAnalyticsByUserId(userId);
     const totalPosts = userAnalytics.reduce((sum, a) => sum + (a.posts || 0), 0);
-    const avgEngagement = userAnalytics.length > 0 
+    const avgEngagement = userAnalytics.length > 0
       ? userAnalytics.reduce((sum, a) => sum + parseFloat(a.engagement || "0"), 0) / userAnalytics.length
       : 0;
     return { avgEngagement, totalPosts };
+  }
+
+  // OAuth session methods
+  async createOAuthSession(session: InsertOAuthSession): Promise<OAuthSession> {
+    const row: OAuthSession = {
+      ...session,
+      id: this.currentOAuthSessionId++,
+      provider: session.provider ?? "twitter",
+      createdAt: new Date(),
+    };
+    this.oauthSessionStore.set(session.state, row);
+    return row;
+  }
+
+  async getAndDeleteOAuthSession(state: string): Promise<OAuthSession | undefined> {
+    const row = this.oauthSessionStore.get(state);
+    if (row) this.oauthSessionStore.delete(state);
+    return row;
+  }
+
+  async deleteExpiredOAuthSessions(): Promise<void> {
+    const now = new Date();
+    this.oauthSessionStore.forEach((v, k) => {
+      if (v.expiresAt < now) this.oauthSessionStore.delete(k);
+    });
   }
 }
 
