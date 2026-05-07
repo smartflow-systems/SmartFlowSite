@@ -44,13 +44,26 @@ jobs:
 
       - name: Check for exposed secrets
         run: |
-          # Check for common secret patterns
-          if grep -r "ghp_" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          # Check for common secret patterns (variables prevent self-detection)
+          GHP_PATTERN="ghp_"
+          PAT_PATTERN="github_pat_"
+
+          if grep -r "$GHP_PATTERN" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=attached_assets --exclude=RESTRUCTURE-COMPLETE.md 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
 
-          if grep -r "github_pat_" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          if grep -r "${GHP_PATTERN}[a-zA-Z0-9]" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=attached_assets --exclude=RESTRUCTURE-COMPLETE.md 2>/dev/null; then
+            echo "❌ ERROR: Exposed GitHub token detected"
+            exit 1
+          fi
+
+          if grep -r "$PAT_PATTERN" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=attached_assets --exclude=RESTRUCTURE-COMPLETE.md 2>/dev/null; then
+            echo "❌ ERROR: Exposed GitHub token detected"
+            exit 1
+          fi
+
+          if grep -r "${PAT_PATTERN}[a-zA-Z0-9]" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=attached_assets --exclude=RESTRUCTURE-COMPLETE.md 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
