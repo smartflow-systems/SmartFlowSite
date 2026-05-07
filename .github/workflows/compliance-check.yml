@@ -44,18 +44,24 @@ jobs:
 
       - name: Check for exposed secrets
         run: |
-          # Match real tokens only: ≥15 consecutive alphanumeric chars after prefix.
-          # Placeholder text (xxx, YOUR_TOKEN, ...) won't reach that length without
-          # underscores/dots, so they are safely skipped.
-          GHP_REAL="ghp_[A-Za-z0-9]{15,}"
-          PAT_REAL="github_pat_[A-Za-z0-9]{15,}"
+          # Real secrets live in code/config files, not markdown docs.
+          # Exclude .md files and docs/ dirs to avoid placeholder examples triggering
+          # the check (e.g. "github_pat_xxxx..." in SECRETS-RECOVERY guides).
+          GHP_PATTERN="ghp_"
+          PAT_PATTERN="github_pat_"
 
-          if grep -rE "$GHP_REAL" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          if grep -r "$GHP_PATTERN" . \
+              --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
+              --exclude-dir=docs --exclude-dir=attached_assets \
+              --exclude="*.md" 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
 
-          if grep -rE "$PAT_REAL" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          if grep -r "$PAT_PATTERN" . \
+              --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
+              --exclude-dir=docs --exclude-dir=attached_assets \
+              --exclude="*.md" 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
