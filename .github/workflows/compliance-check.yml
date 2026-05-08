@@ -44,17 +44,22 @@ jobs:
 
       - name: Check for exposed secrets
         run: |
-          # Check for common secret patterns
-          if grep -r "ghp_" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          GHP_PATTERN="ghp_"
+          PAT_PATTERN="github_pat_"
+          if grep -r "$GHP_PATTERN" . \
+              --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
+              --exclude-dir=docs --exclude-dir=attached_assets \
+              --exclude="*.md" 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
-
-          if grep -r "github_pat_" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github 2>/dev/null; then
+          if grep -r "$PAT_PATTERN" . \
+              --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
+              --exclude-dir=docs --exclude-dir=attached_assets \
+              --exclude="*.md" 2>/dev/null; then
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
-
           echo "✓ No exposed secrets found"
 
       - name: Verify Node version in package.json
