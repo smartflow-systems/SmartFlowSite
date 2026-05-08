@@ -1,0 +1,70 @@
+{
+  "agent_id": "sales-closer-agent",
+  "name": "Sales-Closer Agent",
+  "platform": "n8n",
+  "capabilities": [
+    "lead-qualification",
+    "email-drafting",
+    "crm-updates",
+    "outreach-automation",
+    "follow-up-scheduling"
+  ],
+  "apps": [
+    "SFSAPDemoCRM",
+    "sfs-n8n",
+    "SocialScaleBoosterAIbot",
+    "Barber-booker-tempate-v1"
+  ],
+  "description": "Qualifies inbound leads via GPT-4o, drafts personalised outreach emails into Gmail, updates SFSAPDemoCRM, and sends a daily MAKE MONEY digest to Discord.",
+  "triggers": {
+    "events": ["lead.created", "stripe.checkout.session.completed"],
+    "schedule": "30 8 * * 1-5",
+    "webhooks": ["/webhook/sales/lead-intake"]
+  },
+  "context_files": [
+    "sfs-n8n/sales-closer-agent.md",
+    "SFSAPDemoCRM/CLAUDE.md"
+  ],
+  "n8n_workflows": [
+    "sfs-n8n/workflows/06-sales-lead-intake.json",
+    "sfs-n8n/workflows/07-daily-make-money.json",
+    "sfs-n8n/workflows/08-stripe-paid-onboard.json"
+  ],
+  "inputs": {
+    "lead_name": "string",
+    "lead_email": "string",
+    "lead_company": "string",
+    "lead_industry": "string (barber|salon|ecommerce|retail|marketing|unknown)",
+    "lead_notes": "string",
+    "lead_status": "string (New|Contacted|Follow-up|Cold|Won)",
+    "follow_up_count": "number"
+  },
+  "outputs": {
+    "action": "string (first_touch|follow_up|break_up)",
+    "qualification_score": "number (1-10)",
+    "recommended_product": "string",
+    "email_subject": "string",
+    "email_body": "string",
+    "new_status": "string",
+    "gmail_draft_id": "string",
+    "discord_notified": "boolean"
+  },
+  "env_vars": [
+    "OPENAI_API_KEY",
+    "CRM_BASE_URL",
+    "ALERT_WEBHOOK_URL"
+  ],
+  "crm_endpoints": {
+    "list_leads": "GET /api/leads",
+    "create_lead": "POST /api/leads",
+    "update_lead": "PATCH /api/leads/:id",
+    "log_activity": "POST /api/activities",
+    "convert_lead": "POST /api/leads/:id/convert"
+  },
+  "routing_rules": {
+    "barber|salon|beauty|hair|nails|aesthetics": "Barber Booker",
+    "ecommerce|retail|social|marketing|brand": "SocialScaleBooster",
+    "default": "Barber Booker"
+  },
+  "status": "ready — pending Gmail OAuth2 credential setup in n8n UI"
+}
