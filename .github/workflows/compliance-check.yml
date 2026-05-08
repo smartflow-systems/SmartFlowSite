@@ -44,8 +44,12 @@ jobs:
 
       - name: Check for exposed secrets
         run: |
+          # Real secrets live in code/config files, not markdown docs.
+          # Exclude .md files and docs/ dirs to avoid placeholder examples triggering
+          # the check (e.g. "github_pat_xxxx..." in SECRETS-RECOVERY guides).
           GHP_PATTERN="ghp_"
           PAT_PATTERN="github_pat_"
+
           if grep -r "$GHP_PATTERN" . \
               --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
               --exclude-dir=docs --exclude-dir=attached_assets \
@@ -53,6 +57,7 @@ jobs:
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
+
           if grep -r "$PAT_PATTERN" . \
               --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github \
               --exclude-dir=docs --exclude-dir=attached_assets \
@@ -60,6 +65,7 @@ jobs:
             echo "❌ ERROR: Exposed GitHub token detected"
             exit 1
           fi
+
           echo "✓ No exposed secrets found"
 
       - name: Verify Node version in package.json

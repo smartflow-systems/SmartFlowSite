@@ -1,0 +1,7 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- SmartFlow Logo - Edit this SVG to customize the logo -->
+  <circle cx="20" cy="20" r="18" fill="none" stroke="#d4af37" stroke-width="2"/>
+  <path d="M12 20 L16 16 L24 24 L28 20" stroke="#d4af37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="20" cy="20" r="3" fill="#d4af37"/>
+  <text x="20" y="35" text-anchor="middle" fill="#d4af37" font-family="Arial" font-size="6" font-weight="bold">SF</text>
+</svg>

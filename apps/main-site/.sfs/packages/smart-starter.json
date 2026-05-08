@@ -1,0 +1,61 @@
+{
+  "package_id": "smart-starter",
+  "name": "SmartStarter Package",
+  "version": "1.0.0",
+  "description": "Complete setup package for new SFS projects: theme + docs + CI",
+  "capabilities": [
+    "project-setup",
+    "theme-application",
+    "documentation",
+    "ci-cd"
+  ],
+  "agents": [
+    "smartflow-theme-enforcer",
+    "documentation-writer",
+    "ci-setup-agent"
+  ],
+  "workflow": [
+    {
+      "name": "apply-theme",
+      "agent": "smartflow-theme-enforcer",
+      "action": "apply-theme",
+      "input": {
+        "repo_path": "${REPO_PATH}",
+        "theme_variant": "standard"
+      },
+      "output_to": "theme_result"
+    },
+    {
+      "name": "generate-docs",
+      "agent": "documentation-writer",
+      "action": "generate-readme",
+      "input": {
+        "doc_type": "readme",
+        "repo_path": "${REPO_PATH}"
+      },
+      "depends_on": ["apply-theme"],
+      "output_to": "docs_result"
+    },
+    {
+      "name": "setup-ci",
+      "agent": "ci-setup-agent",
+      "action": "configure-ci",
+      "input": {
+        "repo_path": "${REPO_PATH}",
+        "workflow_type": "${WORKFLOW_TYPE}",
+        "deploy_target": "${DEPLOY_TARGET}"
+      },
+      "depends_on": ["apply-theme"],
+      "output_to": "ci_result"
+    }
+  ],
+  "default_context": {
+    "WORKFLOW_TYPE": "node",
+    "DEPLOY_TARGET": "replit"
+  },
+  "metadata": {
+    "author": "SFS Core Team",
+    "created": "2025-01-15",
+    "tags": ["onboarding", "setup", "automation"]
+  }
+}

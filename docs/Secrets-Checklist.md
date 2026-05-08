@@ -1,2 +1,4 @@
-Names only (no values):
-SFS_PAT • REPLIT_TOKEN • SFS_SYNC_URL → GitHub Org ▸ Secrets (Actions)
+﻿DO NOT PUT VALUES. Name → Where:
+SFS_PAT → GitHub Org Secret
+REPLIT_TOKEN → GitHub Org Secret
+SFS_SYNC_URL → GitHub Org Secret

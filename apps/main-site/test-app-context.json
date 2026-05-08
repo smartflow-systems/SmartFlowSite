@@ -1,0 +1,7 @@
+{
+  "APP_NAME": "MyNewApp",
+  "APP_DESCRIPTION": "A modern web application for managing customer relationships",
+  "TARGET_AUDIENCE": "Small business owners and sales teams",
+  "WORKFLOW_TYPE": "node",
+  "DEPLOY_TARGET": "replit"
+}

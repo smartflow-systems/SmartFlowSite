@@ -1,0 +1,12 @@
+
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Welcome to SmartFlow Systems",
+      "excerpt": "Discover how our automation solutions can transform your business",
+      "date": "2025-01-01",
+      "slug": "welcome-smartflow"
+    }
+  ]
+}

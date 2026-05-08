@@ -1,0 +1,62 @@
+## SmartFlow Status (Wed Sep 10 08:10:14 PM UTC 2025)
+
+### Versions
+node: v20.19.3
+npm: 10.8.2
+
+### Package head
+{
+  "name": "smartflowsite-landing",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "dev": "node server.js" },
+  "dependencies": { "express": "^4.19.2" }
+}
+
+### Server process
+2920 /nix/store/r1smm331j6crqs02mn986g06f7cpbggh-nodejs-22.17.0/bin/node /nix/store/rb3xzs9lwfnlz6f3ij7b3yqy6xdw9zj9-typescript-language-server-4.3.3/lib/node_modules/typescript-language-server/lib/cli.mjs --stdio
+2928 node /nix/store/sgk3xs1ixrkrqpz6qqmnvmrwhspsk1i5-pyright-extended-2.0.13/lib/langserver.index.js --stdio
+2960 /nix/store/r1smm331j6crqs02mn986g06f7cpbggh-nodejs-22.17.0/bin/node /nix/store/jm6f250skx57gnfbisb8kkqgkc0ph9p5-typescript-5.8.3/lib/node_modules/typescript/lib/tsserver.js --serverMode partialSemantic --useInferredProjectPerProjectRoot --disableAutomaticTypingAcquisition --cancellationPipeName /tmp/b11cfce2a89b8e5100053ae342734d94/tscancellation* --locale en --validateDefaultNpmLocation --useNodeIpc
+2961 /nix/store/r1smm331j6crqs02mn986g06f7cpbggh-nodejs-22.17.0/bin/node /nix/store/jm6f250skx57gnfbisb8kkqgkc0ph9p5-typescript-5.8.3/lib/node_modules/typescript/lib/tsserver.js --useInferredProjectPerProjectRoot --cancellationPipeName /tmp/c5a2c34977fb8a1b98c605cdcecfb77e/tscancellation* --locale en --validateDefaultNpmLocation --useNodeIpc
+2974 /nix/store/r1smm331j6crqs02mn986g06f7cpbggh-nodejs-22.17.0/bin/node /nix/store/jm6f250skx57gnfbisb8kkqgkc0ph9p5-typescript-5.8.3/lib/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /home/runner/workspace/.cache/typescript/5.8 --typesMapLocation /nix/store/jm6f250skx57gnfbisb8kkqgkc0ph9p5-typescript-5.8.3/lib/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation
+
+### HTTP checks (on :3000)
+/ -> 000ERR
+/landing -> 000ERR
+/brand/logo.png -> 000ERR
+/brand/logo.svg -> 000ERR
+/data/posts.json -> 000ERR
+/health -> 000ERR
+
+### Files (public, 2 levels)
+public/brand/logo.png
+public/brand/logo.svg
+public/data/posts.json
+public/landing/index.html
+
+### Git
+origin	git@github.com:smartflow-systems/SmartFlowSite.git (fetch)
+origin	git@github.com:smartflow-systems/SmartFlowSite.git (push)
+main
+ M .replit
+ M README.md
+ M package-lock.json
+ D server.js:
+?? Dockerfile
+?? Node.js/
+?? "Project structure"
+?? ROADMAP.md
+?? SFS_REPORT.txt
+?? config/
+?? editorconfig
+?? make_template.sh
+?? next.config.js
+?? "npm i"
+?? package.json.bak.1757533482
+?? package.json.bak.1757533596
+?? prettierrc
+?? schema.sql
+?? server-store.js
+?? server.js.bak.1757533596
+?? src/

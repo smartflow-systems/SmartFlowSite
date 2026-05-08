@@ -1,0 +1,45 @@
+{
+  "agent_id": "my-first-agent",
+  "name": "My First Custom Agent",
+  "platform": "custom",
+  "capabilities": [
+    "automation",
+    "task-execution",
+    "custom-workflow"
+  ],
+  "apps": [
+    "SmartFlowSite"
+  ],
+  "description": "My first custom agent - a template I can customize for any task!",
+  "triggers": {
+    "events": [
+      "manual.trigger"
+    ],
+    "webhooks": [
+      "/api/agents/my-first-agent/trigger"
+    ]
+  },
+  "context_files": [
+    "docs/Memory-Baseline.md",
+    "sfs-theme-config.json"
+  ],
+  "inputs": {
+    "task": "string - what should I do?",
+    "data": "object - any data needed for the task"
+  },
+  "outputs": {
+    "format": "json",
+    "schema": {
+      "success": "boolean",
+      "result": "string",
+      "timestamp": "string"
+    }
+  },
+  "dependencies": [],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "Garet (SmartFlow Systems)",
+    "created": "2025-01-15",
+    "notes": "This is a template agent I can customize for specific tasks"
+  }
+}

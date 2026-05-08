@@ -1,0 +1,163 @@
+Nice—you're in `index.html` with nano. Here’s exactly what to do.
+
+# Where to paste
+
+1. In nano, press **Ctrl+W** and type:
+
+```
+latest-posts
+```
+
+If it finds an element like `<div id="latest-posts">…</div>` (or similar), great.
+If not found, press **Ctrl+W** again and search for:
+
+```
+innerHTML
+```
+
+That will jump to the old unsafe script.
+
+# Replace the risky code
+
+* If you see a line building cards with `innerHTML = ...`, **delete that whole script block** (or comment it out).
+* Then paste this safe block **once**, ideally **just before `</body>`** (that’s the simplest place):
+
+```html
+<script>
+(async () => {
+  const container =
+    document.getElementById('latest-posts') ||
+    document.querySelector('#latest-posts,[data-latest-posts]');
+  if (!container) return;
+
+  const res = await fetch('/data/posts.json', { cache: 'no-store' });
+  const posts = await res.json();
+
+  const makeCard = (p) => {
+    const a = document.createElement('a');
+    a.className = 'card';
+    try { a.href = new URL(p?.url ?? '#', location.origin).toString(); } catch { a.href = '#'; }
+    a.target = '_blank';
+    a.rel = 'noopener';
+
+    const h4 = document.createElement('h4');
+    h4.textContent = p?.title ?? '';
+
+    const small = document.createElement('small');
+    small.className = 'muted';
+    small.textContent = p?.date ?? '';
+
+    const para = document.createElement('p');
+    para.textContent = p?.snippet ?? '';
+
+    a.append(h4, small, para);
+    return a;
+  };
+
+  const frag = document.createDocumentFragment();
+  posts.slice(0, 3).map(makeCard).forEach(n => frag.appendChild(n));
+  container.replaceChildren(frag);
+})();
+</script>
+```
+
+# Save & exit nano
+
+* **Ctrl+O**, Enter (write out)
+* **Ctrl+X** (exit)
+
+# Double-check other files
+
+Back in the terminal, run:
+
+```bash
+grep -nER --include='*.{html,htm,js,jsx,ts,tsx}' 'innerHTML|latest-posts|posts\.json' . 2>/dev/null
+```
+
+If you see `app.js` still using `innerHTML` to render posts, open it and switch that part to the same DOM pattern (create elements, set `textContent`, append).
+
+# Commit & push
+
+```bash
+git add index.html app.js 2>/dev/null || git add index.html
+git commit -m "sec(xss): render latest posts via safe DOM (no innerHTML)"
+git push -u fork alert-autofix-275
+git push origin HEAD:users/boweazy/alert-autofix-275
+```
+
+Need me to tailor a tiny `posts.js` helper so you can import it in multiple pages?
+
+
+nice—you're in `index.html` already. here’s the quick path to fix the unsafe `innerHTML` bit.
+
+# find the spot in nano
+
+* press **Ctrl+W**, type `latest-posts`, hit **Enter**.
+  if nothing, **Ctrl+W** again and search for `innerHTML`.
+
+# replace with safe code
+
+* delete the old script that builds cards with `innerHTML = …`.
+* paste this **once** (ideally just before `</body>`):
+
+```html
+<script>
+(async () => {
+  const container =
+    document.getElementById('latest-posts') ||
+    document.querySelector('#latest-posts,[data-latest-posts]');
+  if (!container) return;
+
+  const res = await fetch('/data/posts.json', { cache: 'no-store' });
+  const posts = await res.json();
+
+  const makeCard = (p) => {
+    const a = document.createElement('a');
+    a.className = 'card';
+    try { a.href = new URL(p?.url ?? '#', location.origin).toString(); } catch { a.href = '#'; }
+    a.target = '_blank';
+    a.rel = 'noopener';
+
+    const h4 = document.createElement('h4');
+    h4.textContent = p?.title ?? '';
+
+    const small = document.createElement('small');
+    small.className = 'muted';
+    small.textContent = p?.date ?? '';
+
+    const para = document.createElement('p');
+    para.textContent = p?.snippet ?? '';
+
+    a.append(h4, small, para);
+    return a;
+  };
+
+  const frag = document.createDocumentFragment();
+  posts.slice(0, 3).map(makeCard).forEach(n => frag.appendChild(n));
+  container.replaceChildren(frag);
+})();
+</script>
+```
+
+# save & exit
+
+* **Ctrl+O**, **Enter** (save), then **Ctrl+X** (exit).
+
+# check for other sinks (bash)
+
+```bash
+grep -nER --include='*.{html,htm,js,jsx,ts,tsx}' 'innerHTML|latest-posts|posts\.json' . 2>/dev/null
+```
+
+if you see `app.js` also using `innerHTML` for posts, switch it to create elements + `textContent` like above.
+
+# commit & push (bash)
+
+```bash
+git add index.html app.js 2>/dev/null || git add index.html
+git commit -m "sec(xss): render latest posts via safe DOM (no innerHTML)"
+git push -u fork alert-autofix-275
+git push origin HEAD:users/boweazy/alert-autofix-275
+```
+
+want me to prep a tiny `posts-helper.js` so multiple pages can reuse it?

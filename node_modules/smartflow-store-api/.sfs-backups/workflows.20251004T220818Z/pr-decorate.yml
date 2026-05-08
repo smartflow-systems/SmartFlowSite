@@ -1,0 +1,44 @@
+name: PR Decorator
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
+
+jobs:
+  decorate:
+    if: ${{ github.event.pull_request.number != '' && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
+      - name: Write badges + quick links
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        continue-on-error: true
+        with:
+          script: |
+            if (!context.payload.pull_request) {
+              core.notice('No PR in context; skip decoration'); return;
+            }
+            const pr = context.payload.pull_request
+            const owner = context.repo.owner, repo = context.repo.repo
+            const act = `https://github.com/${owner}/${repo}/actions/workflows/ci.yml`
+            const codeql = `https://github.com/${owner}/${repo}/actions/workflows/codeql.yml`
+            const badges = [
+              `[![SFS CI + Deploy](${act}/badge.svg)](${act})`,
+              `[![CodeQL](${codeql}/badge.svg)](${codeql})`
+            ].join(' ')
+            const section = `<!-- PR-DECO:START -->
+${badges}
+
+**Quick links:** [Open PR](${pr.html_url}) • [CI Logs](${act}) • [CodeQL](${codeql})
+> House rules: tests green; no secrets; reusable SFS CI.
+<!-- PR-DECO:END -->`
+            const oldBody = pr.body || ""
+            const withoutOld = oldBody.replace(/<!-- PR-DECO:START -->[\s\S]*?<!-- PR-DECO:END -->/m, "").trim()
+            const newBody = (withoutOld + "\n\n" + section).trim()
+            if (newBody === oldBody.trim()) {
+              core.notice('No decoration change needed'); return;
+            }
+            await github.rest.pulls.update({ owner, repo, pull_number: pr.number, body: newBody })
+            core.notice('PR decorated')

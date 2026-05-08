@@ -1,0 +1,391 @@
+ROLE: Senior full-stack builder for SmartFlow Systems.
+
+MISSION:
+Rebuild the SmartFlowSite homepage so each project (AI Bot, Booking, E-com, Websites) has its own page, with a premium black/brown + shiny gold theme, latest posts, testimonials, and a clear CTA. Keep it static (HTML/CSS/JS). Be exact and idempotent.
+
+INSTRUCTIONS:
+- Create or overwrite ONLY the files listed below with EXACT contents.
+- Keep any other repo files unchanged.
+- Ensure folders exist before writing files.
+- After writing, run a quick HTML/CSS/JS lint pass if available; do not reformat content.
+- Do not add frameworks.
+
+FILES TO WRITE (exact content):
+
+========================
+FILE: index.html
+========================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SmartFlow Systems — Automate growth. Sell while you sleep.</title>
+  <meta name="description" content="AI Social Bot, Booking, E-com Shops, and Premium Websites — each with demos, features, and pricing."/>
+  <meta name="theme-color" content="#0b0b0b"/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="brandwrap">
+      <img src="assets/logo.png" alt="SmartFlow Systems" class="logo"/>
+      <a class="brand" href="/">SmartFlow Systems</a>
+    </div>
+    <nav class="links">
+      <a href="#projects">Projects</a>
+      <a href="#latest">Latest</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-inner">
+      <h1>Automate growth. <span class="gold">Sell while you sleep.</span></h1>
+      <p class="lead">Real systems, not fluff: AI Social Bot, Bookings that convert, E-com that ships, and Websites that look expensive.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projects">See the systems</a>
+        <a class="btn btn-ghost" href="pricing.html">Get pricing</a>
+      </div>
+      <div class="badges">
+        <span>Stripe-ready</span><span>SEO-ready</span><span>Demo-ready</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section container">
+    <h2 class="section-title">Projects (each with its own page)</h2>
+    <div class="projects-grid">
+      <article class="project-card">
+        <h3>AI Social Bot</h3>
+        <ul class="feature-list">
+          <li>Auto captions + niche hashtags</li>
+          <li>DM funnel & lead capture</li>
+          <li>Content calendar presets</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="projects/ai-bot.html">See capabilities</a>
+          <a class="btn btn-ghost" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <h3>Smart Booking</h3>
+        <ul class="feature-list">
+          <li>Stripe deposits & no-show guard</li>
+          <li>Google Calendar sync</li>
+          <li>Industry presets (barbers/salons/coaches)</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="projects/booking.html">See capabilities</a>
+          <a class="btn btn-ghost" href="contact.html">Book a setup call</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <h3>Smart E-Com Shops</h3>
+        <ul class="feature-list">
+          <li>One-page checkout</li>
+          <li>Upsells & email capture</li>
+          <li>Fast product presets</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="projects/ecom.html">See capabilities</a>
+          <a class="btn btn-ghost" href="contact.html">Launch my store</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <h3>Premium Websites</h3>
+        <ul class="feature-list">
+          <li>Black/Brown + Gold premium theme</li>
+          <li>Speed-optimized & SEO meta</li>
+          <li>Case-study layouts</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="projects/websites.html">See capabilities</a>
+          <a class="btn btn-ghost" href="contact.html">Get a quote</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- LATEST -->
+  <section id="latest" class="section container">
+    <h2 class="section-title">Latest from SmartFlow</h2>
+    <div id="latest-list" class="latest-list"></div>
+    <div class="actions center">
+      <a class="btn btn-ghost" href="updates.html">See all updates</a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="social-proof" class="section container">
+    <h2 class="section-title">What people say</h2>
+    <div class="testimonials" data-rotate="6000">
+      <blockquote class="t-item active">
+        <p>“Plugged the bot in on Monday, had 6 qualified DMs by Friday. Wild.”</p>
+        <cite>— J. Carter, Barber Studio</cite>
+      </blockquote>
+      <blockquote class="t-item">
+        <p>“Booking deposits killed our no-shows. Revenue up, stress down.”</p>
+        <cite>— A. Khan, Beauty Lounge</cite>
+      </blockquote>
+      <blockquote class="t-item">
+        <p>“Fast storefront + upsells = extra £1.2k in the first month.”</p>
+        <cite>— R. Mendez, Streetwear</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta container">
+    <h3>Ready to launch?</h3>
+    <p>Pick a plan or jump on a call. I’ll set it up so you’re selling while you sleep.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="pricing.html">See pricing</a>
+      <a class="btn btn-ghost" href="contact.html">Book a call</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© SmartFlow Systems</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+
+========================
+FILE: styles.css
+========================
+:root{
+  --bg:#0b0b0b; --panel:#14110f; --gold:#d4af37; --text:#e9e6df; --muted:#9a8f80;
+  --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif}
+a{color:var(--gold);text-decoration:none}
+img{max-width:100%;display:block}
+.container{width:min(1100px,92%);margin:auto}
+.section{padding:56px 0}
+.section-title{font-size:1.9rem;margin:0 0 18px}
+.center{text-align:center}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 4vw;background:rgba(11,11,11,.8);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(212,175,55,.14)}
+.brandwrap{display:flex;align-items:center;gap:10px}
+.logo{height:28px;width:auto;filter:drop-shadow(0 2px 8px rgba(212,175,55,.15))}
+.brand{font-weight:700;letter-spacing:.4px}
+.links a{margin-left:18px}
+
+/* hero */
+.hero{display:grid;place-items:center;min-height:72vh;background:
+  radial-gradient(900px 360px at 20% 0%, rgba(212,175,55,.08), transparent),
+  linear-gradient(180deg, rgba(212,175,55,.06), transparent 40%)}
+.hero-inner{text-align:center;padding:48px 0}
+.hero h1{font-size:clamp(2rem,3.6vw,3.5rem);line-height:1.08;margin:0 0 12px}
+.hero .gold{color:var(--gold)}
+.lead{opacity:.9;max-width:720px;margin:0 auto 18px}
+.badges{display:flex;gap:14px;justify-content:center;opacity:.8;font-size:.95rem;flex-wrap:wrap}
+
+/* buttons */
+.btn{display:inline-block;border:1px solid var(--gold);padding:12px 18px;border-radius:999px;transition:.2s;box-shadow:var(--shadow)}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--gold);color:#281f0b;font-weight:700}
+.btn-ghost{color:var(--gold);background:transparent}
+
+/* grid */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.project-card{background:var(--panel);border:1px solid rgba(212,175,55,.16);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.project-card h3{margin-top:0}
+.feature-list{margin:0 0 16px 18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* latest */
+.latest-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.latest-card{background:var(--panel);border:1px solid rgba(212,175,55,.14);padding:16px;border-radius:var(--radius)}
+.latest-card time{display:block;color:var(--muted);font-size:.9rem;margin-top:6px}
+
+/* testimonials */
+.testimonials{position:relative;background:var(--panel);border:1px solid rgba(212,175,55,.14);padding:22px;border-radius:var(--radius)}
+.t-item{display:none;margin:0;font-size:1.05rem}
+.t-item.active{display:block}
+.t-item cite{display:block;color:var(--muted);margin-top:8px}
+
+/* cta + footer */
+.cta{background:linear-gradient(180deg, rgba(212,175,55,.06), transparent 40%);padding-bottom:64px}
+.footer{padding:32px 0;border-top:1px solid rgba(212,175,55,.14);text-align:center;color:var(--muted)}
+
+========================
+FILE: app.js
+========================
+async function loadLatest() {
+  const target = document.getElementById('latest-list');
+  if (!target) return;
+  try {
+    const res = await fetch('data/posts.json', { cache: 'no-store' });
+    const items = await res.json();
+    items.sort((a,b)=> new Date(b.date) - new Date(a.date));
+    const top3 = items.slice(0,3);
+    target.innerHTML = top3.map(p => `
+      <article class="latest-card">
+        <a href="${p.url}"><h3>${p.title}</h3></a>
+        <time datetime="${p.date}">${new Date(p.date).toLocaleDateString()}</time>
+      </article>
+    `).join('');
+  } catch (e) {
+    target.innerHTML = `<p class="muted">No posts yet.</p>`;
+    console.error('Latest load error', e);
+  }
+}
+function rotateTestimonials() {
+  const wrap = document.querySelector('.testimonials');
+  if (!wrap) return;
+  const speed = Number(wrap.dataset.rotate || 7000);
+  const items = [...wrap.querySelectorAll('.t-item')];
+  if (items.length < 2) return;
+  let i = 0;
+  setInterval(()=>{
+    items[i].classList.remove('active');
+    i = (i + 1) % items.length;
+    items[i].classList.add('active');
+  }, speed);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  loadLatest();
+  rotateTestimonials();
+});
+
+========================
+FILE: data/posts.json
+========================
+[
+  { "title": "AI Social Bot: DM funnel upgrade (v0.2)", "url": "updates.html#ai-bot-dm-funnel", "date": "2025-08-15" },
+  { "title": "Booking deposits live for salons", "url": "updates.html#booking-deposits", "date": "2025-08-12" },
+  { "title": "Smart E-Com: one-page checkout preset", "url": "updates.html#ecom-onepage", "date": "2025-08-08" }
+]
+
+========================
+FILE: projects/ai-bot.html
+========================
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI Social Bot — SmartFlow</title><link rel="stylesheet" href="../styles.css"/>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+<section class="section container">
+  <h1 class="section-title">AI Social Bot</h1><p>Auto-captions, hashtags, DM funnel, and lead capture for IG/TikTok.</p>
+  <div class="projects-grid">
+    <article class="project-card"><h3>Capabilities</h3>
+      <ul class="feature-list"><li>Caption + niche tags generator</li><li>Auto DM funnel with lead form</li><li>Content calendar presets</li></ul>
+      <div class="actions"><a class="btn btn-primary" target="_blank" href="https://github.com/boweazy/SocialScaleBoosterAIbot.git">View code</a><a class="btn btn-ghost" href="../contact.html">Install for my brand</a></div>
+    </article>
+    <article class="project-card"><h3>Live demo</h3><p>See sample captions + DM flow logic.</p>
+      <div class="actions"><a class="btn btn-primary" href="../tools/social.html">Open caption tool</a></div>
+    </article>
+  </div>
+</section>
+<section class="cta container"><h3>Ready to automate your socials?</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="../pricing.html">See pricing</a><a class="btn btn-ghost" href="../contact.html">Book a call</a></div>
+</section></body></html>
+
+========================
+FILE: projects/booking.html
+========================
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Smart Booking — SmartFlow</title><link rel="stylesheet" href="../styles.css"/>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+<section class="section container">
+  <h1 class="section-title">Smart Booking</h1><p>Stripe deposits, Google Calendar sync, and no-show protection.</p>
+  <div class="projects-grid">
+    <article class="project-card"><h3>Capabilities</h3>
+      <ul class="feature-list"><li>Deposits + cancellation window</li><li>Google Calendar 2-way sync</li><li>Industry presets (barber/salon/coach)</li></ul>
+      <div class="actions"><a class="btn btn-primary" href="../contact.html">Request a demo</a></div>
+    </article>
+    <article class="project-card"><h3>Demo link</h3><p>We’ll attach your live Replit demo here.</p>
+      <div class="actions"><a class="btn btn-ghost" href="../contact.html">Add my demo</a></div>
+    </article>
+  </div>
+</section>
+<section class="cta container"><h3>Ready to stop no-shows?</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="../pricing.html">See pricing</a><a class="btn btn-ghost" href="../contact.html">Book a call</a></div>
+</section></body></html>
+
+========================
+FILE: projects/ecom.html
+========================
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Smart E-Com — SmartFlow</title><link rel="stylesheet" href="../styles.css"/>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+<section class="section container">
+  <h1 class="section-title">Smart E-Com Shops</h1><p>Speedy storefronts, one-page checkout, built-in upsells.</p>
+  <div class="projects-grid">
+    <article class="project-card"><h3>Capabilities</h3>
+      <ul class="feature-list"><li>One-page checkout</li><li>Cart bump & post-purchase upsell</li><li>Email capture + welcome flow</li></ul>
+      <div class="actions"><a class="btn btn-primary" href="../contact.html">Launch my shop</a></div>
+    </article>
+    <article class="project-card"><h3>Demo link</h3><p>Attach your Replit e-com demo here.</p>
+      <div class="actions"><a class="btn btn-ghost" href="../contact.html">Add my demo</a></div>
+    </article>
+  </div>
+</section>
+<section class="cta container"><h3>Ready to sell?</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="../pricing.html">See pricing</a><a class="btn btn-ghost" href="../contact.html">Book a call</a></div>
+</section></body></html>
+
+========================
+FILE: projects/websites.html
+========================
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Premium Websites — SmartFlow</title><link rel="stylesheet" href="../styles.css"/>
+</head><body>
+<header class="nav"><div class="brandwrap"><a class="brand" href="../">SmartFlow Systems</a></div>
+<nav class="links"><a href="../#projects">Projects</a><a href="../pricing.html">Pricing</a></nav></header>
+<section class="section container">
+  <h1 class="section-title">Premium Websites</h1><p>Fast. SEO-ready. Looks expensive. Built in your brand style.</p>
+  <div class="projects-grid">
+    <article class="project-card"><h3>Capabilities</h3>
+      <ul class="feature-list"><li>Black/Brown + Gold theme</li><li>Case studies & testimonials layout</li><li>Analytics + on-page SEO</li></ul>
+      <div class="actions"><a class="btn btn-primary" href="../contact.html">Get a quote</a></div>
+    </article>
+    <article class="project-card"><h3>Demo</h3><p>We’ll attach a live sample site.</p>
+      <div class="actions"><a class="btn btn-ghost" href="../contact.html">Add my demo</a></div>
+    </article>
+  </div>
+</section>
+<section class="cta container"><h3>Ready to look premium?</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="../pricing.html">See pricing</a><a class="btn btn-ghost" href="../contact.html">Book a call</a></div>
+</section></body></html>
+
+POST-STEP CHECKS:
+1) Ensure folders exist: create `projects` and `data` if missing.
+2) Do not alter other files.
+3) Set a placeholder logo at `assets/logo.png` if none exists (can be a 1x1 png).
+4) Open index.html to confirm sections render, and that latest posts load from data/posts.json.
+
+DOCUMENT (for the human, keep at end of prompt):
+
+• Tech Change:
+  - Rebuilt homepage structure; added /projects/ pages; added data/posts.json; added JS for latest posts and testimonial rotation. No frameworks.
+
+• Marketing Insight:
+  - Each product now has its own landing with benefits, demo link, and clear CTA → higher clarity & conversions. “Sell while you sleep” headline communicates automation value instantly. Latest + testimonials add trust.
+
+• Design Tip (black/brown + shiny gold):
+  - Use gold only for CTAs, borders, and emphasis so it feels premium. The espresso-brown panel prevents flat black, boosting readability and polish.
+
+• Next Step (Gareth):
+  - Replace placeholders with your live demo URLs in each /projects/* page and drop your logo at assets/logo.png. Then push to GitHub and deploy.

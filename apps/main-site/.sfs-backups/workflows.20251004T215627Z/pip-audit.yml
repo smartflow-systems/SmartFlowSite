@@ -1,0 +1,17 @@
+name: pip-audit
+on:
+  pull_request:
+    paths:
+      - "requirements*.txt"
+      - "pyproject.toml"
+      - "poetry.lock"
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.x" }
+      - run: python -m pip install --upgrade pip pip-audit
+      - run: pip-audit -r requirements.txt || (echo "pip-audit found issues"; exit 1)
+        if: hashFiles('requirements.txt') != ''

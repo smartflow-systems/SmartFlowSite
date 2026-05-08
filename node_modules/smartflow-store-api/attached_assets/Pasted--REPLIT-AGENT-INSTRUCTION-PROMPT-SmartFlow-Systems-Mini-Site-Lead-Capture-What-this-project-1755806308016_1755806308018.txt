@@ -1,0 +1,432 @@
+# REPLIT AGENT INSTRUCTION PROMPT — SmartFlow Systems Mini‑Site + Lead Capture
+
+## What this project does (quick)
+A lightweight Flask app that serves a static mini‑site (pricing + booking pages), collects leads via a JSON API (`POST /lead`), writes them to `data/leads.jsonl`, and can optionally email new leads via SMTP.
+
+## Files required & where they go
+- Place all files in the project **root** (Replit repo root) exactly as listed below:
+  - `app.py` (Flask server)
+  - `site.config.json` (site settings consumed by `app.js`)
+  - `pricing.json` (data source for pricing cards)
+  - `pricing.html` (data‑driven pricing page)
+  - `book.html` (booking/lead form page; posts to `/lead` or external webhook)
+  - `app.js` (front‑end logic for pricing, latest posts, Calendly, and lead form)
+  - `styles.css` (site styles)
+  - `replit.toml` (already configured to run `python3 app.py`)
+- Create folders/files as needed:
+  - `data/` (runtime output; app creates `data/leads.jsonl` on first lead)
+  - Optional but recommended:
+    - `index.html` (your homepage; `GET /` serves this)
+    - `static-logo.png` (referenced by pages)
+    - `assets/lead-magnet-smartflow.pdf` (if you use `leadMagnetUrl` in config)
+    - Optional content feeds for “Latest”: `/data/posts.json`, `/blog/index.json`, or `/content/index.json`
+
+## Setup (packages & env)
+- Python: 3.10+ (Replit default is fine)
+- Packages: **Flask**
+  - In Replit “Packages”, add `flask` OR create `requirements.txt` with `Flask`.
+- (Optional) SMTP for lead email notifications — set environment variables in Replit “Secrets”:
+  - `SMTP_HOST` — e.g. `smtp.gmail.com`
+  - `SMTP_PORT` — default `587`
+  - `SMTP_USER` — SMTP username (optional if server allows unauthenticated send)
+  - `SMTP_PASS` — SMTP password (optional)
+  - `SMTP_FROM` — from address (defaults to `SMTP_TO` if not set)
+  - `SMTP_TO` — destination address for lead alerts
+- `site.config.json` values you may want to edit:
+  - `siteUrl`, `siteName`, `calendlyUrl`, `leadWebhook` (if set, form posts there instead of `/lead`), `leadMagnetUrl`
+
+## How to run in Replit
+- It’s already wired via `replit.toml`. Just press **Run** (equivalent of `python3 app.py`).
+- The server listens on `0.0.0.0:$PORT` (Replit handles the port). Visit the generated web URL.
+- Health check: open `/health` to verify JSON response.
+
+---
+
+# CODE FILES (verbatim)
+
+# =========================================
+# File: app.py
+# =========================================
+from __future__ import annotations
+from flask import Flask, send_from_directory, jsonify, request, abort
+from pathlib import Path
+from datetime import timedelta
+import smtplib, json, os
+from email.message import EmailMessage
+
+BASE = Path(__file__).parent.resolve()
+app = Flask(__name__, static_url_path="", static_folder=str(BASE))
+
+def load_json(path: Path, fallback=None):
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return fallback
+
+@app.after_request
+def add_caching(resp):
+    # Why: HTML fresh, assets cached
+    if resp.mimetype == "text/html":
+        resp.cache_control.no_cache = True
+    else:
+        resp.cache_control.public = True
+        resp.cache_control.max_age = int(timedelta(days=7).total_seconds())
+    resp.headers.setdefault("Access-Control-Allow-Origin", "*")
+    return resp
+
+@app.route("/")
+def index():
+    return send_from_directory(BASE, "index.html")
+
+@app.get("/health")
+def health():
+    cfg = load_json(BASE / "site.config.json", {})
+    return jsonify({"ok": True, "site": cfg.get("siteName", "SmartFlow Systems")})
+
+@app.route("/data/<path:fname>")
+def data_files(fname: str):
+    p = BASE / "data" / fname
+    if not p.exists():
+        abort(404)
+    return send_from_directory(p.parent, p.name)
+
+@app.post("/lead")
+def lead():
+    """Receive lead as JSON, store to /data/leads.jsonl, optionally email."""
+    payload = request.get_json(silent=True) or {}
+    name = str(payload.get("name", "")).strip()
+    email = str(payload.get("email", "")).strip()
+    if not name or "@" not in email:  # minimal validation
+        return jsonify({"ok": False, "error": "invalid"}), 400
+    payload["ts"] = payload.get("ts") or __import__("datetime").datetime.utcnow().isoformat() + "Z"
+
+    # Store
+    out = BASE / "data" / "leads.jsonl"
+    out.parent.mkdir(exist_ok=True)
+    with out.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+
+    # Optional email
+    host = os.getenv("SMTP_HOST", "")
+    to_addr = os.getenv("SMTP_TO", "")
+    if host and to_addr:
+        try:
+            msg = EmailMessage()
+            msg["Subject"] = f"New Lead: {name} ({payload.get('plan') or 'undecided'})"
+            msg["From"] = os.getenv("SMTP_FROM", to_addr)
+            msg["To"] = to_addr
+            body = "\n".join([f"{k}: {payload.get(k,'')}" for k in ("name","email","business","plan","goal","page","ts")])
+            msg.set_content(body)
+            port = int(os.getenv("SMTP_PORT", "587"))
+            user = os.getenv("SMTP_USER", "")
+            pwd = os.getenv("SMTP_PASS", "")
+            with smtplib.SMTP(host, port, timeout=10) as s:
+                s.starttls()
+                if user and pwd: s.login(user, pwd)
+                s.send_message(msg)
+        except Exception:
+            pass  # Why: never block user on email issues
+
+    return jsonify({"ok": True})
+
+@app.route("/<path:path>")
+def static_proxy(path: str):
+    return send_from_directory(BASE, path)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "8080"))
+    app.run(host="0.0.0.0", port=port, debug=False)
+
+# =========================================
+# File: site.config.json
+# =========================================
+"""
+{
+  "siteUrl": "https://your-domain.com",
+  "siteName": "SmartFlow Systems",
+  "calendlyUrl": "https://calendly.com/your-handle/30min",
+  "leadWebhook": "",
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf"
+}
+"""
+
+# =========================================
+# File: pricing.json
+# =========================================
+"""
+{
+  "plans": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "subtitle": "Launch fast",
+      "price": "£499",
+      "period": "one‑time",
+      "features": [
+        "One‑page website (black+gold)",
+        "Basic SEO + speed pass",
+        "Booking or Lead form",
+        "1 revision round"
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "subtitle": "Grow with automation",
+      "price": "£1,499",
+      "period": "one‑time",
+      "popular": true,
+      "features": [
+        "AI DM Bot (1 channel) + flows",
+        "Smart Booking (+ deposits)",
+        "3‑page website + copy",
+        "2 revision rounds"
+      ]
+    },
+    {
+      "id": "premium",
+      "name": "Premium",
+      "subtitle": "Scale & sell",
+      "price": "£2,999",
+      "period": "one‑time",
+      "features": [
+        "Ecom funnel or full shop",
+        "AI DM Bot (2 channels)",
+        "Conversion site (5‑7 pages)",
+        "1 month optimization"
+      ]
+    }
+  ]
+}
+"""
+
+# =========================================
+# File: pricing.html  (data-driven)
+# =========================================
+"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pricing — SmartFlow Systems</title>
+  <meta name="description" content="Transparent pricing for AI bots, booking, ecommerce and high‑converting websites." />
+  <link rel="icon" href="static-logo.png" />
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header container">
+    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
+    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <h1>Simple, outcome‑first pricing</h1>
+      <p class="sub">Edit <code>pricing.json</code>, refresh, done.</p>
+    </section>
+
+    <section class="section container">
+      <div id="pricing-cards" class="pricing-grid reveal" aria-live="polite"></div>
+      <p class="muted small center">Need a custom scope? <a href="book.html">Book a free call</a>.</p>
+    </section>
+
+    <section class="section container">
+      <h2 class="section-title">FAQs</h2>
+      <div class="faq">
+        <details><summary>How fast can we launch?</summary><p>Starter: ~3–5 days. Pro: ~7–10 days. Premium: ~2–3 weeks.</p></details>
+        <details><summary>What do you need from me?</summary><p>Logo/brand notes, product/services, and access to payment/booking tools.</p></details>
+        <details><summary>Is there a guarantee?</summary><p>We iterate until your system is deployed and working as scoped.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <small>© <span id="y"></span> SmartFlow Systems.</small>
+    <a class="link" href="index.html">Home</a>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+"""
+
+# =========================================
+# File: book.html  (posts to /lead if no webhook)
+# =========================================
+"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book a Call — SmartFlow Systems</title>
+  <meta name="description" content="Book a free 30‑minute strategy call or send your brief." />
+  <link rel="icon" href="static-logo.png" />
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header container">
+    <a href="index.html" class="brand"><img src="static-logo.png" alt="" class="logo" /><span class="brand-name">SmartFlow</span></a>
+    <nav class="nav"><a href="index.html#projects">Projects</a><a href="index.html#latest">Latest</a><a href="pricing.html">Pricing</a><a href="book.html" class="btn btn-gold">Book a Call</a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <h1>Let’s map your build</h1>
+      <p class="sub">Tell us your goal. We’ll advise the fastest path and set it up.</p>
+    </section>
+
+    <section class="section container">
+      <div class="book-grid">
+        <form id="lead-form" class="card" novalidate>
+          <h2 class="section-title">Send your brief</h2>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required /></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="business">Business</label><input id="business" name="business" autocomplete="organization" /></div>
+          <div class="field">
+            <label for="plan">Plan</label>
+            <select id="plan" name="plan">
+              <option value="">Undecided</option><option value="starter">Starter</option><option value="pro">Pro</option><option value="premium">Premium</option>
+            </select>
+          </div>
+          <div class="field"><label for="goal">What outcome do you want?</label><textarea id="goal" name="goal" rows="5" placeholder="e.g. Fill Saturdays; sell 50 tees/mo; automate DMs…"></textarea></div>
+          <button class="btn btn-gold btn-lg" type="submit" id="submit-btn">Send brief</button>
+          <p id="form-note" class="muted small">We’ll reply within 1 business day.</p>
+        </form>
+
+        <aside class="card">
+          <h2 class="section-title">Prefer to schedule?</h2>
+          <p>Book a free 30‑minute call.</p>
+          <a id="cal-btn" class="btn btn-ghost btn-lg" href="#" target="_blank" rel="noopener">Open Calendly</a>
+          <ul class="ticks"><li>Actionable steps</li><li>Clear timeline & price</li><li>No fluff</li></ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <small>© <span id="y"></span> SmartFlow Systems.</small>
+    <a class="link" href="index.html">Home</a>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+"""
+
+# =========================================
+# File: app.js  (superset with pricing + /lead fallback)
+# =========================================
+"""
+const t = (v) => (v ?? '').toString().replace(/[<>]/g, '');
+
+async function getConfig(){
+  try{ const r = await fetch('/site.config.json',{cache:'no-store'}); return r.ok ? r.json() : {}; }
+  catch{ return {}; }
+}
+
+async function getLatest(){
+  const urls=['/data/posts.json','/blog/index.json','/content/index.json'];
+  for (const u of urls){
+    try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) continue;
+      const d=await r.json(); const items=Array.isArray(d)?d:(d.posts||d.items||[]);
+      if(items?.length) return items;
+    }catch{}
+  } return [];
+}
+
+function latestCard(item){
+  const title=t(item.title||item.name||'Update');
+  const desc=t(item.excerpt||item.description||'');
+  const href=item.url||item.link||'#';
+  const date=item.date?new Date(item.date).toLocaleDateString():'';
+  return `<article class="latest-card"><h4><a href="${href}">${title}</a></h4><p>${desc}</p><small>${date}</small></article>`;
+}
+
+function planCard(p){
+  const feats=p.features?.map(f=>`<li>${t(f)}</li>`).join('')||'';
+  return `<article class="price-card ${p.popular?'popular':''}">
+    ${p.popular?'<div class="ribbon" aria-hidden="true">Most Popular</div>':''}
+    <header><h3>${t(p.name)}</h3><p class="muted">${t(p.subtitle||'')}</p></header>
+    <div class="price">${t(p.price)} <span class="period">${t(p.period||'')}</span></div>
+    <ul class="features">${feats}</ul>
+    <div class="actions"><a class="btn btn-gold btn-lg" href="book.html?plan=${encodeURIComponent(p.id||'')}">Choose ${t(p.name)}</a></div>
+  </article>`;
+}
+
+(async ()=>{
+  const year=document.getElementById('y'); if(year) year.textContent=new Date().getFullYear();
+
+  // Mobile nav
+  const toggle=document.querySelector('.nav-toggle'); const nav=document.getElementById('site-nav');
+  if(toggle&&nav) toggle.addEventListener('click',()=>{ const open=nav.classList.toggle('open'); toggle.setAttribute('aria-expanded',String(open)); });
+
+  // Reveal
+  const obs=('IntersectionObserver'in window)?new IntersectionObserver(es=>{for(const e of es) if(e.isIntersecting) e.target.classList.add('is-visible');},{threshold:.1}):null;
+  document.querySelectorAll('.reveal').forEach(el=>{ if(obs) obs.observe(el); else el.classList.add('is-visible'); });
+
+  // Latest
+  const mount=document.getElementById('latest-cards');
+  if(mount){ const items=await getLatest(); mount.innerHTML=items.length?items.slice(0,3).map(latestCard).join(''):'<p class="muted">No posts yet — coming soon.</p>'; }
+
+  // Pricing (data-driven)
+  const pc=document.getElementById('pricing-cards');
+  if(pc){
+    try{ const r=await fetch('/pricing.json',{cache:'no-store'}); const d= r.ok? await r.json(): {plans:[]};
+      pc.innerHTML=d.plans?.map(planCard).join('')||'<p class="muted">Pricing unavailable.</p>';
+    }catch{ pc.innerHTML='<p class="muted">Pricing unavailable.</p>'; }
+  }
+
+  // Calendly + Lead form
+  const cfg=await getConfig();
+  const calBtn=document.getElementById('cal-btn'); if(calBtn) calBtn.href=cfg.calendlyUrl||'https://calendly.com/your-handle/30min';
+
+  const form=document.getElementById('lead-form');
+  if(form){
+    const params=new URLSearchParams(location.search); const plan=params.get('plan'); if(plan) form.querySelector('#plan').value=plan;
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const btn=document.getElementById('submit-btn'); const note=document.getElementById('form-note'); btn.disabled=true;
+      const payload={name:form.name.value.trim(),email:form.email.value.trim(),business:form.business.value.trim(),plan:form.plan.value,goal:form.goal.value.trim(),page:location.href,ts:new Date().toISOString()};
+      if(!payload.name || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(payload.email)){ note.textContent='Please enter a valid name and email.'; btn.disabled=false; return; }
+
+      try{
+        if(cfg.leadWebhook){
+          const r=await fetch(cfg.leadWebhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),mode:'cors'});
+          if(!r.ok) throw 0;
+        }else{
+          const r=await fetch('/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          if(!r.ok) throw 0;
+        }
+        form.reset(); note.textContent='Thanks! We’ll reply within 1 business day.';
+      }catch{ note.textContent='Could not submit right now. Please email or use Calendly.'; }
+      finally{ btn.disabled=false; }
+    });
+  }
+})();
+"""
+
+# =========================================
+# File: styles.css  (appenditions already provided previously; nothing else required)
+# =========================================
+# (no changes needed if you already appended the pricing/book block from the last message)
+
+# =========================================
+# File: replit.toml  (unchanged)
+# =========================================
+"""
+entrypoint = "app.py"
+
+[env]
+PYTHONUNBUFFERED = "1"
+
+[interpreter]
+type = "python3"
+
+[deployment]
+run = ["python3", "app.py"]
+"""

@@ -1,0 +1,34 @@
+{
+  "name": "smartflowsite-landing",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+,
+"name": "smartflow-store-api",
+"version": "0.1.0",
+"main": "server.js",
+"type": "module",
+"scripts": {
+  "dev": "node server.js",
+  "migrate": "prisma migrate dev --name init",
+  "studio": "prisma studio"
+},
+"dependencies": {
+  "@prisma/client": "^5.16.1",
+  "bcryptjs": "^2.4.3",
+  "cors": "^2.8.5",
+  "dotenv": "^16.4.5",
+  "jsonwebtoken": "^9.0.2",
+  "stripe": "^16.5.0"
+},
+"devDependencies": {
+  "prisma": "^5.16.1"
+}

@@ -1,0 +1,28 @@
+# SmartFlow Systems - Asset Placeholders
+
+Replace these placeholder files with actual images:
+
+## Required Images:
+- favicon.png (32x32 or 16x16 PNG)
+- hero-bg.jpg (1920x1080 background image)
+- avatar.jpg (400x400 photo of Gareth Bowers)
+- case-study-video.jpg (1200x675 video thumbnail)
+
+## Logo Files:
+- logo.svg (already created - customize as needed)
+- stripe-logo.svg
+- google-logo.svg
+- buffer-logo.svg 
+- shopify-logo.svg
+- twilio-logo.svg
+
+## Image Optimization Tips:
+- Compress JPGs to under 200KB
+- Use WebP format for better compression
+- Provide 2x retina versions for crisp display
+- Include alt text for accessibility
+
+## Free Image Sources:
+- Unsplash.com (business/tech photos)
+- Logo.dev (company logos)
+- Heroicons.com (simple icons)

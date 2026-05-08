@@ -1,0 +1,46 @@
+{
+  "agent_id": "ci-setup-agent",
+  "name": "CI/CD Setup Agent",
+  "platform": "custom",
+  "capabilities": [
+    "github-actions",
+    "ci-cd-config",
+    "deployment-automation",
+    "testing-pipelines"
+  ],
+  "apps": [
+    "SmartFlowSite",
+    "SFSAPDemoCRM",
+    "SFSDataQueryEngine"
+  ],
+  "description": "Configures CI/CD pipelines using GitHub Actions",
+  "triggers": {
+    "events": ["repo.created", "deployment.requested"],
+    "webhooks": ["/api/agents/ci-setup/trigger"]
+  },
+  "context_files": [
+    ".github/workflows/sfs-ci-deploy.yml",
+    "docs/CI-HowTo.md"
+  ],
+  "inputs": {
+    "repo_path": "string",
+    "workflow_type": "string (node|python|docker)",
+    "deploy_target": "string (replit|vercel|github-pages)",
+    "test_command": "string",
+    "build_command": "string"
+  },
+  "outputs": {
+    "format": "json",
+    "schema": {
+      "workflow_file": "string",
+      "ci_enabled": "boolean",
+      "deploy_url": "string"
+    }
+  },
+  "dependencies": ["repo-manager"],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "SFS DevOps Team",
+    "last_updated": "2025-01-15"
+  }
+}

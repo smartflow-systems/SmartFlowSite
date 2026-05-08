@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+KEEP=0
+if [[ "${1:-}" == "--keep-exif" ]]; then KEEP=1; shift; fi
+mkdir -p out
+shopt -s nullglob
+for f in "$@"; do
+  base="$(basename "$f")"
+  if [[ $KEEP -eq 0 ]]; then
+    magick "$f" -auto-orient -resize 1080x1080^ -gravity center -extent 1080x1080 \
+      -strip -quality 90 "out/$base"
+  else
+    magick "$f" -auto-orient -resize 1080x1080^ -gravity center -extent 1080x1080 \
+      -quality 90 "out/$base"
+  fi
+done
+echo "Done -> out/"

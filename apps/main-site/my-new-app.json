@@ -1,0 +1,7 @@
+{
+  "APP_NAME": "YourAppName",
+  "APP_DESCRIPTION": "What your app does",
+  "TARGET_AUDIENCE": "Who will use it",
+  "WORKFLOW_TYPE": "node",
+  "DEPLOY_TARGET": "replit"
+}
