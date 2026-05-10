@@ -12,6 +12,7 @@
     "agent": "node scripts/sfs-agent-cli.js",
     "sync": "bash scripts/auto-sync.sh",
     "sync:watch": "node scripts/sync-chatgpt-claude.js watch",
+    "health": "bash scripts/health.sh",
     "build": "node scripts/build.js",
     "build:prod": "npm run optimize:build && npm run optimize:images",
     "optimize:build": "node scripts/optimize-build.js",
