@@ -127,6 +127,34 @@ server.js              # Express server (port 5000)
 replit.md              # This file
 ```
 
+## SFS Design Kit — Single Source of Truth
+
+**Master kit location:** `public/sfs-kit/`
+
+| File | Purpose |
+|------|---------|
+| `sfs-ui.css` | Full design system — colours, glass cards, buttons, grids, animations |
+| `sfs-bg.js` | Self-injecting gold particle / twinkle constellation background |
+| `sfs-nav.js` | Mobile nav toggle helper |
+| `template.html` | Copy-paste page template |
+| `README.txt` | 3-step install instructions |
+
+**Design tokens:** Black `#0D0D0D` / Brown `#3B2F2F` / Gold `#FFD700` / Beige `#F5F5DC`
+
+### Kit Deployment Status (March 2026)
+- Deleted 3 stale old packages: `sfs-design-system`, `sfs-theme-package`, `smartflow-theme-package`
+- Kit applied to **34 repos** across `sfs-org/` and `smartflow-systems/`
+- React/Vite repos: kit in `client/public/sfs-kit/`, linked in `client/index.html`
+- Express/static repos: kit in `public/sfs-kit/`, linked in HTML
+- Next.js repos (`sfs-knowledge-base`, `sfs-video-platform`): kit in `public/sfs-kit/`, linked via `app/layout.tsx`
+- `sfs-revenue-analytics`: pure API server — no frontend, no kit needed
+
+### Adding the Kit to a New Repo
+See `public/sfs-kit/README.txt` for full instructions. Summary:
+1. Copy `public/sfs-kit/` into the repo's `public/` folder
+2. Add to `<head>`: `<link rel="stylesheet" href="/sfs-kit/sfs-ui.css">`
+3. Add before `</body>`: `<script src="/sfs-kit/sfs-bg.js"></script>`
+
 ## Next Steps
 - User can clone template to create new SFS app portfolios
 - Each card is clickable and links to live demo or GitHub

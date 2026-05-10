@@ -81,10 +81,16 @@ app.use((req, res, next) => {
         frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
         baseUri: ["'self'"],
         formAction: ["'self'"],
-        frameAncestors: ["'none'"]
+        frameAncestors: [
+          "'self'",
+          "https://*.replit.dev",
+          "https://*.replit.app",
+          "https://replit.com"
+        ]
       }
     },
     crossOriginEmbedderPolicy: false,
+    frameguard: false,
     hsts: {
       maxAge: 31536000,
       includeSubDomains: true,

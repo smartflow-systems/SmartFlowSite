@@ -97,7 +97,8 @@ img{max-width:100%;display:block}
     inset 0 1px 0 rgba(255,255,255,.2),
     inset 0 -1px 0 rgba(0,0,0,.1);
 }
-.brand{font-weight:700;letter-spacing:.4px;flex:1}
+.brand{flex:1;display:flex;align-items:center}
+.nav-logo{height:52px;width:auto;max-width:240px;display:block;object-fit:contain}
 .menu-btn{
   background:transparent;
   border:none;
