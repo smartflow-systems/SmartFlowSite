@@ -6,7 +6,7 @@
 
 # SmartFlowSite — SmartFlow Systems
 **Dev:** `npm run dev`  •  **Prod:** `npm start`
-**Health:** `GET /health` → `{"ok":true}`
+**Health:** `GET /health` → `{"ok":true,"siteName":"...","version":"..."}`
 
 ## Scripts
 - `dev` → node server.js
