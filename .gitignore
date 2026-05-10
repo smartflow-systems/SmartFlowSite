@@ -231,3 +231,4 @@ lerna-debug.log*
 # Prevent embedded gitlinks/submodules in SmartFlowSite
 sfs-org/SocialScaleBooster
 sfs-org/SocialScaleBoosterAIbot
+.vercel/
