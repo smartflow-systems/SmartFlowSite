@@ -9,9 +9,9 @@
 **Health:** `GET /health` → `{"ok":true}`
 
 ## Scripts
-- `dev` → nodemon/serve
-- `start` → node server.js (if present)
-- `health` → bash [scripts/health.sh]
+- `dev` → node server.js
+- `start` → node server.js
+- `health` → bash scripts/health.sh
 
 ## Replit
 Create from GitHub → set secrets `SFS_PAT`, `REPLIT_TOKEN`, `SFS_SYNC_URL`. Port ${PORT:-5000} (or app default).
