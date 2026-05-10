@@ -20,16 +20,15 @@ jobs:
             const { owner, repo } = context.repo
             const head = context.ref.replace('refs/heads/', '')
 
-            const existing = await github.rest.pulls.list({
+            const { data: existingPRs } = await github.rest.pulls.list({
               owner,
               repo,
-              head,
-              base: 'main',
+              head: `${owner}:${head}`,
               state: 'open'
             })
 
-            if (existing.data.length > 0) {
-              core.notice(`PR already open for ${head} — skipping`)
+            if (existingPRs.length > 0) {
+              console.log(`PR already exists for ${head}`)
               return
             }
 
