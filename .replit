@@ -1,16 +1,35 @@
 modules = ["nodejs-20"]
-
 [agent]
 expertMode = true
-
-run = "npm start"
 
 [[ports]]
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 33707
+externalPort = 3000
+
 [workflows]
-runButton = "Project"
+runButton = "Run Node Server"
+
+[[workflows.workflow]]
+name = "Run Flask App"
+author = 36680818
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app.py"
+
+[[workflows.workflow]]
+name = "Run Node Server"
+author = 36680818
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
 
 [[workflows.workflow]]
 name = "Project"
@@ -19,28 +38,19 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Start application"
+args = "Server"
 
 [[workflows.workflow]]
-name = "Start application"
+name = "Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm start"
+args = "node server.js"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
-
-[deployment]
-deploymentTarget = "autoscale"
-run = ["npm", "start"]
-
-[userenv]
-
-[userenv.production]
-NODE_ENV = "production"
 
 [nix]
 packages = ["gh"]
