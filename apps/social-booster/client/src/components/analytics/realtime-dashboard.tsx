@@ -1,17 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  DollarSign, 
-  Target, 
-  Zap, 
-  Users, 
+import {
+  TrendingUp,
+  DollarSign,
+  Target,
+  Zap,
+  Users,
   Activity,
   Wifi,
   WifiOff,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
 import { useRealtimeAnalytics } from "@/hooks/useRealtimeAnalytics";
 import { formatDistanceToNow } from "date-fns";

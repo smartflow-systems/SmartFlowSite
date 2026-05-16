@@ -13,6 +13,21 @@ if (process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 }
 
+function getPaymentIntentClientSecret(
+  invoice: Stripe.Invoice | string | null | undefined,
+): string | null {
+  if (!invoice || typeof invoice === "string") {
+    return null;
+  }
+
+  const paymentIntent = invoice.payment_intent;
+  if (!paymentIntent || typeof paymentIntent === "string") {
+    return null;
+  }
+
+  return paymentIntent.client_secret ?? null;
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register authentication routes
   registerAuthRoutes(app);
@@ -402,7 +417,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (subscription.status === 'active') {
           return res.json({
             subscriptionId: subscription.id,
-            clientSecret: subscription.latest_invoice?.payment_intent?.client_secret,
+            clientSecret: getPaymentIntentClientSecret(subscription.latest_invoice),
             status: 'already_subscribed'
           });
         }
@@ -453,7 +468,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         subscriptionId: subscription.id,
-        clientSecret: subscription.latest_invoice?.payment_intent?.client_secret,
+        clientSecret: getPaymentIntentClientSecret(subscription.latest_invoice),
       });
     } catch (error: any) {
       console.error('Subscription creation error:', error);

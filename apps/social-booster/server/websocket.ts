@@ -38,7 +38,7 @@ export class AnalyticsWebSocketServer {
         this.clients.delete(ws);
       });
       
-      ws.on('error', (error) => {
+      ws.on('error', (error: unknown) => {
         console.error('WebSocket error:', error);
         this.clients.delete(ws);
       });

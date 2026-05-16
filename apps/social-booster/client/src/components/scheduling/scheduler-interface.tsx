@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Target, Zap, Plus, X } from "lucide-react";
+import { Calendar, Clock, Target, Plus, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ScheduleRule {
