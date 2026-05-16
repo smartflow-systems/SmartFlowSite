@@ -15,6 +15,8 @@ downloads/
 eggs/
 .eggs/
 lib/
+!apps/social-booster/client/src/lib/
+!apps/social-booster/client/src/lib/**
 lib64/
 parts/
 sdist/
@@ -231,3 +233,11 @@ lerna-debug.log*
 # Prevent embedded gitlinks/submodules in SmartFlowSite
 sfs-org/SocialScaleBooster
 sfs-org/SocialScaleBoosterAIbot
+.vercel/
+*.backup-*
+
+# Local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example

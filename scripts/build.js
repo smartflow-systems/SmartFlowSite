@@ -2,7 +2,6 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { marked } from "marked";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +16,101 @@ function readJSON(fp, fallback = []) {
 }
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
 
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatInline(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<em>$1</em>")
+    .replace(/`(.+?)`/g, "<code>$1</code>")
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
+}
+
+function markdownToHtml(md) {
+  const lines = String(md).replace(/\r\n/g, "\n").split("\n");
+  const out = [];
+  let inUl = false;
+  let inOl = false;
+  let inP = false;
+  let inCode = false;
+
+  const closeBlocks = () => {
+    if (inP) { out.push("</p>"); inP = false; }
+    if (inUl) { out.push("</ul>"); inUl = false; }
+    if (inOl) { out.push("</ol>"); inOl = false; }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trimEnd();
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith("```")) {
+      if (inCode) {
+        out.push("</code></pre>");
+        inCode = false;
+      } else {
+        closeBlocks();
+        out.push("<pre><code>");
+        inCode = true;
+      }
+      continue;
+    }
+
+    if (inCode) {
+      out.push(escapeHtml(line) + "\\n");
+      continue;
+    }
+
+    if (!trimmed) {
+      closeBlocks();
+      continue;
+    }
+
+    const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      closeBlocks();
+      out.push(`<h${heading[1].length}>${formatInline(heading[2])}</h${heading[1].length}>`);
+      continue;
+    }
+
+    const ul = trimmed.match(/^[-*+]\s+(.+)$/);
+    if (ul) {
+      if (inOl) { out.push("</ol>"); inOl = false; }
+      if (!inUl) { out.push("<ul>"); inUl = true; }
+      out.push(`<li>${formatInline(ul[1])}</li>`);
+      continue;
+    }
+
+    const ol = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (ol) {
+      if (inUl) { out.push("</ul>"); inUl = false; }
+      if (!inOl) { out.push("<ol>"); inOl = true; }
+      out.push(`<li>${formatInline(ol[1])}</li>`);
+      continue;
+    }
+
+    closeBlocks();
+    if (!inP) {
+      out.push("<p>");
+      inP = true;
+    } else {
+      out.push("<br>");
+    }
+    out.push(formatInline(trimmed));
+  }
+
+  if (inCode) out.push("</code></pre>");
+  closeBlocks();
+  return out.join("");
+}
+
 function parseMD(md) {
   // front-matter: ---\nkey: value\n---
   let fm = {};
@@ -30,7 +124,7 @@ function parseMD(md) {
     }
     body = md.slice(m[0].length);
   }
-  return { fm, html: marked.parse(body) };
+  return { fm, html: markdownToHtml(body) };
 }
 function slugify(s) {
   return String(s || "")

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Crown, Download, Search, Filter, Lock, Zap } from "lucide-react";
+import { Star, Crown, Download, Search, Lock, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Template {
@@ -54,7 +54,6 @@ export default function EnhancedMarketplace({ userStatus }: EnhancedMarketplaceP
   };
 
   const categories = ["all", "E-commerce", "Beauty", "Fashion", "Technology", "Lifestyle"];
-  const platforms = ["all", "tiktok", "instagram", "facebook", "twitter", "youtube", "multi"];
 
   // Filter and sort templates
   const filteredTemplates = templates?.filter((template: Template) => {

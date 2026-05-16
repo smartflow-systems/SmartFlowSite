@@ -4,13 +4,28 @@ import Stripe from "stripe";
 import { AnalyticsWebSocketServer } from "./websocket";
 import { storage } from "./storage";
 import { insertBotSchema, insertBotTemplateSchema, insertAnalyticsSchema } from "@shared/schema";
-import { authenticateToken, optionalAuth, type AuthRequest } from "./middleware/auth";
+import { authenticateToken, type AuthRequest } from "./middleware/auth";
 import { registerAuthRoutes } from "./auth";
 
 // Initialize Stripe
 let stripe: Stripe | null = null;
 if (process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+}
+
+function getPaymentIntentClientSecret(
+  invoice: Stripe.Invoice | string | null | undefined,
+): string | null {
+  if (!invoice || typeof invoice === "string") {
+    return null;
+  }
+
+  const paymentIntent = invoice.payment_intent;
+  if (!paymentIntent || typeof paymentIntent === "string") {
+    return null;
+  }
+
+  return paymentIntent.client_secret ?? null;
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -402,7 +417,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (subscription.status === 'active') {
           return res.json({
             subscriptionId: subscription.id,
-            clientSecret: subscription.latest_invoice?.payment_intent?.client_secret,
+            clientSecret: getPaymentIntentClientSecret(subscription.latest_invoice),
             status: 'already_subscribed'
           });
         }
@@ -453,7 +468,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         subscriptionId: subscription.id,
-        clientSecret: subscription.latest_invoice?.payment_intent?.client_secret,
+        clientSecret: getPaymentIntentClientSecret(subscription.latest_invoice),
       });
     } catch (error: any) {
       console.error('Subscription creation error:', error);

@@ -357,6 +357,10 @@ export class MemStorage implements IStorage {
     return Array.from(this.users.values()).find(user => user.username === username);
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(user => user.email === email);
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
     const user: User = { 
@@ -433,14 +437,6 @@ export class MemStorage implements IStorage {
     const bot = this.bots.get(id);
     if (!bot) throw new Error("Bot not found");
     const updatedBot = { ...bot, ...updates };
-    this.bots.set(id, updatedBot);
-    return updatedBot;
-  }
-
-  async updateBotStatus(id: number, status: string): Promise<Bot> {
-    const bot = this.bots.get(id);
-    if (!bot) throw new Error("Bot not found");
-    const updatedBot = { ...bot, status };
     this.bots.set(id, updatedBot);
     return updatedBot;
   }

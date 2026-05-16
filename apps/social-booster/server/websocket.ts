@@ -1,6 +1,5 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { Server as HTTPServer } from 'http';
-import { storage } from './storage';
 
 interface AnalyticsData {
   totalRevenue: string;
@@ -38,7 +37,7 @@ export class AnalyticsWebSocketServer {
         this.clients.delete(ws);
       });
       
-      ws.on('error', (error) => {
+      ws.on('error', (error: unknown) => {
         console.error('WebSocket error:', error);
         this.clients.delete(ws);
       });

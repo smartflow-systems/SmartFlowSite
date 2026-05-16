@@ -46,7 +46,7 @@ export function authenticateToken(
       isPremium: payload.isPremium
     };
     next();
-  } catch (error) {
+  } catch {
     return res.status(403).json({ message: 'Invalid or expired token' });
   }
 }
@@ -72,7 +72,7 @@ export function optionalAuth(
         email: payload.email,
         isPremium: payload.isPremium
       };
-    } catch (error) {
+    } catch {
       // Invalid token but continue anyway
     }
   }
@@ -94,7 +94,7 @@ export function refreshToken(token: string): string | null {
   try {
     const payload = jwt.verify(token, JWT_SECRET) as JWTPayload;
     return generateToken(payload);
-  } catch (error) {
+  } catch {
     return null;
   }
 }

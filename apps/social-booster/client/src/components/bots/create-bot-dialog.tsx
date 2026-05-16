@@ -112,7 +112,7 @@ export default function CreateBotDialog({ isPremium, botCount, children }: Creat
       });
       
       createBotMutation.mutate(botData);
-    } catch (error) {
+    } catch {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields correctly.",
