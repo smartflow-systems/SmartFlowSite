@@ -235,3 +235,9 @@ sfs-org/SocialScaleBooster
 sfs-org/SocialScaleBoosterAIbot
 .vercel/
 *.backup-*
+
+# Local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
