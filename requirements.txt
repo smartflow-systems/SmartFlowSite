@@ -63,3 +63,6 @@ sentry-sdk==2.8.0
 
 # Redis for caching
 redis==5.0.1
+
+# Security override for pip-audit
+pyasn1==0.6.3
