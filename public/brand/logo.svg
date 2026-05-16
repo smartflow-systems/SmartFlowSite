@@ -1,0 +1,12 @@
+cat > [public/brand/logo.svg] <<'SVG'
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#E6C200"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="120" fill="none"/>
+  <text x="50" y="78" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="64" fill="url(#g)">
+    SmartFlow Systems
+  </text>
+</svg>

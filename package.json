@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
+    "build": "node scripts/vercel-static-check.cjs",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "type-check": "npm run type-check --workspaces --if-present",
@@ -23,18 +23,19 @@
     "health-check": "bash scripts/maintenance/health-check.sh",
     "backup": "bash scripts/maintenance/backup.sh",
     "setup:env": "bash scripts/setup/configure-environment.sh",
-    "setup:deps": "bash scripts/setup/install-dependencies.sh"
+    "setup:deps": "bash scripts/setup/install-dependencies.sh",
+    "build:workspaces": "npm run build --workspaces --if-present"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "eslint": "^8.55.0",
-    "prettier": "^3.1.0",
-    "typescript": "^5.3.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.0"
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": "22.x",
     "npm": ">=9.0.0"
   },
   "repository": {
@@ -44,8 +45,13 @@
   "author": "SmartFlow Systems",
   "license": "UNLICENSED",
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
-    "*.{json,md,yml,yaml}": ["prettier --write"]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "husky": {
     "hooks": {

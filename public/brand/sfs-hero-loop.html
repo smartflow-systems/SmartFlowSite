@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartFlow Systems Menu Loop</title>
+  <meta name="description" content="SmartFlow Systems black and gold menu overlay loop.">
+  <style>
+    :root {
+      --bg-0: #050403;
+      --bg-1: #0b0907;
+      --bg-2: #140f0b;
+      --panel: rgba(18, 13, 9, 0.82);
+      --panel-2: rgba(26, 19, 13, 0.95);
+      --panel-line: rgba(214, 176, 88, 0.24);
+      --panel-line-strong: rgba(214, 176, 88, 0.42);
+      --gold: #d6b05a;
+      --gold-2: #a97d31;
+      --text: #f5efe2;
+      --muted: rgba(245, 239, 226, 0.76);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.56);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      overflow: hidden;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(214, 176, 88, 0.10), transparent 18%),
+        radial-gradient(circle at 64% 10%, rgba(214, 176, 88, 0.10), transparent 16%),
+        radial-gradient(circle at 78% 74%, rgba(214, 176, 88, 0.08), transparent 22%),
+        linear-gradient(135deg, var(--bg-0), var(--bg-1) 42%, var(--bg-2));
+    }
+
+    .frame {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-height: 720px;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(214, 176, 88, 0.06), transparent 28%),
+        linear-gradient(180deg, rgba(5, 4, 3, 0.98), rgba(9, 7, 5, 0.98));
+    }
+
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      pointer-events: none;
+    }
+
+    .frame::before {
+      background:
+        linear-gradient(115deg, transparent 0 47%, rgba(214, 176, 88, 0.08) 49%, transparent 51% 100%),
+        linear-gradient(65deg, transparent 0 55%, rgba(214, 176, 88, 0.06) 57%, transparent 60% 100%);
+      filter: blur(1px);
+      opacity: 0.34;
+      transform: rotate(-2deg);
+    }
+
+    .frame::after {
+      background:
+        radial-gradient(circle at 18% 32%, rgba(214, 176, 88, 0.12), transparent 2.3%),
+        radial-gradient(circle at 28% 76%, rgba(214, 176, 88, 0.10), transparent 1.9%),
+        radial-gradient(circle at 52% 18%, rgba(214, 176, 88, 0.10), transparent 2%),
+        radial-gradient(circle at 72% 54%, rgba(214, 176, 88, 0.12), transparent 2.2%),
+        radial-gradient(circle at 84% 26%, rgba(214, 176, 88, 0.09), transparent 1.8%),
+        radial-gradient(circle at 90% 70%, rgba(214, 176, 88, 0.11), transparent 2.1%);
+      filter: blur(0.2px);
+      opacity: 0.95;
+      animation: particles 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes particles {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.68; }
+      100% { transform: translate3d(0.8%, -0.6%, 0) scale(1.02); opacity: 1; }
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(214, 176, 88, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 176, 88, 0.04) 1px, transparent 1px);
+      background-size: 78px 78px;
+      mask-image: radial-gradient(circle at 44% 42%, black 20%, transparent 68%);
+      opacity: 0.18;
+      transform: perspective(1100px) rotateX(66deg) translateY(16vh);
+      transform-origin: center center;
+      animation: drift 14s linear infinite;
+    }
+
+    @keyframes drift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 160px 160px, 160px 160px; }
+    }
+
+    .lines {
+      position: absolute;
+      inset: 0;
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    .lines path {
+      fill: none;
+      stroke: rgba(214, 176, 88, 0.24);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-dasharray: 12 14;
+      animation: dash 12s linear infinite;
+    }
+
+    .lines path.hot {
+      stroke: rgba(214, 176, 88, 0.9);
+      stroke-width: 2.2;
+      filter: drop-shadow(0 0 10px rgba(214, 176, 88, 0.5));
+      stroke-dasharray: 2 12;
+    }
+
+    @keyframes dash {
+      to { stroke-dashoffset: -360; }
+    }
+
+    .menu-shell {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: min(39vw, 420px);
+      min-width: 320px;
+      height: 100%;
+      z-index: 3;
+      padding: 24px 22px 24px 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .menu-panel {
+      width: 100%;
+      height: 100%;
+      border-radius: 26px 0 0 26px;
+      background:
+        linear-gradient(180deg, rgba(37, 27, 19, 0.98), rgba(18, 13, 9, 0.98)),
+        var(--panel);
+      border-left: 1px solid rgba(214, 176, 88, 0.28);
+      border-top: 1px solid rgba(214, 176, 88, 0.14);
+      border-bottom: 1px solid rgba(214, 176, 88, 0.14);
+      box-shadow:
+        -28px 0 70px rgba(0, 0, 0, 0.48),
+        inset 1px 0 0 rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 22% 14%, rgba(214, 176, 88, 0.10), transparent 18%),
+        radial-gradient(circle at 30% 58%, rgba(214, 176, 88, 0.06), transparent 22%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 34%);
+      pointer-events: none;
+    }
+
+    .menu-inner {
+      position: relative;
+      height: 100%;
+      padding: 26px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .menu-top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 36px;
+    }
+
+    .close {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(214, 176, 88, 0.5);
+      border-radius: 999px;
+      background: rgba(13, 9, 6, 0.78);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 300;
+      box-shadow:
+        0 0 0 1px rgba(214, 176, 88, 0.12) inset,
+        0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .menu-body {
+      margin-top: 2px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .brand-lockup {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(214, 176, 88, 0.14);
+    }
+
+    .brand-lockup .name {
+      font-size: clamp(24px, 2.2vw, 31px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      color: var(--text);
+      text-shadow: 0 0 20px rgba(214, 176, 88, 0.12);
+    }
+
+    .brand-lockup .tagline {
+      font-size: 11px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(214, 176, 88, 0.86);
+    }
+
+    .menu-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgba(245, 239, 226, 0.52);
+    }
+
+    .menu-label span:last-child {
+      color: rgba(214, 176, 88, 0.92);
+    }
+
+    nav {
+      margin-top: 4px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(214, 176, 88, 0.10);
+      background:
+        linear-gradient(90deg, rgba(214, 176, 88, 0.08), transparent 26%),
+        rgba(10, 7, 5, 0.36);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(214, 176, 88, 0.18), transparent 34%);
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    li:hover::before { opacity: 1; }
+
+    a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px 0 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .chev {
+      color: var(--gold);
+      font-size: 18px;
+      opacity: 0.96;
+      transform: translateY(-1px);
+    }
+
+    .menu-foot {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(214, 176, 88, 0.14);
+      padding-top: 16px;
+      color: rgba(245, 239, 226, 0.60);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .menu-foot strong {
+      color: rgba(214, 176, 88, 0.94);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+    }
+
+    .left-glow {
+      position: absolute;
+      inset: 0 36% 0 0;
+      background:
+        radial-gradient(circle at 20% 34%, rgba(214, 176, 88, 0.10), transparent 12%),
+        radial-gradient(circle at 42% 60%, rgba(214, 176, 88, 0.06), transparent 18%),
+        radial-gradient(circle at 26% 82%, rgba(214, 176, 88, 0.08), transparent 16%);
+      filter: blur(1px);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.26) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.20), transparent 42%, transparent 70%, rgba(0, 0, 0, 0.24));
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    @media (max-width: 900px) {
+      .menu-shell {
+        width: min(100vw, 400px);
+        min-width: 0;
+        padding: 14px 12px 14px 14px;
+      }
+
+      .menu-panel {
+        border-radius: 22px;
+      }
+
+      a {
+        font-size: 16px;
+        min-height: 50px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .frame { min-height: 640px; }
+      .menu-shell {
+        inset: auto 0 0 0;
+        width: 100%;
+        height: auto;
+        padding: 12px;
+      }
+
+      .menu-panel {
+        height: auto;
+        min-height: 90vh;
+        border-radius: 22px;
+      }
+
+      .menu-inner {
+        padding: 18px 16px 18px;
+        gap: 18px;
+      }
+
+      .brand-lockup .name {
+        font-size: 22px;
+      }
+
+      .menu-label {
+        letter-spacing: 0.24em;
+        font-size: 10px;
+      }
+
+      a {
+        min-height: 48px;
+        padding: 0 14px 0 16px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="frame" aria-label="SmartFlow Systems open menu overlay">
+    <div class="grid" aria-hidden="true"></div>
+    <svg class="lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M 70 120 C 210 180, 288 226, 430 312 S 690 420, 870 232"></path>
+      <path class="hot" d="M 88 176 C 236 240, 312 286, 442 342 S 688 414, 858 270"></path>
+      <path d="M 86 730 C 210 664, 314 616, 442 566 S 690 522, 864 676"></path>
+      <path class="hot" d="M 116 786 C 250 716, 330 650, 446 590 S 688 540, 854 706"></path>
+      <path d="M 220 90 C 280 210, 314 344, 370 490 S 458 706, 530 896"></path>
+      <path d="M 744 102 C 694 228, 662 350, 606 488 S 526 708, 470 894"></path>
+    </svg>
+    <div class="left-glow" aria-hidden="true"></div>
+
+    <aside class="menu-shell" aria-label="Open navigation menu">
+      <section class="menu-panel">
+        <div class="menu-inner">
+          <div class="menu-top">
+            <div class="close" aria-label="Close menu" title="Close menu">×</div>
+          </div>
+
+          <div class="menu-body">
+            <div class="brand-lockup">
+              <div class="name">SmartFlow Systems</div>
+              <div class="tagline">BUILD • AUTOMATE • SELL</div>
+            </div>
+
+            <div class="menu-label" aria-hidden="true">
+              <span>Live Loop</span>
+              <span>Open</span>
+            </div>
+
+            <nav aria-label="Primary">
+              <ul>
+                <li><a href="#projects"><span>Projects</span><span class="chev">›</span></a></li>
+                <li><a href="#latest-updates"><span>Latest Updates</span><span class="chev">›</span></a></li>
+                <li><a href="#social-proof"><span>Social Proof</span><span class="chev">›</span></a></li>
+                <li><a href="#pricing"><span>Pricing</span><span class="chev">›</span></a></li>
+                <li><a href="#appointmentflow-plus"><span>AppointmentFlow Plus</span><span class="chev">›</span></a></li>
+                <li><a href="#contact"><span>Contact</span><span class="chev">›</span></a></li>
+                <li><a href="#github"><span>GitHub</span><span class="chev">›</span></a></li>
+                <li><a href="#book-demo"><span>Book Demo</span><span class="chev">›</span></a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="menu-foot">
+            <span>Secure</span>
+            <strong>LIVE LOOP</strong>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <div class="vignette" aria-hidden="true"></div>
+  </main>
+</body>
+</html>

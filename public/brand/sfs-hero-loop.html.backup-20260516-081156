@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartFlow Systems Hero Loop</title>
+  <meta name="description" content="A seamless SmartFlow Systems hero loop for premium SaaS storytelling.">
+  <style>
+    :root {
+      --bg-0: #070706;
+      --bg-1: #0d0b08;
+      --bg-2: #16110c;
+      --panel: rgba(18, 14, 11, 0.54);
+      --panel-strong: rgba(28, 21, 16, 0.76);
+      --line: rgba(214, 178, 92, 0.42);
+      --line-soft: rgba(214, 178, 92, 0.16);
+      --gold: #d7b25a;
+      --gold-deep: #a57a2d;
+      --text: #f3eee6;
+      --muted: rgba(243, 238, 230, 0.72);
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+      --radius: 26px;
+      --cycle: 15s;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 46%, rgba(215, 178, 90, 0.12), transparent 30%),
+        radial-gradient(circle at 20% 20%, rgba(127, 76, 24, 0.22), transparent 25%),
+        linear-gradient(160deg, var(--bg-0), var(--bg-1) 46%, var(--bg-2));
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-height: 720px;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(215, 178, 90, 0.05), transparent 34%),
+        linear-gradient(180deg, rgba(8, 7, 6, 0.96), rgba(6, 5, 4, 0.98));
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(215, 178, 90, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(215, 178, 90, 0.05) 1px, transparent 1px);
+      background-size: 62px 62px;
+      mask-image: radial-gradient(circle at center, black 18%, transparent 72%);
+      opacity: 0.25;
+      transform: perspective(1000px) rotateX(67deg) translateY(18vh);
+      transform-origin: center center;
+      animation: gridDrift var(--cycle) linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 120px 120px, 120px 120px; }
+    }
+
+    .circuit {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(215, 178, 90, 0.10), transparent 12%),
+        radial-gradient(circle at 78% 24%, rgba(215, 178, 90, 0.08), transparent 13%),
+        radial-gradient(circle at 22% 78%, rgba(215, 178, 90, 0.08), transparent 12%),
+        radial-gradient(circle at 76% 76%, rgba(215, 178, 90, 0.08), transparent 12%);
+      filter: blur(1px);
+      opacity: 0.7;
+    }
+
+    .track {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .track path {
+      fill: none;
+      stroke: var(--line-soft);
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-dasharray: 12 16;
+      animation: dash var(--cycle) linear infinite;
+    }
+
+    .track path.flow {
+      stroke: rgba(215, 178, 90, 0.9);
+      stroke-width: 2.2;
+      filter: drop-shadow(0 0 8px rgba(215, 178, 90, 0.4));
+      stroke-dasharray: 2 14;
+      animation: dash var(--cycle) linear infinite, glow var(--cycle) ease-in-out infinite;
+    }
+
+    @keyframes dash {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -360; }
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.35; }
+      35% { opacity: 0.95; }
+      60% { opacity: 0.82; }
+    }
+
+    .hub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(34vw, 380px);
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      display: grid;
+      gap: 18px;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hub-core {
+      position: relative;
+      width: min(28vw, 310px);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(215, 178, 90, 0.22), rgba(31, 24, 18, 0.82) 54%, rgba(9, 8, 7, 0.95) 74%);
+      border: 1px solid rgba(215, 178, 90, 0.34);
+      box-shadow:
+        0 0 0 1px rgba(215, 178, 90, 0.12) inset,
+        0 0 48px rgba(215, 178, 90, 0.16),
+        inset 0 0 40px rgba(255, 255, 255, 0.04);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      animation: hubPulse var(--cycle) ease-in-out infinite;
+    }
+
+    .hub-core::before,
+    .hub-core::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: inherit;
+      border: 1px solid rgba(215, 178, 90, 0.14);
+      animation: ring var(--cycle) linear infinite;
+    }
+
+    .hub-core::after {
+      inset: 24%;
+      border-color: rgba(215, 178, 90, 0.24);
+      animation-direction: reverse;
+    }
+
+    @keyframes ring {
+      0% { transform: scale(0.92) rotate(0deg); opacity: 0.55; }
+      35% { transform: scale(1) rotate(130deg); opacity: 1; }
+      70% { transform: scale(1.02) rotate(260deg); opacity: 0.82; }
+      100% { transform: scale(0.92) rotate(360deg); opacity: 0.55; }
+    }
+
+    @keyframes hubPulse {
+      0%, 100% { transform: scale(0.96); filter: brightness(0.95); }
+      35% { transform: scale(1); filter: brightness(1.08); }
+      65% { transform: scale(1.01); filter: brightness(1.02); }
+    }
+
+    .logo-mark {
+      display: grid;
+      place-items: center;
+      gap: 10px;
+      padding: 18px;
+    }
+
+    .logo-badge {
+      width: 104px;
+      height: 104px;
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+        rgba(17, 13, 10, 0.75);
+      border: 1px solid rgba(215, 178, 90, 0.34);
+      box-shadow:
+        inset 0 0 24px rgba(255, 255, 255, 0.04),
+        0 0 28px rgba(215, 178, 90, 0.16);
+      position: relative;
+    }
+
+    .logo-badge::before {
+      content: "";
+      position: absolute;
+      inset: 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(215, 178, 90, 0.28);
+      box-shadow: 0 0 20px rgba(215, 178, 90, 0.12);
+    }
+
+    .sfm {
+      font-size: 18px;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: rgba(243, 238, 230, 0.86);
+      margin-left: 0.36em;
+    }
+
+    .hub-title {
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.02;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      margin: 0;
+    }
+
+    .hub-subtitle {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+      max-width: 26ch;
+    }
+
+    .cards {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .card {
+      position: absolute;
+      width: clamp(170px, 18vw, 240px);
+      min-height: 112px;
+      padding: 18px 18px 16px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+        var(--panel);
+      border: 1px solid rgba(215, 178, 90, 0.24);
+      box-shadow:
+        var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 40px rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      will-change: transform, opacity, filter;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 22% 24%, rgba(255, 255, 255, 0.22), transparent 26%),
+        linear-gradient(135deg, rgba(215, 178, 90, 0.12), transparent 45%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -12% -24% auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(215, 178, 90, 0.16), transparent 64%);
+      filter: blur(12px);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .card h2 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      font-weight: 600;
+    }
+
+    .card p {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .card .label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: rgba(215, 178, 90, 0.92);
+    }
+
+    .card .label::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+      box-shadow: 0 0 12px rgba(215, 178, 90, 0.5);
+    }
+
+    .end-copy {
+      position: absolute;
+      left: 50%;
+      bottom: 6.5vh;
+      transform: translateX(-50%);
+      z-index: 4;
+      text-align: center;
+      width: min(92vw, 820px);
+      opacity: 0;
+      animation: copyFade var(--cycle) ease-in-out infinite;
+    }
+
+    .end-copy strong {
+      display: block;
+      font-size: clamp(22px, 3vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+      color: rgba(249, 243, 231, 0.96);
+      text-shadow: 0 0 28px rgba(215, 178, 90, 0.18);
+    }
+
+    .end-copy span {
+      display: block;
+      margin-top: 10px;
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(215, 178, 90, 0.82);
+    }
+
+    @keyframes copyFade {
+      0%, 52% { opacity: 0; transform: translateX(-50%) translateY(14px); }
+      68% { opacity: 0.2; transform: translateX(-50%) translateY(6px); }
+      82% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      96% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    }
+
+    .card.bookings { --x0: 11vw; --y0: 18vh; --x1: 26vw; --y1: 31vh; --x2: 22vw; --y2: 31vh; --x3: 31vw; --y3: 37vh; --x4: 26vw; --y4: 31vh; animation: orbitA var(--cycle) ease-in-out infinite; }
+    .card.social { --x0: 78vw; --y0: 18vh; --x1: 57vw; --y1: 31vh; --x2: 58vw; --y2: 29vh; --x3: 49vw; --y3: 37vh; --x4: 57vw; --y4: 31vh; animation: orbitB var(--cycle) ease-in-out infinite; }
+    .card.analytics { --x0: 14vw; --y0: 68vh; --x1: 33vw; --y1: 58vh; --x2: 31vw; --y2: 61vh; --x3: 38vw; --y3: 56vh; --x4: 33vw; --y4: 58vh; animation: orbitC var(--cycle) ease-in-out infinite; }
+    .card.crm { --x0: 82vw; --y0: 67vh; --x1: 63vw; --y1: 58vh; --x2: 63vw; --y2: 61vh; --x3: 57vw; --y3: 56vh; --x4: 63vw; --y4: 58vh; animation: orbitD var(--cycle) ease-in-out infinite; }
+    .card.payments { --x0: 50vw; --y0: 83vh; --x1: 50vw; --y1: 67vh; --x2: 50vw; --y2: 69vh; --x3: 50vw; --y3: 63vh; --x4: 50vw; --y4: 67vh; animation: orbitE var(--cycle) ease-in-out infinite; }
+
+    @keyframes orbitA {
+      0% { transform: translate(-50%, -50%) translate(var(--x0), var(--y0)) rotate(-14deg) scale(0.95); opacity: 0.45; filter: blur(1px); }
+      18% { transform: translate(-50%, -50%) translate(calc(var(--x0) + 5vw), calc(var(--y0) + 7vh)) rotate(-8deg) scale(0.98); opacity: 0.72; }
+      38% { transform: translate(-50%, -50%) translate(var(--x1), var(--y1)) rotate(-3deg) scale(1); opacity: 0.98; filter: blur(0); }
+      70% { transform: translate(-50%, -50%) translate(var(--x2), var(--y2)) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--x4), var(--y4)) rotate(-14deg) scale(0.95); opacity: 0.45; filter: blur(1px); }
+    }
+
+    @keyframes orbitB {
+      0% { transform: translate(-50%, -50%) translate(var(--x0), var(--y0)) rotate(14deg) scale(0.95); opacity: 0.45; filter: blur(1px); }
+      18% { transform: translate(-50%, -50%) translate(calc(var(--x0) - 5vw), calc(var(--y0) + 7vh)) rotate(9deg) scale(0.98); opacity: 0.72; }
+      38% { transform: translate(-50%, -50%) translate(var(--x1), var(--y1)) rotate(3deg) scale(1); opacity: 0.98; filter: blur(0); }
+      70% { transform: translate(-50%, -50%) translate(var(--x2), var(--y2)) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--x4), var(--y4)) rotate(14deg) scale(0.95); opacity: 0.45; filter: blur(1px); }
+    }
+
+    @keyframes orbitC {
+      0% { transform: translate(-50%, -50%) translate(var(--x0), var(--y0)) rotate(-9deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+      16% { transform: translate(-50%, -50%) translate(calc(var(--x0) + 6vw), calc(var(--y0) - 4vh)) rotate(-5deg) scale(0.97); opacity: 0.68; }
+      36% { transform: translate(-50%, -50%) translate(var(--x1), var(--y1)) rotate(-2deg) scale(1); opacity: 0.98; filter: blur(0); }
+      70% { transform: translate(-50%, -50%) translate(var(--x2), var(--y2)) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--x4), var(--y4)) rotate(-9deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+    }
+
+    @keyframes orbitD {
+      0% { transform: translate(-50%, -50%) translate(var(--x0), var(--y0)) rotate(9deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+      16% { transform: translate(-50%, -50%) translate(calc(var(--x0) - 6vw), calc(var(--y0) - 4vh)) rotate(5deg) scale(0.97); opacity: 0.68; }
+      36% { transform: translate(-50%, -50%) translate(var(--x1), var(--y1)) rotate(2deg) scale(1); opacity: 0.98; filter: blur(0); }
+      70% { transform: translate(-50%, -50%) translate(var(--x2), var(--y2)) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--x4), var(--y4)) rotate(9deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+    }
+
+    @keyframes orbitE {
+      0% { transform: translate(-50%, -50%) translate(var(--x0), var(--y0)) rotate(0deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+      18% { transform: translate(-50%, -50%) translate(var(--x1), var(--y1)) rotate(0deg) scale(0.98); opacity: 0.7; }
+      38% { transform: translate(-50%, -50%) translate(var(--x2), var(--y2)) rotate(0deg) scale(1); opacity: 0.98; filter: blur(0); }
+      70% { transform: translate(-50%, -50%) translate(var(--x3), var(--y3)) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--x4), var(--y4)) rotate(0deg) scale(0.94); opacity: 0.42; filter: blur(1px); }
+    }
+
+    .card .spark {
+      position: absolute;
+      inset: auto -10% 12% auto;
+      width: 82px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(215, 178, 90, 0.92), transparent);
+      filter: blur(1px);
+      transform: rotate(-22deg);
+      opacity: 0.55;
+    }
+
+    .card .chip {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(215, 178, 90, 0.9);
+      box-shadow: 0 0 18px rgba(215, 178, 90, 0.65);
+    }
+
+    .card.bookings .spark,
+    .card.social .spark,
+    .card.analytics .spark,
+    .card.crm .spark,
+    .card.payments .spark {
+      animation: spark var(--cycle) ease-in-out infinite;
+    }
+
+    @keyframes spark {
+      0%, 32% { opacity: 0.2; transform: rotate(-22deg) scaleX(0.6); }
+      42% { opacity: 0.9; transform: rotate(-22deg) scaleX(1); }
+      72% { opacity: 0.95; transform: rotate(-22deg) scaleX(1.1); }
+      100% { opacity: 0.2; transform: rotate(-22deg) scaleX(0.6); }
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.2) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45));
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @media (max-width: 900px) {
+      .hub { width: min(70vw, 320px); }
+      .hub-core { width: min(52vw, 260px); }
+      .logo-badge { width: 86px; height: 86px; }
+      .card { width: min(76vw, 280px); }
+      .card.payments { top: 76%; }
+      .end-copy { bottom: 5.4vh; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { min-height: 680px; }
+      .grid { transform: perspective(1000px) rotateX(72deg) translateY(18vh); background-size: 54px 54px; }
+      .hub-title { font-size: 28px; }
+      .hub-subtitle { max-width: 22ch; }
+      .sfm { font-size: 12px; letter-spacing: 0.28em; }
+      .card { min-height: 104px; padding: 16px 16px 14px; }
+      .card h2 { font-size: 15px; }
+      .card p { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero" aria-label="SmartFlow Systems hero loop animation">
+    <div class="grid" aria-hidden="true"></div>
+    <div class="circuit" aria-hidden="true"></div>
+
+    <svg class="track" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+          <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.8 0 1 0 0 0.65 0 0 1 0 0.25 0 0 0 18 -7"></feColorMatrix>
+          <feBlend in="SourceGraphic"></feBlend>
+        </filter>
+      </defs>
+      <path d="M 120 176 C 240 230, 290 318, 412 382 S 638 470, 500 500" />
+      <path d="M 884 176 C 770 228, 720 314, 592 382 S 362 468, 500 500" />
+      <path d="M 144 676 C 260 650, 322 610, 416 566 S 636 532, 500 500" />
+      <path d="M 856 672 C 740 648, 678 608, 586 566 S 362 532, 500 500" />
+      <path d="M 500 840 C 500 775, 500 705, 500 610" />
+      <path class="flow" d="M 120 176 C 240 230, 290 318, 412 382 S 638 470, 500 500" filter="url(#softGlow)" />
+      <path class="flow" d="M 884 176 C 770 228, 720 314, 592 382 S 362 468, 500 500" filter="url(#softGlow)" />
+      <path class="flow" d="M 144 676 C 260 650, 322 610, 416 566 S 636 532, 500 500" filter="url(#softGlow)" />
+      <path class="flow" d="M 856 672 C 740 648, 678 608, 586 566 S 362 532, 500 500" filter="url(#softGlow)" />
+      <path class="flow" d="M 500 840 C 500 775, 500 705, 500 610" filter="url(#softGlow)" />
+    </svg>
+
+    <section class="hub" aria-label="SmartFlow Systems dashboard hub">
+      <div class="hub-core">
+        <div class="logo-mark">
+          <div class="logo-badge" aria-hidden="true">
+            <div class="sfm">SFS</div>
+          </div>
+          <p class="hub-title">SmartFlow Systems</p>
+          <p class="hub-subtitle">One calm command center for the systems that keep work moving.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="cards" aria-hidden="true">
+      <article class="card bookings">
+        <span class="chip"></span>
+        <span class="label">Bookings</span>
+        <h2>Appointments, deposits, reminders</h2>
+        <p>From fragmented requests to a steady, handled pipeline.</p>
+        <span class="spark"></span>
+      </article>
+
+      <article class="card social">
+        <span class="chip"></span>
+        <span class="label">Social Posts</span>
+        <h2>Ideas, captions, scheduled output</h2>
+        <p>Content syncs into one flow instead of scattered drafts.</p>
+        <span class="spark"></span>
+      </article>
+
+      <article class="card analytics">
+        <span class="chip"></span>
+        <span class="label">Analytics</span>
+        <h2>Signals, reports, decisions</h2>
+        <p>Clear metrics settle into one trusted view.</p>
+        <span class="spark"></span>
+      </article>
+
+      <article class="card crm">
+        <span class="chip"></span>
+        <span class="label">CRM</span>
+        <h2>Leads, follow-ups, retention</h2>
+        <p>Every interaction gets organized and carried forward.</p>
+        <span class="spark"></span>
+      </article>
+
+      <article class="card payments">
+        <span class="chip"></span>
+        <span class="label">Payments</span>
+        <h2>Checkout, receipts, clarity</h2>
+        <p>Money moves through the system with less friction.</p>
+        <span class="spark"></span>
+      </article>
+    </div>
+
+    <div class="end-copy">
+      <strong>Automate the busywork. Grow smarter.</strong>
+      <span>Premium flow loop</span>
+    </div>
+
+    <div class="vignette" aria-hidden="true"></div>
+  </main>
+</body>
+</html>
