@@ -11,7 +11,7 @@ psycopg2-binary==2.9.9
 # Authentication & Security
 python-jose[cryptography]==3.4.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.22
+python-multipart==0.0.27
 
 # Payments
 stripe==13.2.0
@@ -38,7 +38,7 @@ python-dateutil==2.8.2
 # HTTP Requests
 httpx==0.28.1
 requests==2.33.0
-urllib3==2.6.0
+urllib3==2.7.0
 
 # Validation
 pydantic==2.12.4
