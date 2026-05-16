@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { AnalyticsWebSocketServer } from "./websocket";
 import { storage } from "./storage";
 import { insertBotSchema, insertBotTemplateSchema, insertAnalyticsSchema } from "@shared/schema";
-import { authenticateToken, optionalAuth, type AuthRequest } from "./middleware/auth";
+import { authenticateToken, type AuthRequest } from "./middleware/auth";
 import { registerAuthRoutes } from "./auth";
 
 // Initialize Stripe

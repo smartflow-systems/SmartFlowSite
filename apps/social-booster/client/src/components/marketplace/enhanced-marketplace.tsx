@@ -54,7 +54,6 @@ export default function EnhancedMarketplace({ userStatus }: EnhancedMarketplaceP
   };
 
   const categories = ["all", "E-commerce", "Beauty", "Fashion", "Technology", "Lifestyle"];
-  const platforms = ["all", "tiktok", "instagram", "facebook", "twitter", "youtube", "multi"];
 
   // Filter and sort templates
   const filteredTemplates = templates?.filter((template: Template) => {

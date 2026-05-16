@@ -1,6 +1,5 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { Server as HTTPServer } from 'http';
-import { storage } from './storage';
 
 interface AnalyticsData {
   totalRevenue: string;
