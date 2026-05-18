@@ -234,3 +234,4 @@ sfs-org/SocialScaleBoosterAIbot
 .sfs/config.env
 sfs-control/SmartFlowSite/.sfs/config.env
 apps/ai-platform/SmartFlowAI/.env
+.env.bak.*
