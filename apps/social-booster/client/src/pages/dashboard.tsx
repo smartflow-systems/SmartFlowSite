@@ -3,14 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Crown, Bot, BarChart3, Store, File, Search, Calendar, Users, Zap, Settings } from "lucide-react";
+import { Crown, Bot, BarChart3, Store, File, Calendar, Users, Zap } from "lucide-react";
 import BotCard from "@/components/bots/bot-card";
 import CreateBotDialog from "@/components/bots/create-bot-dialog";
-import BotStatsDialog from "@/components/bots/bot-stats-dialog";
-import TemplateCard from "@/components/marketplace/template-card";
-import AnalyticsCharts from "@/components/analytics/charts";
-import CategoryFilter from "@/components/marketplace/category-filter";
-import EngagementMetrics from "@/components/analytics/engagement-metrics";
 import AdvancedMetrics from "@/components/analytics/advanced-metrics";
 import RealtimeDashboard from "@/components/analytics/realtime-dashboard";
 import SchedulerInterface from "@/components/scheduling/scheduler-interface";
@@ -20,12 +15,9 @@ import EnhancedMarketplace from "@/components/marketplace/enhanced-marketplace";
 import UpgradeCard from "@/components/subscription/upgrade-card";
 import SubscriptionStatus from "@/components/subscription/subscription-status";
 import PaymentSuccess from "@/components/subscription/payment-success";
-import { analyticsService } from "@/services/analytics";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("bots");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [successType, setSuccessType] = useState<"subscription" | "payment">("subscription");
 
@@ -56,26 +48,8 @@ export default function Dashboard() {
     queryKey: ["/api/bots"],
   });
 
-  const { data: templates } = useQuery({
-    queryKey: ["/api/templates"],
-  });
-
   const { data: analyticsMetrics } = useQuery({
     queryKey: ["/api/analytics/metrics"],
-  });
-
-  const { data: engagementMetrics } = useQuery({
-    queryKey: ["engagement-metrics"],
-    queryFn: () => analyticsService.getEngagementByPlatform(),
-  });
-
-  // Filter templates based on category and search
-  const filteredTemplates = templates?.filter((template: any) => {
-    const matchesCategory = selectedCategory === "all" || template.category === selectedCategory;
-    const matchesSearch = searchQuery === "" || 
-      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
   });
 
   // Show success modal if needed

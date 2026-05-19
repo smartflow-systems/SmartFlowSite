@@ -231,3 +231,7 @@ lerna-debug.log*
 # Prevent embedded gitlinks/submodules in SmartFlowSite
 sfs-org/SocialScaleBooster
 sfs-org/SocialScaleBoosterAIbot
+.sfs/config.env
+sfs-control/SmartFlowSite/.sfs/config.env
+apps/ai-platform/SmartFlowAI/.env
+.env.bak.*

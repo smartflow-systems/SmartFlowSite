@@ -1,4 +1,0 @@
-repos:
-  - { owner: smartflow-systems, repo: SmartFlowSite, ref: main, workflow: sfs-ci-deploy.yml }
-  - { owner: smartflow-systems, repo: SmartFlowAI,   ref: main, workflow: ci.yml }
-  - { owner: smartflow-systems, repo: SFS-Backend,   ref: main, workflow: ci.yml }
