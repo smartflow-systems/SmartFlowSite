@@ -1,42 +1,22 @@
-<!-- SmartFlow Systems — PR Template -->
-
 ## Summary
-<!-- What changed & why (one or two lines) -->
+- What changed:
+- Why:
 
-## Linked Issues
-Closes #
+## SmartFlow Checklist
+- [ ] Branch name follows `codex/{feature}-{date}{time}` (Europe/London)
+- [ ] Commit messages follow `feat|fix|chore(scope): message`
+- [ ] `npm ci` completed
+- [ ] `npm test` completed
+- [ ] `pytest` completed when `app.py` exists
+- [ ] No unsafe `innerHTML`; sanitization and ARIA reviewed
+- [ ] `docs/CHANGELOG.md` updated with VERIFY and UNDO
+- [ ] Reusable CI reference: `smartflow-systems/SmartFlowSite/.github/workflows/sfs-ci-deploy.yml@main`
 
-## Type of change
-- [ ] Feature
-- [ ] Fix
-- [ ] Chore / CI
-- [ ] Docs
-- [ ] Refactor (no behavior change)
-- [ ] Security
+## Files Touched
+- 
 
-## Screenshots / Demos (optional)
-<!-- GIF/URL/Notes -->
+## VERIFY
+1. 
 
-## How to test
-1.
-2.
-3.
-**Expected:** `/health` → `{"ok":true}` (Replit port ${PORT:-5000})
-
-## CI & checks
-- Latest run: Actions tab shows ✅ green
-- Status checks required by ruleset pass (build/test)
-
-## Risk & rollback
-Risk: Low / Medium / High  
-Rollback: `git revert <merge_sha>` or redeploy previous tag
-
-## Checklist
-- [ ] Commits are **signed** and conventional (e.g., `feat:`, `fix:`)
-- [ ] Updated docs under `docs/` if needed
-- [ ] No secrets or keys in diff
-- [ ] Owner(s) reviewed (CODEOWNERS)
-- [ ] Linear history (squash merge only)
-
-## Notes for release (optional)
-<!-- Changelog line, migration, env vars -->
+## UNDO
+1. 

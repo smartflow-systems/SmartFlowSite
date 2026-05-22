@@ -25,7 +25,10 @@
     "pull": "git pull --no-edit",
     "push": "git push",
     "auto-commit": "git add . && git commit -m 'chore: auto-commit [Auto-Sync]' || true",
-    "sync-all": "npm run auto-commit && npm run sync"
+    "sync-all": "npm run auto-commit && npm run sync",
+    "doctor": "bash scripts/sfs-doctor.sh",
+    "sfs:new-branch": "bash scripts/sfs-new-branch.sh",
+    "sfs:verify": "npm ci && npm test && if [ -f app.py ]; then pytest; else echo \"pytest skipped (no app.py)\"; fi"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
