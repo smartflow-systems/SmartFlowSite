@@ -90,9 +90,34 @@ ${body}
 </html>`;
 }
 
+function ensureSfsBlogAssets(content) {
+  if (!content.includes('<link rel="stylesheet" href="/css/sfs-complete-theme.css">')) {
+    content = content.replace(
+      '<link rel="stylesheet" href="/styles.css">',
+      '<link rel="stylesheet" href="/styles.css">\n    <link rel="stylesheet" href="/css/sfs-complete-theme.css">'
+    );
+  }
+
+  if (!content.includes('<canvas id="circuit-canvas"></canvas>')) {
+    content = content.replace('<body>', '<body>\n  <canvas id="circuit-canvas"></canvas>');
+  }
+
+  if (!content.includes('<script src="/js/sfs-circuit-flow.js"></script>')) {
+    content = content.replace(
+      '</body>',
+      '    <script src="/js/sfs-circuit-flow.js"></script>\n    <script src="/js/sfs-hamburger-menu.js"></script>\n</body>'
+    );
+  }
+
+  return content;
+}
+
 function writeFileSafe(fp, content) {
   ensureDir(path.dirname(fp));
-  fs.writeFileSync(fp, content);
+  const normalized = fp.split(path.sep).includes("blog") && fp.endsWith(".html")
+    ? ensureSfsBlogAssets(content)
+    : content;
+  fs.writeFileSync(fp, normalized);
 }
 
 /* Build blog list + individual posts */
