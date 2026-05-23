@@ -25,7 +25,10 @@
     "pull": "git pull --no-edit",
     "push": "git push",
     "auto-commit": "git add . && git commit -m 'chore: auto-commit [Auto-Sync]' || true",
-    "sync-all": "npm run auto-commit && npm run sync"
+    "sync-all": "npm run auto-commit && npm run sync",
+    "doctor": "bash scripts/sfs-doctor.sh",
+    "sfs:new-branch": "bash scripts/sfs-new-branch.sh",
+    "sfs:verify": "npm ci && npm test && if [ -f app.py ]; then pytest; else echo \"pytest skipped (no app.py)\"; fi"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -43,6 +46,7 @@
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^3.0.5",
     "jsonwebtoken": "^9.0.3",
+    "marked": "^18.0.4",
     "stripe": "^20.1.0"
   },
   "devDependencies": {
@@ -55,7 +59,7 @@
     "terser": "^5.46.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   },
   "overrides": {
     "ip-address": "^10.2.0"

@@ -7,9 +7,11 @@
 <meta name="description" content="First release of our AI Social Bot with presets for barbers, salons, and fitness.">
 <link rel="icon" href="/assets/favicon.svg">
 <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/sfs-complete-theme.css">
 <meta property="og:title" content="Launch — AI Social Bot (v1)"><meta property="og:description" content="First release of our AI Social Bot with presets for barbers, salons, and fitness.">
 </head>
 <body>
+  <canvas id="circuit-canvas"></canvas>
 <header class="nav">
   <div class="brand"><img class="logo" src="/assets/smartflow-logo.png" alt=""><span>SmartFlow Systems</span></div>
   <nav>
@@ -39,5 +41,7 @@
   <div class="links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
 </footer>
 <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+    <script src="/js/sfs-circuit-flow.js"></script>
+    <script src="/js/sfs-hamburger-menu.js"></script>
 </body>
 </html>
