@@ -14,6 +14,7 @@
     "sync:watch": "node scripts/sync-chatgpt-claude.js watch",
     "build": "node scripts/build.js",
     "build:prod": "npm run optimize:build && npm run optimize:images",
+    "health": "bash scripts/sfs-verify.sh",
     "optimize:build": "node scripts/optimize-build.js",
     "optimize:images": "node scripts/optimize-images.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
