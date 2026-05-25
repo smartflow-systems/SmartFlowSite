@@ -1,15 +1,12 @@
 name: Deploy to Replit
 
 on:
-  push:
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 jobs:
   deploy:
     name: Deploy to Replit
+    # Parked until the reusable workflow target is restored in smartflow-systems/.github.
     uses: smartflow-systems/.github/.github/workflows/sfs-github-replit-deploy.yml@main
     with:
       replit_app_name: 'smartflowsite'
