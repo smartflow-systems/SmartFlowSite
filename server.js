@@ -44,6 +44,10 @@ if (process.env.NODE_ENV === 'production') {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
+const isReplit = Boolean(process.env.REPL_ID || process.env.REPL_SLUG || process.env.REPL_OWNER);
+const frameAncestors = isReplit
+  ? ["'self'", "https://replit.com", "https://*.replit.com", "https://*.replit.dev"]
+  : ["'none'"];
 
 // CSP Nonce middleware - generates unique nonce for each request
 app.use((req, res, next) => {
@@ -81,7 +85,7 @@ app.use((req, res, next) => {
         frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
         baseUri: ["'self'"],
         formAction: ["'self'"],
-        frameAncestors: ["'none'"]
+        frameAncestors
       }
     },
     crossOriginEmbedderPolicy: false,
