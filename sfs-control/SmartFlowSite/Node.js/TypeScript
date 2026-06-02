@@ -1,1 +1,0 @@
-Node.js/TypeScriptnpx prisma migrate dev --name init
