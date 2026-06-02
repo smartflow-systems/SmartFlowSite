@@ -1,2 +1,0 @@
-# SmartFlow AI is a Node.js application
-# Python dependencies are not required for deployment
