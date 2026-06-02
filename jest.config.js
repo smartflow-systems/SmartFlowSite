@@ -7,6 +7,12 @@ export default {
   // Test environment
   testEnvironment: 'node',
 
+  // Keep Jest's cache inside the repo so Windows sandboxed runs do not write to AppData/Temp.
+  cacheDirectory: '<rootDir>/.jest-cache',
+
+  // SmartFlowSite has embedded app copies and backups; only test the root app.
+  roots: ['<rootDir>/__tests__'],
+
   // File extensions
   moduleFileExtensions: ['js', 'json', 'node'],
 
@@ -42,13 +48,19 @@ export default {
     '/node_modules/',
     '/dist/',
     '/.next/',
-    '/.sfs-backups/'
+    '/.sfs-backups/',
+    '/apps/',
+    '/sfs-control/',
+    '/.venv/'
   ],
 
   // Module path ignore patterns
   modulePathIgnorePatterns: [
     '<rootDir>/.sfs-backups/',
-    '<rootDir>/node_modules/'
+    '<rootDir>/node_modules/',
+    '<rootDir>/apps/',
+    '<rootDir>/sfs-control/',
+    '<rootDir>/.venv/'
   ],
 
   // Setup files
