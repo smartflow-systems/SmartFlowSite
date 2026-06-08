@@ -467,7 +467,6 @@
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="/admin.html" class="btn btn-ghost" style="padding: 0.5rem 1rem;">Dashboard</a></li>
       </ul>
     </div>
   </nav>
