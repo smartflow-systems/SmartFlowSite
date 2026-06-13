@@ -138,7 +138,28 @@ img{max-width:100%;display:block}
 .hero h1{font-size:clamp(2rem,3.4vw,3.4rem);line-height:1.08;margin:0 0 12px}
 .hero .gold{color:var(--gold)}
 .lead{opacity:.9;max-width:720px;margin:0 auto 18px}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .badges{display:flex;gap:14px;justify-content:center;opacity:.8;font-size:.95rem}
+
+/* Hero loop promo link (ties primary hero to the new experience) */
+.hero-loop-link {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,215,0,.35);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: all .25s ease;
+  background: rgba(255,215,0,.06);
+}
+.hero-loop-link:hover {
+  background: rgba(255,215,0,.14);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
 
 /* buttons - glassmorphism enhanced */
 .btn{
