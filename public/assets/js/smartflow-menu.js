@@ -22,17 +22,17 @@
     {
       title: "Our Projects",
       items: [
-        { label: "AI Social Bot", href: "/projects/ai-bot.html", icon: "bot" },
-        { label: "Booking System", href: "/projects/booking.html", icon: "calendar" },
-        { label: "E-commerce Shops", href: "/projects/ecom.html", icon: "shopping-cart" },
-        { label: "Websites", href: "/projects/websites.html", icon: "globe" },
+        { label: "AI Social Bot", href: "/systems.html", icon: "bot" },
+        { label: "Booking System", href: "/systems.html", icon: "calendar" },
+        { label: "E-commerce Shops", href: "/systems.html", icon: "shopping-cart" },
+        { label: "Websites", href: "/systems.html", icon: "globe" },
       ]
     },
     {
       title: "Resources",
       items: [
-        { label: "Blog", href: "/blog/", icon: "book" },
-        { label: "Documentation", href: "/docs/", icon: "file-text" },
+        { label: "Blog", href: "/updates.html", icon: "book" },
+        { label: "Documentation", href: "/updates.html", icon: "file-text" },
         { label: "Support", href: "/contact.html", icon: "help-circle" },
       ]
     },
