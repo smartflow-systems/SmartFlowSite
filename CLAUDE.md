@@ -72,6 +72,8 @@ SmartFlowSite is a **multi-agent orchestration platform** that coordinates AI ag
 
 ### Core Capabilities
 
+> **⚠️ STALE FRAMING** — The capabilities listed below describe the orchestration platform as originally architected. They are historical context. SmartFlowSite's current operational role is docs/control/source-of-truth/support. These capabilities must not be treated as active Claude Code instructions. The ChatGPT / SFS Control Tower is the actual decision and routing layer.
+
 1. **Agent Orchestration**: Register, manage, and invoke AI agents across platforms
 2. **Workflow Automation**: Execute multi-step workflows with dependency management
 3. **Package System**: Bundle agents into reusable capabilities
@@ -470,6 +472,8 @@ const sanitized = input.replace(/[<>&"']/g, char => htmlEntities[char]);
 
 ## 🤖 Agent System
 
+> **⚠️ STALE — HISTORICAL REFERENCE:** This entire section documents the orchestration agent system as originally designed. It is retained as historical context only. Do not treat the agent manifests, workflow definitions, or package execute commands below as active Claude Code instructions. Any agent invocation requires explicit per-task approval from Garet / the SFS Control Tower.
+
 > **⚠️ CONTROL TOWER NOTE:** Registered Claude-based agents (`smartflow-theme-enforcer`, `documentation-writer`, `sfs-memory-knowledge-agent`) must not be invoked autonomously. Each invocation requires explicit approval from Garet / the SFS Control Tower for that specific task.
 
 ### Agent Architecture
@@ -693,6 +697,8 @@ GET /site                               # Main website redirect
 ---
 
 ## 📝 Common Tasks
+
+> **⚠️ STALE — HISTORICAL REFERENCE:** The tasks below are how-to guides for the orchestration platform as originally built. They are retained as historical context. All code blocks in this section are reference only and must not be executed without explicit per-task approval from Garet / the SFS Control Tower.
 
 ### 1. Add a New Agent
 
@@ -1126,7 +1132,7 @@ npm run orchestrator
 
 **Debug steps:**
 1. Verify `JWT_SECRET` is set in `.env`
-2. Check token format: `Authorization: Bearer <token>`
+2. Check token format: `Authorization: Bearer`
 3. Verify token hasn't expired
 4. Test token decode:
    ```javascript
