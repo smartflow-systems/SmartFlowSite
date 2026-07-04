@@ -1,103 +1,192 @@
-# CLAUDE.md - AI Assistant Guide for SmartFlowSite
+# CLAUDE.md — AI Assistant Guide for SmartFlowSite
 
-**Last Updated:** 2026-06-20 (Control Tower Override sections added; original: 2025-11-30)
-**Version:** 1.0.0 (override annotated)
-
-This document provides comprehensive guidance for AI assistants working on the SmartFlowSite codebase. It covers architecture, conventions, workflows, and best practices.
+**Last Updated:** 2026-06-25 (policy alignment; previous update 2026-06-20)
+**Version:** 1.1.0
 
 ---
 
-## ⚠️ CURRENT CONTROL TOWER OVERRIDE — Read First
+## ⚠️ CURRENT CONTROL TOWER OVERRIDE — Read This First
 
-**Status:** Updated 2026-06-20
+**Status:** Updated 2026-06-25
 **Authority:** SFS Control Tower (ChatGPT) / Garet
 
-### Routing hierarchy (current)
+### SmartFlow Systems Current Mode
 
-| Role | Agent | Scope |
-|------|-------|-------|
-| Main router and decision layer | **ChatGPT / SFS Control Tower** | Approves all tasks and modes |
-| Read-only reviewer, planner, memory organiser | **Hermes** | Reviews and plans only — does not execute |
-| Scoped terminal coding helper (after approval) | **Claude Code** | This repo only, task by task |
+**Ecosystem build + learning first.**
 
-Claude Code is **not** the SmartFlow control brain, main router, or ecosystem orchestrator.
+Default work makes the ecosystem working, understandable, safe, and well-structured.
 
-### SmartFlowSite actual role (current)
+Do not default to sales, outreach, revenue-first, launch, or demo mode unless Garet explicitly asks.
+
+### SmartFlowSite Actual Role (current)
 
 SmartFlowSite is a **docs / control / source-of-truth / support repo** for SmartFlow Systems.
 
-> **Conflict preserved:** Older sections of this file describe SmartFlowSite as the `"Master Brain"` and as a `"multi-agent orchestration platform"` coordinating all SFS products. That framing is **historical and stale.** SmartFlowSite hosts the SFS site, orchestrator code, and CI tooling — it is not the ecosystem router. The ChatGPT / SFS Control Tower is the actual decision layer. Stale sections are annotated inline below.
+It is **not** the ecosystem router, control brain, or multi-agent orchestration platform. The ChatGPT / SFS Control Tower is the actual decision and routing layer.
 
-### Git workflow override (current)
+> **Conflict preserved:** Older sections of this file describe SmartFlowSite as the `"Master Brain"` and as a `"multi-agent orchestration platform"` coordinating all SFS products. That framing is **historical and stale.** It is annotated inline where it appears. Do not treat stale-labelled framing as active executor instructions.
+
+### Agent Routing (current)
+
+| Role | Agent | Scope |
+|------|-------|-------|
+| Main router and decision layer | **ChatGPT / SFS Control Tower** | Approves all task routes, modes, and safe next moves |
+| Read-only planner, reviewer, repo mapper, risk checker, conflict checker, task briefer, memory-vault organiser | **Hermes** | Read-only only — does not execute unless memory-vault update approval is separately given |
+| Preferred local executor for scoped repo patches | **Claude Code Local** | This repo only, exact approved scope, task by task |
+| Executor after exact approved scope | **Codex Local / Codex Business Cloud** | Exact approved scope only |
+| Support helper | **Grok Terminal** | Terminal-side output explanation and light analysis only |
+| Support helper | **Notebook LLM** | Tables, repo maps, logs, and structured analysis only |
+| Runtime / demo / deployment environment | **Replit** | Not the main planner or executor; push, sync, or deploy to Replit requires exact approval |
+
+No agent self-assigns tasks, routes across repos, or becomes the ecosystem control brain. That role belongs to ChatGPT / SFS Control Tower.
+
+### Approval Modes
+
+#### READ-ONLY ONLY (default)
+
+Allowed: Inspect safe, non-secret files and docs. Summarise, plan, review, map, create task briefs.
+
+Not allowed: Edits, deletes, moves, file creation, git-changing commands, npm/pnpm/yarn installs or audit fixes, builds, tests, CI runs, deploys, migrations, database commands, external messages (Slack, email, GitHub issues/comments, webhooks), or secret-value inspection of any kind.
+
+#### APPROVE MEMORY UPDATE ONLY
+
+Allowed: Create or update approved markdown files or folders inside `/home/garet/personal-ai-stack/memory-vault` only.
+
+Not allowed: Repo source code edits, git-changing commands, npm/pnpm/yarn, builds, tests, deploys, migrations, database commands, external messages, or secret-value inspection.
+
+#### APPROVE WRITE
+
+Allowed: Only within the exact repo, file, and scope stated in Garet's current task message.
+
+Still not allowed without separate explicit approval: deploy, push, npm/pnpm/yarn install/build/test, migrations, database commands, secret-value inspection, destructive actions without an explicit scope and undo plan.
+
+#### LET'S BASH
+
+Allowed: Scoped Bash/WSL commands only, as stated in Garet's approved task.
+
+Not allowed without separate explicit approval: destructive, irreversible, or broad commands; production-affecting commands; secret-handling or secret-value inspection; deploy, migration, or database commands; git-changing commands (push, pull, reset, clean, merge, rebase, commit, add); npm/pnpm/yarn installs, builds, tests, or audit fixes; external messages.
+
+### Command Safety (current)
+
+All command blocks in this file are **reference only.**
+
+The following require **exact per-task approval** from Garet before execution:
+
+- `npm`, `pnpm`, `yarn`, `npx` — install, audit fix, run, or any package manager operation
+- `git push`, `git pull`, `git reset`, `git clean`, `git merge`, `git rebase`, `git commit`, `git add`
+- Builds (`npm run build`, `vite build`, etc.)
+- Tests (`npm test`, `vitest`, `jest`, etc.)
+- Node scripts (`node scripts/*.js`, `npx prisma`, etc.)
+- Deploys (Vercel, Replit, any platform)
+- Migrations (`prisma migrate`, `npx prisma migrate`, etc.)
+- Database commands
+- `curl` or HTTP mutation calls (POST, PUT, DELETE, PATCH to any endpoint)
+- `kill`, `lsof`, `rm`, or other process/file-management commands
+- `tail -f` or reading production/server logs
+- External messages (Slack, email, GitHub PR/issue/comment, webhooks)
+
+### Secret Safety (current)
+
+Secret names and secret variable names are acceptable context.
+
+**Secret values are never okay.**
+
+Do not inspect, print, copy, summarise, store, import, or expose secret values.
+
+Do not open the following unless Garet gives separate explicit secret-handling approval:
+- `.env` or `.env.*` files
+- Auth files (`auth.json`, `.credentials.json`, etc.)
+- Private keys or certificates
+- Token stores or API key files
+- Cookies or session data
+- Database dumps or connection strings containing credentials
+- Production logs containing sensitive data
+- Customer data, billing data, or lead records (`data/leads.json`, lead exports, etc.)
+- Secret-heavy exports or JSONL session histories
+- GitHub secrets or Replit environment values
+
+### Customer and Lead Data (current)
+
+Do not open, inspect, print, copy, summarise, or export the following without separate explicit approval:
+- `data/leads.json` or any lead/customer data file
+- Lead capture exports or CRM exports
+- Billing records or payment data
+- Production logs containing customer data
+- Database dumps or backups containing customer records
+
+### Git Workflow (current)
 
 **Do not push directly to `main` by default.**
 
 Prefer branch/PR flow for all changes. Direct push to `main` is only allowed when Garet explicitly approves it for a specific task.
 
-> **Conflict preserved:** The Git Workflow section below states `"IMPORTANT: This project uses direct push to main (no PR required for solo development)."` That instruction is **stale** and conflicts with current Control Tower Rule 7. It is annotated below and preserved for historical record.
-
-### Command safety rule (current)
-
-All command blocks in this file are **reference only**. Do not run any `npm`, `git`, `node`, `curl`, or other command from this file without explicit approval from Garet / the Control Tower for that specific task.
+> **Conflict preserved:** The Git Workflow section below states `"IMPORTANT: This project uses direct push to main (no PR required for solo development)."` That instruction is **stale** and overridden by current policy. It is annotated below and preserved for historical record.
 
 ---
 
-## 📋 Table of Contents
+## Stop Condition
 
-1. [Project Overview](#project-overview)
-2. [Codebase Architecture](#codebase-architecture)
+After any approved task, the executor must report:
+
+1. What was checked or changed
+2. Exact files touched (or confirmed untouched)
+3. Commands run, if any
+4. Risks or blockers
+5. Next safest action
+6. Confirmation no secrets were inspected or exposed
+7. Confirmation no git/npm/pnpm/yarn/build/test/deploy/migration/database/external-message commands were run unless explicitly approved in the task
+
+For file-creation tasks only, also report:
+- File created and exact path
+
+---
+
+## Table of Contents
+
+1. [Project Overview](#project-overview) — historical reference
+2. [Codebase Architecture](#codebase-architecture) — historical reference
 3. [Directory Structure](#directory-structure)
 4. [Tech Stack](#tech-stack)
-5. [Development Workflows](#development-workflows)
+5. [Development Workflows](#development-workflows) — reference only
 6. [Security Practices](#security-practices)
-7. [Agent System](#agent-system)
-8. [API Reference](#api-reference)
-9. [Common Tasks](#common-tasks)
+7. [Agent System](#agent-system) — historical reference
+8. [API Reference](#api-reference) — reference only
+9. [Common Tasks](#common-tasks) — historical reference
 10. [Key Conventions](#key-conventions)
 11. [Important Files Reference](#important-files-reference)
-12. [Troubleshooting](#troubleshooting)
+12. [Troubleshooting](#troubleshooting) — reference only
 
 ---
 
-## 🎯 Project Overview
-
-SmartFlowSite is a **multi-agent orchestration platform** that coordinates AI agents (Claude, ChatGPT, custom) across multiple SmartFlow Systems applications. It serves as the "Master Brain" for:
+## Project Overview
 
 > **⚠️ STALE FRAMING** — "Master Brain" and "multi-agent orchestration platform" are historical labels. SmartFlowSite's current role is docs/control/source-of-truth/support. The ChatGPT / SFS Control Tower is the actual ecosystem router and decision layer. See "Current Control Tower Override" above.
 
-- **SocialScaleBooster**: Social media content generation for service businesses
-- **SFS AP-CRM**: Appointment and customer relationship management
-- **SFS Data Query Engine**: Data analysis and reporting
-- **SmartFlowSite**: Main website and orchestration hub
+SmartFlowSite was originally designed as a multi-agent orchestration platform coordinating AI agents across multiple SmartFlow Systems applications. That architectural role is stale. SmartFlowSite currently serves as the SFS site, orchestrator reference code, and CI tooling host.
 
-### Core Capabilities
+**Historical product scope (stale reference only):**
+- SocialScaleBooster — social media content generation
+- SFS AP-CRM — appointment and customer relationship management
+- SFS Data Query Engine — data analysis and reporting
 
-> **⚠️ STALE FRAMING** — The capabilities listed below describe the orchestration platform as originally architected. They are historical context. SmartFlowSite's current operational role is docs/control/source-of-truth/support. These capabilities must not be treated as active Claude Code instructions. The ChatGPT / SFS Control Tower is the actual decision and routing layer.
+### Key Principles (preserved from original)
 
-1. **Agent Orchestration**: Register, manage, and invoke AI agents across platforms
-2. **Workflow Automation**: Execute multi-step workflows with dependency management
-3. **Package System**: Bundle agents into reusable capabilities
-4. **State Management**: Persist and share context between workflow steps
-5. **Platform Connectors**: Abstract integration with Claude, ChatGPT, and custom platforms
-
-### Key Principles
-
-- **Platform Agnostic**: Agents work across Claude, ChatGPT, or custom implementations
-- **Security First**: Path traversal protection, input sanitization, rate limiting
-- **Stateful Workflows**: Context flows between steps with variable resolution
-- **Extensible Design**: Easy to add new agents, connectors, and workflows
+- Platform Agnostic: agents work across Claude, ChatGPT, or custom implementations
+- Security First: path traversal protection, input sanitization, rate limiting
+- Stateful Workflows: context flows between steps with variable resolution
+- Extensible Design: easy to add new agents, connectors, and workflows
 
 ---
 
-## 🏗️ Codebase Architecture
-
-SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orchestrator-based architecture.
+## Codebase Architecture
 
 > **⚠️ STALE LABEL** — The diagram below labels this service as "Master Brain." That label is historical and does not reflect the current Control Tower routing. See "Current Control Tower Override" above.
 
+SmartFlowSite follows a hybrid monolith + microservices pattern with an orchestrator-based architecture.
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    SmartFlowSite (Master Brain)             │
+│         SmartFlowSite (historical label: "Master Brain")    │
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐  │
 │  │  SFS Orchestrator (Port 5001)                        │  │
@@ -149,7 +238,7 @@ SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orch
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 /home/user/SmartFlowSite/
@@ -239,7 +328,7 @@ SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orch
 ├── server.js                     # Main Express app (207 lines)
 ├── package.json                  # Node.js dependencies
 ├── schema.prisma                 # Prisma ORM schema
-├── .env.example                  # Environment variable template
+├── .env.example                  # Environment variable template (names only)
 ├── .replit                       # Replit configuration
 ├── vercel.json                   # Vercel deployment config
 ├── AGENTS.md                     # AI agent guidelines
@@ -248,12 +337,12 @@ SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orch
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **Node.js** >=18 (ES Modules)
 - **Express.js** ^4.21.2 (HTTP server)
-- **Prisma** ^5.22.0 (ORM - minimal usage)
+- **Prisma** ^5.22.0 (ORM — minimal usage)
 
 ### Authentication & Security
 - **jsonwebtoken** ^9.0.2 (JWT authentication)
@@ -281,11 +370,11 @@ SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orch
 
 ---
 
-## 🔄 Development Workflows
+## Development Workflows
+
+> **⚠️ REFERENCE ONLY — do not run any command in this section without explicit approval from Garet / Control Tower for that exact repo and task.**
 
 ### Local Development
-
-> **⚠️ REFERENCE ONLY — do not run these commands without explicit approval from Garet / Control Tower.**
 
 ```bash
 # Start main server (port 5000)
@@ -314,15 +403,14 @@ npm run studio            # Open Prisma Studio
 
 ~~**IMPORTANT**: This project uses **direct push to `main`** (no PR required for solo development).~~
 
-> **⚠️ STALE — Overridden by Control Tower Rule 7:** Prefer branch/PR flow for all changes. Direct push to `main` is only allowed when Garet explicitly approves it for a specific task. See "Current Control Tower Override" above.
+> **⚠️ STALE — Overridden:** Prefer branch/PR flow for all changes. Direct push to `main` is only allowed when Garet explicitly approves it for a specific task. See "Current Control Tower Override" above.
 
 ```bash
+# Reference only — do not run without approval
 # Commit format: <type>: <description>
 git add .
 git commit -m "feat: add new agent capability"
 git push
-
-# CI/CD runs automatically on push
 ```
 
 **Commit Types:**
@@ -337,11 +425,13 @@ git push
 
 - **Main Branch**: `main` (production)
 - **Development Branch**: `dev` (optional)
-- **Feature Branches**: `claude/claude-md-milv3lje08h3a7le-*` (AI assistant sessions)
+- **Feature Branches**: `claude/claude-md-*` (AI assistant sessions)
 
 ### CI/CD Pipeline
 
-> **⚠️ REFERENCE ONLY — do not trigger without approval.** The pipeline runs automatically on push to `main`. Since direct push to `main` now requires explicit Garet approval per task, confirm with Garet before any push that would trigger this pipeline.
+> **⚠️ REFERENCE ONLY — do not trigger builds, tests, or deploys without approval.** The pipeline runs automatically on push to `main`. Since direct push to `main` now requires explicit Garet approval per task, confirm with Garet before any push that would trigger this pipeline.
+
+CI/build/test status may be checked only when commands or GitHub checks are explicitly approved.
 
 GitHub Actions runs automatically on push:
 
@@ -351,13 +441,13 @@ GitHub Actions runs automatically on push:
 4. **Deploy**: Automatic deployment to Replit/Vercel
 
 **Key Workflows:**
-- `.github/workflows/sfs-ci.yml` - Main CI pipeline
-- `.github/workflows/security-scan.yml` - Security analysis
-- `.github/workflows/sfs-ci-deploy.yml` - Reusable deployment
+- `.github/workflows/sfs-ci.yml` — Main CI pipeline
+- `.github/workflows/security-scan.yml` — Security analysis
+- `.github/workflows/sfs-ci-deploy.yml` — Reusable deployment
 
 ---
 
-## 🔒 Security Practices
+## Security Practices
 
 ### 1. Authentication & Authorization
 
@@ -378,10 +468,7 @@ Authorization: Bearer <JWT_TOKEN>
 jwt.verify(token, process.env.JWT_SECRET)
 ```
 
-**Usage:**
-- All protected API endpoints require JWT token
-- Token expiration is enforced
-- Invalid tokens return 401 Unauthorized
+All protected API endpoints require a JWT token. Token expiration is enforced. Invalid tokens return 401 Unauthorized.
 
 ### 2. Security Middleware
 
@@ -398,9 +485,9 @@ jwt.verify(token, process.env.JWT_SECRET)
 
 **Critical security feature** implemented in:
 
-- `server/orchestrator/registry.js` - `sanitizeAgentId()`
-- `server/orchestrator/state-store.js` - `sanitizeNamespace()`
-- `server/orchestrator/workflow-engine.js` - `getSafePath()`
+- `server/orchestrator/registry.js` — `sanitizeAgentId()`
+- `server/orchestrator/state-store.js` — `sanitizeNamespace()`
+- `server/orchestrator/workflow-engine.js` — `getSafePath()`
 
 **Pattern:**
 ```javascript
@@ -416,32 +503,21 @@ if (!resolved.startsWith(baseDir)) {
 
 ### 4. Secret Management
 
-**Environment Variables** (`.env`):
+**Environment variable names only** — secret values are never okay.
 
-```bash
-# AI Platform Keys
-ANTHROPIC_API_KEY=<claude-api-key>
-OPENAI_API_KEY=<chatgpt-api-key>
+Known variable names (for reference/confirmation only — do not print or inspect values):
 
-# Authentication
-JWT_SECRET=<random-secret-key>
+- `ANTHROPIC_API_KEY` — Claude API
+- `OPENAI_API_KEY` — ChatGPT API
+- `JWT_SECRET` — authentication
+- `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY` — payment processing
+- `MONGODB_URI` — database (optional)
+- `GITHUB_USER`, `GH_TOKEN`, `SFS_PAT` — GitHub integration
+- `REPLIT_TOKEN`, `SFS_SYNC_URL` — Replit/deployment
 
-# Payment Processing
-STRIPE_SECRET_KEY=<stripe-secret>
-STRIPE_PUBLISHABLE_KEY=<stripe-public-key>
+**Secret value guardrails:**
 
-# Database (optional)
-MONGODB_URI=<connection-string>
-
-# GitHub Integration
-GITHUB_USER=<github-username>
-GH_TOKEN=<github-pat>
-SFS_PAT=<github-pat-alternative>
-
-# Replit/Deployment
-REPLIT_TOKEN=<webhook-auth-token>
-SFS_SYNC_URL=<sync-endpoint>
-```
+Do not inspect, print, copy, summarise, store, import, or expose secret values. Do not open `.env` or any file containing secret values. To confirm a secret is configured: check that the variable name appears in `.env.example` or the relevant platform's secrets UI — confirm name presence only, never print or read the value.
 
 **NEVER commit secrets to version control.**
 
@@ -470,15 +546,11 @@ const sanitized = input.replace(/[<>&"']/g, char => htmlEntities[char]);
 
 ---
 
-## 🤖 Agent System
+## Agent System
 
-> **⚠️ STALE — HISTORICAL REFERENCE:** This entire section documents the orchestration agent system as originally designed. It is retained as historical context only. Do not treat the agent manifests, workflow definitions, or package execute commands below as active Claude Code instructions. Any agent invocation requires explicit per-task approval from Garet / the SFS Control Tower.
+> **⚠️ HISTORICAL REFERENCE — do not treat as active executor instructions.** This section documents the orchestration agent system as originally designed. It is retained as historical context only. Any agent invocation requires explicit per-task approval from Garet / the SFS Control Tower.
 
 > **⚠️ CONTROL TOWER NOTE:** Registered Claude-based agents (`smartflow-theme-enforcer`, `documentation-writer`, `sfs-memory-knowledge-agent`) must not be invoked autonomously. Each invocation requires explicit approval from Garet / the SFS Control Tower for that specific task.
-
-### Agent Architecture
-
-Agents are platform-agnostic AI workers that can be invoked via the orchestrator. Each agent has a JSON manifest defining its capabilities, inputs, outputs, and dependencies.
 
 ### Agent Manifest Structure
 
@@ -488,219 +560,99 @@ Agents are platform-agnostic AI workers that can be invoked via the orchestrator
 {
   "agent_id": "unique-agent-id",
   "name": "Human Readable Name",
-  "platform": "claude" | "chatgpt" | "custom",
+  "platform": "claude | chatgpt | custom",
   "capabilities": ["capability-1", "capability-2"],
-  "apps": ["SmartFlowSite", "SFSAPDemoCRM"],
+  "apps": ["SmartFlowSite"],
   "description": "What this agent does",
-  "triggers": {
-    "events": ["event.name"],
-    "webhooks": ["/api/agents/<agent-id>/trigger"]
-  },
-  "context_files": ["file1.md", "config.json"],
-  "inputs": {
-    "param_name": "type (string, array, object)"
-  },
-  "outputs": {
-    "format": "json",
-    "schema": {
-      "result_field": "type"
-    }
-  },
+  "inputs": { "param_name": "type" },
+  "outputs": { "format": "json", "schema": { "result_field": "type" } },
   "dependencies": ["other-agent-id"],
-  "metadata": {
-    "version": "1.0.0",
-    "author": "SFS Core Team",
-    "last_updated": "2025-01-15"
-  }
+  "metadata": { "version": "1.0.0", "author": "SFS Core Team" }
 }
 ```
 
 ### Registered Agents
 
-| Agent ID | Platform | Capabilities | Purpose |
-|----------|----------|--------------|---------|
-| `smartflow-theme-enforcer` | Claude | theme-application, branding, css-generation | Apply SFS black/brown/gold theme |
-| `chatgpt-content-creator` | ChatGPT | content-generation, seo-optimization | Marketing content (blog, social, email) |
-| `documentation-writer` | Claude | documentation, readme-generation | Auto-generate README and docs |
-| `repo-manager` | Custom | github-operations, repo-creation | GitHub repo setup and CI config |
-| `ci-setup-agent` | Custom | ci-cd, deployment-automation | GitHub Actions workflow setup |
-| `sfs-memory-knowledge-agent` | Claude | knowledge-retrieval, context-building | Knowledge base and memory management |
-| `my-first-agent` | Custom | general-purpose | Template for custom agents |
+| Agent ID | Platform | Purpose |
+|----------|----------|---------|
+| `smartflow-theme-enforcer` | Claude | Apply SFS black/brown/gold theme |
+| `chatgpt-content-creator` | ChatGPT | Marketing content (blog, social, email) |
+| `documentation-writer` | Claude | Auto-generate README and docs |
+| `repo-manager` | Custom | GitHub repo setup and CI config |
+| `ci-setup-agent` | Custom | GitHub Actions workflow setup |
+| `sfs-memory-knowledge-agent` | Claude | Knowledge base and memory management |
+| `my-first-agent` | Custom | Template for custom agents |
 
-### Workflow System
-
-Workflows define multi-step processes with dependency management and variable resolution.
+### Workflow System (historical reference)
 
 **Location**: `.sfs/workflows/<workflow-name>.json`
 
-```json
-{
-  "id": "workflow-id",
-  "name": "Workflow Name",
-  "description": "What this workflow does",
-  "steps": [
-    {
-      "name": "step-name",
-      "agent": "agent-id",
-      "action": "action-name",
-      "input": {
-        "param": "${VARIABLE_NAME}"
-      },
-      "depends_on": ["previous-step"],
-      "output_to": "context-key",
-      "continue_on_error": false
-    }
-  ],
-  "required_variables": ["VAR1", "VAR2"]
-}
-```
+Workflows define multi-step processes with dependency management and variable resolution. Steps with `depends_on` wait for dependencies to complete; parallel execution occurs when no dependencies exist.
 
-**Variable Resolution:**
-```javascript
-// Input: { topic: "${APP_NAME} overview" }
-// Context: { APP_NAME: "SmartFlow CRM" }
-// Resolved: { topic: "SmartFlow CRM overview" }
-```
+### Package System (historical reference)
 
-**Dependency Resolution:**
-- Steps with `depends_on` wait for dependencies to complete
-- Parallel execution when no dependencies exist
-- Errors halt workflow unless `continue_on_error: true`
-
-### Package System
-
-Packages bundle multiple agents into reusable capabilities.
-
-**Location**: `.sfs/packages/<package-name>.json`
-
-| Package ID | Agents | Purpose | Est. Time |
-|------------|--------|---------|-----------|
-| `smart-starter` | theme-enforcer, docs-writer, ci-setup | Quick project setup | 5-10 min |
-| `full-client-onboard` | repo-manager, theme-enforcer, content-creator, ci-setup | Complete onboarding | 20-25 min |
-| `content-automation` | chatgpt-content-creator | Marketing content | 5-10 min |
-| `app-launch-complete` | All agents | End-to-end app launch | 25-30 min |
-
-**Execute a Package:**
-```bash
-npm run agent -- package execute smart-starter
-```
+| Package ID | Purpose | Est. Time |
+|------------|---------|-----------|
+| `smart-starter` | Quick project setup | 5–10 min |
+| `full-client-onboard` | Complete client onboarding | 20–25 min |
+| `content-automation` | Marketing content | 5–10 min |
+| `app-launch-complete` | End-to-end app launch | 25–30 min |
 
 ### State Management
 
-**State Store** (`server/orchestrator/state-store.js`):
+**State Store** (`server/orchestrator/state-store.js`): File-based JSON storage (`.sfs/state/`), namespace isolation, TTL support, in-memory cache.
 
-- File-based JSON storage (`.sfs/state/`)
-- Namespace isolation (e.g., `workflow-123/step-data`)
-- TTL support (optional expiration)
-- In-memory cache for performance
-
-**API:**
 ```javascript
-// Set state
-POST /api/state/:namespace/:key
-{ "value": "data" }
-
-// Get state
-GET /api/state/:namespace/:key
-
-// Get all state in namespace
-GET /api/state/:namespace
+// API (reference only)
+POST /api/state/:namespace/:key   // Set state value
+GET  /api/state/:namespace/:key   // Get state value
+GET  /api/state/:namespace        // Get all state in namespace
 ```
 
 ---
 
-## 🌐 API Reference
+## API Reference
+
+> **⚠️ REFERENCE ONLY — endpoint paths and schemas for planning and code review only. Do not call mutation endpoints (POST, PUT, DELETE, PATCH) without explicit approval.**
 
 ### Main Server (port 5000)
 
-**Health Check:**
 ```
-GET /health
-Response: { ok: true, site: "SmartFlowSite", status: "running" }
-```
-
-**Lead Capture:**
-```
-POST /api/leads
-Body: {
-  firstName: string,
-  lastName: string,
-  email: string,
-  company?: string,
-  phone?: string
-}
-Response: { id: string, status: string, message: string }
-```
-
-**Get All Leads:**
-```
-GET /api/leads
-Response: { leads: Array<Lead> }
-```
-
-**Stripe Checkout (placeholder):**
-```
-POST /api/stripe/checkout
-Body: { priceId: string, email?: string }
-Response: { sessionId: string, url: string }
+GET  /health                    → { ok: true, site: "SmartFlowSite", status: "running" }
+POST /api/leads                 → Lead capture
+GET  /api/leads                 → List leads (do not open response data without approval)
+POST /api/stripe/checkout       → Stripe checkout session
 ```
 
 ### Orchestrator Service (port 5001)
 
-**Agent Operations:**
 ```
-POST /api/agents/register              # Register new agent
-GET  /api/agents                        # List all agents
-GET  /api/agents/:agentId               # Get agent details
-GET  /api/agents/capability/:capability # Find by capability
-POST /api/agents/:agentId/invoke        # Execute agent
-DELETE /api/agents/:agentId             # Unregister agent
-GET  /api/agents/stats                  # Agent statistics
-```
+GET  /api/agents                    # List all agents
+GET  /api/agents/:agentId           # Get agent details
+POST /api/agents/register           # Register new agent
+POST /api/agents/:agentId/invoke    # Execute agent
+GET  /api/agents/stats              # Agent statistics
 
-**Workflow Operations:**
-```
-POST /api/workflows/execute             # Execute workflow
-GET  /api/workflows                     # List all workflows
-GET  /api/workflows/active              # Get active workflows
-POST /api/workflows                     # Save new workflow
-```
+POST /api/workflows/execute         # Execute workflow
+GET  /api/workflows                 # List all workflows
+GET  /api/workflows/active          # Get active workflows
 
-**Package Operations:**
-```
-POST /api/packages/register                 # Register package
-GET  /api/packages                          # List packages
-GET  /api/packages/:packageId               # Get package details
-POST /api/packages/:packageId/execute       # Execute package
-GET  /api/packages/:packageId/dependencies  # Get dependencies
-```
+GET  /api/packages                  # List packages
+POST /api/packages/:packageId/execute  # Execute package
 
-**State Operations:**
-```
-POST /api/state/:namespace/:key         # Set state value
-GET  /api/state/:namespace/:key         # Get state value
-GET  /api/state/:namespace              # Get all state
-```
+GET  /api/connectors                # List connectors
+GET  /api/connectors/test           # Test connectors
 
-**Connector Operations:**
-```
-GET /api/connectors                     # List all connectors
-GET /api/connectors/test                # Test all connectors
-```
-
-**Dashboard:**
-```
-GET /                                   # Orchestrator dashboard UI
-GET /site                               # Main website redirect
+GET  /                              # Orchestrator dashboard UI
 ```
 
 ---
 
-## 📝 Common Tasks
+## Common Tasks
 
-> **⚠️ STALE — HISTORICAL REFERENCE:** The tasks below are how-to guides for the orchestration platform as originally built. They are retained as historical context. All code blocks in this section are reference only and must not be executed without explicit per-task approval from Garet / the SFS Control Tower.
+> **⚠️ HISTORICAL REFERENCE — all code blocks in this section are reference only and must not be executed without explicit per-task approval from Garet / the SFS Control Tower.**
 
-### 1. Add a New Agent
+### Add a New Agent
 
 **File**: `.sfs/agents/my-new-agent.json`
 
@@ -712,32 +664,16 @@ GET /site                               # Main website redirect
   "capabilities": ["capability-1"],
   "apps": ["SmartFlowSite"],
   "description": "What this agent does",
-  "inputs": {
-    "input_param": "string"
-  },
-  "outputs": {
-    "format": "json",
-    "schema": {
-      "result": "string"
-    }
-  },
+  "inputs": { "input_param": "string" },
+  "outputs": { "format": "json", "schema": { "result": "string" } },
   "dependencies": [],
-  "metadata": {
-    "version": "1.0.0",
-    "author": "Your Name",
-    "last_updated": "2025-11-30"
-  }
+  "metadata": { "version": "1.0.0", "author": "Your Name" }
 }
 ```
 
-**Register:**
-```bash
-# Agents are auto-discovered from .sfs/agents/
-# Restart orchestrator to pick up new agent
-npm run orchestrator
-```
+Agents are auto-discovered from `.sfs/agents/` on orchestrator restart.
 
-### 2. Create a New Workflow
+### Create a New Workflow
 
 **File**: `.sfs/workflows/my-workflow.json`
 
@@ -745,22 +681,17 @@ npm run orchestrator
 {
   "id": "my-workflow",
   "name": "My Custom Workflow",
-  "description": "Workflow description",
   "steps": [
     {
       "name": "step-1",
       "agent": "my-new-agent",
-      "input": {
-        "param": "${INPUT_VAR}"
-      },
+      "input": { "param": "${INPUT_VAR}" },
       "output_to": "step1_result"
     },
     {
       "name": "step-2",
       "agent": "another-agent",
-      "input": {
-        "data": "${step1_result}"
-      },
+      "input": { "data": "${step1_result}" },
       "depends_on": ["step-1"]
     }
   ],
@@ -768,34 +699,18 @@ npm run orchestrator
 }
 ```
 
-**Execute:**
-```bash
-curl -X POST http://localhost:5001/api/workflows/execute \
-  -H "Content-Type: application/json" \
-  -d '{
-    "workflow_id": "my-workflow",
-    "context": { "INPUT_VAR": "test value" }
-  }'
-```
-
-### 3. Add a New API Endpoint
+### Add a New API Endpoint
 
 **Main Server** (`server.js`):
 
 ```javascript
-// Add after existing routes
 app.post('/api/my-endpoint', async (req, res) => {
   try {
     const { param } = req.body;
-
-    // Validate input
     if (!param) {
       return res.status(400).json({ error: 'param is required' });
     }
-
-    // Process request
     const result = await processData(param);
-
     res.json({ success: true, data: result });
   } catch (error) {
     console.error('Error:', error);
@@ -804,21 +719,7 @@ app.post('/api/my-endpoint', async (req, res) => {
 });
 ```
 
-**Orchestrator** (`server/orchestrator/index.js`):
-
-```javascript
-// Add route in setupRoutes() method
-this.app.post('/api/my-orchestrator-endpoint', async (req, res) => {
-  try {
-    // Implementation
-    res.json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-```
-
-### 4. Integrate a New External API
+### Integrate a New External API
 
 **Create Connector** (`server/connectors/my-api.js`):
 
@@ -836,84 +737,44 @@ export default class MyAPIConnector extends BaseConnector {
       const response = await axios.post(
         process.env.MY_API_URL,
         input,
-        {
-          headers: {
-            'Authorization': `Bearer ${process.env.MY_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        }
+        { headers: { 'Authorization': `Bearer ${process.env.MY_API_KEY}` } }
       );
-
-      return {
-        success: true,
-        result: response.data
-      };
+      return { success: true, result: response.data };
     } catch (error) {
-      return {
-        success: false,
-        error: error.message
-      };
+      return { success: false, error: error.message };
     }
   }
 
   async testConnection() {
-    // Test API connectivity
     return { success: true };
   }
 }
 ```
 
-**Register Connector** (`server/connectors/connector-manager.js`):
-
-```javascript
-import MyAPIConnector from './my-api.js';
-
-// Add to constructor
-this.connectors.set('my-api', new MyAPIConnector());
-```
-
-### 5. Add Security to an Endpoint
-
-**Use JWT Auth Middleware:**
+### Add Security to an Endpoint
 
 ```javascript
 import { authenticateToken } from '../gateway/middleware/auth.js';
 
-// Protected route
 app.get('/api/protected', authenticateToken, (req, res) => {
-  // req.user contains decoded JWT payload
   res.json({ user: req.user });
 });
 ```
 
-### 6. Run Tests
-
-```bash
-# Orchestrator tests
-node scripts/test-orchestrator.js
-
-# Agent tests
-npm run agent -- test
-
-# Placeholder (configure with your test framework)
-npm test
-```
-
 ---
 
-## 🎨 Key Conventions
+## Key Conventions
 
 ### Brand Guidelines
 
-**Colors** (from `AGENTS.md`):
+**Colors:**
 - **Black**: `#0D0D0D` (primary background)
 - **Brown**: `#3B2F2F` (accents, borders)
 - **Gold**: `#FFD700` (highlights, CTAs)
 
-**Design Patterns**:
-- Glassmorphism (frosted glass effect)
-- Consistent spacing and typography
-- Accessible contrast ratios
+Brand rules must not override accessibility, readability, safety, disabled states, focus states, or semantic success/error/warning states.
+
+**Design Patterns:** Glassmorphism (frosted glass), consistent spacing and typography, accessible contrast ratios.
 
 ### Code Style
 
@@ -923,40 +784,19 @@ npm test
 - Descriptive variable names (no abbreviations)
 - Comments only for complex business logic
 
-**TypeScript:**
-- Strict mode enabled
-- Type annotations for all function parameters
-- Interface definitions for data structures
-
-**Python** (secondary language):
-- Type hints for function signatures
-- PEP 8 style guide
-- Docstrings for public functions
+**TypeScript:** Strict mode enabled; type annotations for all function parameters.
 
 ### Naming Conventions
 
-**Files:**
-- Kebab-case: `my-file-name.js`
-- Component files: `ComponentName.jsx`
-
-**Variables:**
-- camelCase: `myVariable`
-- Constants: `UPPER_SNAKE_CASE`
-
-**Functions:**
-- camelCase: `myFunction()`
-- Verbs: `getUser()`, `createAgent()`, `validateInput()`
-
-**API Endpoints:**
-- RESTful naming: `/api/resources`, `/api/resources/:id`
-- Plural nouns: `/api/agents`, `/api/workflows`
+- **Files:** Kebab-case — `my-file-name.js`
+- **Variables:** camelCase — `myVariable`; Constants — `UPPER_SNAKE_CASE`
+- **Functions:** camelCase verbs — `getUser()`, `createAgent()`, `validateInput()`
+- **API Endpoints:** RESTful, plural nouns — `/api/agents`, `/api/workflows`
 
 ### Error Handling
 
-**Pattern:**
 ```javascript
 try {
-  // Operation
   const result = await riskyOperation();
   res.json({ success: true, data: result });
 } catch (error) {
@@ -968,64 +808,26 @@ try {
 }
 ```
 
-**Logging:**
-- Always sanitize logs (use `log-sanitizer.js`)
-- Include context in log messages
-- Use appropriate log levels (error, warn, info, debug)
+**Logging:** Always sanitize logs (use `log-sanitizer.js`). Include context. Do not log or share secret values.
 
 ### Testing Standards
 
-**Unit Tests:**
-- Test pure functions in isolation
-- Mock external dependencies
-- Aim for >80% coverage
-
-**Integration Tests:**
-- Test API endpoints end-to-end
-- Verify database interactions
-- Test authentication flows
-
-**Security Tests:**
-- Path traversal attempts
-- XSS injection attempts
-- Rate limiting verification
-- JWT token validation
+- Unit: test pure functions in isolation, mock external dependencies
+- Integration: test API endpoints end-to-end, verify auth flows
+- Security: path traversal, XSS, rate limiting, JWT validation
 
 ---
 
-## 📚 Important Files Reference
+## Important Files Reference
 
 ### Essential Reading (Priority Order)
 
-1. **`server/orchestrator/index.js`** (412 lines)
-   - **Purpose**: Main orchestrator service
-   - **When to read**: Understanding core architecture
-   - **Key concepts**: Agent registry, workflow engine, API routes
-
-2. **`AGENTS.md`** (42 lines)
-   - **Purpose**: AI assistant guidelines and standards
-   - **When to read**: Before making any code changes
-   - **Key concepts**: Brand guidelines, security practices, git workflow
-
-3. **`server/orchestrator/workflow-engine.js`** (375 lines)
-   - **Purpose**: Workflow execution with dependencies
-   - **When to read**: Adding/debugging workflows
-   - **Key concepts**: Variable resolution, dependency management, state persistence
-
-4. **`.sfs/agents/*.json`** (7 files)
-   - **Purpose**: Agent manifest definitions
-   - **When to read**: Creating new agents or understanding capabilities
-   - **Key concepts**: Agent schema, inputs/outputs, dependencies
-
-5. **`server/middleware/security.ts`**
-   - **Purpose**: Security middleware configuration
-   - **When to read**: Adding endpoints, debugging auth issues
-   - **Key concepts**: Rate limiting, CORS, input sanitization
-
-6. **`docs/ORCHESTRATOR-README.md`**
-   - **Purpose**: Complete orchestrator documentation
-   - **When to read**: Learning orchestrator API and workflows
-   - **Key concepts**: CLI usage, API reference, examples
+1. **`server/orchestrator/index.js`** (412 lines) — Main orchestrator; core architecture
+2. **`AGENTS.md`** — AI assistant guidelines; read before any code changes
+3. **`server/orchestrator/workflow-engine.js`** (375 lines) — Workflow execution with dependencies
+4. **`.sfs/agents/*.json`** (7 files) — Agent manifest definitions
+5. **`server/middleware/security.ts`** — Security middleware configuration
+6. **`docs/ORCHESTRATOR-README.md`** — Complete orchestrator documentation
 
 ### Task-Specific Files
 
@@ -1036,19 +838,19 @@ try {
 | Add API endpoint | `server.js` (main), `server/orchestrator/index.js` (orchestrator) |
 | Fix security issue | `server/middleware/security.ts`, `gateway/middleware/auth.ts` |
 | Integrate platform | `server/connectors/base.js`, `server/connectors/<platform>.js` |
-| Manage leads | `app.js` (frontend), `server.js` (backend), `data/leads.json` |
 | Configure CI/CD | `.github/workflows/sfs-ci.yml`, `.github/workflows/sfs-ci-deploy.yml` |
 | Update branding | `public/assets/`, `.sfs/agents/smartflow-theme-enforcer.json` |
-| Database schema | `schema.prisma`, `schema.sql` |
-| Environment setup | `.env.example`, `.replit`, `vercel.json` |
+| Database schema | `schema.prisma` |
+
+> **⚠️ Lead/customer data:** Do not open or inspect `data/leads.json`, lead exports, billing records, or customer data files unless Garet gives separate explicit approval.
 
 ### Configuration Files
 
 | File | Purpose |
 |------|---------|
 | `package.json` | Node.js dependencies and scripts |
-| `.env` | Environment variables (NOT tracked) |
-| `.env.example` | Environment variable template |
+| `.env` | Environment variables — **do not open** |
+| `.env.example` | Environment variable names only — safe to read |
 | `.sfs/config.json` | SFS orchestrator configuration |
 | `public/site.config.json` | Site metadata and feature flags |
 | `schema.prisma` | Database schema (Prisma ORM) |
@@ -1057,95 +859,81 @@ try {
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-### Common Issues
+> **⚠️ REFERENCE ONLY — all commands in this section require explicit per-task approval before execution. Do not run shell commands, kill processes, tail logs, or call mutation endpoints without approval.**
 
-#### 1. Orchestrator Not Starting
+### 1. Orchestrator Not Starting
 
-**Symptoms**: Port 5001 not accessible, agents not loading
+**Symptoms:** Port 5001 not accessible, agents not loading.
 
-**Solutions:**
+**Debug approach (reference only — requires approval):**
 ```bash
 # Check if port is in use
 lsof -i :5001
 
-# Kill existing process
+# Kill existing process (requires explicit approval)
 kill -9 <PID>
 
-# Restart orchestrator
+# Restart orchestrator (requires explicit approval)
 npm run orchestrator
 ```
 
-**Check logs** for:
-- Missing environment variables
-- Invalid agent manifests
-- File permission issues
+Check logs for: missing environment variable names, invalid agent manifests, file permission issues.
 
-#### 2. Agent Invocation Failing
+### 2. Agent Invocation Failing
 
-**Symptoms**: 500 errors when calling `/api/agents/:agentId/invoke`
+**Symptoms:** 500 errors when calling `/api/agents/:agentId/invoke`
 
-**Debug steps:**
-1. Check agent manifest exists: `ls .sfs/agents/<agent-id>.json`
-2. Verify connector is configured: `GET /api/connectors`
-3. Test connector: `GET /api/connectors/test`
-4. Check API keys in `.env`:
-   - `ANTHROPIC_API_KEY` (Claude)
-   - `OPENAI_API_KEY` (ChatGPT)
+**Debug steps (read-only checks only unless approved):**
+1. Confirm agent manifest exists at `.sfs/agents/<agent-id>.json`
+2. Check connector config via `GET /api/connectors` (read-only)
+3. Confirm API key variable names are set — do not print values
 
-#### 3. Workflow Execution Stuck
+### 3. Workflow Execution Stuck
 
-**Symptoms**: Workflow status remains "running", steps not completing
+**Symptoms:** Workflow status remains "running", steps not completing.
 
 **Debug steps:**
-1. Check workflow state: `GET /api/state/workflow-<id>`
+1. Check workflow state: `GET /api/state/workflow-<id>` (read-only)
 2. Review dependency graph for circular dependencies
 3. Check for missing required variables
-4. Review logs for step-level errors
-5. Verify `continue_on_error` settings
+4. Review `continue_on_error` settings in the workflow JSON
 
-#### 4. Path Traversal Errors
+### 4. Path Traversal Errors
 
-**Symptoms**: "Path traversal attempt detected" errors
+**Symptoms:** "Path traversal attempt detected" errors.
 
-**Cause**: Agent ID, namespace, or file path contains `../` or invalid characters
+**Cause:** Agent ID, namespace, or file path contains `../` or invalid characters.
 
 **Solution:**
 - Use alphanumeric characters, hyphens, underscores only
 - Avoid dots (`.`), slashes (`/`, `\`), and special characters
 - Example: `my-agent-123` ✅, `../my-agent` ❌
 
-#### 5. Rate Limiting Issues
+### 5. Rate Limiting Issues
 
-**Symptoms**: 429 Too Many Requests
+**Symptoms:** 429 Too Many Requests.
 
 **Solution:**
 - Wait for rate limit window to expire (15 minutes)
 - Reduce request frequency
-- Use caching where possible
-- For development, adjust limits in `server/middleware/security.ts`
+- For development, adjust limits in `server/middleware/security.ts` (requires APPROVE WRITE)
 
-#### 6. JWT Authentication Failures
+### 6. JWT Authentication Failures
 
-**Symptoms**: 401 Unauthorized on protected endpoints
+**Symptoms:** 401 Unauthorized on protected endpoints.
 
 **Debug steps:**
-1. Verify `JWT_SECRET` is set in `.env`
-2. Check token format: `Authorization: Bearer`
+1. Confirm `JWT_SECRET` variable name is set — do not print its value
+2. Check token format: `Authorization: Bearer <token>`
 3. Verify token hasn't expired
-4. Test token decode:
-   ```javascript
-   const jwt = require('jsonwebtoken');
-   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-   console.log(decoded);
-   ```
 
-#### 7. Database Connection Issues
+### 7. Database Connection Issues
 
-**Symptoms**: Prisma errors, MongoDB connection failures
+**Symptoms:** Prisma errors, MongoDB connection failures.
 
-**Solutions:**
+**Debug approach (reference only — requires approval):**
 ```bash
 # Generate Prisma client
 npx prisma generate
@@ -1153,108 +941,49 @@ npx prisma generate
 # Run migrations
 npm run migrate
 
-# Check MongoDB URI
-echo $MONGODB_URI
-
-# Test connection with Prisma Studio
+# Open Prisma Studio
 npm run studio
 ```
 
-#### 8. Lead Capture Not Working
+To confirm `MONGODB_URI` is configured: check that the variable name is present in `.env.example` or the platform secrets UI — do not print its value.
 
-**Symptoms**: POST /api/leads returns errors
+### 8. Lead Capture Not Working
+
+**Symptoms:** POST /api/leads returns errors.
 
 **Debug steps:**
-1. Check email validation regex
-2. Verify `data/leads.json` exists and is writable
-3. Check server logs for file system errors
+1. Check email validation regex in `server.js`
+2. Confirm `data/leads.json` exists and is writable — do not open or inspect its contents without approval
+3. Check server logs for file-system errors — do not share log contents containing customer data
 4. Validate request body format:
    ```json
-   {
-     "firstName": "John",
-     "lastName": "Doe",
-     "email": "john@example.com"
-   }
+   { "firstName": "John", "lastName": "Doe", "email": "john@example.com" }
    ```
 
-### Debug Tools
+---
 
-**Orchestrator Status:**
+## Quick Start Reference
+
+> **⚠️ REFERENCE ONLY — do not execute any step without explicit approval from Garet / Control Tower for each action.**
+
+When starting work on this codebase, read these files first:
+- `AGENTS.md` — development standards
+- `server/orchestrator/index.js` — architecture
+- `.env.example` — environment variable names (names only; do not print values)
+
+Commands below are reference only and require explicit approval:
+
 ```bash
-npm run agent -- status
-```
-
-**Agent List:**
-```bash
-npm run agent -- agent list
-```
-
-**Package List:**
-```bash
-npm run agent -- package list
-```
-
-**Test Orchestrator:**
-```bash
-node scripts/test-orchestrator.js
-```
-
-**View Logs:**
-```bash
-# Main server
-tail -f logs/server.log
-
-# Orchestrator
-tail -f logs/orchestrator.log
-```
-
-**Health Checks:**
-```bash
-# Main server
-curl http://localhost:5000/health
-
-# Orchestrator
-curl http://localhost:5001/health
+npm install                       # requires approval
+npm start                         # requires approval
+npm run orchestrator              # requires approval (separate terminal)
+curl http://localhost:5000/health # requires approval
+curl http://localhost:5001/health # requires approval
 ```
 
 ---
 
-## 🚀 Quick Start Checklist
-
-> **⚠️ REFERENCE ONLY — do not execute these steps without explicit approval from Garet / Control Tower for each action. Do not run `npm install`, `npm start`, or any other command without approval.**
-
-When starting work on this codebase:
-
-- [ ] Read `AGENTS.md` for development standards
-- [ ] Review `server/orchestrator/index.js` for architecture
-- [ ] Copy `.env.example` to `.env` and configure secrets
-- [ ] Install dependencies: `npm install`
-- [ ] Start main server: `npm start`
-- [ ] Start orchestrator: `npm run orchestrator` (in separate terminal)
-- [ ] Verify health: `curl http://localhost:5000/health`
-- [ ] Test orchestrator: `curl http://localhost:5001/health`
-- [ ] Review agent manifests in `.sfs/agents/`
-- [ ] Explore dashboard: `http://localhost:5001`
-
----
-
-## 📞 Need Help?
-
-**Documentation:**
-- `docs/ORCHESTRATOR-README.md` - Complete orchestrator guide
-- `docs/CI-HowTo.md` - CI/CD documentation
-- `docs/How-We-Use-ChatGPT.md` - ChatGPT integration guide
-
-**GitHub:**
-- Repository: https://github.com/boweazy/SmartFlowSite.git
-- Issues: https://github.com/boweazy/SmartFlowSite/issues
-
-**Key Contacts:**
-- SFS Core Team (see agent manifests for authors)
-
----
-
-**Last Updated:** 2026-06-20 (Control Tower Override annotations added)
+**Last Updated:** 2026-06-25 (policy alignment update; previous: 2026-06-20 Control Tower Override added)
 **Original Version Date:** 2025-11-30
 **Maintained by:** SmartFlow Systems Core Team
-**Version:** 1.0.0 (override annotated)
+**Version:** 1.1.0
