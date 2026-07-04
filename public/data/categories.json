@@ -4,7 +4,7 @@
     "name": "Booking & Scheduling",
     "icon": "📅",
     "colour": "#FFD700",
-    "description": "Appointment booking, calendar sync, queue management and staff rotas — end-to-end scheduling automation for service businesses.",
+    "description": "Maintained booking and revenue-support lane. External calendar connection, reminders, payments, deployment, and paid-launch readiness require separate verification.",
     "slug": "booking"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Commerce & Payments",
     "icon": "🛒",
     "colour": "#FFD700",
-    "description": "E-commerce storefronts, Stripe payment gateways, invoicing, and live inventory tracking — sell smarter, get paid faster.",
+    "description": "Future commerce and billing reference lane. Payment behaviour is parked until separately reviewed.",
     "slug": "commerce"
   },
   {
@@ -20,7 +20,7 @@
     "name": "AI & Automation",
     "icon": "🤖",
     "colour": "#FFD700",
-    "description": "AI social bots, smart chatbots, email sequences, SMS automation, and no-code integration hubs — run on autopilot.",
+    "description": "AI Creator OS is the active flagship. Other AI and social ideas are reference-only unless explicitly reviewed.",
     "slug": "ai"
   },
   {
@@ -28,7 +28,7 @@
     "name": "Marketing & Growth",
     "icon": "📣",
     "colour": "#FFD700",
-    "description": "SEO tools, affiliate programs, video marketing, webinars, review management, loyalty schemes, and form builders — grow your audience.",
+    "description": "Manual marketing, content, and growth ideas. No live outreach, tracking, or automation by default.",
     "slug": "marketing"
   },
   {
@@ -36,7 +36,7 @@
     "name": "Websites & Branding",
     "icon": "🌐",
     "colour": "#FFD700",
-    "description": "Drag-and-drop site builders and AR product try-on — launch a professional web presence in hours, not weeks.",
+    "description": "SmartFlowSite public HQ plus SmartFlow theme package direction and source-of-truth support.",
     "slug": "web"
   },
   {
@@ -44,7 +44,7 @@
     "name": "Analytics & Insights",
     "icon": "📊",
     "colour": "#FFD700",
-    "description": "Real-time dashboards, KPI tracking, NPS surveys and automated reports — always know what's working.",
+    "description": "Future analytics, data, and query lane. Data ingestion, reporting, and automation remain parked until reviewed.",
     "slug": "analytics"
   },
   {
@@ -52,7 +52,7 @@
     "name": "Business Management",
     "icon": "🏢",
     "colour": "#FFD700",
-    "description": "Client portals, document e-signing, staff training, community hubs, and helpdesk ticketing — run the whole operation from one place.",
+    "description": "Future ops and admin lane. Backend, auth, customer-data handling, and admin workflows require review before activation.",
     "slug": "management"
   }
 ]

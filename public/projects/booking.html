@@ -1,51 +1,54 @@
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Booking System — SmartFlow</title>
+<title>Barber Booker Booking Lane — SmartFlow</title>
 <link rel="stylesheet" href="../styles.css"/>
 </head><body>
+<div id="menu-sidebar" class="menu-sidebar">
+  <button id="menu-close" class="menu-close" aria-label="Close navigation">&times;</button>
+  <nav class="menu-links"></nav>
+</div>
+
 <header class="nav">
+  <button id="menu-btn" class="menu-btn" aria-label="Open navigation" aria-controls="menu-sidebar" aria-expanded="false">☰</button>
   <a class="brand" href="../">SmartFlow Systems</a>
-  <nav class="links">
-    <a href="../#projects">Projects</a>
-    <a href="../pricing.html">Pricing</a>
-  </nav>
+  <a class="btn btn-gold" href="../systems.html">Ecosystem Map</a>
 </header>
 
 <section class="section container">
-  <h1 class="section-title">Booking System</h1>
-  <p>Stripe deposits, no-show protection, Google Calendar sync. Built for barbers, salons, and fitness.</p>
+  <h1 class="section-title">Barber Booker Booking Lane</h1>
+  <p>Maintained booking and revenue-support product for SmartFlow Systems. It is not the current flagship unless Garet explicitly switches priority.</p>
 
   <div class="projects-grid">
     <article class="project-card">
-      <h3>Capabilities</h3>
+      <h3>Maintained scope</h3>
       <ul class="feature-list">
-        <li>Stripe deposits & no-show protection</li>
-        <li>Google Calendar sync</li>
-        <li>Industry presets (barber/salon/fitness)</li>
-        <li>SMS/Email reminders</li>
-        <li>Cancellation policies</li>
+        <li>Booking/revenue-support product lane</li>
+        <li>Barber Booker maintenance context</li>
+        <li>Static public reference copy</li>
+        <li>Not the current flagship by default</li>
       </ul>
       <div class="actions">
-        <a class="btn btn-primary" href="../contact.html">Setup my booking</a>
-        <a class="btn btn-ghost" href="../book.html">See demo</a>
+        <a class="btn btn-primary" href="../systems.html">View ecosystem map</a>
+        <a class="btn btn-ghost" href="../landing.html">Current direction</a>
       </div>
     </article>
 
     <article class="project-card">
-      <h3>Demo features</h3>
-      <p>Live booking flow with Calendly integration.</p>
+      <h3>Separate verification required</h3>
+      <p>Payments, external calendar connection, email/SMS, deployment, and paid-launch readiness require separate verification before being presented as active capability.</p>
       <div class="actions">
-        <a class="btn btn-primary" href="../book.html">Try booking flow</a>
+        <a class="btn btn-primary" href="../">Back to SmartFlow HQ</a>
       </div>
     </article>
   </div>
 </section>
 
 <section class="cta container">
-  <h3>Ready to stop no-shows?</h3>
+  <h3>Maintained support product</h3>
   <div class="cta-row">
-    <a class="btn btn-primary" href="../pricing.html">See pricing</a>
-    <a class="btn btn-ghost" href="../contact.html">Book a call</a>
+    <a class="btn btn-primary" href="../systems.html">View ecosystem map</a>
+    <a class="btn btn-ghost" href="../">Back to SmartFlow HQ</a>
   </div>
 </section>
+<script src="../menu.js" defer></script>
 </body></html>

@@ -4,13 +4,13 @@
     "name": "BookFlow Pro",
     "icon": "📅",
     "category": "booking",
-    "tagline": "Bookings on autopilot with calendar sync and Stripe.",
-    "description": "Advanced appointment booking with real-time calendar sync, automated SMS/email reminders, no-show follow-ups, and integrated Stripe payments. Perfect for salons, clinics, and service businesses.",
+    "tagline": "Maintained booking reference lane with separate integration review.",
+    "description": "Maintained appointment booking reference with scheduling notes, reminder concepts, and payment boundaries requiring separate verification before activation.",
     "tags": ["Booking", "Payments", "Calendar"],
     "features": [
-      "Real-time Google & iCal calendar sync",
+      "Calendar connection review notes",
       "Automated SMS & email reminders",
-      "Stripe deposit & full-payment checkout",
+      "Payment deposit review notes",
       "No-show & late-cancel automation",
       "Multi-staff booking & room allocation",
       "Customer self-reschedule portal"
@@ -143,7 +143,7 @@
     "description": "Enterprise-grade payment processing built on Stripe — one-off payments, subscriptions, instalment plans, fraud detection, and 135+ currency support.",
     "tags": ["Payments", "Security", "Subscriptions"],
     "features": [
-      "Stripe-powered checkout",
+      "Payment flow review notes",
       "Recurring subscription billing",
       "Instalment plan builder",
       "Fraud detection & 3DS2 support",
@@ -229,7 +229,7 @@
       "Review monitoring & AI response",
       "Voice assistant for business info",
       "Sentiment analysis on all messages",
-      "Lead capture from social conversations"
+      "Contact handoff review for social conversations"
     ],
     "settings": [
       "Reply tone (friendly, professional, custom)",
@@ -248,14 +248,14 @@
     "icon": "💬",
     "category": "ai",
     "tagline": "AI chatbots for WhatsApp, Messenger, and Instagram.",
-    "description": "Deploy AI-powered chatbots on WhatsApp, Facebook Messenger, and Instagram with instant answers, lead capture, booking links, and seamless human handoff.",
+    "description": "Reference chatbot lane for WhatsApp, Facebook Messenger, and Instagram concepts with instant answers, booking-link notes, and human handoff review.",
     "tags": ["AI", "Chatbot", "Support"],
     "features": [
       "WhatsApp, Messenger, Instagram deployment",
       "Natural language understanding",
       "FAQ knowledge base",
       "Booking & payment links in chat",
-      "Lead capture & CRM sync",
+      "Contact handoff and CRM review",
       "Human handoff with context transfer"
     ],
     "settings": [
@@ -441,7 +441,7 @@
     "tags": ["Video", "Streaming", "Marketing"],
     "features": [
       "Adaptive bitrate video hosting",
-      "Email gate & lead capture on video",
+      "Email gate review notes for video",
       "Engagement heatmap per viewer",
       "CTA overlay buttons on video",
       "Watch-trigger email automation",
@@ -544,9 +544,9 @@
     "name": "FormFlow Builder",
     "icon": "📋",
     "category": "marketing",
-    "tagline": "Smart forms with conditional logic and lead capture.",
+    "tagline": "Smart forms with conditional logic and contact handoff review.",
     "description": "Drag-and-drop form builder with conditional logic, multi-step flows, file uploads, payment collection, and automatic CRM lead routing.",
-    "tags": ["Forms", "Lead Capture", "Automation"],
+    "tags": ["Forms", "Contact Review", "Automation"],
     "features": [
       "Drag-and-drop form designer",
       "Conditional logic & branching fields",

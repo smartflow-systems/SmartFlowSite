@@ -15,7 +15,7 @@ async function initSystemsPage() {
     var systems    = await systemsRes.json();
     var categories = await catsRes.json();
 
-    var allPill = makePill('all', 'All Systems', activeCat === 'all');
+    var allPill = makePill('all', 'All Lanes', activeCat === 'all');
     allPill.addEventListener('click', function () { filterTo('all', systems, categories, main); setActive(filterBar, 'all'); });
     filterBar.appendChild(allPill);
 
@@ -100,7 +100,7 @@ function renderAll(activeCat, systems, categories, main) {
     grid.className = 'sys-detail-grid';
 
     catSystems.forEach(function (sys) {
-      var card = document.createElement('div');
+      var card = document.createElement('article');
       card.className = 'sys-detail-card';
       card.id = 'sys-' + sys.id;
 
@@ -126,6 +126,18 @@ function renderAll(activeCat, systems, categories, main) {
       cardHead.appendChild(sysInfo);
       card.appendChild(cardHead);
 
+      var statusRow = document.createElement('div');
+      statusRow.className = 'sys-status-row';
+
+      getLaneLabels(sys).forEach(function (label) {
+        var status = document.createElement('span');
+        status.className = 'sys-status-pill';
+        status.textContent = label;
+        statusRow.appendChild(status);
+      });
+
+      card.appendChild(statusRow);
+
       var sysDesc = document.createElement('p');
       sysDesc.className = 'sys-detail-desc';
       sysDesc.textContent = sys.description;
@@ -134,8 +146,8 @@ function renderAll(activeCat, systems, categories, main) {
       var cols = document.createElement('div');
       cols.className = 'sys-detail-cols';
 
-      var featCol = buildList('✅ Features', sys.features);
-      var settCol = buildList('⚙️ Settings', sys.settings);
+      var featCol = buildList('Reference scope', sys.features);
+      var settCol = buildList('Review notes', sys.settings);
       cols.appendChild(featCol);
       cols.appendChild(settCol);
       card.appendChild(cols);
@@ -155,15 +167,13 @@ function renderAll(activeCat, systems, categories, main) {
 
       var demoBtn = document.createElement('a');
       demoBtn.className = 'btn btn-gold';
-      demoBtn.href = sys.demoUrl || '#';
-      demoBtn.textContent = 'Book a Demo';
-      demoBtn.target = '_blank';
-      demoBtn.rel = 'noopener';
+      demoBtn.href = '/systems.html?cat=' + sys.category + '&id=' + sys.id;
+      demoBtn.textContent = 'View lane';
 
       var pricingBtn = document.createElement('a');
       pricingBtn.className = 'btn btn-ghost';
-      pricingBtn.href = '/pricing.html';
-      pricingBtn.textContent = 'See Pricing';
+      pricingBtn.href = '/systems.html?cat=' + sys.category + '&id=' + sys.id;
+      pricingBtn.textContent = 'Read status';
 
       actions.appendChild(demoBtn);
       actions.appendChild(pricingBtn);
@@ -175,6 +185,26 @@ function renderAll(activeCat, systems, categories, main) {
     section.appendChild(grid);
     main.appendChild(section);
   });
+}
+
+function getLaneLabels(sys) {
+  if (sys.id === 'aicreatoros' || sys.name === 'AI Creator OS') {
+    return ['Current flagship', 'Demo-safe preview', 'Human approval'];
+  }
+
+  if (sys.id === 'bookflow' || sys.name.toLowerCase().indexOf('barber') !== -1) {
+    return ['Maintained lane', 'Separate verification'];
+  }
+
+  if (sys.category === 'commerce' || sys.category === 'analytics' || sys.category === 'management') {
+    return ['Parked lane', 'Review required'];
+  }
+
+  if (sys.category === 'marketing' || sys.category === 'ai') {
+    return ['Reference lane', 'No live integrations'];
+  }
+
+  return ['Ecosystem lane', 'Status reference'];
 }
 
 function buildList(title, items) {

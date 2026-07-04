@@ -4,14 +4,64 @@ async function initMenu() {
   var sidebar   = document.getElementById('menu-sidebar');
   if (!menuBtn || !sidebar) return;
 
+  var desktopQuery = window.matchMedia('(min-width: 1024px)');
+
+  var syncLayoutState = function (expanded) {
+    document.body.classList.toggle('sfs-sidebar-open', expanded);
+    document.body.classList.toggle('sfs-sidebar-collapsed', !expanded);
+  };
+
   var overlay = document.createElement('div');
   overlay.className = 'menu-overlay';
   document.body.appendChild(overlay);
 
-  var openMenu  = function () { sidebar.classList.add('open'); overlay.classList.add('open'); };
-  var closeMenu = function () { sidebar.classList.remove('open'); overlay.classList.remove('open'); };
+  var setExpanded = function (expanded) {
+    menuBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  };
 
-  menuBtn.addEventListener('click', openMenu);
+  var openMenu = function () {
+    sidebar.classList.add('open');
+    overlay.classList.toggle('open', !desktopQuery.matches);
+    setExpanded(true);
+    syncLayoutState(true);
+  };
+
+  var closeMenu = function () {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    setExpanded(false);
+    syncLayoutState(false);
+  };
+
+  var toggleMenu = function () {
+    if (sidebar.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+
+  if (desktopQuery.matches) {
+    openMenu();
+  } else {
+    closeMenu();
+  }
+
+  var handleViewportChange = function (event) {
+    if (event.matches) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  };
+
+  if (desktopQuery.addEventListener) {
+    desktopQuery.addEventListener('change', handleViewportChange);
+  } else if (desktopQuery.addListener) {
+    desktopQuery.addListener(handleViewportChange);
+  }
+
+  menuBtn.addEventListener('click', toggleMenu);
   if (menuClose) menuClose.addEventListener('click', closeMenu);
   overlay.addEventListener('click', closeMenu);
 
@@ -20,14 +70,60 @@ async function initMenu() {
 
   nav.textContent = '';
 
+  var lockup = document.createElement('div');
+  lockup.className = 'menu-lockup';
+
+  var logo = document.createElement('img');
+  logo.className = 'menu-lockup-logo';
+  logo.src = '/assets/brand/SmartFlo-Logo-200w.png';
+  logo.alt = 'SmartFlow Systems';
+  logo.loading = 'eager';
+
+  var lockupKicker = document.createElement('span');
+  lockupKicker.className = 'menu-lockup-kicker';
+  lockupKicker.textContent = 'SMARTFLOW SYSTEMS';
+
+  var lockupTitle = document.createElement('span');
+  lockupTitle.className = 'menu-lockup-title';
+  lockupTitle.textContent = 'Public HQ';
+
+  var lockupCopy = document.createElement('p');
+  lockupCopy.className = 'menu-lockup-copy';
+  lockupCopy.textContent = 'AI Creator OS flagship direction, demo-safe status, and parked ecosystem lanes.';
+
+  lockup.appendChild(logo);
+  lockup.appendChild(lockupKicker);
+  lockup.appendChild(lockupTitle);
+  lockup.appendChild(lockupCopy);
+  nav.appendChild(lockup);
+
   var staticLinks = [
-    { label: '🏠 Home',        href: '/' },
-    { label: '💰 Pricing',     href: '/pricing.html' },
-    { label: '📰 Updates',     href: '/updates.html' },
-    { label: '📞 Contact',     href: 'contact.html' },
-    { label: '🐙 GitHub',      href: 'https://github.com/smartflow-systems', external: true },
-    { label: '📅 Book a Demo', href: 'https://calendly.com/smartflow-systems', external: true }
+    { label: 'Home', href: '/' },
+    { label: 'AI Creator OS', href: '/#direction' },
+    { label: 'Ecosystem Map', href: '/systems.html' },
+    { label: 'Current Direction', href: '/landing.html' },
+    { label: 'Updates', href: '/updates.html' },
+    { label: 'Contact', href: '/contact.html' },
+    { label: 'GitHub', href: 'https://github.com/smartflow-systems', external: true, subdued: true }
   ];
+
+  staticLinks.forEach(function (item) {
+    var a = document.createElement('a');
+    a.href = item.href;
+    a.textContent = item.label;
+    a.className = 'menu-static-link' + (item.subdued ? ' menu-static-link-subdued' : '');
+    if (item.external) { a.target = '_blank'; a.rel = 'noopener'; }
+    if (isCurrentNavItem(item)) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
+    }
+    a.addEventListener('click', closeMenu);
+    nav.appendChild(a);
+  });
+
+  var divider = document.createElement('div');
+  divider.className = 'menu-divider';
+  nav.appendChild(divider);
 
   try {
     var [systemsRes, catsRes] = await Promise.all([
@@ -45,7 +141,7 @@ async function initMenu() {
     systemsToggle.setAttribute('aria-expanded', 'false');
 
     var toggleLabel = document.createElement('span');
-    toggleLabel.textContent = '⚙️ Systems';
+      toggleLabel.textContent = 'Lane Index';
 
     var toggleArrow = document.createElement('span');
     toggleArrow.className = 'menu-toggle-arrow';
@@ -142,23 +238,27 @@ async function initMenu() {
     console.warn('Menu: could not load systems tree', e);
   }
 
-  var divider = document.createElement('div');
-  divider.className = 'menu-divider';
-  nav.appendChild(divider);
-
-  staticLinks.forEach(function (item) {
-    var a = document.createElement('a');
-    a.href = item.href;
-    a.textContent = item.label;
-    a.className = 'menu-static-link';
-    if (item.external) { a.target = '_blank'; a.rel = 'noopener'; }
-    a.addEventListener('click', closeMenu);
-    nav.appendChild(a);
-  });
-
   sidebar.querySelectorAll('a').forEach(function (link) {
     link.addEventListener('click', closeMenu);
   });
+}
+
+function isCurrentNavItem(item) {
+  if (item.external) return false;
+
+  var currentPath = window.location.pathname;
+  var itemUrl = new URL(item.href, window.location.origin);
+  var itemPath = itemUrl.pathname;
+
+  if (itemPath === '/') {
+    return currentPath === '/' || currentPath === '/index.html';
+  }
+
+  if (itemPath === '/systems.html') {
+    return currentPath === '/systems.html';
+  }
+
+  return currentPath === itemPath;
 }
 
 if (document.readyState === 'loading') {
