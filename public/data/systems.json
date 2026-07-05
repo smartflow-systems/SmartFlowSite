@@ -1,812 +1,963 @@
 [
   {
-    "id": "bookflow",
-    "name": "BookFlow Pro",
-    "icon": "📅",
-    "category": "booking",
-    "tagline": "Maintained booking reference lane with separate integration review.",
-    "description": "Maintained appointment booking reference with scheduling notes, reminder concepts, and payment boundaries requiring separate verification before activation.",
-    "tags": ["Booking", "Payments", "Calendar"],
+    "id": "aicreatoros",
+    "name": "AI Creator OS",
+    "icon": "⚡",
+    "category": "ai",
+    "tagline": "Current SmartFlow flagship: demo-safe creator operations preview.",
+    "description": "Static AI Creator Operations Infrastructure lane for persona records, campaign ideas, draft review, human approval, and manual/mock export. No live integrations are connected by default.",
+    "tags": [
+      "Current flagship",
+      "Demo-safe preview",
+      "Human approval"
+    ],
     "features": [
-      "Calendar connection review notes",
-      "Automated SMS & email reminders",
-      "Payment deposit review notes",
-      "No-show & late-cancel automation",
-      "Multi-staff booking & room allocation",
-      "Customer self-reschedule portal"
+      "Static persona and campaign planning records",
+      "Draft review and approval status labels",
+      "Human approval required before mock handoff",
+      "Manual/mock export only",
+      "No live integrations by default",
+      "No production database, auth, payments, social posting, or external services"
     ],
     "settings": [
-      "Booking window (days ahead)",
-      "Deposit % or fixed amount",
-      "Reminder timing (24h, 2h, custom)",
-      "Buffer time between appointments",
-      "Service duration templates",
-      "Staff availability rules"
+      "Demo-safe mode",
+      "Manual/mock export boundary",
+      "Human approval gate",
+      "Static seed data only",
+      "No platform API connection",
+      "Parked integration backlog"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=ai&id=aicreatoros",
+    "link": "/systems.html?cat=ai&id=aicreatoros"
+  },
+  {
+    "id": "bookflow",
+    "name": "BookFlow Reference Lane",
+    "icon": "📅",
+    "category": "booking",
+    "tagline": "maintained booking/revenue-support lane; not a live product by default.",
+    "description": "Static maintained booking/revenue-support lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Maintained lane",
+      "Review required",
+      "Static reference"
+    ],
+    "features": [
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
+    ],
+    "settings": [
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
+    ],
+    "demoUrl": "/systems.html?cat=booking&id=bookflow",
+    "link": "/systems.html?cat=booking&id=bookflow"
   },
   {
     "id": "appointmentflow",
-    "name": "AppointmentFlow Plus",
+    "name": "AppointmentFlow Reference Lane",
     "icon": "🗓️",
     "category": "booking",
-    "tagline": "Complete appointment lifecycle management.",
-    "description": "End-to-end appointment management with confirmation flows, automated reminders, no-show tracking, and one-click rescheduling for service-based businesses.",
-    "tags": ["Appointments", "Reminders", "Tracking"],
+    "tagline": "maintained booking/revenue-support lane; not a live product by default.",
+    "description": "Static maintained booking/revenue-support lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Maintained lane",
+      "Review required",
+      "Static reference"
+    ],
     "features": [
-      "Confirmation, reminder & follow-up sequences",
-      "No-show tracking & automated follow-up",
-      "One-click rescheduling for clients",
-      "Waitlist management",
-      "Group appointment & class booking",
-      "Custom intake forms per service"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Confirmation email/SMS templates",
-      "Waitlist auto-fill rules",
-      "Maximum bookings per slot",
-      "Intake form fields & required fields",
-      "Cancellation policy text",
-      "Follow-up timing after appointment"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=booking&id=appointmentflow",
+    "link": "/systems.html?cat=booking&id=appointmentflow"
   },
   {
     "id": "staffflow",
-    "name": "StaffFlow Scheduler",
+    "name": "StaffFlow Reference Lane",
     "icon": "👥",
     "category": "booking",
-    "tagline": "Rotas, shifts, and payroll in one place.",
-    "description": "Full staff scheduling with drag-and-drop rota builder, availability management, shift swap requests, time tracking, and automated payroll integration.",
-    "tags": ["Scheduling", "HR", "Payroll"],
+    "tagline": "maintained booking/revenue-support lane; not a live product by default.",
+    "description": "Static maintained booking/revenue-support lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Maintained lane",
+      "Review required",
+      "Static reference"
+    ],
     "features": [
-      "Drag-and-drop rota builder",
-      "Staff availability & leave management",
-      "Shift swap request & approval flow",
-      "Time clock with GPS check-in",
-      "Overtime alerts & labour cost view",
-      "Payroll export (Xero, QuickBooks)"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Working hours & days per staff member",
-      "Holiday allowance per year",
-      "Overtime threshold (hours)",
-      "Pay rate per staff member",
-      "Shift swap approval rules",
-      "Payroll export format"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=booking&id=staffflow",
+    "link": "/systems.html?cat=booking&id=staffflow"
   },
   {
     "id": "queuepro",
-    "name": "Virtual Queue Pro",
+    "name": "Virtual Queue Reference Lane",
     "icon": "📱",
     "category": "booking",
-    "tagline": "Smart waitlist with SMS updates and wait predictions.",
-    "description": "Eliminate physical queues with a smart virtual waitlist. Customers join via QR code, get real-time SMS wait-time updates, and are notified when it's their turn.",
-    "tags": ["Queue", "SMS", "Location", "Predictions"],
+    "tagline": "maintained booking/revenue-support lane; not a live product by default.",
+    "description": "Static maintained booking/revenue-support lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Maintained lane",
+      "Review required",
+      "Static reference"
+    ],
     "features": [
-      "QR code queue join — no app needed",
-      "Real-time SMS wait-time notifications",
-      "AI wait-time prediction engine",
-      "Location-based push notifications",
-      "Walk-in + pre-booked queue merge",
-      "Live dashboard for staff"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Average service time per slot",
-      "Max queue length",
-      "SMS notification triggers",
-      "Location radius for notifications",
-      "Queue opening & closing times",
-      "Priority customer rules"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=booking&id=queuepro",
+    "link": "/systems.html?cat=booking&id=queuepro"
   },
   {
     "id": "smartcommerce",
-    "name": "SmartCommerce Suite",
+    "name": "SmartCommerce Reference Lane",
     "icon": "🛍️",
     "category": "commerce",
-    "tagline": "Full e-commerce with inventory, upsells, and analytics.",
-    "description": "Complete e-commerce platform with inventory management, order tracking, AI-powered upsell prompts, abandoned cart recovery, and detailed customer analytics.",
-    "tags": ["E-commerce", "Inventory", "Analytics"],
+    "tagline": "parked commerce and billing lane; not a live product by default.",
+    "description": "Static parked commerce and billing lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Billing review",
+      "Static reference"
+    ],
     "features": [
-      "Product catalogue with variants",
-      "Smart upsell & cross-sell prompts",
-      "Abandoned cart recovery emails/SMS",
-      "Order tracking & fulfilment status",
-      "Customer purchase history & segments",
-      "Discount codes & flash sale scheduler"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Upsell trigger rules (cart value, product)",
-      "Abandoned cart delay timing",
-      "Shipping zones & rates",
-      "Tax rules per region",
-      "Low-stock alert threshold",
-      "Currency display settings"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=commerce&id=smartcommerce",
+    "link": "/systems.html?cat=commerce&id=smartcommerce"
   },
   {
     "id": "paymentflow",
-    "name": "PaymentFlow Gateway",
+    "name": "PaymentFlow Reference Lane",
     "icon": "💳",
     "category": "commerce",
-    "tagline": "Secure Stripe payments with subscriptions and fraud checks.",
-    "description": "Enterprise-grade payment processing built on Stripe — one-off payments, subscriptions, instalment plans, fraud detection, and 135+ currency support.",
-    "tags": ["Payments", "Security", "Subscriptions"],
+    "tagline": "parked commerce and billing lane; not a live product by default.",
+    "description": "Static parked commerce and billing lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Billing review",
+      "Static reference"
+    ],
     "features": [
-      "Payment flow review notes",
-      "Recurring subscription billing",
-      "Instalment plan builder",
-      "Fraud detection & 3DS2 support",
-      "135+ currency support",
-      "Refund & dispute management"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Payment capture mode (instant/manual)",
-      "Subscription billing cycle",
-      "Instalment schedule template",
-      "Fraud filter sensitivity",
-      "Currency display & conversion",
-      "Refund window (days)"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=commerce&id=paymentflow",
+    "link": "/systems.html?cat=commerce&id=paymentflow"
   },
   {
     "id": "invoiceflow",
-    "name": "InvoiceFlow Pro",
+    "name": "InvoiceFlow Reference Lane",
     "icon": "📄",
     "category": "commerce",
-    "tagline": "Invoices, payment chasing, and financial reports.",
-    "description": "Professional invoice generation with automatic payment-chasing sequences, VAT/tax handling, partial payments, and a comprehensive financial reporting dashboard.",
-    "tags": ["Invoicing", "Payments", "Finance"],
+    "tagline": "parked commerce and billing lane; not a live product by default.",
+    "description": "Static parked commerce and billing lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Billing review",
+      "Static reference"
+    ],
     "features": [
-      "Branded invoice & quote generator",
-      "Automatic overdue payment chasing",
-      "Partial payment & deposit tracking",
-      "VAT, tax, and multi-currency support",
-      "P&L and cash-flow reports",
-      "Xero & QuickBooks sync"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Invoice numbering prefix & format",
-      "Payment terms (7, 14, 30 days)",
-      "Overdue chase timing & tone",
-      "VAT rate & number",
-      "Default currency",
-      "Logo & brand colours on invoice"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=commerce&id=invoiceflow",
+    "link": "/systems.html?cat=commerce&id=invoiceflow"
   },
   {
     "id": "inventoryflow",
-    "name": "InventoryFlow Manager",
+    "name": "InventoryFlow Reference Lane",
     "icon": "📦",
     "category": "commerce",
-    "tagline": "Live stock tracking, alerts, and demand forecasting.",
-    "description": "Real-time inventory across multiple locations with low-stock alerts, supplier reorder automation, demand forecasting, and barcode/QR scanning.",
-    "tags": ["Inventory", "Tracking", "Forecasting"],
+    "tagline": "parked commerce and billing lane; not a live product by default.",
+    "description": "Static parked commerce and billing lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Billing review",
+      "Static reference"
+    ],
     "features": [
-      "Real-time multi-location stock levels",
-      "Barcode & QR code scanning",
-      "Automated supplier reorder emails",
-      "AI demand forecasting",
-      "Expiry date & batch tracking",
-      "Shrinkage & wastage logging"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Low-stock alert threshold per SKU",
-      "Reorder quantity per supplier",
-      "Warehouse/location labels",
-      "Demand forecast period (weeks)",
-      "Expiry warning window (days)",
-      "Shrinkage reporting frequency"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=commerce&id=inventoryflow",
+    "link": "/systems.html?cat=commerce&id=inventoryflow"
   },
   {
     "id": "aibot",
-    "name": "AI Social Bot Pro",
+    "name": "SocialScaleBooster Reference Lane",
     "icon": "🤖",
     "category": "ai",
-    "tagline": "AI-powered social automation with voice assistant.",
-    "description": "AI social media bot that auto-replies to DMs, comments, and reviews across Instagram, Facebook, and TikTok with smart upselling, sentiment detection, and voice assistant capabilities.",
-    "tags": ["AI", "Social Media", "Reviews", "Voice AI"],
+    "tagline": "reference AI/automation lane; not a live product by default.",
+    "description": "Static reference AI/automation lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Reference lane",
+      "Human approval",
+      "No live integrations"
+    ],
     "features": [
-      "Auto-reply to DMs & comments",
-      "Smart upsell triggers via DM",
-      "Review monitoring & AI response",
-      "Voice assistant for business info",
-      "Sentiment analysis on all messages",
-      "Contact handoff review for social conversations"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Reply tone (friendly, professional, custom)",
-      "Upsell trigger keywords",
-      "Platforms connected (IG, FB, TikTok)",
-      "Escalation rules (handoff to human)",
-      "Voice assistant business info",
-      "Working hours for auto-replies"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://socialscalebooster.replit.app",
-    "link": "https://socialscalebooster.replit.app"
+    "demoUrl": "/systems.html?cat=ai&id=aibot",
+    "link": "/systems.html?cat=ai&id=aibot"
   },
   {
     "id": "chatflow",
-    "name": "ChatFlow AI Bot",
+    "name": "ChatFlow AI Bot Reference Lane",
     "icon": "💬",
     "category": "ai",
-    "tagline": "AI chatbots for WhatsApp, Messenger, and Instagram.",
-    "description": "Reference chatbot lane for WhatsApp, Facebook Messenger, and Instagram concepts with instant answers, booking-link notes, and human handoff review.",
-    "tags": ["AI", "Chatbot", "Support"],
+    "tagline": "reference AI/automation lane; not a live product by default.",
+    "description": "Static reference AI/automation lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Reference lane",
+      "Human approval",
+      "No live integrations"
+    ],
     "features": [
-      "WhatsApp, Messenger, Instagram deployment",
-      "Natural language understanding",
-      "FAQ knowledge base",
-      "Booking & payment links in chat",
-      "Contact handoff and CRM review",
-      "Human handoff with context transfer"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Bot persona name & avatar",
-      "FAQ knowledge base content",
-      "Booking link to embed",
-      "Handoff trigger phrases",
-      "CRM integration (HubSpot, etc.)",
-      "Language & response style"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=ai&id=chatflow",
+    "link": "/systems.html?cat=ai&id=chatflow"
   },
   {
     "id": "emailflow",
-    "name": "EmailFlow Pro",
+    "name": "EmailFlow Reference Lane",
     "icon": "📧",
     "category": "ai",
-    "tagline": "Email automation with sequences, segmentation, and A/B tests.",
-    "description": "Full email marketing suite with visual sequence builder, audience segmentation, A/B testing, send-time optimisation, and deep analytics on opens, clicks, and revenue.",
-    "tags": ["Email", "Marketing", "Automation"],
+    "tagline": "reference AI/automation lane; not a live product by default.",
+    "description": "Static reference AI/automation lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Reference lane",
+      "Human approval",
+      "No live integrations"
+    ],
     "features": [
-      "Visual email sequence builder",
-      "Smart audience segmentation",
-      "A/B split testing",
-      "AI send-time optimisation",
-      "Revenue attribution per campaign",
-      "Unsubscribe & GDPR compliance tools"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "From name & reply-to address",
-      "Sending domain (DKIM/SPF)",
-      "Sequence trigger events",
-      "Segment rules (tags, purchase, activity)",
-      "A/B test split percentage",
-      "Daily send limit"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=ai&id=emailflow",
+    "link": "/systems.html?cat=ai&id=emailflow"
   },
   {
     "id": "smsflow",
-    "name": "SMSFlow Messaging",
+    "name": "SMSFlow Reference Lane",
     "icon": "📱",
     "category": "ai",
-    "tagline": "Two-way SMS campaigns with appointment reminders.",
-    "description": "Two-way SMS marketing platform with bulk campaigns, automated appointment reminders, keyword-triggered replies, and customer engagement scoring.",
-    "tags": ["SMS", "Marketing", "Engagement"],
+    "tagline": "reference AI/automation lane; not a live product by default.",
+    "description": "Static reference AI/automation lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Reference lane",
+      "Human approval",
+      "No live integrations"
+    ],
     "features": [
-      "Bulk SMS campaigns with personalisation",
-      "Appointment reminder sequences",
-      "Keyword-triggered auto-replies",
-      "Two-way conversation inbox",
-      "Opt-in / opt-out compliance",
-      "Engagement scoring per contact"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Sender name / long code",
-      "Campaign send schedule",
-      "Keyword reply rules",
-      "Opt-out keyword (STOP)",
-      "Reminder timing (hours before)",
-      "Message templates library"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=ai&id=smsflow",
+    "link": "/systems.html?cat=ai&id=smsflow"
   },
   {
     "id": "integrationflow",
-    "name": "IntegrationFlow Hub",
+    "name": "IntegrationFlow Reference Lane",
     "icon": "🔗",
     "category": "ai",
-    "tagline": "Connect 500+ apps with no-code automation workflows.",
-    "description": "Zapier-style automation hub connecting 500+ apps with a visual no-code workflow builder, conditional logic, filters, and error-handling retries.",
-    "tags": ["Integrations", "Automation", "Workflows"],
+    "tagline": "reference AI/automation lane; not a live product by default.",
+    "description": "Static reference AI/automation lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Reference lane",
+      "Human approval",
+      "No live integrations"
+    ],
     "features": [
-      "500+ app connectors",
-      "Visual drag-and-drop workflow builder",
-      "Conditional logic & branching",
-      "Error handling & retry queue",
-      "Webhook trigger & action support",
-      "Workflow version history"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "API keys per connected app",
-      "Trigger event per workflow",
-      "Filter conditions",
-      "Retry attempts on failure",
-      "Workflow run frequency",
-      "Error notification email"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=ai&id=integrationflow",
+    "link": "/systems.html?cat=ai&id=integrationflow"
   },
   {
     "id": "growthflow",
-    "name": "GrowthFlow Analytics",
+    "name": "GrowthFlow Analytics Reference Lane",
     "icon": "📊",
     "category": "marketing",
-    "tagline": "Real-time BI, funnel tracking, and growth predictions.",
-    "description": "Real-time business intelligence with funnel tracking, cohort analysis, churn prediction, LTV modelling, and AI-generated growth recommendations.",
-    "tags": ["Analytics", "Growth", "BI"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Live revenue & bookings dashboard",
-      "Customer funnel & drop-off tracking",
-      "Cohort analysis & LTV modelling",
-      "Churn prediction alerts",
-      "AI growth recommendations",
-      "White-label reporting exports"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "KPI targets per metric",
-      "Funnel stage definitions",
-      "Cohort grouping period",
-      "Churn alert threshold",
-      "Report export format (PDF/CSV)",
-      "Dashboard refresh interval"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=growthflow",
+    "link": "/systems.html?cat=marketing&id=growthflow"
   },
   {
     "id": "searchflow",
-    "name": "SearchFlow SEO Tool",
+    "name": "SearchFlow SEO Reference Lane",
     "icon": "🔍",
     "category": "marketing",
-    "tagline": "Keyword research, rank tracking, and competitor monitoring.",
-    "description": "All-in-one SEO suite with keyword research, daily rank tracking, technical site audits, backlink analysis, and competitor gap reporting.",
-    "tags": ["SEO", "Marketing", "Analytics"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Keyword research & volume data",
-      "Daily rank tracking per keyword",
-      "Technical site audit with fixes",
-      "Backlink profile & disavow tool",
-      "Competitor keyword gap report",
-      "Content brief generator"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Target keywords list",
-      "Competitor domains to track",
-      "Audit crawl frequency",
-      "Rank tracking location & device",
-      "Alert threshold (rank drop)",
-      "Content brief template style"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=searchflow",
+    "link": "/systems.html?cat=marketing&id=searchflow"
   },
   {
     "id": "affiliateflow",
-    "name": "AffiliateFlow Platform",
+    "name": "AffiliateFlow Reference Lane",
     "icon": "🔗",
     "category": "marketing",
-    "tagline": "Affiliate commissions, tracking, and partner portal.",
-    "description": "Full affiliate management with unique tracking links, tiered commission structures, automated payouts, a self-serve partner portal, and creative asset library.",
-    "tags": ["Affiliate", "Commissions", "Partnerships"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Unique affiliate tracking links",
-      "Tiered commission structures",
-      "Automated payout via Stripe",
-      "Self-serve partner dashboard",
-      "Creative & banner asset library",
-      "Fraud click & conversion detection"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Commission rate (% or fixed)",
-      "Tiered threshold amounts",
-      "Payout schedule (monthly/weekly)",
-      "Cookie window (days)",
-      "Minimum payout amount",
-      "Allowed traffic sources"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=affiliateflow",
+    "link": "/systems.html?cat=marketing&id=affiliateflow"
   },
   {
     "id": "videoflow",
-    "name": "VideoFlow Studio",
+    "name": "VideoFlow Reference Lane",
     "icon": "🎥",
     "category": "marketing",
-    "tagline": "Video hosting, streaming, and marketing automation.",
-    "description": "Video marketing platform with adaptive streaming, gated content, engagement heatmaps, CTA overlays, and automated follow-up based on watch behaviour.",
-    "tags": ["Video", "Streaming", "Marketing"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Adaptive bitrate video hosting",
-      "Email gate review notes for video",
-      "Engagement heatmap per viewer",
-      "CTA overlay buttons on video",
-      "Watch-trigger email automation",
-      "Embed on any site or funnel page"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Video privacy (public/private/gated)",
-      "Email gate timing (% watched)",
-      "CTA button text & link",
-      "Automation trigger (% watched)",
-      "Player colour & brand",
-      "Thumbnail image"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=videoflow",
+    "link": "/systems.html?cat=marketing&id=videoflow"
   },
   {
     "id": "webinarflow",
-    "name": "WebinarFlow Pro",
+    "name": "WebinarFlow Reference Lane",
     "icon": "🎤",
     "category": "marketing",
-    "tagline": "Webinar hosting with automated registration and replays.",
-    "description": "Full webinar platform with live streaming, automated registration sequences, in-webinar polls & offers, replay hosting, and attendee engagement scoring.",
-    "tags": ["Webinars", "Events", "Marketing"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Live & automated (evergreen) webinars",
-      "Branded registration pages",
-      "Pre-webinar email & SMS reminders",
-      "In-webinar polls, Q&A & chat",
-      "Offer presentation with Stripe link",
-      "Replay with time-limited access"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Webinar schedule (live or automated)",
-      "Registration page template",
-      "Reminder sequence timing",
-      "Replay access window (days)",
-      "Stripe offer link & timing",
-      "Attendee follow-up sequence"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=webinarflow",
+    "link": "/systems.html?cat=marketing&id=webinarflow"
   },
   {
     "id": "reviewflow",
-    "name": "Review Flow Manager",
+    "name": "Review Flow Reference Lane",
     "icon": "⭐",
     "category": "marketing",
-    "tagline": "Auto-collect reviews and manage your reputation.",
-    "description": "Automated review collection via SMS/email post-appointment, sentiment filtering, AI-drafted responses, and unified monitoring across Google, Yelp, and Facebook.",
-    "tags": ["Reviews", "Reputation", "Automation"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Post-appointment review request sequences",
-      "Sentiment filter (only sends happy customers)",
-      "AI-drafted review response suggestions",
-      "Google, Yelp & Facebook monitoring",
-      "Negative review alert & escalation",
-      "Review count & rating dashboard"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Review request timing (hours after service)",
-      "Sentiment threshold (NPS filter)",
-      "Reply tone (formal, friendly)",
-      "Platforms to monitor",
-      "Alert email for negative reviews",
-      "Review request template"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=reviewflow",
+    "link": "/systems.html?cat=marketing&id=reviewflow"
   },
   {
     "id": "loyaltyflow",
-    "name": "LoyaltyFlow Rewards",
+    "name": "LoyaltyFlow Rewards Reference Lane",
     "icon": "🎁",
     "category": "marketing",
-    "tagline": "Points, tiers, and referral bonuses to keep customers coming back.",
-    "description": "Customer loyalty platform with points-per-purchase, tiered VIP levels, referral bonuses, birthday rewards, and automated reactivation campaigns for lapsed customers.",
-    "tags": ["Loyalty", "Rewards", "CRM"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Points-per-purchase & per-visit",
-      "Tiered VIP levels (Bronze, Gold, Platinum)",
-      "Referral code bonuses",
-      "Birthday & anniversary rewards",
-      "Automated lapsed-customer reactivation",
-      "Branded digital loyalty card"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Points per £ spent",
-      "Tier thresholds (points or visits)",
-      "Referral bonus amount",
-      "Birthday reward type & value",
-      "Lapsed trigger (days since visit)",
-      "Points expiry window"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=loyaltyflow",
+    "link": "/systems.html?cat=marketing&id=loyaltyflow"
   },
   {
     "id": "formflow",
-    "name": "FormFlow Builder",
+    "name": "FormFlow Reference Lane",
     "icon": "📋",
     "category": "marketing",
-    "tagline": "Smart forms with conditional logic and contact handoff review.",
-    "description": "Drag-and-drop form builder with conditional logic, multi-step flows, file uploads, payment collection, and automatic CRM lead routing.",
-    "tags": ["Forms", "Contact Review", "Automation"],
+    "tagline": "future content/growth reference lane; not a live product by default.",
+    "description": "Static future content/growth reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Future lane",
+      "Manual review",
+      "Static reference"
+    ],
     "features": [
-      "Drag-and-drop form designer",
-      "Conditional logic & branching fields",
-      "Multi-step progress forms",
-      "File upload fields",
-      "Stripe payment fields on forms",
-      "Auto-route leads to CRM or email"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Form fields & field types",
-      "Conditional logic rules",
-      "Success redirect URL",
-      "Notification email on submit",
-      "CRM mapping (field → contact field)",
-      "GDPR consent text"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=marketing&id=formflow",
+    "link": "/systems.html?cat=marketing&id=formflow"
   },
   {
     "id": "webbuilder",
-    "name": "WebBuilder Pro",
+    "name": "WebBuilder Reference Lane",
     "icon": "🌐",
     "category": "web",
-    "tagline": "100+ templates, SEO-ready, live in hours.",
-    "description": "Drag-and-drop website builder with 100+ responsive templates, built-in SEO tools, conversion pop-ups, speed optimisation, and hosting included.",
-    "tags": ["Website", "SEO", "Conversion"],
+    "tagline": "public HQ/theme reference lane; not a live product by default.",
+    "description": "Static public HQ/theme reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Public HQ",
+      "Theme reference",
+      "Docs support"
+    ],
     "features": [
-      "100+ responsive templates",
-      "Built-in SEO meta & schema editor",
-      "Conversion pop-ups & exit intent",
-      "Image & script optimisation",
-      "Custom domain & SSL included",
-      "Google Analytics & Pixel integration"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Template selection",
-      "Brand colours & fonts",
-      "Custom domain",
-      "SEO title, meta description templates",
-      "Pop-up trigger (time, scroll, exit)",
-      "Analytics tracking IDs"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://github.com/smartflow-systems/SmartFlowSite",
-    "link": "https://github.com/smartflow-systems/SmartFlowSite"
+    "demoUrl": "/systems.html?cat=web&id=webbuilder",
+    "link": "/systems.html?cat=web&id=webbuilder"
   },
   {
     "id": "artryon",
-    "name": "AR Try-On Studio",
+    "name": "AR Try-On Reference Lane",
     "icon": "🕶️",
     "category": "web",
-    "tagline": "Let customers try before they buy with augmented reality.",
-    "description": "Augmented reality overlay for virtual hair colour, makeup, glasses, and style previews — embeds on any website or runs as a standalone link.",
-    "tags": ["AR", "Virtual Try-On", "Visualization"],
+    "tagline": "public HQ/theme reference lane; not a live product by default.",
+    "description": "Static public HQ/theme reference lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Public HQ",
+      "Theme reference",
+      "Docs support"
+    ],
     "features": [
-      "Live camera AR overlay",
-      "Hair colour & style visualisation",
-      "Makeup & skincare preview",
-      "Glasses & accessory try-on",
-      "Shareable before/after image",
-      "Embed widget for any website"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "AR categories to enable",
-      "Product catalogue for try-on",
-      "Brand watermark on shared image",
-      "Embed widget colours",
-      "Camera access prompt text",
-      "Mobile vs desktop mode"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=web&id=artryon",
+    "link": "/systems.html?cat=web&id=artryon"
   },
   {
     "id": "reportflow",
-    "name": "ReportFlow Analytics",
+    "name": "ReportFlow Analytics Reference Lane",
     "icon": "📈",
     "category": "analytics",
-    "tagline": "Automated dashboards with custom KPIs and exec summaries.",
-    "description": "Real-time reporting dashboard with drag-and-drop KPI widgets, automated weekly/monthly email summaries, custom date ranges, and white-label PDF export.",
-    "tags": ["Reports", "Analytics", "BI"],
+    "tagline": "parked analytics/data lane; not a live product by default.",
+    "description": "Static parked analytics/data lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Data review",
+      "Static reference"
+    ],
     "features": [
-      "Drag-and-drop KPI widget dashboard",
-      "Automated weekly & monthly email digest",
-      "Custom date range comparisons",
-      "Revenue, bookings & marketing metrics",
-      "White-label PDF export",
-      "Multi-location / multi-brand views"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "KPI widgets to show",
-      "Report email recipients",
-      "Email digest frequency (weekly/monthly)",
-      "Date comparison period",
-      "PDF logo & brand colour",
-      "Location filter defaults"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=analytics&id=reportflow",
+    "link": "/systems.html?cat=analytics&id=reportflow"
   },
   {
     "id": "feedbackflow",
-    "name": "FeedbackFlow Survey",
+    "name": "FeedbackFlow Survey Reference Lane",
     "icon": "📊",
     "category": "analytics",
-    "tagline": "NPS surveys, sentiment tracking, and automated actions.",
-    "description": "Survey builder with NPS, CSAT, and custom question types, sentiment analysis, real-time results dashboard, and automated follow-up actions based on scores.",
-    "tags": ["Surveys", "Feedback", "Analytics"],
+    "tagline": "parked analytics/data lane; not a live product by default.",
+    "description": "Static parked analytics/data lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Data review",
+      "Static reference"
+    ],
     "features": [
-      "NPS, CSAT & star-rating question types",
-      "Conditional follow-up questions",
-      "Real-time results & trend charts",
-      "Sentiment analysis on open text",
-      "Automated actions on score (email, tag)",
-      "Survey embed & link share"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Survey question types & order",
-      "NPS promoter/detractor thresholds",
-      "Sentiment analysis language",
-      "Auto-action rules per score range",
-      "Survey branding (logo, colours)",
-      "Results visibility (private/shared)"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=analytics&id=feedbackflow",
+    "link": "/systems.html?cat=analytics&id=feedbackflow"
   },
   {
     "id": "clientportal",
-    "name": "Client Portal Pro",
+    "name": "Client Portal Reference Lane",
     "icon": "🔐",
     "category": "management",
-    "tagline": "White-label client portal with files, invoices, and messaging.",
-    "description": "Branded client portal where customers can view proposals, sign contracts, pay invoices, share files, send messages, and track project progress in one secure place.",
-    "tags": ["Portal", "Collaboration", "File Sharing"],
+    "tagline": "parked operations/admin lane; not a live product by default.",
+    "description": "Static parked operations/admin lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Admin review",
+      "Static reference"
+    ],
     "features": [
-      "Branded login portal with your domain",
-      "Proposal & contract e-signing",
-      "Invoice payment within portal",
-      "Secure file upload & sharing",
-      "Project progress tracking",
-      "Internal & client messaging"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Portal domain & logo",
-      "Client access permissions",
-      "Contract template",
-      "Notification triggers (new file, message)",
-      "Payment gateway (Stripe link)",
-      "Two-factor authentication toggle"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=management&id=clientportal",
+    "link": "/systems.html?cat=management&id=clientportal"
   },
   {
     "id": "documentflow",
-    "name": "DocumentFlow Manager",
+    "name": "DocumentFlow Reference Lane",
     "icon": "📁",
     "category": "management",
-    "tagline": "Templates, e-signatures, version control, and secure storage.",
-    "description": "Document management system with branded template library, legally binding e-signature, version history, folder organisation, and secure encrypted cloud storage.",
-    "tags": ["Documents", "Signatures", "Storage"],
+    "tagline": "parked operations/admin lane; not a live product by default.",
+    "description": "Static parked operations/admin lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Admin review",
+      "Static reference"
+    ],
     "features": [
-      "Branded document template library",
-      "Legally binding e-signature",
-      "Version history & rollback",
-      "Folder & tag organisation",
-      "AES-256 encrypted cloud storage",
-      "Document expiry & renewal alerts"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Storage limit & retention period",
-      "Signature certificate provider",
-      "Document expiry alert timing",
-      "Folder structure template",
-      "Access permissions per user",
-      "Watermark on sensitive docs"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=management&id=documentflow",
+    "link": "/systems.html?cat=management&id=documentflow"
   },
   {
     "id": "trainingflow",
-    "name": "TrainingFlow Academy",
+    "name": "TrainingFlow Reference Lane",
     "icon": "🎓",
     "category": "management",
-    "tagline": "Staff and client training with courses, certs, and tracking.",
-    "description": "Online training platform with course builder, video lessons, quizzes, completion certificates, progress tracking, and group enrolment for staff or clients.",
-    "tags": ["Training", "Education", "Courses"],
+    "tagline": "parked operations/admin lane; not a live product by default.",
+    "description": "Static parked operations/admin lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Admin review",
+      "Static reference"
+    ],
     "features": [
-      "Drag-and-drop course builder",
-      "Video, PDF & quiz lesson types",
-      "Completion certificates with branding",
-      "Group enrolment & cohorts",
-      "Progress tracking per learner",
-      "Drip content scheduling"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Course sections & lesson order",
-      "Quiz pass score threshold",
-      "Certificate template & logo",
-      "Drip release schedule",
-      "Enrolment rules (manual/auto)",
-      "Course access expiry (days)"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=management&id=trainingflow",
+    "link": "/systems.html?cat=management&id=trainingflow"
   },
   {
     "id": "communityflow",
-    "name": "CommunityFlow Hub",
+    "name": "CommunityFlow Reference Lane",
     "icon": "👫",
     "category": "management",
-    "tagline": "Members, forums, messaging, and gamification.",
-    "description": "Community platform with member profiles, discussion forums, direct messaging, event hosting, and points-based gamification to drive engagement.",
-    "tags": ["Community", "Engagement", "Social"],
+    "tagline": "parked operations/admin lane; not a live product by default.",
+    "description": "Static parked operations/admin lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Admin review",
+      "Static reference"
+    ],
     "features": [
-      "Member profile pages",
-      "Threaded discussion forums",
-      "Direct & group messaging",
-      "Virtual events & meetups",
-      "Points & leaderboard gamification",
-      "Content moderation & reporting"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "Community name & branding",
-      "Forum categories & permissions",
-      "Moderation rules",
-      "Points awarded per action",
-      "Event RSVP settings",
-      "Private vs public community toggle"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=management&id=communityflow",
+    "link": "/systems.html?cat=management&id=communityflow"
   },
   {
     "id": "supportflow",
-    "name": "SupportFlow Helpdesk",
+    "name": "SupportFlow Reference Lane",
     "icon": "🆘",
     "category": "management",
-    "tagline": "Ticketing, knowledge base, and AI-suggested replies.",
-    "description": "Full helpdesk with multi-channel ticket inbox (email, chat, WhatsApp), AI-suggested replies from your knowledge base, SLA tracking, and satisfaction ratings.",
-    "tags": ["Support", "Ticketing", "Helpdesk"],
+    "tagline": "parked operations/admin lane; not a live product by default.",
+    "description": "Static parked operations/admin lane for SmartFlow ecosystem planning. It is demo-safe by default and requires separate review before any real integration, customer workflow, or external service is considered.",
+    "tags": [
+      "Parked lane",
+      "Admin review",
+      "Static reference"
+    ],
     "features": [
-      "Unified email, chat & WhatsApp inbox",
-      "AI-suggested replies from knowledge base",
-      "SLA tracking & escalation alerts",
-      "Canned reply library",
-      "Customer satisfaction (CSAT) ratings",
-      "Team assignment & workload view"
+      "Static reference notes only",
+      "Separate review required before activation",
+      "Human approval required before any handoff",
+      "No live integrations by default",
+      "No customer records or external services active",
+      "Manual/mock handoff only"
     ],
     "settings": [
-      "SLA response time targets",
-      "Escalation rules (time-based)",
-      "Knowledge base articles",
-      "Canned reply templates",
-      "Team member roles & permissions",
-      "CSAT survey timing (on resolve)"
+      "Scope review notes",
+      "Safety boundary notes",
+      "Integration review required",
+      "Data-handling review required",
+      "Human approval gate",
+      "Parked until separately approved"
     ],
-    "demoUrl": "https://calendly.com/smartflow-systems",
-    "link": "https://calendly.com/smartflow-systems"
+    "demoUrl": "/systems.html?cat=management&id=supportflow",
+    "link": "/systems.html?cat=management&id=supportflow"
   }
 ]

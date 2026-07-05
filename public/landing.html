@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartFlow Systems - AI Creator Operations Infrastructure</title>
-  <meta name="description" content="SmartFlow Systems is being rebuilt around AI Creator Operations Infrastructure. Current flagship: AI Creator OS. Phase 1 demo: PASS. Human approval required. No live integrations.">
+  <meta name="description" content="SmartFlow Systems is being rebuilt around AI Creator Operations Infrastructure. Current flagship: AI Creator OS. Phase 1 demo-safe preview. Human approval required. No live integrations.">
 
   <!-- SFS Theme & Circuit Flow -->
   <link rel="stylesheet" href="sfs-complete-theme.css">
@@ -506,8 +506,8 @@
 
         <div class="trust-indicators">
           <div class="trust-indicator">
-            <span class="trust-indicator-value">PASS</span>
-            <span class="trust-indicator-label">Phase 1 demo</span>
+            <span class="trust-indicator-value">Demo-safe</span>
+            <span class="trust-indicator-label">Phase 1 preview</span>
           </div>
           <div class="trust-indicator">
             <span class="trust-indicator-value">Human</span>
@@ -608,7 +608,7 @@
           <div class="pricing-header">
             <h3>AI Creator OS</h3>
             <p class="pricing-subtitle">Current flagship</p>
-            <div class="pricing-price">PASS</div>
+            <div class="pricing-price">Demo-safe</div>
             <div class="pricing-period">Phase 1 demo</div>
           </div>
           <ul class="pricing-features">
@@ -717,8 +717,8 @@
 
       <div class="stats-grid">
         <div class="glass-card stat-card">
-          <span class="stat-value">PASS</span>
-          <span class="stat-label">Phase 1 demo status</span>
+          <span class="stat-value">Demo-safe</span>
+          <span class="stat-label">Phase 1 preview status</span>
         </div>
         <div class="glass-card stat-card">
           <span class="stat-value">Human</span>
@@ -825,64 +825,6 @@
 
   <!-- Landing Page Scripts -->
   <script>
-    // Lead Form Submission
-    async function handleLeadSubmit(event) {
-      event.preventDefault();
-
-      const form = event.target;
-      const formData = {
-        firstName: form.firstName.value,
-        lastName: form.lastName.value,
-        email: form.email.value,
-        company: form.company.value,
-        phone: form.phone.value,
-        source: 'landing_page',
-        timestamp: new Date().toISOString()
-      };
-
-      const submitButton = form.querySelector('button[type="submit"]');
-      const originalText = submitButton.textContent;
-      submitButton.textContent = 'Submitting...';
-      submitButton.disabled = true;
-
-      try {
-        const response = await fetch('/api/leads', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Hide form and show success message
-          form.style.display = 'none';
-          document.getElementById('successMessage').style.display = 'block';
-          document.getElementById('errorMessage').style.display = 'none';
-
-          // Track conversion (optional - integrate with analytics)
-          if (window.gtag) {
-            gtag('event', 'conversion', {
-              'send_to': 'AW-CONVERSION_ID',
-              'value': 1.0,
-              'currency': 'GBP'
-            });
-          }
-        } else {
-          throw new Error(data.message || 'Failed to submit form');
-        }
-      } catch (error) {
-        console.error('Lead submission error:', error);
-        const errorDiv = document.getElementById('errorMessage');
-        errorDiv.textContent = 'Something went wrong. Please try again or contact us directly.';
-        errorDiv.style.display = 'block';
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-      }
-    }
-
     // Smooth scroll for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {

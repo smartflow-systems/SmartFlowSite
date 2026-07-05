@@ -12,7 +12,7 @@
 
 ### SmartFlow Systems Current Mode
 
-**Ecosystem build + learning first.**
+**AI Creator OS flagship build + ecosystem learning first.**
 
 Default work makes the ecosystem working, understandable, safe, and well-structured.
 
