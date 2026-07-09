@@ -121,11 +121,13 @@ It should not be treated as a place to test risky repo-wide automation.
 
 Current operating mode:
 
+- AI Creator OS / Fresh SFS Rebuild is the current main product direction
+- SmartFlowSite supports public/docs/source-of-truth alignment
 - build working systems first
 - keep the ecosystem understandable
 - one repo, one task, one output
-- Barber Booker remains high priority because it is closest to demo/customer value
-- SocialScaleBooster comes after Barber Booker and core ecosystem structure
+- Barber Booker is the highest practical demo/customer-value lane when Garet asks for demo/customer progress
+- SocialScaleBooster is future support/module work
 
 Do not default to sales, launch, outreach, or revenue-first work unless Garet explicitly asks.
 

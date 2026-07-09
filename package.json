@@ -1,7 +1,7 @@
 {
-  "name": "smartflow-store-api",
+  "name": "smartflowsite",
   "version": "0.1.0",
-  "description": "Smartflow Store MVP API with Multi-Agent Orchestration",
+  "description": "SmartFlow Systems public docs, brand, and source-of-truth support site",
   "type": "module",
   "main": "server.js",
   "private": true,

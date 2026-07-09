@@ -5,6 +5,12 @@
 
 
 # SmartFlowSite — SmartFlow Systems
+
+## Current role
+SmartFlowSite is the public/docs/control/source-of-truth support repo for SmartFlow Systems.
+It supports the fresh SFS rebuild and AI Creator OS direction.
+It is not the ecosystem control brain, autonomous orchestrator, store API, or main product app.
+
 **Dev:** `npm run dev`  •  **Prod:** `npm start`
 **Health:** `GET /health` → `{"ok":true}`
 
@@ -19,8 +25,10 @@ Create from GitHub → set secrets `SFS_PAT`, `REPLIT_TOKEN`, `SFS_SYNC_URL`. Po
 ## CI
 Push → GitHub Actions runs reusable CI.
 
+**Approval note:** deploys, pushes, CI/CD-triggering actions, and secret handling require exact approval.
+Secret names may be documented, but secret values must never be printed or inspected.
+
 ## Agent Notes (see [AGENTS.md])
 Show [paths]; VERIFY + UNDO; Bash uses `set -euo pipefail`. GitHub = source of truth.
 
-<- Edit SCROLL_PX_PER_SEC or fonts to PR template smoke: 20251009T202356Z -->
-# SmartFlowSite-remix
+For agent rules, see [AGENTS.md](AGENTS.md).
