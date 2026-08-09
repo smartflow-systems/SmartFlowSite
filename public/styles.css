@@ -138,7 +138,28 @@ img{max-width:100%;display:block}
 .hero h1{font-size:clamp(2rem,3.4vw,3.4rem);line-height:1.08;margin:0 0 12px}
 .hero .gold{color:var(--gold)}
 .lead{opacity:.9;max-width:720px;margin:0 auto 18px}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .badges{display:flex;gap:14px;justify-content:center;opacity:.8;font-size:.95rem}
+
+/* Hero loop promo link (ties primary hero to the new experience) */
+.hero-loop-link {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,215,0,.35);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: all .25s ease;
+  background: rgba(255,215,0,.06);
+}
+.hero-loop-link:hover {
+  background: rgba(255,215,0,.14);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
 
 /* buttons - glassmorphism enhanced */
 .btn{
@@ -1131,4 +1152,98 @@ body {
 .menu-cat-toggle > span:first-child,
 .menu-group-toggle > span:first-child {
   filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.05);
+}
+
+/* SmartFlow hero-loop feature */
+.sfs-demo-section {
+  position: relative;
+  background:
+    radial-gradient(circle at 78% 50%, rgba(255,215,0,.08), transparent 36%),
+    linear-gradient(180deg, #0D0D0D, rgba(59,47,47,.18), #0D0D0D);
+}
+
+.sfs-demo-card {
+  display: grid;
+  grid-template-columns: minmax(260px, .72fr) minmax(420px, 1.28fr);
+  gap: clamp(24px, 4vw, 54px);
+  align-items: center;
+  padding: clamp(24px, 4vw, 48px);
+  border: 1px solid rgba(255,215,0,.26);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(59,47,47,.48), rgba(13,13,13,.82));
+  box-shadow: 0 28px 80px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.08);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+.sfs-demo-copy h2 {
+  margin: 0 0 14px;
+  color: #F5F5DC;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.sfs-demo-copy > p:not(.sfs-demo-eyebrow) {
+  max-width: 34rem;
+  margin: 0 0 24px;
+  color: rgba(245,245,220,.7);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.sfs-demo-eyebrow {
+  margin: 0 0 14px;
+  color: #FFD700;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.sfs-demo-preview {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(255,215,0,.32);
+  border-radius: 18px;
+  background: #0D0D0D;
+  box-shadow: 0 20px 60px rgba(0,0,0,.54), 0 0 34px rgba(255,215,0,.08);
+  transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+
+.sfs-demo-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+.sfs-demo-open {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,215,0,.32);
+  border-radius: 999px;
+  color: #FFD700;
+  background: rgba(13,13,13,.76);
+  backdrop-filter: blur(10px);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.sfs-demo-preview:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,215,0,.7);
+  box-shadow: 0 26px 70px rgba(0,0,0,.62), 0 0 38px rgba(255,215,0,.16);
+}
+
+@media (max-width: 850px) {
+  .sfs-demo-card { grid-template-columns: 1fr; }
+  .sfs-demo-copy { text-align: center; }
+  .sfs-demo-copy > p:not(.sfs-demo-eyebrow) { margin-inline: auto; }
 }

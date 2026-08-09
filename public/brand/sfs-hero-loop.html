@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartFlow Systems — Hero Loop</title>
+  <meta name="description" content="One connected operating system. Watch the live loop: Bookings → Social → Analytics → CRM → Payments.">
+  <style>
+    :root {
+      color-scheme: dark;
+      --gold: #FFD700;
+      --gold-bright: #fff4c2;
+      --gold-dim: rgba(255, 215, 0, .28);
+      --ink: #0D0D0D;
+      --brown: #3B2F2F;
+      --glass: rgba(43, 33, 26, .65);
+      --loop: 15s;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      color: #fff8ea;
+    }
+
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      min-height: 620px;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(120, 73, 26, .28), transparent 34%),
+        radial-gradient(circle at 18% 20%, rgba(94, 49, 21, .2), transparent 30%),
+        linear-gradient(135deg, #050403 0%, #130b07 48%, #080503 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      opacity: .48;
+      background-image:
+        linear-gradient(rgba(255, 215, 0, .055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, .055) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, #000 20%, transparent 82%);
+      animation: gridPulse var(--loop) ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      z-index: -2;
+      background: conic-gradient(from 90deg at 50% 50%, transparent, rgba(255, 215, 0, .07), transparent 28%);
+      animation: ambientSpin 30s linear infinite;
+    }
+
+    .circuit {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: .72;
+    }
+
+    .trace {
+      fill: none;
+      stroke: rgba(255, 215, 0, .22);
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-dasharray: 7 13;
+      animation: traceFlow 4s linear infinite;
+    }
+
+    .trace.hot {
+      stroke: url(#gold);
+      stroke-width: 2;
+      stroke-dasharray: 14 180;
+      filter: url(#glow);
+      animation: signalFlow 3s linear infinite;
+    }
+
+    .eyebrow {
+      position: absolute;
+      top: clamp(28px, 5vh, 58px);
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+      color: rgba(255, 232, 187, .64);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      animation: eyebrow var(--loop) ease-in-out infinite;
+    }
+
+    .hub {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(250px, 25vw, 350px);
+      aspect-ratio: 1.46;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 215, 0, .32);
+      border-radius: 28px;
+      background:
+        linear-gradient(145deg, rgba(61, 40, 23, .77), rgba(12, 9, 7, .8)),
+        rgba(20, 14, 10, .7);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .12),
+        0 0 0 1px rgba(255, 215, 0, .08),
+        0 26px 80px rgba(0, 0, 0, .55),
+        0 0 70px rgba(255, 215, 0, .10);
+      backdrop-filter: blur(18px);
+      animation: hubLoop var(--loop) ease-in-out infinite;
+    }
+
+    .hub::before, .hub::after {
+      content: "";
+      position: absolute;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .hub::before {
+      inset: -14px;
+      border: 1px solid rgba(255, 215, 0, .12);
+      animation: ringLoop var(--loop) ease-in-out infinite;
+    }
+
+    .hub::after {
+      inset: 0;
+      background: radial-gradient(circle, rgba(255, 215, 131, .15), transparent 65%);
+      opacity: 0;
+      animation: hubFlash var(--loop) ease-in-out infinite;
+    }
+
+    .brand {
+      text-align: center;
+      animation: brandLoop var(--loop) ease-in-out infinite;
+    }
+
+    .mark {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 215, 0, .38);
+      border-radius: 14px;
+      color: var(--gold-bright);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.08em;
+      background: linear-gradient(145deg, rgba(255, 215, 0, .18), rgba(80, 48, 23, .12));
+      box-shadow: inset 0 1px rgba(255,255,255,.12), 0 0 24px rgba(255, 215, 0, .16);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: clamp(18px, 2vw, 27px);
+      letter-spacing: -.04em;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 236, 198, .54);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .card {
+      position: absolute;
+      z-index: 2;
+      width: clamp(155px, 16vw, 220px);
+      padding: 15px 16px;
+      border: 1px solid rgba(255, 215, 0, .24);
+      border-radius: 17px;
+      background: linear-gradient(145deg, rgba(58, 39, 25, .7), rgba(15, 11, 8, .68));
+      box-shadow: inset 0 1px rgba(255,255,255,.1), 0 15px 50px rgba(0,0,0,.28);
+      backdrop-filter: blur(15px);
+      animation: cardLoop var(--loop) cubic-bezier(.6, 0, .3, 1) infinite;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 10px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform-origin: left;
+      animation: cardProgress var(--loop) ease-in-out infinite;
+    }
+
+    .card small {
+      display: block;
+      margin-bottom: 7px;
+      color: rgba(246, 208, 137, .52);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: -.01em;
+    }
+
+    .card i {
+      position: absolute;
+      top: 17px;
+      right: 16px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 13px var(--gold);
+      animation: status var(--loop) ease-in-out infinite;
+    }
+
+    .bookings { --sx: -37vw; --sy: -29vh; --sr: -12deg; --ex: -35vw; --ey: -23vh; animation-delay: -.3s; }
+    .social   { --sx:  29vw; --sy: -35vh; --sr:  11deg; --ex:  35vw; --ey: -23vh; animation-delay: -.15s; }
+    .analytics{ --sx: -42vw; --sy:   7vh; --sr:   8deg; --ex: -39vw; --ey:   3vh; }
+    .crm      { --sx:  36vw; --sy:  16vh; --sr:  -9deg; --ex:  39vw; --ey:   3vh; animation-delay: .15s; }
+    .payments { --sx:  -2vw; --sy:  34vh; --sr:   7deg; --ex:   0vw; --ey:  30vh; animation-delay: .3s; }
+
+    .cta {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(32px, 7vh, 76px);
+      width: min(90vw, 800px);
+      margin: 0;
+      transform: translate(-50%, 18px);
+      text-align: center;
+      color: #fff7e8;
+      font-size: clamp(22px, 3.2vw, 50px);
+      font-weight: 650;
+      letter-spacing: -.045em;
+      opacity: 0;
+      text-shadow: 0 0 36px rgba(231, 180, 83, .2);
+      animation: ctaLoop var(--loop) ease-in-out infinite;
+    }
+
+    @keyframes cardLoop {
+      0%, 10%, 100% { left: 50%; top: 50%; transform: translate(calc(var(--sx) - 50%), calc(var(--sy) - 50%)) rotate(var(--sr)); opacity: .72; }
+      18% { opacity: 1; }
+      36%, 76% { left: 50%; top: 50%; transform: translate(calc(var(--ex) - 50%), calc(var(--ey) - 50%)) rotate(0); opacity: 1; }
+      88% { opacity: .76; }
+    }
+
+    @keyframes cardProgress {
+      0%, 24% { transform: scaleX(.08); opacity: .28; }
+      46%, 76% { transform: scaleX(1); opacity: .9; }
+      91%, 100% { transform: scaleX(.08); opacity: .25; }
+    }
+
+    @keyframes status {
+      0%, 25%, 100% { opacity: .25; transform: scale(.7); }
+      40%, 78% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes hubLoop {
+      0%, 18%, 100% { transform: translate(-50%, -50%) scale(.94); border-color: rgba(255,215,0,.18); }
+      38%, 78% { transform: translate(-50%, -50%) scale(1); border-color: rgba(255,215,0,.44); }
+    }
+
+    @keyframes ringLoop {
+      0%, 24%, 100% { opacity: .2; transform: scale(.96); }
+      42%, 78% { opacity: .8; transform: scale(1.02); }
+    }
+
+    @keyframes hubFlash {
+      0%, 32%, 84%, 100% { opacity: 0; }
+      48%, 75% { opacity: 1; }
+    }
+
+    @keyframes brandLoop {
+      0%, 22%, 100% { transform: scale(.96); opacity: .76; }
+      44%, 80% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes ctaLoop {
+      0%, 55%, 100% { opacity: 0; transform: translate(-50%, 18px); }
+      67%, 87% { opacity: 1; transform: translate(-50%, 0); }
+      94% { opacity: 0; transform: translate(-50%, -8px); }
+    }
+
+    @keyframes eyebrow {
+      0%, 12%, 100% { opacity: .3; letter-spacing: .38em; }
+      32%, 84% { opacity: .85; letter-spacing: .32em; }
+    }
+
+    @keyframes traceFlow { to { stroke-dashoffset: -40; } }
+    @keyframes signalFlow { to { stroke-dashoffset: -194; } }
+    @keyframes ambientSpin { to { transform: rotate(360deg); } }
+    @keyframes gridPulse { 0%,100% { opacity: .3; } 50% { opacity: .58; } }
+
+    @media (max-width: 760px) {
+      .hero { min-height: 560px; }
+      .hub { width: 210px; }
+      .card { width: 142px; padding: 12px 13px; }
+      .card small { font-size: 7px; }
+      .card strong { font-size: 12px; }
+      .bookings { --ex: -27vw; --ey: -26vh; }
+      .social { --ex: 27vw; --ey: -26vh; }
+      .analytics { --ex: -29vw; --ey: 4vh; }
+      .crm { --ex: 29vw; --ey: 4vh; }
+      .payments { --ex: 0vw; --ey: 27vh; }
+      .cta { bottom: 24px; }
+    }
+
+    .exit-nav {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 10;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      opacity: .55;
+      transition: opacity .2s ease, color .2s ease;
+    }
+    .exit-nav:hover { opacity: 1; }
+    .exit-nav a {
+      color: var(--gold);
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,215,0,.25);
+      border-radius: 999px;
+      background: rgba(13,13,13,.4);
+      backdrop-filter: blur(6px);
+    }
+    .exit-nav a:hover {
+      opacity: 1;
+      border-color: rgba(255,215,0,.55);
+      background: rgba(13,13,13,.6);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-play-state: paused !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero" aria-label="SmartFlow Systems automated workflow">
+    <div class="exit-nav" aria-label="Navigate back"><a href="/">← SmartFlow Systems</a></div>
+    <p class="eyebrow">One connected operating system</p>
+
+    <svg class="circuit" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#7a5c2e" stop-opacity="0"/>
+          <stop offset=".52" stop-color="#FFD700"/>
+          <stop offset="1" stop-color="#a67c2a" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g>
+        <path class="trace" d="M0 160H280L410 290H650L800 450"/>
+        <path class="trace hot" d="M0 160H280L410 290H650L800 450"/>
+        <path class="trace" d="M1600 150H1320L1190 290H950L800 450"/>
+        <path class="trace hot" d="M1600 150H1320L1190 290H950L800 450"/>
+        <path class="trace" d="M0 520H350L500 450H800"/>
+        <path class="trace hot" d="M0 520H350L500 450H800"/>
+        <path class="trace" d="M1600 540H1250L1090 450H800"/>
+        <path class="trace hot" d="M1600 540H1250L1090 450H800"/>
+        <path class="trace" d="M800 900V670L800 450"/>
+        <path class="trace hot" d="M800 900V670L800 450"/>
+      </g>
+    </svg>
+
+    <section class="hub" aria-label="SmartFlow Systems dashboard hub">
+      <div class="brand">
+        <div class="mark">SF</div>
+        <strong>SmartFlow Systems</strong>
+        <span>Automation Dashboard</span>
+      </div>
+    </section>
+
+    <article class="card bookings"><small>01 · Capture</small><strong>Bookings</strong><i></i></article>
+    <article class="card social"><small>02 · Publish</small><strong>Social Posts</strong><i></i></article>
+    <article class="card analytics"><small>03 · Understand</small><strong>Analytics</strong><i></i></article>
+    <article class="card crm"><small>04 · Nurture</small><strong>CRM</strong><i></i></article>
+    <article class="card payments"><small>05 · Convert</small><strong>Payments</strong><i></i></article>
+
+    <h1 class="cta">Automate the busywork. Grow smarter.</h1>
+  </main>
+</body>
+</html>
