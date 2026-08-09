@@ -1,9 +1,44 @@
 # CLAUDE.md - AI Assistant Guide for SmartFlowSite
 
-**Last Updated:** 2025-11-30
-**Version:** 1.0.0
+**Last Updated:** 2026-06-20 (Control Tower Override sections added; original: 2025-11-30)
+**Version:** 1.0.0 (override annotated)
 
 This document provides comprehensive guidance for AI assistants working on the SmartFlowSite codebase. It covers architecture, conventions, workflows, and best practices.
+
+---
+
+## ⚠️ CURRENT CONTROL TOWER OVERRIDE — Read First
+
+**Status:** Updated 2026-06-20
+**Authority:** SFS Control Tower (ChatGPT) / Garet
+
+### Routing hierarchy (current)
+
+| Role | Agent | Scope |
+|------|-------|-------|
+| Main router and decision layer | **ChatGPT / SFS Control Tower** | Approves all tasks and modes |
+| Read-only reviewer, planner, memory organiser | **Hermes** | Reviews and plans only — does not execute |
+| Scoped terminal coding helper (after approval) | **Claude Code** | This repo only, task by task |
+
+Claude Code is **not** the SmartFlow control brain, main router, or ecosystem orchestrator.
+
+### SmartFlowSite actual role (current)
+
+SmartFlowSite is a **docs / control / source-of-truth / support repo** for SmartFlow Systems.
+
+> **Conflict preserved:** Older sections of this file describe SmartFlowSite as the `"Master Brain"` and as a `"multi-agent orchestration platform"` coordinating all SFS products. That framing is **historical and stale.** SmartFlowSite hosts the SFS site, orchestrator code, and CI tooling — it is not the ecosystem router. The ChatGPT / SFS Control Tower is the actual decision layer. Stale sections are annotated inline below.
+
+### Git workflow override (current)
+
+**Do not push directly to `main` by default.**
+
+Prefer branch/PR flow for all changes. Direct push to `main` is only allowed when Garet explicitly approves it for a specific task.
+
+> **Conflict preserved:** The Git Workflow section below states `"IMPORTANT: This project uses direct push to main (no PR required for solo development)."` That instruction is **stale** and conflicts with current Control Tower Rule 7. It is annotated below and preserved for historical record.
+
+### Command safety rule (current)
+
+All command blocks in this file are **reference only**. Do not run any `npm`, `git`, `node`, `curl`, or other command from this file without explicit approval from Garet / the Control Tower for that specific task.
 
 ---
 
@@ -28,12 +63,16 @@ This document provides comprehensive guidance for AI assistants working on the S
 
 SmartFlowSite is a **multi-agent orchestration platform** that coordinates AI agents (Claude, ChatGPT, custom) across multiple SmartFlow Systems applications. It serves as the "Master Brain" for:
 
+> **⚠️ STALE FRAMING** — "Master Brain" and "multi-agent orchestration platform" are historical labels. SmartFlowSite's current role is docs/control/source-of-truth/support. The ChatGPT / SFS Control Tower is the actual ecosystem router and decision layer. See "Current Control Tower Override" above.
+
 - **SocialScaleBooster**: Social media content generation for service businesses
 - **SFS AP-CRM**: Appointment and customer relationship management
 - **SFS Data Query Engine**: Data analysis and reporting
 - **SmartFlowSite**: Main website and orchestration hub
 
 ### Core Capabilities
+
+> **⚠️ STALE FRAMING** — The capabilities listed below describe the orchestration platform as originally architected. They are historical context. SmartFlowSite's current operational role is docs/control/source-of-truth/support. These capabilities must not be treated as active Claude Code instructions. The ChatGPT / SFS Control Tower is the actual decision and routing layer.
 
 1. **Agent Orchestration**: Register, manage, and invoke AI agents across platforms
 2. **Workflow Automation**: Execute multi-step workflows with dependency management
@@ -53,6 +92,8 @@ SmartFlowSite is a **multi-agent orchestration platform** that coordinates AI ag
 ## 🏗️ Codebase Architecture
 
 SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orchestrator-based architecture.
+
+> **⚠️ STALE LABEL** — The diagram below labels this service as "Master Brain." That label is historical and does not reflect the current Control Tower routing. See "Current Control Tower Override" above.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -244,6 +285,8 @@ SmartFlowSite follows a **hybrid monolith + microservices** pattern with an orch
 
 ### Local Development
 
+> **⚠️ REFERENCE ONLY — do not run these commands without explicit approval from Garet / Control Tower.**
+
 ```bash
 # Start main server (port 5000)
 npm start
@@ -269,7 +312,9 @@ npm run studio            # Open Prisma Studio
 
 ### Git Workflow
 
-**IMPORTANT**: This project uses **direct push to `main`** (no PR required for solo development).
+~~**IMPORTANT**: This project uses **direct push to `main`** (no PR required for solo development).~~
+
+> **⚠️ STALE — Overridden by Control Tower Rule 7:** Prefer branch/PR flow for all changes. Direct push to `main` is only allowed when Garet explicitly approves it for a specific task. See "Current Control Tower Override" above.
 
 ```bash
 # Commit format: <type>: <description>
@@ -295,6 +340,8 @@ git push
 - **Feature Branches**: `claude/claude-md-milv3lje08h3a7le-*` (AI assistant sessions)
 
 ### CI/CD Pipeline
+
+> **⚠️ REFERENCE ONLY — do not trigger without approval.** The pipeline runs automatically on push to `main`. Since direct push to `main` now requires explicit Garet approval per task, confirm with Garet before any push that would trigger this pipeline.
 
 GitHub Actions runs automatically on push:
 
@@ -424,6 +471,10 @@ const sanitized = input.replace(/[<>&"']/g, char => htmlEntities[char]);
 ---
 
 ## 🤖 Agent System
+
+> **⚠️ STALE — HISTORICAL REFERENCE:** This entire section documents the orchestration agent system as originally designed. It is retained as historical context only. Do not treat the agent manifests, workflow definitions, or package execute commands below as active Claude Code instructions. Any agent invocation requires explicit per-task approval from Garet / the SFS Control Tower.
+
+> **⚠️ CONTROL TOWER NOTE:** Registered Claude-based agents (`smartflow-theme-enforcer`, `documentation-writer`, `sfs-memory-knowledge-agent`) must not be invoked autonomously. Each invocation requires explicit approval from Garet / the SFS Control Tower for that specific task.
 
 ### Agent Architecture
 
@@ -646,6 +697,8 @@ GET /site                               # Main website redirect
 ---
 
 ## 📝 Common Tasks
+
+> **⚠️ STALE — HISTORICAL REFERENCE:** The tasks below are how-to guides for the orchestration platform as originally built. They are retained as historical context. All code blocks in this section are reference only and must not be executed without explicit per-task approval from Garet / the SFS Control Tower.
 
 ### 1. Add a New Agent
 
@@ -1079,7 +1132,7 @@ npm run orchestrator
 
 **Debug steps:**
 1. Verify `JWT_SECRET` is set in `.env`
-2. Check token format: `Authorization: Bearer <token>`
+2. Check token format: `Authorization: Bearer`
 3. Verify token hasn't expired
 4. Test token decode:
    ```javascript
@@ -1168,6 +1221,8 @@ curl http://localhost:5001/health
 
 ## 🚀 Quick Start Checklist
 
+> **⚠️ REFERENCE ONLY — do not execute these steps without explicit approval from Garet / Control Tower for each action. Do not run `npm install`, `npm start`, or any other command without approval.**
+
 When starting work on this codebase:
 
 - [ ] Read `AGENTS.md` for development standards
@@ -1199,6 +1254,7 @@ When starting work on this codebase:
 
 ---
 
-**Last Updated:** 2025-11-30
+**Last Updated:** 2026-06-20 (Control Tower Override annotations added)
+**Original Version Date:** 2025-11-30
 **Maintained by:** SmartFlow Systems Core Team
-**Version:** 1.0.0
+**Version:** 1.0.0 (override annotated)
